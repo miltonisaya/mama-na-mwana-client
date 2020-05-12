@@ -1,4 +1,49 @@
+<mat-form-field>
+  <mat-label>Filter</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Filter Users">
+</mat-form-field>
+
 <div class="mat-elevation-z8">
-  <mat-spinner [style.display]="loading ? 'block' : 'none'"></mat-spinner>
-  Users
+  <div class="loading-shade"
+       *ngIf="isLoadingResults || isRateLimitReached">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+    <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
+      The server took too long to respond.
+    </div>
+  </div>
+
+<!--  <mat-spinner [style.display]="loading ? 'block' : 'none'"></mat-spinner>-->
+  <mat-table [style.display]="loading === false ? 'block' : 'none'" #table [dataSource]="dataSource">
+    <ng-container  matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef> User ID </mat-header-cell>
+      <mat-cell *matCellDef="let users"> {{users.id}} </mat-cell>
+    </ng-container>
+
+    <ng-container  matColumnDef="full_name">
+      <mat-header-cell *matHeaderCellDef> Full Name </mat-header-cell>
+      <mat-cell *matCellDef="let users"> {{users.full_name}} </mat-cell>
+    </ng-container>
+
+    <ng-container  matColumnDef="email">
+      <mat-header-cell *matHeaderCellDef> Email</mat-header-cell>
+      <mat-cell *matCellDef="let users"> {{users.email}} </mat-cell>
+    </ng-container>
+
+    <ng-container  matColumnDef="organisation_unit">
+      <mat-header-cell *matHeaderCellDef> Organisation Unit</mat-header-cell>
+      <mat-cell *matCellDef="let users"> {{users.organisation_unit}} </mat-cell>
+    </ng-container>
+
+    <ng-container  matColumnDef="is_active">
+      <mat-header-cell *matHeaderCellDef> Is Active</mat-header-cell>
+      <mat-cell *matCellDef="let users"> {{users.is_active}} </mat-cell>
+    </ng-container>
+
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <mat-paginator [pageSizeOptions]="pageSizeOptions" showFirstLastButtons></mat-paginator>
+
 </div>
