@@ -1,11 +1,10 @@
-import { NgModule } from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {DefaultComponent} from './default.component';
 import {DashboardComponent} from '../../modules/dashboard/dashboard.component';
 import {UsersComponent} from '../../modules/users/users.component';
 import {SharedModule} from '../../shared/shared.module';
 import {RouterModule} from '@angular/router';
-import {MatSidenavModule} from '@angular/material/sidenav';
 
 
 
@@ -19,7 +18,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     CommonModule,
     SharedModule,
     RouterModule,
-    MatSidenavModule
-  ]
+  ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class DefaultModule { }
