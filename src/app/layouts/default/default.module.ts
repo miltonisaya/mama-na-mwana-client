@@ -5,6 +5,8 @@ import {DashboardComponent} from '../../modules/dashboard/dashboard.component';
 import {UsersComponent} from '../../modules/users/users.component';
 import {SharedModule} from '../../shared/shared.module';
 import {RouterModule} from '@angular/router';
+import {MatDividerModule} from '@angular/material/divider';
+import {AngularMaterialModule} from '../../material.module';
 
 
 
@@ -18,6 +20,7 @@ import {RouterModule} from '@angular/router';
     CommonModule,
     SharedModule,
     RouterModule,
+    AngularMaterialModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
