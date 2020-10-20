@@ -13,7 +13,6 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -35,6 +34,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatMenuModule} from '@angular/material/menu';
 
 
 @NgModule( {
@@ -73,7 +73,8 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatMenuModule
 
   ],
   exports: [
@@ -93,7 +94,8 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     MatTooltipModule,
     MatTableModule,
     MatPaginatorModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatMenuModule
   ],
   providers: [
     MatDatepickerModule,

@@ -18,6 +18,17 @@
             <mat-icon>help_outline</mat-icon>
           </button>
         </li>
+        <li>
+          <button mat-button [matMenuTriggerFor]="menu">
+            <mat-icon>person_outline</mat-icon>
+          </button>
+          <mat-menu #menu="">
+            <button mat-menu-item>
+              <mat-icon>exit_to_app</mat-icon>
+              Sign Out
+            </button>
+          </mat-menu>
+        </li>
       </ul>
 
     </div>
