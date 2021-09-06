@@ -9,6 +9,7 @@ import {AngularMaterialModule} from '../../material.module';
 import {RolesComponent} from '../../modules/roles/roles.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 
@@ -19,14 +20,15 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     UsersComponent,
     RolesComponent
   ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    RouterModule,
-    AngularMaterialModule,
-    MatProgressSpinnerModule,
-    MatProgressBarModule
-  ],
+    imports: [
+        CommonModule,
+        SharedModule,
+        RouterModule,
+        AngularMaterialModule,
+        MatProgressSpinnerModule,
+        MatProgressBarModule,
+        MatDialogModule
+    ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class DefaultModule { }
