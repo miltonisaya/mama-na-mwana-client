@@ -3,6 +3,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {rolesService} from './roles.service';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {RolesDialogComponent} from './modals/roles-dialog-component';
+import {Role} from './role';
 
 @Component({
   selector: 'app-users',
@@ -15,7 +16,7 @@ export class RolesComponent implements OnInit {
   roleId: string;
   @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
 
-  public dataSource = new MatTableDataSource<any>();
+  public dataSource = new MatTableDataSource<Role>();
 
   constructor(
     private roleService: rolesService,
