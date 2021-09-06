@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DefaultModule} from './layouts/default/default.module';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import {rolesService} from './modules/roles/roles.service';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     DefaultModule,
   ],
-  providers: [],
+  providers: [rolesService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
