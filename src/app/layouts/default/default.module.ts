@@ -10,6 +10,8 @@ import {RolesComponent} from '../../modules/roles/roles.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatDialogModule} from '@angular/material/dialog';
+import {RolesDialogComponent} from '../../modules/roles/modals/roles-dialog-component';
+import {ReactiveFormsModule} from '@angular/forms';
 
 
 
@@ -18,17 +20,19 @@ import {MatDialogModule} from '@angular/material/dialog';
     DefaultComponent,
     DashboardComponent,
     UsersComponent,
-    RolesComponent
+    RolesComponent,
+    RolesDialogComponent
   ],
-    imports: [
-        CommonModule,
-        SharedModule,
-        RouterModule,
-        AngularMaterialModule,
-        MatProgressSpinnerModule,
-        MatProgressBarModule,
-        MatDialogModule
-    ],
+  imports: [
+    CommonModule,
+    SharedModule,
+    RouterModule,
+    AngularMaterialModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule,
+    MatDialogModule,
+    ReactiveFormsModule
+  ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class DefaultModule { }
