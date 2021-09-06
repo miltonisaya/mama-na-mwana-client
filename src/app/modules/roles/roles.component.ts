@@ -1,27 +1,36 @@
-import { Component, OnInit } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {MatTableDataSource} from '@angular/material/table';
+import {rolesService} from './roles.service';
 
 @Component({
   selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss']
+  templateUrl: './roles.component.html',
+  styleUrls: ['./roles.component.scss']
 })
-export class UsersComponent implements OnInit {
+export class RolesComponent implements OnInit {
+  displayedColumns = ['name', 'description'];
+  roles: any = [];
+  public dataSource = new MatTableDataSource<any>();
 
-  constructor(
-    private http: HttpClient
-  ) { }
+  constructor(private roleService: rolesService) { }
 
   ngOnInit(): void {
-    this.getUsers();
+    this.getRoles();
   }
 
-  getUsers(){
-    let users = this.http.get("http://localhost:8081/api/v1/roles").subscribe(res => {
-      console.log(res.data.content);
+  /**
+   * This method returns roles
+   */
+  getRoles() {
+    return this.roleService.getRoles().subscribe(response => {
+      this.roles = response.data;
+      this.dataSource = this.roles.content;
+    });
+  }
 
-      }
-    );
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
 }
