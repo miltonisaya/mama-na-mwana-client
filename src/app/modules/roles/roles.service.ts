@@ -29,4 +29,9 @@ export class rolesService {
     return this.http.get<any>(this.API_ENDPOINT).pipe(
       map(this.extractData));
   }
+
+  delete(id): Observable<any> {
+    return this.http.delete<any>(this.API_ENDPOINT+"/"+id).pipe(
+      map(this.extractData));
+  }
 }
