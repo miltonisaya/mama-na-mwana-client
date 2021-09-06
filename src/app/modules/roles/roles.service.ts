@@ -37,23 +37,33 @@ export class rolesService {
       map(this.extractData));
   }
 
+  /**
+   *
+   * @param id
+   */
   delete(id): Observable<any> {
     return this.http.delete<any>(this.API_ENDPOINT+"/"+id).pipe(
       map(this.extractData));
   }
 
+  /**
+   *
+   * @param data
+   */
   populateForm (data){
     this.form.setValue(data);
   }
 
   initializeFormGroup(){
     return this.form.setValue({
-      id: '',
-      code: '',
+      name: '',
       description: ''
     });
   }
 
+  /**
+   * @param role
+   */
   createRole(role): Observable<any> {
     console.log(role);
     return this.http.post<any>(this.API_ENDPOINT, JSON.stringify(role))

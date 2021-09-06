@@ -7,6 +7,7 @@ import {MatDialogRef} from '@angular/material/dialog';
   templateUrl: 'role-dialog-component.html',
   styleUrls: ['role-dialog.component.sass']
 })
+
 export class RolesDialogComponent implements OnInit {
   constructor(
     public rolesService: rolesService,
