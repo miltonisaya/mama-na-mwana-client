@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import {DashboardComponent} from './modules/dashboard/dashboard.component';
 import {DefaultComponent} from './layouts/default/default.component';
 import {UsersComponent} from './modules/users/users.component';
+import {RolesComponent} from './modules/roles/roles.component';
 
 const routes: Routes = [{
   path: '',
@@ -13,7 +14,12 @@ const routes: Routes = [{
   }, {
     path: 'users',
     component: UsersComponent
-  }]
+  },
+    {
+      path: 'roles',
+      component: RolesComponent
+    }
+  ]
 }];
 
 @NgModule({
