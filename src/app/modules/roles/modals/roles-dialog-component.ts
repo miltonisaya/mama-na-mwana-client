@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { ObjectivesService } from '../objectives.service';
-import { MatDialogRef } from '@angular/material';
+import {rolesService} from '../roles.service';
+import {MatDialogRef} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-role-dialog',
-  templateUrl: './role-dialog.component.html',
-  styleUrls: ['./role-dialog.component.sass']
+  templateUrl: 'role-dialog-component.html',
+  styleUrls: ['role-dialog.component.sass']
 })
 export class RolesDialogComponent implements OnInit {
   constructor(
-    private objectiveService: ObjectivesService,
+    public rolesService: rolesService,
     public dialogRef: MatDialogRef<RolesDialogComponent>
   ) { }
 
@@ -17,23 +17,24 @@ export class RolesDialogComponent implements OnInit {
   }
 
   submitForm(data) {
-    if (this.objectiveService.form.valid) {
-      if (this.objectiveService.form.get('id').value) {
-        this.objectiveService.updateObjective(this.objectiveService.form.value)
+    if (this.rolesService.form.valid) {
+      if (this.rolesService.form.get('id').value) {
+        this.rolesService.updateRole(this.rolesService.form.value)
           .subscribe(response => {
             this.onClose();
           });
       } else {
-        this.objectiveService.createObjective(this.objectiveService.form.value)
+        this.rolesService.createRole(this.rolesService.form.value)
           .subscribe(data => {
             this.onClose();
           });
       }
     }
   }
+
   onClose() {
-    this.objectiveService.form.reset();
-    this.objectiveService.initializeFormGroup();
+    this.rolesService.form.reset();
+    this.rolesService.initializeFormGroup();
     this.dialogRef.close();
   }
 }
