@@ -6,6 +6,9 @@ import {UsersComponent} from '../../modules/users/users.component';
 import {SharedModule} from '../../shared/shared.module';
 import {RouterModule} from '@angular/router';
 import {AngularMaterialModule} from '../../material.module';
+import {RolesComponent} from '../../modules/roles/roles.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 
 
@@ -13,13 +16,16 @@ import {AngularMaterialModule} from '../../material.module';
   declarations: [
     DefaultComponent,
     DashboardComponent,
-    UsersComponent
+    UsersComponent,
+    RolesComponent
   ],
   imports: [
     CommonModule,
     SharedModule,
     RouterModule,
-    AngularMaterialModule
+    AngularMaterialModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
