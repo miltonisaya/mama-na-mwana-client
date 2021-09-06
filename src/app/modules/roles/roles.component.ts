@@ -21,7 +21,7 @@ export class RolesComponent implements OnInit {
   constructor(
     private roleService: rolesService,
     private dialog: MatDialog
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.getRoles();
@@ -43,23 +43,23 @@ export class RolesComponent implements OnInit {
   }
 
   openDialog(data?): void {
-    const dialogconfig = new MatDialogConfig();
-    dialogconfig.disableClose = true;
-    dialogconfig.autoFocus = true;
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
     if (data) {
       const objData = {
         id: data.id,
-        code: data.code,
+        name: data.name,
         description: data.description
       };
       this.roleService.populateForm(objData);
-      this.dialog.open(RolesDialogComponent, dialogconfig)
+      this.dialog.open(RolesDialogComponent, dialogConfig)
         .afterClosed().subscribe(() => {
         this.getRoles();
       });
     } else {
-      dialogconfig.data = {};
-      this.dialog.open(RolesDialogComponent, dialogconfig)
+      dialogConfig.data = {};
+      this.dialog.open(RolesDialogComponent, dialogConfig)
         .afterClosed().subscribe(() => {
         this.getRoles();
       });
