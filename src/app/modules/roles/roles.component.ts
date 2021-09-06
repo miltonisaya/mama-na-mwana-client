@@ -1,7 +1,8 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {rolesService} from './roles.service';
-import {MatDialog} from '@angular/material/dialog';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import {RolesDialogComponent} from './modals/roles-dialog-component';
 
 @Component({
   selector: 'app-users',
@@ -40,8 +41,28 @@ export class RolesComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  openDialog() {
-    console.log("Open dialog");
+  openDialog(data?): void {
+    const dialogconfig = new MatDialogConfig();
+    dialogconfig.disableClose = true;
+    dialogconfig.autoFocus = true;
+    if (data) {
+      const objData = {
+        id: data.id,
+        code: data.code,
+        description: data.description
+      };
+      this.roleService.populateForm(objData);
+      this.dialog.open(RolesDialogComponent, dialogconfig)
+        .afterClosed().subscribe(() => {
+        this.getRoles();
+      });
+    } else {
+      dialogconfig.data = {};
+      this.dialog.open(RolesDialogComponent, dialogconfig)
+        .afterClosed().subscribe(() => {
+        this.getRoles();
+      });
+    }
   }
 
   openDeleteDialog(id) {
