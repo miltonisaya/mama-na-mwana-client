@@ -8,10 +8,16 @@ import { DefaultModule} from './layouts/default/default.module';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import {rolesService} from './modules/roles/roles.service';
+import { LoginComponent } from './modules/login/login.component';
+import {MatCardModule} from '@angular/material/card';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {FlexModule} from '@angular/flex-layout';
+import {AngularMaterialModule} from './material.module';
 
 @NgModule({
   declarations: [
     AppComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -20,6 +26,10 @@ import {rolesService} from './modules/roles/roles.service';
     RouterModule,
     HttpClientModule,
     DefaultModule,
+    MatCardModule,
+    MatFormFieldModule,
+    FlexModule,
+    AngularMaterialModule,
   ],
   providers: [rolesService],
   bootstrap: [AppComponent]
