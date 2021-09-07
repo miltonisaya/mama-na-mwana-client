@@ -13,6 +13,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {FlexModule} from '@angular/flex-layout';
 import {AngularMaterialModule} from './material.module';
+import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import {AngularMaterialModule} from './material.module';
     MatFormFieldModule,
     FlexModule,
     AngularMaterialModule,
+    ReactiveFormsModule,
   ],
   providers: [rolesService],
   bootstrap: [AppComponent]
