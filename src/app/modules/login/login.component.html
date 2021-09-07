@@ -1,14 +1,14 @@
 <div fxLayoutAlign="center center" fxFlexFill>
   <mat-card fxFlex="35">
     <mat-toolbar>Mama na Mwana Integration Services</mat-toolbar>
-    <form fxLayoutAlign="stretch" fxLayout="column ">
+    <form fxLayoutAlign="stretch" fxLayout="column" [formGroup]="formGroup" (ngSubmit)="loginProcess()">
       <mat-form-field appearance="fill">
         <mat-label>Username</mat-label>
-        <input matInput placeholder="Username" autocomplete="off">
+        <input matInput placeholder="Username" autocomplete="off" formControlName="username">
       </mat-form-field>
       <mat-form-field class="" appearance="fill">
         <mat-label>Password</mat-label>
-        <input matInput placeholder="Password" type="password" autocomplete="off">
+        <input matInput placeholder="Password" type="password" autocomplete="off" formControlName="password">
       </mat-form-field>
       <button mat-raised-button color="primary" type="submit">Login</button>
     </form>
