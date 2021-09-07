@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DefaultModule} from './layouts/default/default.module';
 import { RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {rolesService} from './modules/roles/roles.service';
 import { LoginComponent } from './modules/login/login.component';
 import {MatCardModule} from '@angular/material/card';
@@ -14,6 +14,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {FlexModule} from '@angular/flex-layout';
 import {AngularMaterialModule} from './material.module';
 import {ReactiveFormsModule} from '@angular/forms';
+import {JwtInterceptorInterceptor} from './interceptors/jwt-interceptor.interceptor';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,10 @@ import {ReactiveFormsModule} from '@angular/forms';
     AngularMaterialModule,
     ReactiveFormsModule,
   ],
-  providers: [rolesService],
+  providers: [
+    rolesService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
