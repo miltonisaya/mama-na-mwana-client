@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {LoaderService} from '../../../modules/loader/loader.service';
 
 @Component({
   selector: 'app-footer',
@@ -9,7 +10,9 @@ export class FooterComponent implements OnInit {
 
   currentDate = new Date();
 
-  constructor() { }
+  constructor(
+    public loaderService: LoaderService
+  ) { }
 
   ngOnInit(): void {
   }

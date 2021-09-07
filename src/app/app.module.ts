@@ -15,6 +15,7 @@ import {FlexModule} from '@angular/flex-layout';
 import {AngularMaterialModule} from './material.module';
 import {ReactiveFormsModule} from '@angular/forms';
 import {JwtInterceptorInterceptor} from './interceptors/jwt-interceptor.interceptor';
+import {LoadingInterceptor} from './interceptors/loading.interceptor';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import {JwtInterceptorInterceptor} from './interceptors/jwt-interceptor.intercep
   ],
   providers: [
     rolesService,
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
