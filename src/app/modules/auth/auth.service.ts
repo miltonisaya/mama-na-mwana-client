@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpBackend, HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
-import {Router} from '@angular/router';
 import {tap} from 'rxjs/operators';
 
 @Injectable({
@@ -13,8 +12,11 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private router: Router
-  ) { }
+    handler: HttpBackend
+  ) {
+    this.http = new HttpClient(handler);
+
+  }
 
   login(data : any) {
     return this.http.post<any>(this.url, data).pipe(
