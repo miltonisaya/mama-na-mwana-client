@@ -30,6 +30,7 @@ export class AuthService {
   }
 
   getToken(){
-    return "jwt-token"
+    let user =  JSON.parse(localStorage.getItem("MNM_USER"));
+    return user.token;
   }
 }
