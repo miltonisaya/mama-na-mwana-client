@@ -1,10 +1,11 @@
 <mat-nav-list>
   <div class="profile-card">
     <div class="header">
-      <h2>Milton Isaya</h2>
-      <h4>miltonisaiah@gmail.com</h4>
+      <h3>{{user.name | titlecase}}</h3>
+      <h4>{{user.title}}</h4>
+      <h5>{{user.email | lowercase}}</h5>
     </div>
-    <img src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="">
+    <img src="assets/coa.png" alt="">
   </div>
 
   <mat-divider></mat-divider>
