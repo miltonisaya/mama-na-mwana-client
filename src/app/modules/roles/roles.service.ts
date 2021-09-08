@@ -42,6 +42,7 @@ export class rolesService {
    * @param id
    */
   delete(id): Observable<any> {
+    console.log("Deleting role with id ",id);
     return this.http.delete<any>(this.API_ENDPOINT+"/"+id).pipe(
       map(this.extractData));
   }
@@ -67,7 +68,7 @@ export class rolesService {
    */
   createRole(role): Observable<any> {
     console.log(role);
-    return this.http.post<any>(this.API_ENDPOINT, JSON.stringify(role))
+    return this.http.post<any>(this.API_ENDPOINT, role)
       // tslint:disable-next-line:no-shadowed-variable
       .pipe(tap((response) => console.log(`Added role with name = ${role.name}`)),
         catchError(this.handleError<any>('create objective'))
@@ -88,7 +89,7 @@ export class rolesService {
 
   updateRole(role): Observable<any> {
     console.log(role);
-    return this.http.put(this.API_ENDPOINT + '/', JSON.stringify(role))
+    return this.http.put(this.API_ENDPOINT+"/"+role.id, role)
       .pipe(tap(_ => console.log(`updated role with id=${role.id}`)),
         catchError(this.handleError<any>('update role'))
       );
