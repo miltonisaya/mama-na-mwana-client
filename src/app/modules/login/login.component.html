@@ -1,6 +1,9 @@
 <div fxLayoutAlign="center center" fxFlexFill>
   <mat-card fxFlex="35">
-    <mat-toolbar>Mama na Mwana Integration Services</mat-toolbar>
+    <div fxLayout="column" fxLayoutAlign="center center">
+      <img src="assets/coa.png">
+      <mat-toolbar>Mama na Mwana Integration Services</mat-toolbar>
+    </div>
     <form fxLayoutAlign="stretch" fxLayout="column" [formGroup]="formGroup" (ngSubmit)="loginProcess()">
       <mat-form-field appearance="fill">
         <mat-label>Username</mat-label>
