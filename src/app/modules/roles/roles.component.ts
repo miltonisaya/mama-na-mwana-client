@@ -6,6 +6,7 @@ import {RolesDialogComponent} from './modals/roles-dialog-component';
 import {Role} from './role';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
+import {NotifierService} from '../notifications/notifier.service';
 
 @Component({
   selector: 'app-users',
@@ -23,7 +24,8 @@ export class RolesComponent implements OnInit {
 
   constructor(
     private roleService: rolesService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private notifierService: NotifierService
   ) { }
 
   ngOnInit(): void {
@@ -83,6 +85,9 @@ export class RolesComponent implements OnInit {
   delete() {
     this.roleService.delete(this.roleId)
       .subscribe(response => {
+        this.notifierService.showNotification(response.message,'OK','success');
+      }, error => {
+        this.notifierService.showNotification(error.message,'OK','error')
       });
     this.dialog.closeAll();
   }
