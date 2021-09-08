@@ -17,11 +17,14 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {JwtInterceptor} from './interceptors/jwt.interceptor';
 import {LoadingInterceptor} from './interceptors/loading.interceptor';
 import {RolesModule} from './modules/roles/role.module';
+import { NotifierComponent } from './modules/notifications/notifier/notifier.component';
+import {LoginModule} from './modules/login/login.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
+    NotifierComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,7 +38,8 @@ import {RolesModule} from './modules/roles/role.module';
     FlexModule,
     AngularMaterialModule,
     ReactiveFormsModule,
-    RolesModule
+    RolesModule,
+    LoginModule
   ],
   providers: [
     rolesService,
