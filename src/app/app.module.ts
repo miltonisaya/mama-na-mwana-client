@@ -14,8 +14,9 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {FlexModule} from '@angular/flex-layout';
 import {AngularMaterialModule} from './material.module';
 import {ReactiveFormsModule} from '@angular/forms';
-import {JwtInterceptorInterceptor} from './interceptors/jwt-interceptor.interceptor';
+import {JwtInterceptor} from './interceptors/jwt.interceptor';
 import {LoadingInterceptor} from './interceptors/loading.interceptor';
+import {RolesModule} from './modules/roles/role.module';
 
 @NgModule({
   declarations: [
@@ -34,10 +35,11 @@ import {LoadingInterceptor} from './interceptors/loading.interceptor';
     FlexModule,
     AngularMaterialModule,
     ReactiveFormsModule,
+    RolesModule
   ],
   providers: [
     rolesService,
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

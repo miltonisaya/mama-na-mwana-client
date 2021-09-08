@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
       .subscribe(response => {
         console.log('the response', response)
         if (response.data.user) {
-          this.router.navigate(['']);
+          this.router.navigate(['/dashboard']);
         }
       });
   }

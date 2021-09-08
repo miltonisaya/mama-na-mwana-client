@@ -4,6 +4,8 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import {AngularMaterialModule} from '../../material.module';
+import {RolesDialogComponent} from './modals/roles-dialog-component';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   imports: [
@@ -13,11 +15,14 @@ import {AngularMaterialModule} from '../../material.module';
     AngularMaterialModule,
     ReactiveFormsModule,
     FormsModule,
-    SharedModule
+    SharedModule,
+    MatDialogModule
   ],
   declarations: [
+    RolesDialogComponent
   ],
   entryComponents: [
+    RolesDialogComponent
   ]
 })
 export class RolesModule {

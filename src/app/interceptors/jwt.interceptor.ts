@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 import {AuthService} from '../modules/auth/auth.service';
 
 @Injectable()
-export class JwtInterceptorInterceptor implements HttpInterceptor {
+export class JwtInterceptor implements HttpInterceptor {
 
   constructor(public auth: AuthService) {}
 
