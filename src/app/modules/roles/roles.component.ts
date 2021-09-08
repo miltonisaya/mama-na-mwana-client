@@ -4,6 +4,8 @@ import {rolesService} from './roles.service';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {RolesDialogComponent} from './modals/roles-dialog-component';
 import {Role} from './role';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
 
 @Component({
   selector: 'app-users',
@@ -14,9 +16,10 @@ export class RolesComponent implements OnInit {
   displayedColumns = ['name', 'description', 'actions'];
   roles: any = [];
   roleId: string;
+  dataSource;
   @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
-
-  public dataSource = new MatTableDataSource<Role>();
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     private roleService: rolesService,
@@ -32,8 +35,11 @@ export class RolesComponent implements OnInit {
    */
   getRoles() {
     return this.roleService.getRoles().subscribe(response => {
+      // console.log("Paginator", this.paginator);
       this.roles = response.data;
-      this.dataSource = this.roles.content;
+      this.dataSource = new MatTableDataSource<any>(this.roles.content);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.dataSource;
     });
   }
 
@@ -47,12 +53,12 @@ export class RolesComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     if (data) {
-      const objData = {
+      const roleData = {
         id: data.id,
         name: data.name,
         description: data.description
       };
-      this.roleService.populateForm(objData);
+      this.roleService.populateForm(roleData);
       this.dialog.open(RolesDialogComponent, dialogConfig)
         .afterClosed().subscribe(() => {
         this.getRoles();
