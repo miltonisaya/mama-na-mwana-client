@@ -80,7 +80,7 @@ export class RolesComponent implements OnInit {
       .afterClosed().subscribe(() => {
       this.getRoles();
     });
-  }
+  }m
 
   delete() {
     this.roleService.delete(this.roleId)

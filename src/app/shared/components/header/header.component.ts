@@ -1,6 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {Router} from '@angular/router';
-import {NotifierService} from '../../../modules/notifications/notifier.service';
+import {AuthService} from '../../../modules/auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -11,8 +10,7 @@ export class HeaderComponent implements OnInit {
 
   @Output() toggleSideBarForMe: EventEmitter<any> = new EventEmitter();
   constructor(
-    private router: Router,
-    private notifierService: NotifierService
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -23,8 +21,6 @@ export class HeaderComponent implements OnInit {
   }
 
   signOut() {
-    localStorage.clear();
-    this.notifierService.showNotification('Logged out successfully','OK','success');
-    this.router.navigate(["/login"]);
+    this.authService.signOut();
   }
 }
