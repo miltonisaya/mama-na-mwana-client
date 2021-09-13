@@ -9,6 +9,8 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {AreaComponent} from './widgets/area/area.component';
 import {HighchartsChartModule} from 'highcharts-angular';
 import {CardComponent} from './widgets/card/card.component';
+import {PieComponent} from './widgets/pie/pie.component';
+import { BarComponent } from './widgets/bar/bar.component';
 
 
 @NgModule({
@@ -17,7 +19,9 @@ import {CardComponent} from './widgets/card/card.component';
     SidebarComponent,
     FooterComponent,
     AreaComponent,
-    CardComponent
+    CardComponent,
+    PieComponent,
+    BarComponent
   ],
   imports: [
     CommonModule,
@@ -31,7 +35,9 @@ import {CardComponent} from './widgets/card/card.component';
     SidebarComponent,
     FooterComponent,
     AreaComponent,
-    CardComponent
+    CardComponent,
+    PieComponent,
+    BarComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 
