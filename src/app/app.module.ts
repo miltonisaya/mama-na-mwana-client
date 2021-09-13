@@ -19,6 +19,7 @@ import {LoadingInterceptor} from './interceptors/loading.interceptor';
 import {RolesModule} from './modules/roles/role.module';
 import { NotifierComponent } from './modules/notifications/notifier/notifier.component';
 import {LoginModule} from './modules/login/login.module';
+import { CardComponent } from './shared/widgets/card/card.component';
 
 @NgModule({
   declarations: [
@@ -43,8 +44,10 @@ import {LoginModule} from './modules/login/login.module';
   ],
   providers: [
     rolesService,
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true }
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true}
+  ],
+  exports: [
   ],
   bootstrap: [AppComponent]
 })
