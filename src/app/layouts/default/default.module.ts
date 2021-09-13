@@ -12,6 +12,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatDialogModule} from '@angular/material/dialog';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatCardModule} from '@angular/material/card';
+import {DashboardService} from '../../modules/dashboard.service';
 
 
 @NgModule({
@@ -31,6 +32,9 @@ import {MatCardModule} from '@angular/material/card';
     MatDialogModule,
     ReactiveFormsModule,
     MatCardModule
+  ],
+  providers: [
+    DashboardService
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
