@@ -11,7 +11,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatDialogModule} from '@angular/material/dialog';
 import {ReactiveFormsModule} from '@angular/forms';
-
+import {MatCardModule} from '@angular/material/card';
 
 
 @NgModule({
@@ -29,7 +29,8 @@ import {ReactiveFormsModule} from '@angular/forms';
     MatProgressSpinnerModule,
     MatProgressBarModule,
     MatDialogModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatCardModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
