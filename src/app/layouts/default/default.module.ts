@@ -12,7 +12,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatDialogModule} from '@angular/material/dialog';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatCardModule} from '@angular/material/card';
-import {DashboardService} from '../../modules/dashboard.service';
+import {DashboardService} from '../../modules/dashboard/dashboard.service';
 
 
 @NgModule({
