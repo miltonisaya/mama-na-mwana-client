@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import {rolesService} from '../roles.service';
 import {MatDialogRef} from '@angular/material/dialog';
 import {NotifierService} from '../../notifications/notifier.service';
+import {UsersService} from '../users.service';
 
 @Component({
-  selector: 'app-role-dialog',
-  templateUrl: 'role-dialog-component.html',
-  styleUrls: ['role-dialog.component.sass']
+  selector: 'app-user-dialog',
+  templateUrl: 'user-dialog-component.html',
+  styleUrls: ['user-dialog.component.sass']
 })
 
-export class RolesDialogComponent implements OnInit {
+export class UserDialogComponent implements OnInit {
   constructor(
-    public rolesService: rolesService,
-    public dialogRef: MatDialogRef<RolesDialogComponent>,
+    public UserService: UsersService,
+    public dialogRef: MatDialogRef<UserDialogComponent>,
     public notifierService: NotifierService
   ) { }
 
@@ -20,15 +20,15 @@ export class RolesDialogComponent implements OnInit {
   }
 
   submitForm(data) {
-    if (this.rolesService.form.valid) {
-      if (this.rolesService.form.get('id').value) {
-        this.rolesService.updateRole(this.rolesService.form.value)
+    if (this.UserService.form.valid) {
+      if (this.UserService.form.get('id').value) {
+        this.UserService.updateUser(this.UserService.form.value)
           .subscribe(response => {
             this.notifierService.showNotification(response.message,'OK', 'success');
             this.onClose();
           });
       } else {
-        this.rolesService.createRole(this.rolesService.form.value)
+        this.UserService.createUser(this.UserService.form.value)
           .subscribe(data => {
             this.onClose();
           },error => {
@@ -39,8 +39,8 @@ export class RolesDialogComponent implements OnInit {
   }
 
   onClose() {
-    this.rolesService.form.reset();
-    this.rolesService.initializeFormGroup();
+    this.UserService.form.reset();
+    this.UserService.initializeFormGroup();
     this.dialogRef.close();
   }
 }

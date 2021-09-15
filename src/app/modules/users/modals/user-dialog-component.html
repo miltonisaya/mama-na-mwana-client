@@ -3,11 +3,11 @@
          fxLayout.xs="column"
          fxFlexFill
          fxLayoutAlign="center center">
-  <form [formGroup]="rolesService.form"
+  <form [formGroup]="UserService.form"
         class="form" #formDirective="ngForm"
-        (ngSubmit)="submitForm(rolesService.form)">
+        (ngSubmit)="submitForm(UserService.form)">
     <h1 mat-dialog-title class="dialog-header">
-      {{rolesService.form.controls['id'].value? "Edit Role" : "Create Role"}}
+      {{UserService.form.controls['id'].value? "Edit User" : "Create User"}}
     </h1>
     <mat-divider></mat-divider>
     <mat-dialog-content>
@@ -21,19 +21,51 @@
 
         <mat-form-field>
           <input matInput
-                 formControlName="description"
-                 placeholder="Enter description"
+                 formControlName="email"
+                 placeholder="Enter Email"
+                 autocomplete="off"
+                 required>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput
+                 formControlName="password"
+                 placeholder="Enter Password"
+                 autocomplete="off"
+                 required>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput
+                 formControlName="phone"
+                 placeholder="Enter Phone"
+                 autocomplete="off"
+                 required>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput
+                 formControlName="username"
+                 placeholder="Enter Username"
+                 autocomplete="off"
+                 required>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput
+                 formControlName="title"
+                 placeholder="Enter Title"
                  autocomplete="off"
                  required>
         </mat-form-field>
       </div>
-      <!-- <pre>{{ form | json }}</pre> -->
+
     </mat-dialog-content>
     <mat-dialog-actions fxLayout="row" fxLayoutAlign="end stretch">
       <div class="button">
         <button mat-raised-button type="button" mat-dialog-close>CANCEL</button>
         <button mat-raised-button color="primary" type="submit">
-          {{rolesService.form.controls['id'].value? "UPDATE" : "CREATE"}}
+          {{UserService.form.controls['id'].value? "UPDATE" : "CREATE"}}
         </button>
       </div>
     </mat-dialog-actions>
