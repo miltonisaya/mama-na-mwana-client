@@ -25,5 +25,5 @@ import {UserDialogComponent} from './modals/user-dialog-component';
     UserDialogComponent
   ]
 })
-export class RolesModule {
+export class UsersModule {
 }
