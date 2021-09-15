@@ -24,7 +24,7 @@ export class RolesComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
-    private roleService: rolesService,
+    private RoleService: rolesService,
     private dialog: MatDialog,
     private notifierService: NotifierService
   ) { }
@@ -37,7 +37,7 @@ export class RolesComponent implements OnInit {
    * This method returns roles
    */
   getRoles() {
-    return this.roleService.getRoles().subscribe((response: any) => {
+    return this.RoleService.getRoles().subscribe((response: any) => {
       this.roles = response.data;
       this.dataSource = new MatTableDataSource<Role>(this.roles.content);
       this.dataSource.paginator = this.paginator;
@@ -63,7 +63,7 @@ export class RolesComponent implements OnInit {
         name: data.name,
         description: data.description
       };
-      this.roleService.populateForm(roleData);
+      this.RoleService.populateForm(roleData);
       this.dialog.open(RolesDialogComponent, dialogConfig)
         .afterClosed().subscribe(() => {
         this.getRoles();
@@ -86,7 +86,7 @@ export class RolesComponent implements OnInit {
   }
 
   delete() {
-    this.roleService.delete(this.roleId)
+    this.RoleService.delete(this.roleId)
       .subscribe(response => {
         this.notifierService.showNotification(response.message,'OK','success');
       }, error => {
