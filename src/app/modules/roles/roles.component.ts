@@ -14,10 +14,11 @@ import {NotifierService} from '../notifications/notifier.service';
   styleUrls: ['./roles.component.scss']
 })
 export class RolesComponent implements OnInit {
-  displayedColumns = ['name', 'description', 'actions'];
+  displayedColumns: string[] = ["sno",'name', 'description', 'actions'];
   roles: any = [];
   roleId: string;
-  dataSource;
+  dataSource: MatTableDataSource<Role>;
+  pageSize;
   @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -36,12 +37,14 @@ export class RolesComponent implements OnInit {
    * This method returns roles
    */
   getRoles() {
-    return this.roleService.getRoles().subscribe(response => {
-      // console.log("Paginator", this.paginator);
+    return this.roleService.getRoles().subscribe((response: any) => {
       this.roles = response.data;
-      this.dataSource = new MatTableDataSource<any>(this.roles.content);
+      this.dataSource = new MatTableDataSource<Role>(this.roles.content);
       this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.dataSource;
+      this.dataSource.sort = this.sort;
+    }, error => {
+      this.notifierService.showNotification(error.message,'OK','error');
+      console.log(error);
     });
   }
 
@@ -80,7 +83,7 @@ export class RolesComponent implements OnInit {
       .afterClosed().subscribe(() => {
       this.getRoles();
     });
-  }m
+  }
 
   delete() {
     this.roleService.delete(this.roleId)

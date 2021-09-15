@@ -32,8 +32,8 @@ export class rolesService {
     return body || {};
   }
 
-  getRoles(): Observable<any> {
-    return this.http.get<any>(this.API_ENDPOINT).pipe(
+  getRoles(param?): Observable<any> {
+    return this.http.get<any>(this.API_ENDPOINT,{params: param}).pipe(
       map(this.extractData));
   }
 
@@ -44,7 +44,7 @@ export class rolesService {
   delete(id): Observable<any> {
     console.log("Deleting role with id ",id);
     return this.http.delete<any>(this.API_ENDPOINT+"/"+id).pipe(
-      map(this.extractData));
+      map(this.extractData));``
   }
 
   /**
