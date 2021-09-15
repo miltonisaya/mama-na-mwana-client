@@ -19,6 +19,7 @@ import {LoadingInterceptor} from './interceptors/loading.interceptor';
 import {RolesModule} from './modules/roles/role.module';
 import { NotifierComponent } from './modules/notifications/notifier/notifier.component';
 import {LoginModule} from './modules/login/login.module';
+import {UsersModule} from './modules/users/users.module';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import {LoginModule} from './modules/login/login.module';
     AngularMaterialModule,
     ReactiveFormsModule,
     RolesModule,
-    LoginModule
+    LoginModule,
+    UsersModule
   ],
   providers: [
     rolesService,
