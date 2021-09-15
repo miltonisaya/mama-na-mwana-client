@@ -3,11 +3,11 @@
          fxLayout.xs="column"
          fxFlexFill
          fxLayoutAlign="center center">
-  <form [formGroup]="rolesService.form"
+  <form [formGroup]="RolesService.form"
         class="form" #formDirective="ngForm"
-        (ngSubmit)="submitForm(rolesService.form)">
+        (ngSubmit)="submitForm(RolesService.form)">
     <h1 mat-dialog-title class="dialog-header">
-      {{rolesService.form.controls['id'].value? "Edit Role" : "Create Role"}}
+      {{RolesService.form.controls['id'].value? "Edit Role" : "Create Role"}}
     </h1>
     <mat-divider></mat-divider>
     <mat-dialog-content>
@@ -33,7 +33,7 @@
       <div class="button">
         <button mat-raised-button type="button" mat-dialog-close>CANCEL</button>
         <button mat-raised-button color="primary" type="submit">
-          {{rolesService.form.controls['id'].value? "UPDATE" : "CREATE"}}
+          {{RolesService.form.controls['id'].value? "UPDATE" : "CREATE"}}
         </button>
       </div>
     </mat-dialog-actions>

@@ -36,7 +36,6 @@ import {UsersService} from '../../modules/users/users.service';
   ],
   providers: [
     DashboardService,
-    UsersService
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

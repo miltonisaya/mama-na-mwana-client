@@ -1,6 +1,6 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
-import {rolesService} from './roles.service';
+import {RolesService} from './roles.service';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {RolesDialogComponent} from './modals/roles-dialog-component';
 import {Role} from './role';
@@ -24,7 +24,7 @@ export class RolesComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
-    private RoleService: rolesService,
+    private RoleService: RolesService,
     private dialog: MatDialog,
     private notifierService: NotifierService
   ) { }

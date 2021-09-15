@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DefaultModule} from './layouts/default/default.module';
 import { RouterModule } from '@angular/router';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {rolesService} from './modules/roles/roles.service';
+import {RolesService} from './modules/roles/roles.service';
 import { LoginComponent } from './modules/login/login.component';
 import {MatCardModule} from '@angular/material/card';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -20,6 +20,7 @@ import {RolesModule} from './modules/roles/role.module';
 import { NotifierComponent } from './modules/notifications/notifier/notifier.component';
 import {LoginModule} from './modules/login/login.module';
 import {UsersModule} from './modules/users/users.module';
+import {UsersService} from './modules/users/users.service';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import {UsersModule} from './modules/users/users.module';
     UsersModule
   ],
   providers: [
-    rolesService,
+    RolesService,
+    UsersService,
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true}
   ],

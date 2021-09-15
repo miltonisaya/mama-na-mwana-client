@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {rolesService} from '../roles.service';
+import {RolesService} from '../roles.service';
 import {MatDialogRef} from '@angular/material/dialog';
 import {NotifierService} from '../../notifications/notifier.service';
 
@@ -11,7 +11,7 @@ import {NotifierService} from '../../notifications/notifier.service';
 
 export class RolesDialogComponent implements OnInit {
   constructor(
-    public rolesService: rolesService,
+    public RolesService: RolesService,
     public dialogRef: MatDialogRef<RolesDialogComponent>,
     public notifierService: NotifierService
   ) { }
@@ -20,15 +20,15 @@ export class RolesDialogComponent implements OnInit {
   }
 
   submitForm(data) {
-    if (this.rolesService.form.valid) {
-      if (this.rolesService.form.get('id').value) {
-        this.rolesService.updateRole(this.rolesService.form.value)
+    if (this.RolesService.form.valid) {
+      if (this.RolesService.form.get('id').value) {
+        this.RolesService.updateRole(this.RolesService.form.value)
           .subscribe(response => {
             this.notifierService.showNotification(response.message,'OK', 'success');
             this.onClose();
           });
       } else {
-        this.rolesService.createRole(this.rolesService.form.value)
+        this.RolesService.createRole(this.RolesService.form.value)
           .subscribe(data => {
             this.onClose();
           },error => {
@@ -39,8 +39,8 @@ export class RolesDialogComponent implements OnInit {
   }
 
   onClose() {
-    this.rolesService.form.reset();
-    this.rolesService.initializeFormGroup();
+    this.RolesService.form.reset();
+    this.RolesService.initializeFormGroup();
     this.dialogRef.close();
   }
 }

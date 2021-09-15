@@ -8,6 +8,7 @@ import {NotifierService} from '../notifications/notifier.service';
 import {User} from './User';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {UserDialogComponent} from './modals/user-dialog-component';
+import {RolesService} from '../roles/roles.service';
 
 @Component({
   selector: 'app-users',
@@ -29,6 +30,7 @@ export class UsersComponent implements OnInit {
     private UsersService: UsersService,
     private NotifierService: NotifierService,
     private DialogService: MatDialog,
+    private RoleService: RolesService
   ) { }
 
   ngOnInit(): void {

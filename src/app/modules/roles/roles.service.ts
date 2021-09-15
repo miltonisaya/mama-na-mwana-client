@@ -9,7 +9,7 @@ export const BASE_URL: string = environment.baseURL;
 export const RESOURCE_URL: string = 'api/v1/roles';
 
 @Injectable()
-export class rolesService {
+export class RolesService {
   private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
 
   constructor(private http: HttpClient) {}

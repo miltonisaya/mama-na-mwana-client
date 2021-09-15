@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {MatDialogRef} from '@angular/material/dialog';
 import {NotifierService} from '../../notifications/notifier.service';
 import {UsersService} from '../users.service';
+import {RolesService} from '../../roles/roles.service';
 
 @Component({
   selector: 'app-user-dialog',
@@ -10,13 +11,17 @@ import {UsersService} from '../users.service';
 })
 
 export class UserDialogComponent implements OnInit {
+  roles: any = [];
+
   constructor(
     public UserService: UsersService,
     public dialogRef: MatDialogRef<UserDialogComponent>,
-    public notifierService: NotifierService
+    public NotifierService: NotifierService,
+    public RoleService: RolesService
   ) { }
 
   ngOnInit() {
+    this.getRoles();
   }
 
   submitForm(data) {
@@ -24,7 +29,7 @@ export class UserDialogComponent implements OnInit {
       if (this.UserService.form.get('id').value) {
         this.UserService.updateUser(this.UserService.form.value)
           .subscribe(response => {
-            this.notifierService.showNotification(response.message,'OK', 'success');
+            this.NotifierService.showNotification(response.message,'OK', 'success');
             this.onClose();
           });
       } else {
@@ -32,7 +37,7 @@ export class UserDialogComponent implements OnInit {
           .subscribe(data => {
             this.onClose();
           },error => {
-            this.notifierService.showNotification(error.message,'OK', 'error');
+            this.NotifierService.showNotification(error.message,'OK', 'error');
           });
       }
     }
@@ -42,5 +47,17 @@ export class UserDialogComponent implements OnInit {
     this.UserService.form.reset();
     this.UserService.initializeFormGroup();
     this.dialogRef.close();
+  }
+
+  /**
+   * This method returns roles
+   */
+  getRoles() {
+    return this.RoleService.getRoles().subscribe((response: any) => {
+      this.roles = response.data.content;
+    }, error => {
+      this.NotifierService.showNotification(error.message,'OK','error');
+      console.log(error);
+    });
   }
 }
