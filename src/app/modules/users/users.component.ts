@@ -16,7 +16,7 @@ import {RolesService} from '../roles/roles.service';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
-  displayedColumns: string[] = ["sno",'name', 'title','username','email', 'actions'];
+  displayedColumns: string[] = ["sno",'name', 'title','username','email','roles', 'actions'];
   users: any = [];
   userId: string;
   dataSource: MatTableDataSource<User>;

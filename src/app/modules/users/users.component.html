@@ -46,6 +46,20 @@
       <td mat-cell *matCellDef="let users"> {{users.email}} </td>
     </ng-container>
 
+    <!-- Email Column -->
+    <ng-container matColumnDef="roles">
+      <th mat-header-cell *matHeaderCellDef>Role</th>
+      <td mat-cell *matCellDef="let users">
+        <div>
+          <ng-container  *ngFor="let item of users?.roles">
+            <div >
+              <span>{{item.name}}</span>
+            </div>
+          </ng-container>
+        </div>
+      </td>
+    </ng-container>
+
     <!-- Action Column -->
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Action</th>
@@ -82,6 +96,8 @@
   </mat-dialog-actions>
 </ng-template>
 <!--delete user dialog template-->
+
+<!--<pre>{{users.content | json}}</pre>-->
 
 
 
