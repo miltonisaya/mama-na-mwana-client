@@ -8,11 +8,13 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 export const BASE_URL: string = environment.baseURL;
 export const RESOURCE_URL: string = 'api/v1/rapidpro-flows';
 export const SYNC_RESOURCE_URL: string = 'api/v1/sync-rapidpro-flows';
+export const FLOW_KEYS_API: string = 'api/v1/rapid-pro-flow-keys';
 
 @Injectable()
 export class FlowService {
   private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
   private SYNC_API_ENDPOINT = `${BASE_URL}/${SYNC_RESOURCE_URL}`;
+  private KEYS_BY_FLOW_ID_ENDPOINT = `${BASE_URL}/${FLOW_KEYS_API}`;
 
   constructor(private http: HttpClient) {}
 
@@ -53,6 +55,12 @@ export class FlowService {
 
   syncFlows() {
     return this.http.get<any>(this.SYNC_API_ENDPOINT).pipe(
+      map(this.extractData));
+  }
+
+  getKeysByFlowId(id) {
+    console.log("Params =>",id);
+    return this.http.get(<any>(this.KEYS_BY_FLOW_ID_ENDPOINT + "/"+id)).pipe(
       map(this.extractData));
   }
 }

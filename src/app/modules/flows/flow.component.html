@@ -13,14 +13,14 @@
 <div>
   <mat-form-field appearance="fill">
     <mat-label>Select a flow</mat-label>
-    <mat-select name="flows">
-      <mat-option *ngFor="let flow of flows" [value]="flow.value">
+    <mat-select (selectionChange)="getKeys($event)" [(value)]="selectedFlowId">
+      <mat-option *ngFor="let flow of flows" [value]="flow.id">
         {{flow.flowName}}
       </mat-option>
     </mat-select>
   </mat-form-field>
 </div>
 
-<!--<pre>{{flows | json}}</pre>-->
+<pre>{{selectedFlowId | json}}</pre>Json
 
 

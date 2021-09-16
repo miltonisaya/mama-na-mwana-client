@@ -9,7 +9,8 @@ import {FlowService} from './flow.service';
 })
 export class FlowComponent implements OnInit {
   flows: any = [];
-  selectedValue: any;
+  selectedFlowId: any = null;
+  flowKeys: any = [];
 
   constructor(
     private FlowService: FlowService,
@@ -42,5 +43,15 @@ export class FlowComponent implements OnInit {
       this.notifierService.showNotification(error.message,'OK','error');
       console.log(error);
     });
+  }
+
+  getKeys(event: any) {
+    let id = event.value;
+    return this.FlowService.getKeysByFlowId(id).subscribe((response: any) => {
+      this.flowKeys = response.data;
+      console.log(this.flowKeys);
+    }, error => {
+      this.notifierService.showNotification(error.message,'OK','error');
+    })
   }
 }
