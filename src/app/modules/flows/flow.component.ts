@@ -33,6 +33,14 @@ export class FlowComponent implements OnInit {
   }
 
   syncFlows() {
-    console.log("Synchronizing flow data")
+    return this.FlowService.syncFlows().subscribe((response: any) => {
+      this.getFlows();
+      if(response.status == '200'){
+        this.notifierService.showNotification(response.message,'OK','success');
+      }
+    }, error => {
+      this.notifierService.showNotification(error.message,'OK','error');
+      console.log(error);
+    });
   }
 }
