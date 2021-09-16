@@ -18,11 +18,12 @@ export class UsersService {
   form: FormGroup = new FormGroup({
     id: new FormControl(''),
     name: new FormControl('', [Validators.required]),
-    email: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
     phone: new FormControl('', [Validators.required]),
     username: new FormControl('', [Validators.required]),
-    title: new FormControl('', [Validators.required])
+    title: new FormControl('', [Validators.required]),
+    roles: new FormControl([]),
   });
 
   /**
@@ -72,7 +73,8 @@ export class UsersService {
       password: '',
       phone: '',
       username: '',
-      title: ''
+      title: '',
+      roles:[]
     });
   }
 
@@ -105,6 +107,10 @@ export class UsersService {
       .pipe(tap(_ => console.log(`updated user with id=${user.id}`)),
         catchError(this.handleError<any>('update user'))
       );
+  }
+
+  compareObjects(o1, o2) {
+    return o1 && o2 && o1.id === o2.id;
   }
 
 }
