@@ -1,0 +1,26 @@
+
+<div fxFlexLayoutAlign="row" fxLayoutAlign="space-between center">
+  <div>
+    <h3>Manage Flows</h3>
+  </div>
+  <div fxLayoutGap="5px">
+    <button mat-raised-button class="mat-primary" (click)="syncFlows()">
+      <mat-icon>sync</mat-icon>SYNC FLOWS
+    </button>
+  </div>
+</div>
+
+<div>
+  <mat-form-field appearance="fill">
+    <mat-label>Select a flow</mat-label>
+    <mat-select name="flows">
+      <mat-option *ngFor="let flow of flows" [value]="flow.value">
+        {{flow.flowName}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<pre>{{flows | json}}</pre>
+
+

@@ -71,7 +71,7 @@
 
       <div fxLayout="column" fxLayoutAlign="stretch">
         <mat-form-field appearance="fill">
-          <mat-label>Role</mat-label>
+          <mat-label>Flow</mat-label>
           <mat-select [compareWith]="UserService.compareObjects"
                       formControlName="roles">
             <mat-option *ngFor="let role of roles" [value]="role.name" >

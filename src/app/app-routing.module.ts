@@ -5,6 +5,7 @@ import {DefaultComponent} from './layouts/default/default.component';
 import {UsersComponent} from './modules/users/users.component';
 import {RolesComponent} from './modules/roles/roles.component';
 import {LoginComponent} from './modules/login/login.component';
+import {FlowComponent} from './modules/flows/flow.component';
 
 const routes: Routes = [{
   path: '',
@@ -19,6 +20,10 @@ const routes: Routes = [{
     {
       path: 'roles',
       component: RolesComponent
+    },
+    {
+      path: 'flows',
+      component: FlowComponent
     }
   ]
 },

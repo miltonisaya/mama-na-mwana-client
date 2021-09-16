@@ -21,6 +21,8 @@ import { NotifierComponent } from './modules/notifications/notifier/notifier.com
 import {LoginModule} from './modules/login/login.module';
 import {UsersModule} from './modules/users/users.module';
 import {UsersService} from './modules/users/users.service';
+import {FlowService} from './modules/flows/flow.service';
+import {FlowsModule} from './modules/flows/flow.module';
 
 @NgModule({
   declarations: [
@@ -42,11 +44,13 @@ import {UsersService} from './modules/users/users.service';
     ReactiveFormsModule,
     RolesModule,
     LoginModule,
-    UsersModule
+    UsersModule,
+    FlowsModule
   ],
   providers: [
     RolesService,
     UsersService,
+    FlowService,
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true}
   ],

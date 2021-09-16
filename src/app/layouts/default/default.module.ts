@@ -13,7 +13,6 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatCardModule} from '@angular/material/card';
 import {DashboardService} from '../../modules/dashboard/dashboard.service';
-import {UsersService} from '../../modules/users/users.service';
 
 
 @NgModule({
