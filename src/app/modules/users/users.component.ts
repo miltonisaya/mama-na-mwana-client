@@ -30,7 +30,6 @@ export class UsersComponent implements OnInit {
     private UsersService: UsersService,
     private NotifierService: NotifierService,
     private DialogService: MatDialog,
-    private RoleService: RolesService
   ) { }
 
   ngOnInit(): void {
@@ -69,7 +68,8 @@ export class UsersComponent implements OnInit {
         password: data.password,
         phone: data.phone,
         username: data.username,
-        title: data.title
+        title: data.title,
+        roles: data.roles
       };
       this.UsersService.populateForm(userData);
       this.DialogService.open(UserDialogComponent, dialogConfig)
