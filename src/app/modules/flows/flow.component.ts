@@ -25,7 +25,10 @@ export class FlowComponent implements OnInit {
    * This method returns roles
    */
   getFlows() {
-    return this.FlowService.getFlows().subscribe((response: any) => {
+    let params = {
+      pageSize : 1000
+    };
+    return this.FlowService.getFlows(params).subscribe((response: any) => {
       this.flows = response.data.content;
     }, error => {
       this.notifierService.showNotification(error.message,'OK','error');
@@ -40,7 +43,7 @@ export class FlowComponent implements OnInit {
         this.notifierService.showNotification(response.message,'OK','success');
       }
     }, error => {
-      this.notifierService.showNotification(error.message,'OK','error');
+      this.notifierService.showNotification(error,'OK','error');
       console.log(error);
     });
   }
