@@ -23,6 +23,8 @@ import {UsersModule} from './modules/users/users.module';
 import {UsersService} from './modules/users/users.service';
 import {FlowService} from './modules/flows/flow.service';
 import {FlowsModule} from './modules/flows/flow.module';
+import {DataElementModule} from './modules/data-elements/dataElement.module';
+import {DataElementService} from './modules/data-elements/dataElement.service';
 
 @NgModule({
   declarations: [
@@ -45,12 +47,14 @@ import {FlowsModule} from './modules/flows/flow.module';
     RolesModule,
     LoginModule,
     UsersModule,
-    FlowsModule
+    FlowsModule,
+    DataElementModule
   ],
   providers: [
     RolesService,
     UsersService,
     FlowService,
+    DataElementService,
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true}
   ],

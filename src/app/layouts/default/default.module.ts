@@ -13,6 +13,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatCardModule} from '@angular/material/card';
 import {DashboardService} from '../../modules/dashboard/dashboard.service';
+import {DataElementComponent} from '../../modules/data-elements/dataElement.component';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import {DashboardService} from '../../modules/dashboard/dashboard.service';
     DashboardComponent,
     UsersComponent,
     RolesComponent,
+    DataElementComponent
   ],
   imports: [
     CommonModule,
