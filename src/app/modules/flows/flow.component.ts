@@ -4,6 +4,8 @@ import {FlowService} from './flow.service';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import {FlowKeyDialogComponent} from './modals/flow-key-dialog-component';
 
 @Component({
   selector: 'app-users',
@@ -19,10 +21,12 @@ export class FlowComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   displayedColumns: string[] = ["sno",'keyName', 'keyDescription','dataElement', 'actions'];
   dataSource: MatTableDataSource<any>;
+  input: any;
 
   constructor(
     private FlowService: FlowService,
-    private notifierService: NotifierService
+    private notifierService: NotifierService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -30,7 +34,7 @@ export class FlowComponent implements OnInit {
   }
 
   /**
-   * This method returns roles
+   * This method returns flows
    */
   getFlows() {
     let params = {
@@ -69,8 +73,30 @@ export class FlowComponent implements OnInit {
     })
   }
 
-  mapDataElement(flowKeys) {
-    console.log("Mapping")
+  openMapDataElementDialog(data) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    if (data) {
+      const flowKeysData = {
+        id: data.id,
+        keyDescription: data.keyDescription,
+        keyName: data.keyName,
+        dataElementId: data.dataElementId,
+        rapidProFlowId: data.rapidProFlowId
+      };
+      this.FlowService.populateForm(flowKeysData);
+      this.dialog.open(FlowKeyDialogComponent, dialogConfig)
+        .afterClosed().subscribe(() => {
+        this.getFlows();
+      });
+    } else {
+      dialogConfig.data = {};
+      this.dialog.open(FlowKeyDialogComponent, dialogConfig)
+        .afterClosed().subscribe(() => {
+        this.getFlows();
+      });
+    }
   }
 
   applyFilter($event: KeyboardEvent) {

@@ -6,6 +6,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import {AngularMaterialModule} from '../../material.module';
 import {MatDialogModule} from '@angular/material/dialog';
 import {FlowComponent} from './flow.component';
+import {FlowKeyDialogComponent} from './modals/flow-key-dialog-component';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 @NgModule({
   imports: [
@@ -16,12 +18,15 @@ import {FlowComponent} from './flow.component';
     ReactiveFormsModule,
     FormsModule,
     SharedModule,
-    MatDialogModule
+    MatDialogModule,
+    MatAutocompleteModule
   ],
   declarations: [
-    FlowComponent
+    FlowComponent,
+    FlowKeyDialogComponent
   ],
   entryComponents: [
+    FlowKeyDialogComponent
   ]
 })
 export class FlowsModule {

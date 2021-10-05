@@ -25,6 +25,7 @@ import {FlowService} from './modules/flows/flow.service';
 import {FlowsModule} from './modules/flows/flow.module';
 import {DataElementModule} from './modules/data-elements/dataElement.module';
 import {DataElementService} from './modules/data-elements/dataElement.service';
+import {FlowKeyService} from './modules/flows/flowkey.service';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import {DataElementService} from './modules/data-elements/dataElement.service';
     UsersService,
     FlowService,
     DataElementService,
+    FlowKeyService,
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true}
   ],

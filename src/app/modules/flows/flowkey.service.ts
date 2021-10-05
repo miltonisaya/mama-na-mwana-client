@@ -11,7 +11,7 @@ export const SYNC_RESOURCE_URL: string = 'api/v1/sync-rapidpro-flows';
 export const FLOW_KEYS_API: string = 'api/v1/get-rapid-pro-flow-keys-by-flow-id';
 
 @Injectable()
-export class FlowService {
+export class FlowKeyService {
   private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
   private SYNC_API_ENDPOINT = `${BASE_URL}/${SYNC_RESOURCE_URL}`;
   private KEYS_BY_FLOW_ID_ENDPOINT = `${BASE_URL}/${FLOW_KEYS_API}`;
@@ -20,8 +20,8 @@ export class FlowService {
 
   form: FormGroup = new FormGroup({
     id: new FormControl(''),
-    name: new FormControl('', [Validators.required]),
-    description: new FormControl('', [Validators.required])
+    dataElementId: new FormControl('', [Validators.required]),
+    rapidProFlowId: new FormControl('', [Validators.required])
   });
 
   /**
@@ -64,7 +64,23 @@ export class FlowService {
       map(this.extractData));
   }
 
-  populateForm(flowKeysData: {dataElementId: any; keyDescription: any; keyName: any; id: any; rapidProFlowId: any}) {
+  /**
+   *
+   * @param data
+   */
+  populateForm (data){
+    this.form.setValue(data);
+  }
 
+  initializeFormGroup() {
+
+  }
+
+  updateFlowKey(flowKey): Observable<any> {
+    console.log(flowKey);
+    return this.http.put(this.API_ENDPOINT+"/"+flowKey.id, flowKey)
+      .pipe(tap(_ => console.log(`updated flow key with id=${flowKey.id}`)),
+        catchError(this.handleError<any>('update flow key'))
+      );
   }
 }
