@@ -53,10 +53,12 @@ export class DataElementComponent implements OnInit {
       console.log(response);
       this.getDataElements();
       if(response.status == '200'){
+        console.log("The message===>",response);
         this.notifierService.showNotification(response.message,'OK','success');
       }
     }, error => {
-      this.notifierService.showNotification(error.error,'OK','error');
+      // console.log("The error===>",error.message);
+      this.notifierService.showNotification(error.message,'OK','error');
       console.log(error);
     });  }
 }
