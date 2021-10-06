@@ -3,6 +3,7 @@ import {MatDialogRef} from '@angular/material/dialog';
 import {NotifierService} from '../../notifications/notifier.service';
 import {FlowKeyService} from '../flowkey.service';
 import {DataElementService} from '../../data-elements/dataElement.service';
+import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-flow-key-dialog',
@@ -15,6 +16,7 @@ export class FlowKeyDialogComponent implements OnInit {
   filteredOptions: any;
   options: any;
   selectedDataElement: any;
+  dataElementControl = new FormControl();
 
   constructor(
     public flowKeyService: FlowKeyService,

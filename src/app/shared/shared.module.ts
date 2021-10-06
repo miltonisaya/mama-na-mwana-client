@@ -23,13 +23,13 @@ import { BarComponent } from './widgets/bar/bar.component';
     PieComponent,
     BarComponent
   ],
-  imports: [
-    CommonModule,
-    AngularMaterialModule,
-    RouterModule,
-    MatProgressBarModule,
-    HighchartsChartModule
-  ],
+    imports: [
+        CommonModule,
+        AngularMaterialModule,
+        RouterModule,
+        MatProgressBarModule,
+        HighchartsChartModule
+    ],
   exports: [
     HeaderComponent,
     SidebarComponent,
