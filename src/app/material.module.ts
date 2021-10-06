@@ -74,8 +74,8 @@ import {MatMenuModule} from '@angular/material/menu';
     MatSortModule,
     MatPaginatorModule,
     FlexLayoutModule,
-    MatMenuModule
-
+    MatMenuModule,
+    MatProgressBarModule
   ],
   exports: [
     MatButtonModule,
@@ -95,7 +95,8 @@ import {MatMenuModule} from '@angular/material/menu';
     MatTableModule,
     MatPaginatorModule,
     FlexLayoutModule,
-    MatMenuModule
+    MatMenuModule,
+    MatProgressBarModule
   ],
   providers: [
     MatDatepickerModule,
