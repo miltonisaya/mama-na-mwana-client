@@ -9,12 +9,14 @@ export const BASE_URL: string = environment.baseURL;
 export const RESOURCE_URL: string = 'api/v1/rapidpro-flows';
 export const SYNC_RESOURCE_URL: string = 'api/v1/sync-rapidpro-flows';
 export const FLOW_KEYS_API: string = 'api/v1/get-rapid-pro-flow-keys-by-flow-id';
+export const MAP_DATA_ELEMENT_API: string = 'api/v1/map-data-element';
 
 @Injectable()
 export class FlowKeyService {
   private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
   private SYNC_API_ENDPOINT = `${BASE_URL}/${SYNC_RESOURCE_URL}`;
   private KEYS_BY_FLOW_ID_ENDPOINT = `${BASE_URL}/${FLOW_KEYS_API}`;
+  private MAP_DATA_ELEMENT_ENDPOINT = `${BASE_URL}/${MAP_DATA_ELEMENT_API}`;
 
   constructor(private http: HttpClient) {}
 
@@ -77,10 +79,16 @@ export class FlowKeyService {
   }
 
   updateFlowKey(flowKey): Observable<any> {
-    console.log(flowKey);
     return this.http.put(this.API_ENDPOINT+"/"+flowKey.id, flowKey)
       .pipe(tap(_ => console.log(`updated flow key with id=${flowKey.id}`)),
         catchError(this.handleError<any>('update flow key'))
+      );
+  }
+
+  mapDataElement(data) {
+    return this.http.put(this.MAP_DATA_ELEMENT_ENDPOINT, data)
+      .pipe(tap(_ => console.log(`Mapped flow key with data element=${data.dataElementId}`)),
+        catchError(this.handleError<any>('Mapped flow key'))
       );
   }
 }

@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import {MatDialogRef} from '@angular/material/dialog';
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {NotifierService} from '../../notifications/notifier.service';
 import {FlowKeyService} from '../flowkey.service';
 import {DataElementService} from '../../data-elements/dataElement.service';
-import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-flow-key-dialog',
@@ -16,13 +15,13 @@ export class FlowKeyDialogComponent implements OnInit {
   filteredOptions: any;
   options: any;
   selectedDataElement: any;
-  dataElementControl = new FormControl();
 
   constructor(
     public flowKeyService: FlowKeyService,
     public dialogRef: MatDialogRef<FlowKeyDialogComponent>,
     public notifierService: NotifierService,
-    public dataElementService: DataElementService
+    public dataElementService: DataElementService,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
   ngOnInit() {
@@ -55,5 +54,21 @@ export class FlowKeyDialogComponent implements OnInit {
     this.flowKeyService.form.reset();
     this.flowKeyService.initializeFormGroup();
     this.dialogRef.close();
+  }
+
+  mapDataElement() {
+    let data = {
+      dataElementId : this.selectedDataElement,
+      rapidProFlowKeyId: this.data.id
+    };
+
+    this.flowKeyService.mapDataElement(data).subscribe((response: any) => {
+      if(response.status == '200'){
+        this.notifierService.showNotification(response.message,'OK','success');
+      }
+    }, error => {
+      this.notifierService.showNotification(error,'OK','error');
+      console.log(error);
+    });
   }
 }

@@ -49,7 +49,11 @@
     <!-- Description Column -->
     <ng-container matColumnDef="dataElement">
       <th mat-header-cell *matHeaderCellDef> Data Element</th>
-      <td mat-cell *matCellDef="let flowKeys"> {{flowKeys.dataElement}} </td>
+      <td mat-cell *matCellDef="let flowKeys">
+        <div *ngIf="flowKeys.dataElement !== undefined && flowKeys.dataElement !== null">
+          {{flowKeys.dataElement.name}}
+        </div>
+      </td>
     </ng-container>
 
     <!-- Action Column -->

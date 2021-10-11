@@ -82,11 +82,10 @@ export class FlowComponent implements OnInit {
         id: data.id,
         keyDescription: data.keyDescription,
         keyName: data.keyName,
-        dataElementId: data.dataElementId,
         rapidProFlowId: data.rapidProFlowId
       };
-      this.FlowService.populateForm(flowKeysData);
-      this.dialog.open(FlowKeyDialogComponent, dialogConfig)
+      // this.FlowService.populateForm(flowKeysData);
+      this.dialog.open(FlowKeyDialogComponent, {data: flowKeysData})
         .afterClosed().subscribe(() => {
         this.getFlows();
       });

@@ -20,24 +20,28 @@
 <!--        </mat-form-field>-->
 
         <mat-form-field>
-          <mat-select [(value)]="selectedDataElement">
+          <mat-select [(value)]="selectedDataElement" required>
             <mat-option></mat-option>
             <mat-option [value]="option.id" *ngFor="let option of dataElements">{{ option.name }}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
-      <!-- <pre>{{ form | json }}</pre> -->
+
     </mat-dialog-content>
     <mat-dialog-actions fxLayout="row" fxLayoutAlign="end stretch">
       <div class="button">
         <button mat-raised-button type="button" mat-dialog-close>CANCEL</button>
-        <button mat-raised-button color="primary" type="submit">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          (click)="mapDataElement()"
+        >
           {{"MAP"}}
         </button>
       </div>
     </mat-dialog-actions>
   </form>
 </section>
-
-
-<!--<pre>{{ dataElements | json}}</pre>-->
+<!--<pre>{{ selectedDataElement | json}}</pre>-->
+<!--Flow Keys Data:<pre>{{ data | json}}</pre>-->
