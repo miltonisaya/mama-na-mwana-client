@@ -70,5 +70,6 @@ export class FlowKeyDialogComponent implements OnInit {
       this.notifierService.showNotification(error,'OK','error');
       console.log(error);
     });
+    this.dialogRef.close();
   }
 }
