@@ -50,8 +50,18 @@
     <ng-container matColumnDef="dataElement">
       <th mat-header-cell *matHeaderCellDef> Data Element</th>
       <td mat-cell *matCellDef="let flowKeys">
-        <div *ngIf="flowKeys.dataElement !== undefined && flowKeys.dataElement !== null">
-          {{flowKeys.dataElement.name}}
+        <div *ngIf="flowKeys.dataElement !== undefined && flowKeys.dataElement !== null" style="color: #239e23;">
+          <ul>
+            <li>Name: {{flowKeys.dataElement.name}}</li>
+            <li>DHIS UUID: {{flowKeys.dataElement.dhis2Uid}}</li>
+            <li>DHIS UUID: {{flowKeys.dataElement.code}}</li>
+          </ul>
+        </div>
+
+        <div *ngIf="flowKeys.dataElement == undefined && flowKeys.dataElement == null">
+          <div style="color: red;">
+            Key Not Mapped
+          </div>
         </div>
       </td>
     </ng-container>
