@@ -18,6 +18,7 @@
             <mat-option [value]="option.id" *ngFor="let option of dataElements">{{ option.name }}</mat-option>
           </mat-select>
         </mat-form-field>
+
       </div>
 
     </mat-dialog-content>
@@ -36,5 +37,5 @@
     </mat-dialog-actions>
   </form>
 </section>
-<!--<pre>{{ selectedDataElement | json}}</pre>-->
+<!--<pre>{{ dataElements | json}}</pre>-->
 <!--Flow Keys Data:<pre>{{ data | json}}</pre>-->
