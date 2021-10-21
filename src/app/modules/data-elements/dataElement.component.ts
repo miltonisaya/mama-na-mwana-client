@@ -12,7 +12,7 @@ import {DataElementService} from './dataElement.service';
   styleUrls: ['./dataElement.component.scss']
 })
 export class DataElementComponent implements OnInit {
-  displayedColumns: string[] = ["sno",'name', 'code','dhis2uid'];
+  displayedColumns: string[] = ["sno",'name', 'code','dataType','dhis2uid'];
   dataElements: any = [];
   dataSource: MatTableDataSource<DataElement>;
   pageSize;
