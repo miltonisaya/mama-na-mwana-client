@@ -14,7 +14,7 @@ import {MatDialog} from '@angular/material/dialog';
   styleUrls: ['./contacts.component.scss']
 })
 export class ContactsComponent implements OnInit {
-  displayedColumns: string[] = ["sno",'name', 'facilityCode','urn', 'actions'];
+  displayedColumns: string[] = ["sno",'name', 'facilityCode','urn'];
   contacts: any = [];
   userId: string;
   dataSource: MatTableDataSource<Contact>;

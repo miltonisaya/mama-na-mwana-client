@@ -2,6 +2,11 @@
   <div>
     <h3>Manage Contacts</h3>
   </div>
+  <div fxLayoutGap="5px">
+    <button mat-raised-button class="mat-primary">
+      <mat-icon>sync</mat-icon>SYNC CONTACTS
+    </button>
+  </div>
 </div>
 
 <mat-form-field appearance="standard">
@@ -26,23 +31,13 @@
     <!-- Facility Column -->
     <ng-container matColumnDef="facilityCode">
       <th mat-header-cell *matHeaderCellDef>Facility Code</th>
-      <td mat-cell *matCellDef="let users"> {{users.username}} </td>
+      <td mat-cell *matCellDef="let users"> {{users.facilityCode}} </td>
     </ng-container>
 
     <!-- URN Column -->
     <ng-container matColumnDef="urn">
       <th mat-header-cell *matHeaderCellDef>URN</th>
       <td mat-cell *matCellDef="let users"> {{users.urn}} </td>
-    </ng-container>
-
-    <!-- Action Column -->
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef>Action</th>
-      <td mat-cell *matCellDef="let users">
-        <button matTooltip="Delete" matTooltipPosition="right" mat-icon-button color="warn" (click)="openDeleteDialog(users.id)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -55,19 +50,6 @@
   </table>
   <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
 </div>
-
-
-<!--delete user dialog template-->
-<ng-template #deleteDialog>
-  <mat-dialog-content>
-    <h3>Are you sure you want to delete this contact?</h3>
-  </mat-dialog-content>
-  <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>NO</button>
-    <button mat-button (click)="delete()">YES</button>
-  </mat-dialog-actions>
-</ng-template>
-<!--delete user dialog template-->
 
 <!--<pre>{{users.content | json}}</pre>-->
 
