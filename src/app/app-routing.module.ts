@@ -7,6 +7,7 @@ import {RolesComponent} from './modules/roles/roles.component';
 import {LoginComponent} from './modules/login/login.component';
 import {FlowComponent} from './modules/flows/flow.component';
 import {DataElementComponent} from './modules/data-elements/dataElement.component';
+import {ContactsComponent} from './modules/contacts/contacts.component';
 
 const routes: Routes = [{
   path: '',
@@ -28,6 +29,9 @@ const routes: Routes = [{
     }, {
       path: 'data-elements',
       component: DataElementComponent
+    }, {
+      path: 'contacts',
+      component: ContactsComponent
     }
   ]
 },
