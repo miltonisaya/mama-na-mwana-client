@@ -3,11 +3,12 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor
+  HttpInterceptor, HttpErrorResponse
 } from '@angular/common/http';
-import {Observable, of} from 'rxjs';
+import {Observable, of, throwError} from 'rxjs';
 import {AuthService} from '../modules/auth/auth.service';
 import {Router} from '@angular/router';
+import {catchError} from 'rxjs/operators';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
@@ -23,6 +24,15 @@ export class JwtInterceptor implements HttpInterceptor {
         Authorization: `Bearer ${this.auth.getToken()}`
       }
     });
-    return next.handle(request);
+
+    return next.handle(request).pipe(
+      catchError( response => {
+        if(response.status === 401) {
+          this.router.navigate(["/login"]);
+          return next.handle(request);
+        }
+        return throwError(response);
+      })
+    )
   }
 }
