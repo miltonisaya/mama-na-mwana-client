@@ -12,13 +12,15 @@
     <mat-divider></mat-divider>
     <mat-dialog-content>
       <div class="dialog-content" fxLayout="column" fxLayoutGap="5px">
-        <mat-form-field>
-          <mat-select [(value)]="selectedDataElement" required>
-            <mat-option></mat-option>
-            <mat-option [value]="option.id" *ngFor="let option of dataElements">{{ option.name }}</mat-option>
-          </mat-select>
+        <mat-form-field class="dialog-content" appearance="fill">
+          <mat-label>Search for data element</mat-label>
+          <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+              {{option.name}}
+            </mat-option>
+          </mat-autocomplete>
         </mat-form-field>
-
       </div>
 
     </mat-dialog-content>
@@ -37,5 +39,5 @@
     </mat-dialog-actions>
   </form>
 </section>
-<!--<pre>{{ dataElements | json}}</pre>-->
+<pre>{{ selectedDataElement | json}}</pre>
 <!--Flow Keys Data:<pre>{{ data | json}}</pre>-->
