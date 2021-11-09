@@ -59,7 +59,6 @@ export class FlowService {
   }
 
   getKeysByFlowId(id) {
-    console.log("Params =>",id);
     return this.http.get(<any>(this.KEYS_BY_FLOW_ID_ENDPOINT + "/"+id)).pipe(
       map(this.extractData));
   }

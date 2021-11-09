@@ -5,7 +5,6 @@ import {FlowKeyService} from '../flowkey.service';
 import {DataElementService} from '../../data-elements/dataElement.service';
 import {FormControl} from '@angular/forms';
 import {map, startWith} from 'rxjs/operators';
-import {MatOptionSelectionChange} from '@angular/material/core';
 
 @Component({
   selector: 'app-flow-key-dialog',
@@ -71,9 +70,11 @@ export class FlowKeyDialogComponent implements OnInit {
 
   mapDataElement() {
     let data = {
-      dataElementId: this.selectedDataElement,
+      dataElementId: this.myControl.value.id,
       rapidProFlowKeyId: this.data.id
     };
+
+    console.log("Mapping data ==>", data)
 
     this.flowKeyService.mapDataElement(data).subscribe((response: any) => {
       if (response.status == '200') {

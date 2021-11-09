@@ -44,7 +44,6 @@ export class FlowComponent implements OnInit {
       this.flows = response.data.content;
     }, error => {
       this.notifierService.showNotification(error.message,'OK','error');
-      console.log(error);
     });
   }
 
@@ -56,7 +55,6 @@ export class FlowComponent implements OnInit {
       }
     }, error => {
       this.notifierService.showNotification(error,'OK','error');
-      console.log(error);
     });
   }
 
@@ -67,7 +65,6 @@ export class FlowComponent implements OnInit {
       this.dataSource = new MatTableDataSource<any>(this.flowKeys);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      console.log(this.flowKeys);
     }, error => {
       this.notifierService.showNotification(error.message,'OK','error');
     })
@@ -82,8 +79,9 @@ export class FlowComponent implements OnInit {
         id: data.id,
         keyDescription: data.keyDescription,
         keyName: data.keyName,
-        rapidProFlowId: data.rapidProFlowId
       };
+
+      // console.log(flowKeysData);
       // this.FlowService.populateForm(flowKeysData);
       this.dialog.open(FlowKeyDialogComponent, {data: flowKeysData})
         .afterClosed().subscribe(() => {
