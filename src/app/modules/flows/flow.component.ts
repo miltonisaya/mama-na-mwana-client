@@ -15,13 +15,16 @@ import {FlowKeyDialogComponent} from './modals/flow-key-dialog-component';
 
 export class FlowComponent implements OnInit {
   flows: any = [];
+  elementId: any;
   selectedFlowId: any = null;
   flowKeys: any = [];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('resetDialog') resetDialog: TemplateRef<any>;
   displayedColumns: string[] = ["sno",'keyName', 'keyDescription','dataElement', 'actions'];
   dataSource: MatTableDataSource<any>;
   input: any;
+
 
   constructor(
     private FlowService: FlowService,
@@ -99,5 +102,24 @@ export class FlowComponent implements OnInit {
   applyFilter($event: KeyboardEvent) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  openResetDialog(data) {
+    console.log(data);
+    this.elementId = data.id;
+    this.dialog.open(this.resetDialog)
+      .afterClosed().subscribe(() => {
+    });
+  }
+
+  reset(id: String) {
+    return this.FlowService.resetMapping(this.elementId).subscribe((response: any) => {
+      this.flowKeys = response.data;
+      this.dataSource = new MatTableDataSource<any>(this.flowKeys);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }, error => {
+      this.notifierService.showNotification(error.message,'OK','error');
+    })
   }
 }

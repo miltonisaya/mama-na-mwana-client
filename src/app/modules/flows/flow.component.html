@@ -73,6 +73,10 @@
         <button matTooltip="Map Data Element" matTooltipPosition="left" mat-icon-button>
           <mat-icon (click)="openMapDataElementDialog(flowKeys)">sync_alt</mat-icon>
         </button>
+
+        <button matTooltip="Reset Mapping" matTooltipPosition="left" mat-icon-button>
+          <mat-icon (click)="openResetDialog(flowKeys)">undo</mat-icon>
+        </button>
       </td>
     </ng-container>
 
@@ -86,4 +90,16 @@
   </table>
   <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
 </div>
+
+<!--delete user dialog template-->
+<ng-template #resetDialog>
+  <mat-dialog-content>
+    <h3>Are you sure you want to reset this mapping?</h3>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>NO</button>
+    <button mat-button (click)="reset()">YES</button>
+  </mat-dialog-actions>
+</ng-template>
+<!--delete user dialog template-->
 
