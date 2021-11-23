@@ -71,4 +71,14 @@ export class ContactsComponent implements OnInit {
       });
     this.DialogService.closeAll();
   }
+
+  syncContacts() {
+    this.ContactsService.syncContacts()
+      .subscribe( response => {
+        console.log("Sync response =>",response);
+        // this.NotifierService.showNotification(response.message,'OK','success');
+      }, error => {
+        this.NotifierService.showNotification(error.message, 'OK', 'error');
+      });
+  }
 }

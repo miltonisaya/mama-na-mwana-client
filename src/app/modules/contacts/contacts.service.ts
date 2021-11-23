@@ -6,11 +6,13 @@ import {catchError, map, tap} from 'rxjs/operators';
 
 export const BASE_URL: string = environment.baseURL;
 export const RESOURCE_URL: string = 'api/v1/contacts';
+export const SYNC_CONTACTS_URL: string = 'api/v1/sync-contacts';
 
 @Injectable()
 
 export class ContactsService {
   private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
+  private API_ENDPOINT_TO_SYNC = `${BASE_URL}/${SYNC_CONTACTS_URL}`;
 
   constructor(private http: HttpClient) {}
 
@@ -42,7 +44,7 @@ export class ContactsService {
   delete(id): Observable<any> {
     console.log("Deleting contact with id ",id);
     return this.http.delete<any>(this.API_ENDPOINT+"/"+id).pipe(
-      map(this.extractData));``
+      map(this.extractData));
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
@@ -55,5 +57,11 @@ export class ContactsService {
       console.log(`${operation} failed: ${error.message}`);
       return of(result as T);
     };
+  }
+
+  syncContacts() {
+    return this.http.get(this.API_ENDPOINT_TO_SYNC).pipe(
+      map(this.extractData)
+    );
   }
 }
