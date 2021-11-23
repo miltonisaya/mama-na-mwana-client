@@ -8,13 +8,15 @@ import {LoginComponent} from './modules/login/login.component';
 import {FlowComponent} from './modules/flows/flow.component';
 import {DataElementComponent} from './modules/data-elements/dataElement.component';
 import {ContactsComponent} from './modules/contacts/contacts.component';
+import {AuthGuard} from './helpers/auth.guard';
 
 const routes: Routes = [{
   path: '',
   component: DefaultComponent,
+  canActivate: [AuthGuard],
   children: [{
     path: 'dashboard',
-    component: DashboardComponent
+    component: DashboardComponent,
   }, {
     path: 'users',
     component: UsersComponent

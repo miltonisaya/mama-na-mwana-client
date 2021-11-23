@@ -11,6 +11,7 @@ import {Router} from '@angular/router';
 export class AuthService {
   url = environment.baseURL + "/api/v1/authenticate";
   responseData;
+  currentUserValue: any;
 
   constructor(
     private http: HttpClient,
@@ -28,6 +29,7 @@ export class AuthService {
         const results = [];
         const token = response.data.token;
         const currentUser = response.data.user;
+        this.currentUserValue = currentUser;
         currentUser.token = token;
         currentUser.menus = results;
         localStorage.setItem("MNM_USER", JSON.stringify(currentUser));
