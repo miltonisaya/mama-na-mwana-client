@@ -28,6 +28,7 @@ import {DataElementService} from './modules/data-elements/dataElement.service';
 import {FlowKeyService} from './modules/flows/flowkey.service';
 import {ContactsModule} from './modules/contacts/contacts.module';
 import {ContactsService} from './modules/contacts/contacts.service';
+import {TransactionsService} from './modules/transactions/transactions.service';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import {ContactsService} from './modules/contacts/contacts.service';
     DataElementService,
     FlowKeyService,
     ContactsService,
+    TransactionsService,
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true}
   ],
