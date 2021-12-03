@@ -9,7 +9,13 @@
 </div>
 
 <div class="mat-elevation-z8">
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <mat-card *ngIf="transactions.length == 0 || transactions.length == undefined">
+    There are no transactions to display
+  </mat-card>
+</div>
+
+<div class="mat-elevation-z8" fxLayout="row" fxLayoutAlign="space-between center">
+  <table mat-table [dataSource]="dataSource" *ngIf="transactions.length > 0 && transactions.length !== undefined">
     <!-- SNo Column -->
     <ng-container matColumnDef="sno">
       <th mat-header-cell *matHeaderCellDef> No</th>
@@ -68,44 +74,44 @@
       <td class="mat-cell" colspan="3">No data matching the filter "{{input.value}}"</td>
     </tr>
   </table>
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" *ngIf="transactions.length > 0 && transactions.length !== undefined"></mat-paginator>
 </div>
 <br>
 <mat-divider></mat-divider>
 <br>
 
-<div class="mat-elevation-z8">
-  <app-widget-area [data]="bigChart"></app-widget-area>
-</div>
+<!--<div class="mat-elevation-z8">-->
+<!--  <app-widget-area [data]="bigChart"></app-widget-area>-->
+<!--</div>-->
 
-<br>
-<mat-divider></mat-divider>
-<br>
+<!--<br>-->
+<!--<mat-divider></mat-divider>-->
+<!--<br>-->
 
-<div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px" class="stats-cards">
-  <mat-card fxFlex="25" class="mat-elevation-z8">
-    <app-widget-card label="New Users" total="18k" percentage="50" [data]="cards"></app-widget-card>
-  </mat-card>
-  <mat-card fxFlex="25" class="mat-elevation-z8">
-    <app-widget-card label="Users Retention" total="12k" percentage="33" [data]="cards"></app-widget-card>
-  </mat-card>
-  <mat-card fxFlex="25" class="mat-elevation-z8">
-    <app-widget-card label="Users Engaged" total="24k" percentage="19" [data]="cards"></app-widget-card>
-  </mat-card>
-  <mat-card fxFlex="25" class="mat-elevation-z8">
-    <app-widget-card label="Referral" total="19k" percentage="77" [data]="cards"></app-widget-card>
-  </mat-card>
-</div>
+<!--<div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px" class="stats-cards">-->
+<!--  <mat-card fxFlex="25" class="mat-elevation-z8">-->
+<!--    <app-widget-card label="New Users" total="18k" percentage="50" [data]="cards"></app-widget-card>-->
+<!--  </mat-card>-->
+<!--  <mat-card fxFlex="25" class="mat-elevation-z8">-->
+<!--    <app-widget-card label="Users Retention" total="12k" percentage="33" [data]="cards"></app-widget-card>-->
+<!--  </mat-card>-->
+<!--  <mat-card fxFlex="25" class="mat-elevation-z8">-->
+<!--    <app-widget-card label="Users Engaged" total="24k" percentage="19" [data]="cards"></app-widget-card>-->
+<!--  </mat-card>-->
+<!--  <mat-card fxFlex="25" class="mat-elevation-z8">-->
+<!--    <app-widget-card label="Referral" total="19k" percentage="77" [data]="cards"></app-widget-card>-->
+<!--  </mat-card>-->
+<!--</div>-->
 
-<br>
-<mat-divider></mat-divider>
-<br>
+<!--<br>-->
+<!--<mat-divider></mat-divider>-->
+<!--<br>-->
 
-<div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px">
-  <div fxFlex="60" class="mat-elevation-z8">
-    <app-widget-bar [data]="barChart"></app-widget-bar>
-  </div>
-  <div fxFlex="40" class="mat-elevation-z8">
-    <app-widget-pie [data]="pieChart"></app-widget-pie>
-  </div>
-</div>
+<!--<div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px">-->
+<!--  <div fxFlex="60" class="mat-elevation-z8">-->
+<!--    <app-widget-bar [data]="barChart"></app-widget-bar>-->
+<!--  </div>-->
+<!--  <div fxFlex="40" class="mat-elevation-z8">-->
+<!--    <app-widget-pie [data]="pieChart"></app-widget-pie>-->
+<!--  </div>-->
+<!--</div>-->
