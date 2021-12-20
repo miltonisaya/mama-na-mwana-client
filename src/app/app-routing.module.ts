@@ -9,6 +9,7 @@ import {FlowComponent} from './modules/flows/flow.component';
 import {DataElementComponent} from './modules/data-elements/dataElement.component';
 import {ContactsComponent} from './modules/contacts/contacts.component';
 import {AuthGuard} from './helpers/auth.guard';
+import {OrganisationUnitComponent} from './modules/organisation-units/organisation-unit.component';
 
 const routes: Routes = [{
   path: '',
@@ -34,6 +35,9 @@ const routes: Routes = [{
     }, {
       path: 'contacts',
       component: ContactsComponent
+    }, {
+      path: 'organisation-units',
+      component: OrganisationUnitComponent
     }
   ]
 },

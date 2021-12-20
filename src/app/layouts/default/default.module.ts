@@ -14,6 +14,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {MatCardModule} from '@angular/material/card';
 import {DashboardService} from '../../modules/dashboard/dashboard.service';
 import {DataElementComponent} from '../../modules/data-elements/dataElement.component';
+import {OrganisationUnitComponent} from '../../modules/organisation-units/organisation-unit.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import {DataElementComponent} from '../../modules/data-elements/dataElement.comp
     DashboardComponent,
     UsersComponent,
     RolesComponent,
-    DataElementComponent
+    DataElementComponent,
+    OrganisationUnitComponent,
   ],
   imports: [
     CommonModule,

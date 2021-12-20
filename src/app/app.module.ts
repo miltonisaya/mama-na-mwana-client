@@ -29,6 +29,8 @@ import {FlowKeyService} from './modules/flows/flowkey.service';
 import {ContactsModule} from './modules/contacts/contacts.module';
 import {ContactsService} from './modules/contacts/contacts.service';
 import {TransactionsService} from './modules/transactions/transactions.service';
+import {OrganisationUnitModule} from './modules/organisation-units/organisation-unit.module';
+import {OrganisationUnitService} from './modules/organisation-units/organisation-unit.service';
 
 @NgModule({
   declarations: [
@@ -53,7 +55,8 @@ import {TransactionsService} from './modules/transactions/transactions.service';
     UsersModule,
     FlowsModule,
     DataElementModule,
-    ContactsModule
+    ContactsModule,
+    OrganisationUnitModule
   ],
   providers: [
     RolesService,
@@ -63,6 +66,7 @@ import {TransactionsService} from './modules/transactions/transactions.service';
     FlowKeyService,
     ContactsService,
     TransactionsService,
+    OrganisationUnitService,
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true}
   ],
