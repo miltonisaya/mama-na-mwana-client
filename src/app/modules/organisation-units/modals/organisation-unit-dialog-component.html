@@ -7,7 +7,7 @@
         class="form" #formDirective="ngForm"
         (ngSubmit)="submitForm(OrganisationUnitService.form)">
     <h1 mat-dialog-title class="dialog-header">
-      {{OrganisationUnitService.form.controls['id'].value? "Edit Flow" : "Create Flow"}}
+      {{OrganisationUnitService.form.controls['id'].value? "Edit Organisation Unit" : "Create Organisation Unit"}}
     </h1>
     <mat-divider></mat-divider>
     <mat-dialog-content>
@@ -21,8 +21,8 @@
 
         <mat-form-field>
           <input matInput
-                 formControlName="description"
-                 placeholder="Enter description"
+                 formControlName="code"
+                 placeholder="Enter code"
                  autocomplete="off"
                  required>
         </mat-form-field>
