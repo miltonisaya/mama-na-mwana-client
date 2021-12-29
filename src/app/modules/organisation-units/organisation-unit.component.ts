@@ -32,32 +32,19 @@ export class OrganisationUnitComponent implements OnInit {
     // @ts-ignore
   }
 
-  private _getChildren = (node: OrganisationUnit) => observableOf(node.children);
-
-  hasNestedChild = (_: number, nodeData: OrganisationUnit) => nodeData.children.length > 0;
-
   hasChild = (_: number, node: OrganisationUnit) => !!node.children && node.children.length > 0;
 
   ngOnInit(): void {
-    this.getOrganisationUnits();
+    this.getParentOrganisationUnits();
   }
 
   /**
-   * This method returns organisation units
+   * This method returns the parent organisation units
    */
-  getOrganisationUnits() {
+  getParentOrganisationUnits() {
     console.log("get organisation units")
-    let params = {
-      pageSize: 100,
-      sortBy: 'name'
-    }
-    return this.OrganisationUnitService.getOrganisationUnits(params).subscribe((response: any) => {
-      this.dataSource.data = response.data.content;
-
-      // this.organisationUnits = response.data;
-      // this.dataSource = new MatTableDataSource<OrganisationUnit>(this.organisationUnits.content);
-      // this.dataSource.paginator = this.paginator;
-      // this.dataSource.sort = this.sort;
+    return this.OrganisationUnitService.getOrganisationUnits().subscribe((response: any) => {
+      this.dataSource.data = response.data;
     }, error => {
       this.notifierService.showNotification(error.message,'OK','error');
       console.log(error);
@@ -82,13 +69,13 @@ export class OrganisationUnitComponent implements OnInit {
       this.OrganisationUnitService.populateForm(roleData);
       this.dialog.open(OrganisationUnitDialogComponent, dialogConfig)
         .afterClosed().subscribe(() => {
-        this.getOrganisationUnits();
+        this.getParentOrganisationUnits();
       });
     } else {
       dialogConfig.data = {};
       this.dialog.open(OrganisationUnitDialogComponent, dialogConfig)
         .afterClosed().subscribe(() => {
-        this.getOrganisationUnits();
+        this.getParentOrganisationUnits();
       });
     }
   }
@@ -97,7 +84,7 @@ export class OrganisationUnitComponent implements OnInit {
     this.organisationUnitId = id;
     this.dialog.open(this.deleteDialog)
       .afterClosed().subscribe(() => {
-      this.getOrganisationUnits();
+      this.getParentOrganisationUnits();
     });
   }
 

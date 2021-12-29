@@ -6,7 +6,7 @@ import {catchError, map, tap} from 'rxjs/operators';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 export const BASE_URL: string = environment.baseURL;
-export const RESOURCE_URL: string = 'api/v1/organisation-units';
+export const RESOURCE_URL: string = 'api/v1/parent-organisation-units';
 
 @Injectable()
 export class OrganisationUnitService {
