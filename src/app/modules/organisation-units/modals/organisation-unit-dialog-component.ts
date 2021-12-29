@@ -22,13 +22,13 @@ export class OrganisationUnitDialogComponent implements OnInit {
   submitForm(data) {
     if (this.OrganisationUnitService.form.valid) {
       if (this.OrganisationUnitService.form.get('id').value) {
-        this.OrganisationUnitService.updateRole(this.OrganisationUnitService.form.value)
+        this.OrganisationUnitService.updateOrganisationUnit(this.OrganisationUnitService.form.value)
           .subscribe(response => {
             this.notifierService.showNotification(response.message,'OK', 'success');
             this.onClose();
           });
       } else {
-        this.OrganisationUnitService.createRole(this.OrganisationUnitService.form.value)
+        this.OrganisationUnitService.createOrganisationUnit(this.OrganisationUnitService.form.value)
           .subscribe(data => {
             this.onClose();
           },error => {
