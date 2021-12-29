@@ -11,7 +11,6 @@ export class AuthGuard implements CanActivate {
     const currentUser = localStorage.getItem('MNM_USER');
     if (currentUser) {
       // logged in so return true
-      console.log("The current user ==>", currentUser);
       return true;
     }
 
