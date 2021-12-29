@@ -6,7 +6,7 @@ import {catchError, map, tap} from 'rxjs/operators';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 export const BASE_URL: string = environment.baseURL;
-export const RESOURCE_URL: string = 'api/v1/roles';
+export const RESOURCE_URL: string = 'api/v1/organisation-units';
 
 @Injectable()
 export class OrganisationUnitService {
@@ -32,7 +32,7 @@ export class OrganisationUnitService {
     return body || {};
   }
 
-  getRoles(param?): Observable<any> {
+  getOrganisationUnits(param?): Observable<any> {
     return this.http.get<any>(this.API_ENDPOINT,{params: param}).pipe(
       map(this.extractData));
   }
@@ -66,11 +66,11 @@ export class OrganisationUnitService {
   /**
    * @param role
    */
-  createRole(role): Observable<any> {
-    console.log(role);
-    return this.http.post<any>(this.API_ENDPOINT, role)
+  createOrganisationUnit(ou): Observable<any> {
+    console.log(ou);
+    return this.http.post<any>(this.API_ENDPOINT, ou)
       // tslint:disable-next-line:no-shadowed-variable
-      .pipe(tap((response) => console.log(`Added role with name = ${role.name}`)),
+      .pipe(tap((response) => console.log(`Added role with name = ${ou.name}`)),
         catchError(this.handleError<any>('create objective'))
       );
   }
@@ -87,11 +87,11 @@ export class OrganisationUnitService {
     };
   }
 
-  updateRole(role): Observable<any> {
-    console.log(role);
-    return this.http.put(this.API_ENDPOINT+"/"+role.id, role)
-      .pipe(tap(_ => console.log(`updated role with id=${role.id}`)),
-        catchError(this.handleError<any>('update role'))
+  updateOrganisationUnit(ou): Observable<any> {
+    console.log(ou);
+    return this.http.put(this.API_ENDPOINT+"/"+ou.id, ou)
+      .pipe(tap(_ => console.log(`updated organisation unit with id=${ou.id}`)),
+        catchError(this.handleError<any>('update organisation unit'))
       );
   }
 }
