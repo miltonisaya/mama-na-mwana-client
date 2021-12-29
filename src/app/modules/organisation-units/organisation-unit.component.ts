@@ -1,5 +1,5 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {MatTableDataSource} from '@angular/material/table';
+import {of as observableOf} from 'rxjs';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
@@ -7,6 +7,8 @@ import {NotifierService} from '../notifications/notifier.service';
 import {OrganisationUnitService} from './organisation-unit.service';
 import {OrganisationUnitDialogComponent} from './modals/organisation-unit-dialog-component';
 import {OrganisationUnit} from './organisation-unit';
+import {NestedTreeControl} from '@angular/cdk/tree';
+import {MatTreeNestedDataSource} from '@angular/material/tree';
 
 @Component({
   selector: 'app-users',
@@ -14,34 +16,48 @@ import {OrganisationUnit} from './organisation-unit';
   styleUrls: ['./organisation-unit.component.scss']
 })
 export class OrganisationUnitComponent implements OnInit {
-  displayedColumns: string[] = ["sno",'name', 'description', 'actions'];
-  roles: any = [];
-  roleId: string;
-  dataSource: MatTableDataSource<OrganisationUnit>;
-  pageSize;
   @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  treeControl = new NestedTreeControl<OrganisationUnit>(node => node.children);
+  dataSource = new MatTreeNestedDataSource<OrganisationUnit>();
+  organisationUnitId;
+  data;
 
   constructor(
-    private OrgnisationUnitService: OrganisationUnitService,
+    private OrganisationUnitService: OrganisationUnitService,
     private dialog: MatDialog,
-    private notifierService: NotifierService
-  ) { }
+    private notifierService: NotifierService,
+  ) {
+    // @ts-ignore
+  }
+
+  private _getChildren = (node: OrganisationUnit) => observableOf(node.children);
+
+  hasNestedChild = (_: number, nodeData: OrganisationUnit) => nodeData.children.length > 0;
+
+  hasChild = (_: number, node: OrganisationUnit) => !!node.children && node.children.length > 0;
 
   ngOnInit(): void {
-    this.getRoles();
+    this.getOrganisationUnits();
   }
 
   /**
-   * This method returns roles
+   * This method returns organisation units
    */
-  getRoles() {
-    return this.OrgnisationUnitService.getRoles().subscribe((response: any) => {
-      this.roles = response.data;
-      this.dataSource = new MatTableDataSource<OrganisationUnit>(this.roles.content);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+  getOrganisationUnits() {
+    console.log("get organisation units")
+    let params = {
+      pageSize: 100,
+      sortBy: 'name'
+    }
+    return this.OrganisationUnitService.getOrganisationUnits(params).subscribe((response: any) => {
+      this.dataSource.data = response.data.content;
+
+      // this.organisationUnits = response.data;
+      // this.dataSource = new MatTableDataSource<OrganisationUnit>(this.organisationUnits.content);
+      // this.dataSource.paginator = this.paginator;
+      // this.dataSource.sort = this.sort;
     }, error => {
       this.notifierService.showNotification(error.message,'OK','error');
       console.log(error);
@@ -50,7 +66,7 @@ export class OrganisationUnitComponent implements OnInit {
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    // this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   openDialog(data?): void {
@@ -63,30 +79,30 @@ export class OrganisationUnitComponent implements OnInit {
         name: data.name,
         description: data.description
       };
-      this.OrgnisationUnitService.populateForm(roleData);
+      this.OrganisationUnitService.populateForm(roleData);
       this.dialog.open(OrganisationUnitDialogComponent, dialogConfig)
         .afterClosed().subscribe(() => {
-        this.getRoles();
+        this.getOrganisationUnits();
       });
     } else {
       dialogConfig.data = {};
       this.dialog.open(OrganisationUnitDialogComponent, dialogConfig)
         .afterClosed().subscribe(() => {
-        this.getRoles();
+        this.getOrganisationUnits();
       });
     }
   }
 
   openDeleteDialog(id) {
-    this.roleId = id;
+    this.organisationUnitId = id;
     this.dialog.open(this.deleteDialog)
       .afterClosed().subscribe(() => {
-      this.getRoles();
+      this.getOrganisationUnits();
     });
   }
 
   delete() {
-    this.OrgnisationUnitService.delete(this.roleId)
+    this.OrganisationUnitService.delete(this.organisationUnitId)
       .subscribe(response => {
         this.notifierService.showNotification(response.message,'OK','success');
       }, error => {
