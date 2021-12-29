@@ -15,6 +15,7 @@ import {MatCardModule} from '@angular/material/card';
 import {DashboardService} from '../../modules/dashboard/dashboard.service';
 import {DataElementComponent} from '../../modules/data-elements/dataElement.component';
 import {OrganisationUnitComponent} from '../../modules/organisation-units/organisation-unit.component';
+import {MatTreeModule} from '@angular/material/tree';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import {OrganisationUnitComponent} from '../../modules/organisation-units/organi
     MatProgressBarModule,
     MatDialogModule,
     ReactiveFormsModule,
-    MatCardModule
+    MatCardModule,
+    MatTreeModule
   ],
   providers: [
     DashboardService,
