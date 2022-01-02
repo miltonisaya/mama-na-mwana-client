@@ -7,20 +7,49 @@ import {NotifierService} from '../notifications/notifier.service';
 import {OrganisationUnitService} from './organisation-unit.service';
 import {OrganisationUnitDialogComponent} from './modals/organisation-unit-dialog-component';
 import {OrganisationUnit} from './organisation-unit';
-import {NestedTreeControl} from '@angular/cdk/tree';
-import {MatTreeNestedDataSource} from '@angular/material/tree';
+import {FlatTreeControl, NestedTreeControl} from '@angular/cdk/tree';
+import {MatTreeFlatDataSource, MatTreeFlattener, MatTreeNestedDataSource} from '@angular/material/tree';
+
+/** Flat node with expandable and level information */
+interface OuFlatNode {
+  expandable: boolean;
+  name: string;
+  level: number;
+}
 
 @Component({
   selector: 'app-users',
   templateUrl: './organisation-unit.component.html',
   styleUrls: ['./organisation-unit.component.scss']
 })
+
 export class OrganisationUnitComponent implements OnInit {
+  treeControl = new FlatTreeControl<OuFlatNode>(
+    node => node.level,
+    node => node.expandable,
+  );
+
+  private _transformer = (node: OrganisationUnit, level: number) => {
+    return {
+      expandable: !!node.children && node.children.length > 0,
+      name: node.name,
+      level: level,
+    };
+  };
+
+  treeFlattener = new MatTreeFlattener(
+    this._transformer,
+    node => node.level,
+    node => node.expandable,
+    node => node.children,
+  );
+
   @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  treeControl = new NestedTreeControl<OrganisationUnit>(node => node.children);
-  dataSource = new MatTreeNestedDataSource<OrganisationUnit>();
+  // treeControl = new NestedTreeControl<OrganisationUnit>(node => node.children);
+  // dataSource = new MatTreeNestedDataSource<OrganisationUnit>();
+  dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
   organisationUnitId;
   data;
 
@@ -28,11 +57,9 @@ export class OrganisationUnitComponent implements OnInit {
     private OrganisationUnitService: OrganisationUnitService,
     private dialog: MatDialog,
     private notifierService: NotifierService,
-  ) {
+) {
     // @ts-ignore
   }
-
-  hasChild = (_: number, node: OrganisationUnit) => !!node.children && node.children.length > 0;
 
   ngOnInit(): void {
     this.getParentOrganisationUnits();
@@ -97,4 +124,6 @@ export class OrganisationUnitComponent implements OnInit {
       });
     this.dialog.closeAll();
   }
+
+  hasChild = (_: number, node: OuFlatNode) => node.expandable;
 }
