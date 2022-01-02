@@ -69,7 +69,6 @@ export class OrganisationUnitComponent implements OnInit {
    * This method returns the parent organisation units
    */
   getParentOrganisationUnits() {
-    console.log("get organisation units")
     return this.OrganisationUnitService.getOrganisationUnits().subscribe((response: any) => {
       this.dataSource.data = response.data;
     }, error => {
@@ -80,7 +79,7 @@ export class OrganisationUnitComponent implements OnInit {
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    // this.dataSource.filter = filterValue.trim().toLowerCase();
+    // this.dataSource.data.filter = filterValue.trim().toLowerCase();
   }
 
   openDialog(data?): void {
