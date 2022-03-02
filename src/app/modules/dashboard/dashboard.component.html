@@ -9,13 +9,13 @@
 </div>
 
 <div class="mat-elevation-z8">
-  <mat-card *ngIf="transactions.length == 0 || transactions.length == undefined">
+  <mat-card *ngIf="transactions.content.length == 0">
     There are no transactions to display
   </mat-card>
 </div>
 
 <div class="mat-elevation-z8" fxLayout="row" fxLayoutAlign="space-between center">
-  <table mat-table [dataSource]="dataSource" *ngIf="transactions.length > 0 && transactions.length !== undefined">
+  <table mat-table [dataSource]="dataSource" *ngIf="transactions.content.length > 0">
     <!-- SNo Column -->
     <ng-container matColumnDef="sno">
       <th mat-header-cell *matHeaderCellDef> No</th>
