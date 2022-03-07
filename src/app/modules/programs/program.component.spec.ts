@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DataElementComponent } from './dataElement.component';
+import { ProgramComponent } from './dataElement.component';
 
 describe('UsersComponent', () => {
-  let component: DataElementComponent;
-  let fixture: ComponentFixture<DataElementComponent>;
+  let component: ProgramComponent;
+  let fixture: ComponentFixture<ProgramComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DataElementComponent ]
+      declarations: [ ProgramComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DataElementComponent);
+    fixture = TestBed.createComponent(ProgramComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

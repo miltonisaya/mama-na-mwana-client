@@ -22,5 +22,5 @@ import {MatDialogModule} from '@angular/material/dialog';
   entryComponents: [
   ]
 })
-export class DataElementModule {
+export class ProgramModule {
 }

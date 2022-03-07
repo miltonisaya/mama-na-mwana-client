@@ -1,4 +1,4 @@
-export interface DataElement {
+export interface Program {
   id      : string;
   name    : string;
   code   : string;

@@ -5,12 +5,12 @@ import {environment} from '../../../environments/environment';
 import {catchError, map, tap} from 'rxjs/operators';
 
 export const BASE_URL: string = environment.baseURL;
-export const RESOURCE_URL: string = 'api/v1/data-elements';
-export const SYNC_RESOURCE_URL: string = 'api/v1/sync-data-elements';
+export const RESOURCE_URL: string = 'api/v1/programs';
+export const SYNC_RESOURCE_URL: string = 'api/v1/sync-programs';
 
 
 @Injectable()
-export class DataElementService {
+export class ProgramService {
   private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
   private SYNC_API_ENDPOINT = `${BASE_URL}/${SYNC_RESOURCE_URL}`;
 
@@ -45,7 +45,7 @@ export class DataElementService {
     };
   }
 
-  syncDataElements() {
+  syncPrograms() {
     return this.http.get<any>(this.SYNC_API_ENDPOINT).pipe(
       map(this.extractData));
   }
