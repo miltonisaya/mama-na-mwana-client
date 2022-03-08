@@ -8,22 +8,18 @@ import {RolesDialogComponent} from './modals/roles-dialog-component';
 import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
-  imports: [
-    CommonModule,
-
-    FlexLayoutModule,
-    AngularMaterialModule,
-    ReactiveFormsModule,
-    FormsModule,
-    SharedModule,
-    MatDialogModule
-  ],
-  declarations: [
-    RolesDialogComponent
-  ],
-  entryComponents: [
-    RolesDialogComponent
-  ]
+    imports: [
+        CommonModule,
+        FlexLayoutModule,
+        AngularMaterialModule,
+        ReactiveFormsModule,
+        FormsModule,
+        SharedModule,
+        MatDialogModule
+    ],
+    declarations: [
+        RolesDialogComponent
+    ]
 })
 export class RolesModule {
 }

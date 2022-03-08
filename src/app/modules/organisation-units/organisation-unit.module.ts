@@ -8,22 +8,18 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {OrganisationUnitDialogComponent} from './modals/organisation-unit-dialog-component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-
-    FlexLayoutModule,
-    AngularMaterialModule,
-    ReactiveFormsModule,
-    FormsModule,
-    SharedModule,
-    MatDialogModule
-  ],
-  declarations: [
-    OrganisationUnitDialogComponent
-  ],
-  entryComponents: [
-    OrganisationUnitDialogComponent
-  ]
+    imports: [
+        CommonModule,
+        FlexLayoutModule,
+        AngularMaterialModule,
+        ReactiveFormsModule,
+        FormsModule,
+        SharedModule,
+        MatDialogModule
+    ],
+    declarations: [
+        OrganisationUnitDialogComponent
+    ]
 })
 export class OrganisationUnitModule {
 }

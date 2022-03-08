@@ -7,20 +7,16 @@ import {AngularMaterialModule} from '../../material.module';
 import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
-  imports: [
-    CommonModule,
-
-    FlexLayoutModule,
-    AngularMaterialModule,
-    ReactiveFormsModule,
-    FormsModule,
-    SharedModule,
-    MatDialogModule
-  ],
-  declarations: [
-  ],
-  entryComponents: [
-  ]
+    imports: [
+        CommonModule,
+        FlexLayoutModule,
+        AngularMaterialModule,
+        ReactiveFormsModule,
+        FormsModule,
+        SharedModule,
+        MatDialogModule
+    ],
+    declarations: []
 })
 export class DataElementModule {
 }

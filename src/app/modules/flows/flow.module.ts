@@ -10,24 +10,20 @@ import {FlowKeyDialogComponent} from './modals/flow-key-dialog-component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 @NgModule({
-  imports: [
-    CommonModule,
-
-    FlexLayoutModule,
-    AngularMaterialModule,
-    ReactiveFormsModule,
-    FormsModule,
-    SharedModule,
-    MatDialogModule,
-    MatAutocompleteModule
-  ],
-  declarations: [
-    FlowComponent,
-    FlowKeyDialogComponent
-  ],
-  entryComponents: [
-    FlowKeyDialogComponent
-  ]
+    imports: [
+        CommonModule,
+        FlexLayoutModule,
+        AngularMaterialModule,
+        ReactiveFormsModule,
+        FormsModule,
+        SharedModule,
+        MatDialogModule,
+        MatAutocompleteModule
+    ],
+    declarations: [
+        FlowComponent,
+        FlowKeyDialogComponent
+    ]
 })
 export class FlowsModule {
 }
