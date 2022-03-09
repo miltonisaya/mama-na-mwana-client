@@ -8,22 +8,18 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {ContactsComponent} from './contacts.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-
-    FlexLayoutModule,
-    AngularMaterialModule,
-    ReactiveFormsModule,
-    FormsModule,
-    SharedModule,
-    MatDialogModule
-  ],
-  declarations: [
-    ContactsComponent
-  ],
-  entryComponents: [
-
-  ]
+    imports: [
+        CommonModule,
+        FlexLayoutModule,
+        AngularMaterialModule,
+        ReactiveFormsModule,
+        FormsModule,
+        SharedModule,
+        MatDialogModule
+    ],
+    declarations: [
+        ContactsComponent
+    ]
 })
 export class ContactsModule {
 }

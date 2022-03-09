@@ -21,7 +21,7 @@ export class DashboardComponent implements OnInit {
   barChart = [];
 
   transactions: any;
-  displayedColumns: string[] = ["sno",'id', 'dateProcessed','payload','status','actions'];
+  displayedColumns: string[] = ["sno", 'dateProcessed','payload','status','actions'];
   contacts: any = [];
   userId: string;
   dataSource: MatTableDataSource<Transaction>;

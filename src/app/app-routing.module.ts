@@ -10,6 +10,7 @@ import {DataElementComponent} from './modules/data-elements/dataElement.componen
 import {ContactsComponent} from './modules/contacts/contacts.component';
 import {AuthGuard} from './helpers/auth.guard';
 import {OrganisationUnitComponent} from './modules/organisation-units/organisation-unit.component';
+import {ProgramComponent} from './modules/programs/program.component';
 
 const routes: Routes = [{
   path: '',
@@ -38,6 +39,9 @@ const routes: Routes = [{
     }, {
       path: 'organisation-units',
       component: OrganisationUnitComponent
+    }, {
+      path: 'programs',
+      component: ProgramComponent
     }
   ]
 },

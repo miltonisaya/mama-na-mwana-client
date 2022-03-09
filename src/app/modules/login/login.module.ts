@@ -3,15 +3,10 @@ import {CommonModule} from '@angular/common';
 import {NotifierComponent} from '../notifications/notifier/notifier.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-  ],
-  declarations: [
-
-  ],
-  entryComponents: [
-    NotifierComponent
-  ]
+    imports: [
+        CommonModule,
+    ],
+    declarations: []
 })
 export class LoginModule {
 }

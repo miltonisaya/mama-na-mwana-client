@@ -8,22 +8,18 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {UserDialogComponent} from './modals/user-dialog-component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-
-    FlexLayoutModule,
-    AngularMaterialModule,
-    ReactiveFormsModule,
-    FormsModule,
-    SharedModule,
-    MatDialogModule
-  ],
-  declarations: [
-    UserDialogComponent
-  ],
-  entryComponents: [
-    UserDialogComponent
-  ]
+    imports: [
+        CommonModule,
+        FlexLayoutModule,
+        AngularMaterialModule,
+        ReactiveFormsModule,
+        FormsModule,
+        SharedModule,
+        MatDialogModule
+    ],
+    declarations: [
+        UserDialogComponent
+    ]
 })
 export class UsersModule {
 }

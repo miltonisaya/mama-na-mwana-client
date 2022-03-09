@@ -31,12 +31,14 @@ import {ContactsService} from './modules/contacts/contacts.service';
 import {TransactionsService} from './modules/transactions/transactions.service';
 import {OrganisationUnitModule} from './modules/organisation-units/organisation-unit.module';
 import {OrganisationUnitService} from './modules/organisation-units/organisation-unit.service';
+import {ProgramService} from './modules/programs/program.service';
+import {ProgramModule} from './modules/programs/program.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    NotifierComponent,
+    NotifierComponent
   ],
   imports: [
     BrowserModule,
@@ -56,7 +58,8 @@ import {OrganisationUnitService} from './modules/organisation-units/organisation
     FlowsModule,
     DataElementModule,
     ContactsModule,
-    OrganisationUnitModule
+    OrganisationUnitModule,
+    ProgramModule
   ],
   providers: [
     RolesService,
@@ -67,6 +70,7 @@ import {OrganisationUnitService} from './modules/organisation-units/organisation
     ContactsService,
     TransactionsService,
     OrganisationUnitService,
+    ProgramService,
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true}
   ],
