@@ -1,0 +1,40 @@
+<section class="login-form-container"
+         fxLayout="row"
+         fxLayout.xs="column"
+         fxFlexFill
+         fxLayoutAlign="center center">
+<!--  <form [formGroup]="flowKeyService.form"-->
+<!--        class="form" #formDirective="ngForm"-->
+<!--        (ngSubmit)="submitForm(flowKeyService.form)">-->
+    <h1 mat-dialog-title class="dialog-header">
+      {{"Map DHIS2 Data Element"}}
+    </h1>
+    <mat-divider></mat-divider>
+    <mat-dialog-content>
+      <p-pickList [source]="list1" [target]="list2">
+        <ng-template let-car pTemplate="item">
+          <div>
+            <img src="assets/showcase/images/demo/car/{{car.brand}}.png" style="display:inline-block;margin:2px 0 2px 2px" width="48">
+            <div style="font-size:14px;float:right;margin:15px 5px 0 0">{{car.brand}} - {{car.year}} - {{car.color}}</div>
+          </div>
+        </ng-template>
+      </p-pickList>
+    </mat-dialog-content>
+    <mat-dialog-actions fxLayout="row" fxLayoutAlign="end stretch">
+      <div class="button">
+        <button mat-raised-button type="button" mat-dialog-close>CANCEL</button>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          (click)="saveData()"
+        >
+          {{"MAP"}}
+        </button>
+      </div>
+    </mat-dialog-actions>
+<!--  </form>-->
+</section>
+
+<!--Data for Key: <pre>{{data | json}}</pre>-->
+<!--Data for Data Element: <pre>{{data | json}}</pre>-->

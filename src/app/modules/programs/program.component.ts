@@ -5,6 +5,8 @@ import {MatSort} from '@angular/material/sort';
 import {NotifierService} from '../notifications/notifier.service';
 import {Program} from './program';
 import {ProgramService} from './program.service';
+import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
+import {DataElementProgramMappingDialogComponent} from "./modals/data-element-program-mapping-dialog-component";
 
 @Component({
   selector: 'app-programs',
@@ -12,7 +14,7 @@ import {ProgramService} from './program.service';
   styleUrls: ['./program.component.scss']
 })
 export class ProgramComponent implements OnInit {
-  displayedColumns: string[] = ["sno",'name', 'code','dhis2uid'];
+  displayedColumns: string[] = ["sno",'name', 'code','dhis2uid','actions'];
   programs: any = [];
   dataSource: MatTableDataSource<Program>;
   pageSize;
@@ -21,7 +23,8 @@ export class ProgramComponent implements OnInit {
 
   constructor(
     private ProgramService: ProgramService,
-    private notifierService: NotifierService
+    private notifierService: NotifierService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -61,4 +64,30 @@ export class ProgramComponent implements OnInit {
       this.notifierService.showNotification(error.message,'OK','error');
       console.log(error);
     });  }
+
+  openMappingDialog(id) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    // if (data) {
+    //   const flowKeysData = {
+    //     id: data.id,
+    //     keyDescription: data.keyDescription,
+    //     keyName: data.keyName,
+    //   };
+
+      // console.log(flowKeysData);
+      // this.FlowService.populateForm(flowKeysData);
+      this.dialog.open(DataElementProgramMappingDialogComponent, {data: id})
+        .afterClosed().subscribe(() => {
+        this.getPrograms();
+      });
+    // } else {
+    //   dialogConfig.data = {};
+    //   this.dialog.open(FlowKeyDialogComponent, dialogConfig)
+    //     .afterClosed().subscribe(() => {
+    //     this.getFlows();
+    //   });
+    // }
+  }
 }

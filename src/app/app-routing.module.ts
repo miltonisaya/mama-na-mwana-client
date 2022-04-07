@@ -11,6 +11,8 @@ import {ContactsComponent} from './modules/contacts/contacts.component';
 import {AuthGuard} from './helpers/auth.guard';
 import {OrganisationUnitComponent} from './modules/organisation-units/organisation-unit.component';
 import {ProgramComponent} from './modules/programs/program.component';
+import {PickListModule} from 'primeng/picklist';
+
 
 const routes: Routes = [{
   path: '',
