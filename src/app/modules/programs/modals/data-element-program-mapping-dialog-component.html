@@ -22,11 +22,9 @@
         [sourceStyle]="{'height':'200px'}"
         [targetStyle]="{'height':'200px'}"
       >
-      <ng-template let-tm>
+      <ng-template let-tm pTemplate="TeamA">
         <div class="ui-helper-clearfix">
-          <div style="font-size:14px;float:left;margin:15px 5px 0 0">
-            {{tm.name}}
-          </div>
+          <div style="font-size:14px;float:left;margin:15px 5px 0 0">{{tm.name}}</div>
         </div>
       </ng-template>
       </p-pickList>
