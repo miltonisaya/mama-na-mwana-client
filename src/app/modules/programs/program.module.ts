@@ -24,7 +24,10 @@ import {PickListModule} from "primeng/picklist";
     ],
     entryComponents: [
       DataElementProgramMappingDialogComponent
-    ]
+    ],
+   providers: [
+
+   ]
 })
 export class ProgramModule {
 }
