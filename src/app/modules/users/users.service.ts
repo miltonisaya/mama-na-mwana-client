@@ -7,11 +7,13 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 export const BASE_URL: string = environment.baseURL;
 export const RESOURCE_URL: string = 'api/v1/users';
+export const REGISTER_RESOURCE_URL: string = 'api/v1/register';
 
 @Injectable()
 
 export class UsersService {
   private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
+  private API_ENDPOINT_REGISTRATION = `${BASE_URL}/${REGISTER_RESOURCE_URL}`;
 
   constructor(private http: HttpClient) {}
 
@@ -19,7 +21,6 @@ export class UsersService {
     id: new FormControl(''),
     name: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required]),
     phone: new FormControl('', [Validators.required]),
     username: new FormControl('', [Validators.required]),
     title: new FormControl('', [Validators.required]),
@@ -70,7 +71,6 @@ export class UsersService {
       id: '',
       email: '',
       name: '',
-      password: '',
       phone: '',
       username: '',
       title: '',
@@ -83,7 +83,7 @@ export class UsersService {
    */
   createUser(user): Observable<any> {
     console.log(user);
-    return this.http.post<any>(this.API_ENDPOINT, user)
+    return this.http.post<any>(this.API_ENDPOINT_REGISTRATION, user)
       // tslint:disable-next-line:no-shadowed-variable
       .pipe(tap((response) => console.log(`Added user with name = ${user.name}`)),
         catchError(this.handleError<any>('create objective'))

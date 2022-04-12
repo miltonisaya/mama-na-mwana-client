@@ -57,6 +57,7 @@ export class UsersComponent implements OnInit {
   }
 
   openDialog(data?): void {
+    console.log(data);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
@@ -65,7 +66,6 @@ export class UsersComponent implements OnInit {
         id: data.id,
         email: data.email,
         name: data.name,
-        password: data.password,
         phone: data.phone,
         username: data.username,
         title: data.title,
