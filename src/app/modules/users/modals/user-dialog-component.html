@@ -1,13 +1,12 @@
 <section class="login-form-container"
          fxLayout="row"
-         fxLayout.xs="column"
          fxFlexFill
          fxLayoutAlign="center center">
   <form [formGroup]="UserService.form"
         class="form" #formDirective="ngForm"
         (ngSubmit)="submitForm(UserService.form)">
     <h1 mat-dialog-title class="dialog-header">
-      {{UserService.form.controls['id'].value ? "Edit Contact" : "Create Contact"}}
+      {{UserService.form.controls['id'].value ? "Edit User" : "Create User"}}
     </h1>
     <mat-divider></mat-divider>
 
@@ -23,25 +22,6 @@
 
           <mat-form-field>
             <input matInput
-                   formControlName="email"
-                   placeholder="Enter Email"
-                   autocomplete="off"
-                   required>
-          </mat-form-field>
-        </div>
-
-        <div fxLayout="row" fxLayoutAlign="space-evenly stretch">
-          <mat-form-field>
-            <input matInput
-                   type="password"
-                   formControlName="password"
-                   placeholder="Enter Password"
-                   autocomplete="off"
-                   required>
-          </mat-form-field>
-
-          <mat-form-field>
-            <input matInput
                    formControlName="phone"
                    placeholder="Enter Phone"
                    autocomplete="off"
@@ -49,6 +29,15 @@
           </mat-form-field>
         </div>
 
+        <div fxLayout="column" fxLayoutAlign="stretch">
+          <mat-form-field>
+            <input matInput
+                   formControlName="email"
+                   placeholder="Enter Email"
+                   autocomplete="off"
+                   required>
+          </mat-form-field>
+        </div>
 
         <div fxLayout="row" fxLayoutAlign="space-evenly stretch">
           <mat-form-field>
@@ -71,7 +60,7 @@
 
       <div fxLayout="column" fxLayoutAlign="stretch">
         <mat-form-field appearance="fill">
-          <mat-label>Flow</mat-label>
+          <mat-label>Role</mat-label>
           <mat-select [compareWith]="UserService.compareObjects"
                       formControlName="roles">
             <mat-option *ngFor="let role of roles" [value]="role.name" >
