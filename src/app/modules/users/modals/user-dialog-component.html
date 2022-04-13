@@ -62,8 +62,10 @@
         <mat-form-field appearance="fill">
           <mat-label>Role</mat-label>
           <mat-select [compareWith]="UserService.compareObjects"
+                      multiple
+                      required
                       formControlName="roles">
-            <mat-option *ngFor="let role of roles" [value]="role.name" >
+            <mat-option *ngFor="let role of roles" [value]="role" >
               {{role.name}}
             </mat-option>
           </mat-select>
