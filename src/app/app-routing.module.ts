@@ -20,29 +20,37 @@ const routes: Routes = [{
   children: [{
     path: 'dashboard',
     component: DashboardComponent,
+    canActivate: [AuthGuard],
   }, {
     path: 'users',
-    component: UsersComponent
+    component: UsersComponent,
+    canActivate: [AuthGuard],
   },
     {
       path: 'roles',
-      component: RolesComponent
+      component: RolesComponent,
+      canActivate: [AuthGuard],
     },
     {
       path: 'flows',
-      component: FlowComponent
+      component: FlowComponent,
+      canActivate: [AuthGuard],
     }, {
       path: 'data-elements',
-      component: DataElementComponent
+      component: DataElementComponent,
+      canActivate: [AuthGuard],
     }, {
       path: 'contacts',
-      component: ContactsComponent
+      component: ContactsComponent,
+      canActivate: [AuthGuard],
     }, {
       path: 'organisation-units',
-      component: OrganisationUnitComponent
+      component: OrganisationUnitComponent,
+      canActivate: [AuthGuard],
     }, {
       path: 'programs',
-      component: ProgramComponent
+      component: ProgramComponent,
+      canActivate: [AuthGuard],
     }
   ]
 },
