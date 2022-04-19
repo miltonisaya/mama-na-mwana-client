@@ -33,6 +33,7 @@ import {OrganisationUnitModule} from './modules/organisation-units/organisation-
 import {OrganisationUnitService} from './modules/organisation-units/organisation-unit.service';
 import {ProgramService} from './modules/programs/program.service';
 import {ProgramModule} from './modules/programs/program.module';
+import {AuthGuard} from "./helpers/auth.guard";
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import {ProgramModule} from './modules/programs/program.module';
     OrganisationUnitService,
     ProgramService,
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
+    AuthGuard
   ],
   exports: [
   ],
