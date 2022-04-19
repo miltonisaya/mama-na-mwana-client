@@ -10,7 +10,6 @@ import {Router} from '@angular/router';
 })
 export class AuthService {
   url = environment.baseURL + "/api/v1/authenticate";
-  responseData;
   currentUserValue: any;
 
   constructor(
@@ -47,4 +46,8 @@ export class AuthService {
     this.notifierService.showNotification('Logged out successfully','OK','success');
     this.router.navigate(["/login"]);
   }
+
+  // isLoggedIn(){
+  //   let user
+  // }
 }
