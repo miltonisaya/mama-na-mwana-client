@@ -12,9 +12,6 @@ import {PrimeNGConfig} from "primeng/api";
 })
 
 export class DataElementProgramMappingDialogComponent implements OnInit {
-  dataElements: any;
-  filteredOptions: any;
-  autoFilter: any;
   list1: any[];
   myList: any;
   myControl = new FormControl();
@@ -47,11 +44,7 @@ export class DataElementProgramMappingDialogComponent implements OnInit {
   }
 
   saveData() {
-    console.log("Save data clicked");
-  }
-
-  submitForm(form: HTMLFormElement) {
-
+    console.log(this.myList)
   }
 }
 

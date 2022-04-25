@@ -51,9 +51,6 @@ const routes: Routes = [{
       path: 'programs',
       component: ProgramComponent,
       canActivate: [AuthGuard],
-    }, {
-      path: '**',
-      redirectTo: 'dashboard'
     }
   ]
 },
