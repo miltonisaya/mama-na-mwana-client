@@ -5,16 +5,16 @@ import {Observable, of} from 'rxjs';
 import {catchError, map, tap} from 'rxjs/operators';
 
 export const BASE_URL: string = environment.baseURL;
-export const RESOURCE_URL: string = 'api/v1/outgoing-transactions';
-export const WEB_SOCKET_URL: string = 'socket';
+export const PENDING_RESOURCE_URL: string = 'api/v1/pending-transactions';
+export const SENT_RESOURCE_URL: string = 'api/v1/sent-transactions';
 
 @Injectable()
 
 export class TransactionsService {
-  private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
+  private SENT_API_ENDPOINT = `${BASE_URL}/${SENT_RESOURCE_URL}`;
+  private PENDING_API_ENDPOINT = `${BASE_URL}/${PENDING_RESOURCE_URL}`;
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   /**
    * helper function to extract data since
@@ -29,13 +29,32 @@ export class TransactionsService {
   }
 
   /**
-   * Get all transactions
+   * Get all pending transactions
    * @param param
    */
-  getTransactions(param?): Observable<any> {
-    return this.http.get<any>(this.API_ENDPOINT, {params: param}).pipe(
+  getPendingTransactions(param?): Observable<any> {
+    return this.http.get<any>(this.PENDING_API_ENDPOINT,{params: param}).pipe(
       map(this.extractData));
   }
 
-}
+  /**
+   * Get all sent transactions
+   * @param param
+   */
+  getSentTransactions(param?): Observable<any> {
+    return this.http.get<any>(this.SENT_API_ENDPOINT,{params: param}).pipe(
+      map(this.extractData));
+  }
 
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+
+      // TODO: send the error to remote logging infrastructure
+      console.error(error); // log to console instead
+
+      // TODO: better job of transforming error for user consumption
+      console.log(`${operation} failed: ${error.message}`);
+      return of(result as T);
+    };
+  }
+}

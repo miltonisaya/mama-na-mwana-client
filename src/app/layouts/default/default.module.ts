@@ -17,6 +17,7 @@ import {DataElementComponent} from '../../modules/data-elements/dataElement.comp
 import {OrganisationUnitComponent} from '../../modules/organisation-units/organisation-unit.component';
 import {MatTreeModule} from '@angular/material/tree';
 import {ProgramComponent} from '../../modules/programs/program.component';
+import {MatTabsModule} from "@angular/material/tabs";
 
 
 @NgModule({
@@ -29,18 +30,19 @@ import {ProgramComponent} from '../../modules/programs/program.component';
     OrganisationUnitComponent,
     ProgramComponent
   ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    RouterModule,
-    AngularMaterialModule,
-    MatProgressSpinnerModule,
-    MatProgressBarModule,
-    MatDialogModule,
-    ReactiveFormsModule,
-    MatCardModule,
-    MatTreeModule
-  ],
+    imports: [
+        CommonModule,
+        SharedModule,
+        RouterModule,
+        AngularMaterialModule,
+        MatProgressSpinnerModule,
+        MatProgressBarModule,
+        MatDialogModule,
+        ReactiveFormsModule,
+        MatCardModule,
+        MatTreeModule,
+        MatTabsModule
+    ],
   providers: [
     DashboardService,
   ],
