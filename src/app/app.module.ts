@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, OnInit } from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule, OnInit} from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -34,9 +34,7 @@ import {OrganisationUnitService} from './modules/organisation-units/organisation
 import {ProgramService} from './modules/programs/program.service';
 import {ProgramModule} from './modules/programs/program.module';
 import {AuthGuard} from "./helpers/auth.guard";
-import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 
-const config: SocketIoConfig = { url: 'http://localhost:8081', options: {} };
 @NgModule({
   declarations: [
     AppComponent,
@@ -62,8 +60,7 @@ const config: SocketIoConfig = { url: 'http://localhost:8081', options: {} };
     DataElementModule,
     ContactsModule,
     OrganisationUnitModule,
-    ProgramModule,
-    SocketIoModule
+    ProgramModule
   ],
   providers: [
     RolesService,
@@ -81,6 +78,7 @@ const config: SocketIoConfig = { url: 'http://localhost:8081', options: {} };
   ],
   exports: [
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
