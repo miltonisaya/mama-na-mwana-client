@@ -1,10 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {DashboardService} from './dashboard.service';
 import {MatTableDataSource} from '@angular/material/table';
-import {Contact} from '../contacts/Contact';
 import {Transaction} from './Transaction';
 import {TransactionsService} from '../transactions/transactions.service';
-import {Role} from '../roles/role';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {NotifierService} from '../notifications/notifier.service';
@@ -20,10 +18,10 @@ export class DashboardComponent implements OnInit {
   pieChart = [];
   barChart = [];
 
-  transactions: any;
+  pendingTransactions: any;
+  sentTrx: any;
   displayedColumns: string[] = ["sno", 'dateProcessed','payload','status','actions'];
   contacts: any = [];
-  userId: string;
   dataSource: MatTableDataSource<Transaction>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -40,19 +38,33 @@ export class DashboardComponent implements OnInit {
     this.cards =this.dashboardService.cards();
     this.pieChart = this.dashboardService.pieChart();
     this.barChart = this.dashboardService.barChart();
-    this.getOutbox();
+    this.getPendingTrx();
+    this.getSentTrx();
   }
 
   /**
    * This method returns the outgoing messages
    */
-  getOutbox() {
-    return this.transactionService.getTransactions().subscribe((response: any) => {
-      this.transactions = response.data;
-      this.dataSource = new MatTableDataSource<Transaction>(this.transactions.content);
+  getPendingTrx() {
+    return this.transactionService.getPendingTransactions().subscribe((response: any) => {
+      this.pendingTransactions = response.data;
+      this.dataSource = new MatTableDataSource<Transaction>(this.pendingTransactions.content);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      console.log(this.transactions);
+      console.log(this.pendingTransactions);
+    }, error => {
+      this.notifierService.showNotification(error.message,'OK','error');
+      console.log(error);
+    });
+  }
+
+  getSentTrx() {
+    return this.transactionService.getSentTransactions().subscribe((response: any) => {
+      this.sentTrx = response.data;
+      this.dataSource = new MatTableDataSource<Transaction>(this.sentTrx.content);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      console.log(this.sentTrx);
     }, error => {
       this.notifierService.showNotification(error.message,'OK','error');
       console.log(error);
