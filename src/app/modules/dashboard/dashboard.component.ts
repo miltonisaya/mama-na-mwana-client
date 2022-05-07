@@ -6,6 +6,7 @@ import {TransactionsService} from '../transactions/transactions.service';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {NotifierService} from '../notifications/notifier.service';
+import {User} from "../users/User";
 
 @Component({
   selector: 'app-dashboard',
@@ -18,9 +19,8 @@ export class DashboardComponent implements OnInit {
   pieChart = [];
   barChart = [];
 
-  pendingTransactions: any;
-  sentTrx: any;
-  displayedColumns: string[] = ["sno", 'dateProcessed','payload','status','actions'];
+  transactions: any;
+  displayedColumns: string[] = ["sno", 'dateProcessed','payload','isSent','actions'];
   contacts: any = [];
   dataSource: MatTableDataSource<Transaction>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -38,45 +38,27 @@ export class DashboardComponent implements OnInit {
     this.cards =this.dashboardService.cards();
     this.pieChart = this.dashboardService.pieChart();
     this.barChart = this.dashboardService.barChart();
-    this.getPendingTrx();
-    this.getSentTrx();
+    this.getAllTransactions();
   }
 
-  /**
-   * This method returns the outgoing messages
-   */
-  getPendingTrx() {
-    return this.transactionService.getPendingTransactions().subscribe((response: any) => {
-      this.pendingTransactions = response.data;
-      this.dataSource = new MatTableDataSource<Transaction>(this.pendingTransactions.content);
+  getAllTransactions() {
+    return this.transactionService.getAll().subscribe((response: any) => {
+      this.transactions = response.data;
+      this.dataSource = new MatTableDataSource<Transaction>(this.transactions.content);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      console.log(this.pendingTransactions);
     }, error => {
       this.notifierService.showNotification(error.message,'OK','error');
       console.log(error);
     });
-  }
-
-  getSentTrx() {
-    return this.transactionService.getSentTransactions().subscribe((response: any) => {
-      this.sentTrx = response.data;
-      this.dataSource = new MatTableDataSource<Transaction>(this.sentTrx.content);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-      console.log(this.sentTrx);
-    }, error => {
-      this.notifierService.showNotification(error.message,'OK','error');
-      console.log(error);
-    });
-  }
-
-  tyrAgain(id) {
-    console.log(id);
   }
 
   applyFilterTransactions(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  resend(transactions: any) {
+    console.log(transactions);
   }
 }

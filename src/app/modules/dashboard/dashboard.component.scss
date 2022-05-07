@@ -5,3 +5,19 @@ h4 {
   fill: #333333;
   text-align: center;
 }
+
+.success-transactions {
+  border:1px solid green;
+  background-color: green;
+  border-radius: 3px;
+  color: white;
+  font-weight: bold;
+}
+
+.pending-transactions {
+  border:1px solid red;
+  background-color: red;
+  border-radius: 3px;
+  color: white;
+  font-weight: bold;
+}

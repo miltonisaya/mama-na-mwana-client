@@ -7,12 +7,14 @@ import {catchError, map, tap} from 'rxjs/operators';
 export const BASE_URL: string = environment.baseURL;
 export const PENDING_RESOURCE_URL: string = 'api/v1/pending-transactions';
 export const SENT_RESOURCE_URL: string = 'api/v1/sent-transactions';
+export const ALL_RESOURCE_URL: string = 'api/v1/outbox';
 
 @Injectable()
 
 export class TransactionsService {
   private SENT_API_ENDPOINT = `${BASE_URL}/${SENT_RESOURCE_URL}`;
   private PENDING_API_ENDPOINT = `${BASE_URL}/${PENDING_RESOURCE_URL}`;
+  private ALL_API_ENDPOINT = `${BASE_URL}/${ALL_RESOURCE_URL}`;
 
   constructor(private http: HttpClient) {}
 
@@ -34,6 +36,15 @@ export class TransactionsService {
    */
   getPendingTransactions(param?): Observable<any> {
     return this.http.get<any>(this.PENDING_API_ENDPOINT,{params: param}).pipe(
+      map(this.extractData));
+  }
+
+  /**
+   * Get all transactions
+   * @param param
+   */
+  getAll(param?): Observable<any> {
+    return this.http.get<any>(this.ALL_API_ENDPOINT,{params: param}).pipe(
       map(this.extractData));
   }
 
