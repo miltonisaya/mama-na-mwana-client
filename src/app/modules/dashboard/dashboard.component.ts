@@ -25,7 +25,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   pageSize = 5;
   pageNo = 0;
-  pageSizeOptions: number[] = [2, 5, 10, 25, 100, 100];
+  pageSizeOptions: number[] = [5, 10, 25, 100, 1000];
 
   constructor(
     private dashboardService: DashboardService,

@@ -7,6 +7,7 @@ import {ContactsService} from './contacts.service';
 import {NotifierService} from '../notifications/notifier.service';
 import {Contact} from './Contact';
 import {MatDialog} from '@angular/material/dialog';
+import {DataElement} from "../data-elements/dataElement";
 
 @Component({
   selector: 'app-contacts',
@@ -17,11 +18,14 @@ export class ContactsComponent implements OnInit {
   displayedColumns: string[] = ["sno",'name', 'facilityCode','urn'];
   contacts: any = [];
   userId: string;
-  dataSource: MatTableDataSource<Contact>;
-  pageSize;
   @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  pageSize = 10;
+  pageNo = 0;
+  pageSizeOptions: number[] = [10, 25, 100, 1000];
+  dataSource;
+  private params: { pageNo: number; pageSize: number };
 
   constructor(
     private http: HttpClient,
@@ -38,11 +42,15 @@ export class ContactsComponent implements OnInit {
    * This method returns users
    */
   getContacts() {
-    return this.ContactsService.getContacts().subscribe((response: any) => {
+    this.params = {
+      "pageNo" : this.pageNo,
+      "pageSize" : this.pageSize
+    }
+
+    return this.ContactsService.getContacts(this.params).subscribe((response: any) => {
       this.contacts = response.data;
-      this.dataSource = new MatTableDataSource<Contact>(this.contacts.content);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+      this.contacts = response.data;
+      this.dataSource = new MatTableDataSource<DataElement>(this.contacts.content);
     }, error => {
       this.NotifierService.showNotification(error.message,'OK','error');
       console.log(error);
@@ -80,5 +88,12 @@ export class ContactsComponent implements OnInit {
       }, error => {
         this.NotifierService.showNotification(error.message, 'OK', 'error');
       });
+  }
+
+  pageChanged(e: any) {
+    console.log(e);
+    this.pageSize = e.pageSize;
+    this.pageNo = e.pageIndex;
+    this.getContacts();
   }
 }
