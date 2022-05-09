@@ -15,9 +15,13 @@ export class DataElementComponent implements OnInit {
   displayedColumns: string[] = ["sno",'name', 'code','dataType','dhis2uid'];
   dataElements: any = [];
   dataSource: MatTableDataSource<DataElement>;
-  pageSize;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+
+  pageSize = 10;
+  pageNo = 0;
+  pageSizeOptions: number[] = [10, 25, 100, 1000];
+  private params: { pageNo: number; pageSize: number };
 
   constructor(
     private DataElementService: DataElementService,
@@ -32,10 +36,14 @@ export class DataElementComponent implements OnInit {
    * This method returns data elements
    */
   getDataElements() {
-    return this.DataElementService.getDataElements().subscribe((response: any) => {
+    this.params = {
+      "pageNo" : this.pageNo,
+      "pageSize" : this.pageSize
+    }
+
+    return this.DataElementService.getDataElements(this.params).subscribe((response: any) => {
       this.dataElements = response.data;
       this.dataSource = new MatTableDataSource<DataElement>(this.dataElements.content);
-      this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     }, error => {
       this.notifierService.showNotification(error.message,'OK','error');
@@ -50,10 +58,8 @@ export class DataElementComponent implements OnInit {
 
   syncDataElements(){
     return this.DataElementService.syncDataElements().subscribe((response: any) => {
-      console.log(response);
       this.getDataElements();
       if(response.status == '200'){
-        console.log("The message===>",response);
         this.notifierService.showNotification(response.message,'OK','success');
       }
     }, error => {
@@ -61,4 +67,11 @@ export class DataElementComponent implements OnInit {
       this.notifierService.showNotification(error.message,'OK','error');
       console.log(error);
     });  }
+
+  pageChanged(e: any) {
+    console.log(e);
+    this.pageSize = e.pageSize;
+    this.pageNo = e.pageIndex;
+    this.getDataElements();
+  }
 }
