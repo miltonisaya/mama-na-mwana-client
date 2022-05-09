@@ -1,0 +1,105 @@
+
+<div fxFlexLayoutAlign="row" fxLayoutAlign="space-between center">
+  <div>
+    <h3>Manage Flows</h3>
+  </div>
+  <div fxLayoutGap="5px">
+    <button mat-raised-button class="mat-primary" (click)="syncFlows()">
+      <mat-icon>sync</mat-icon>SYNC FLOWS
+    </button>
+  </div>
+</div>
+
+<div>
+  <mat-form-field appearance="fill">
+    <mat-label>Select a flow</mat-label>
+    <mat-select (selectionChange)="getKeys($event)" [(value)]="selectedFlowId">
+      <mat-option *ngFor="let flow of flows" [value]="flow.id">
+        {{flow.flowName}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<mat-form-field appearance="standard" *ngIf="flowKeys.length !== 0 && flowKeys !== undefined">
+  <mat-label>Filter</mat-label>
+  <input matInput (keyup)="applyFilter($event)" #input autocomplete="off">
+</mat-form-field>
+
+<div class="mat-elevation-z8" *ngIf="flowKeys.length !== 0 && flowKeys !== undefined">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <!-- SNo Column -->
+    <ng-container matColumnDef="sno">
+      <th mat-header-cell *matHeaderCellDef> No</th>
+      <td style="padding-right: 5px;" mat-cell *matCellDef="let flowKeys; let i = index">{{i + 1}}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="keyName">
+      <th mat-header-cell *matHeaderCellDef> Name</th>
+      <td mat-cell *matCellDef="let flowKeys"> {{flowKeys.keyName}} </td>
+    </ng-container>
+
+    <!-- Description Column -->
+    <ng-container matColumnDef="keyDescription">
+      <th mat-header-cell *matHeaderCellDef> Description</th>
+      <td mat-cell *matCellDef="let flowKeys"> {{flowKeys.keyDescription}} </td>
+    </ng-container>
+
+    <!-- Description Column -->
+    <ng-container matColumnDef="dataElement">
+      <th mat-header-cell *matHeaderCellDef> Data Element</th>
+      <td mat-cell *matCellDef="let flowKeys">
+        <div *ngIf="flowKeys.dataElement !== undefined && flowKeys.dataElement !== null" style="color: #239e23;">
+          <ul>
+            <li>Name: {{flowKeys.dataElement.name}}</li>
+            <li>DHIS UUID: {{flowKeys.dataElement.dhis2Uid}}</li>
+            <li>DHIS UUID: {{flowKeys.dataElement.code}}</li>
+          </ul>
+        </div>
+
+        <div *ngIf="flowKeys.dataElement == undefined && flowKeys.dataElement == null">
+          <div style="color: red;">
+            Key Not Mapped
+          </div>
+        </div>
+      </td>
+    </ng-container>
+
+    <!-- Action Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Action</th>
+      <td mat-cell *matCellDef="let flowKeys">
+        <button matTooltip="Map Data Element" matTooltipPosition="left" mat-icon-button>
+          <mat-icon (click)="openMapDataElementDialog(flowKeys)">sync_alt</mat-icon>
+        </button>
+
+        <button matTooltip="Reset Mapping" matTooltipPosition="left" mat-icon-button>
+          <mat-icon (click)="openResetDialog(flowKeys)">undo</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+     Row shown when there is no matching data.
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="3">No data matching the filter "{{input.value}}"</td>
+    </tr>
+  </table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>
+
+<!--delete user dialog template-->
+<ng-template #resetDialog>
+  <mat-dialog-content>
+    <h3>Are you sure you want to reset this mapping?</h3>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>NO</button>
+    <button mat-button (click)="reset()">YES</button>
+  </mat-dialog-actions>
+</ng-template>
+<!--delete user dialog template-->
+

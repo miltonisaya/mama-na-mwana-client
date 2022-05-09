@@ -1,0 +1,43 @@
+/* Structure */
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.mat-tree {
+  padding-left: 40px;
+  align-content: center;
+}
+
+.ou-tree-invisible {
+  display: none;
+}
+
+.ou-tree ul,
+.ou-tree li {
+  margin-top: 0;
+  margin-bottom: 0;
+  list-style-type: none;
+  font-size: x-small;
+}
+
+/*
+ * This padding sets alignment of the nested nodes.
+ */
+.ou-tree .mat-nested-tree-node div[role=group] {
+  padding-left: 40px;
+}
+
+/*
+ * Padding for leaf nodes.
+ * Leaf nodes need to have padding so as to align with other non-leaf nodes
+ * under the same parent.
+ */
+.ou-tree div[role=group] > .mat-tree-node {
+  padding-left: 40px;
+}
+

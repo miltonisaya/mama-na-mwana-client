@@ -1,0 +1,39 @@
+import { Injectable } from '@angular/core';
+import {
+  HttpRequest,
+  HttpHandler,
+  HttpEvent,
+  HttpInterceptor, HttpErrorResponse
+} from '@angular/common/http';
+import {Observable, of, throwError} from 'rxjs';
+import {AuthService} from '../modules/auth/auth.service';
+import {Router} from '@angular/router';
+import {catchError} from 'rxjs/operators';
+
+@Injectable()
+export class JwtInterceptor implements HttpInterceptor {
+
+  constructor(
+    public auth: AuthService,
+    public router: Router
+    ) {}
+
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    request = request.clone({
+      setHeaders: {
+        Authorization: `Bearer ${this.auth.getToken()}`
+      }
+    });
+
+    return next.handle(request).pipe(
+      catchError( response => {
+        if(response.status === 401) {
+          console.log("Status ==>",response.status);
+          this.router.navigate(["/login"]);
+          return next.handle(request);
+        }
+        return throwError(response);
+      })
+    )
+  }
+}

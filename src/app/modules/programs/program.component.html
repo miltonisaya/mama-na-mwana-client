@@ -1,0 +1,66 @@
+<div fxFlexLayoutAlign="row" fxLayoutAlign="space-between center">
+  <div>
+    <h3>Manage Programs</h3>
+  </div>
+  <div fxLayoutGap="5px">
+    <button mat-raised-button class="mat-primary" (click)="syncPrograms()">
+      <mat-icon>add</mat-icon>SYNC
+    </button>
+  </div>
+</div>
+
+<mat-form-field appearance="standard">
+  <mat-label>Filter</mat-label>
+  <input matInput (keyup)="applyFilter($event)" #input autocomplete="off">
+</mat-form-field>
+
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <!-- SNo Column -->
+    <ng-container matColumnDef="sno">
+      <th mat-header-cell *matHeaderCellDef> No</th>
+      <td mat-cell *matCellDef="let programs; let i = index">{{i + 1}}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name</th>
+      <td mat-cell *matCellDef="let programs"> {{programs.displayName}} </td>
+    </ng-container>
+
+    <!-- Code Column -->
+    <ng-container matColumnDef="code">
+      <th mat-header-cell *matHeaderCellDef> Code</th>
+      <td mat-cell *matCellDef="let programs"> {{programs.code}} </td>
+    </ng-container>
+
+    <!-- Description Column -->
+    <ng-container matColumnDef="dhis2uid">
+      <th mat-header-cell *matHeaderCellDef> DHIS2 UUID</th>
+      <td mat-cell *matCellDef="let programs"> {{programs.dhisUid}} </td>
+    </ng-container>
+
+    <!-- Action Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Action</th>
+      <td mat-cell *matCellDef="let programs">
+        <button matTooltip="Map Data Element" matTooltipPosition="left" mat-icon-button>
+          <mat-icon (click)="openMappingDialog(programs.id)">sync_alt</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    <!-- Row shown when there is no matching data. -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="3">No data matching the filter "{{input.value}}"</td>
+    </tr>
+  </table>
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 25, 100]"
+  ></mat-paginator>
+</div>
+
+<!--<pre>{{programs | json}}</pre>-->

@@ -1,0 +1,87 @@
+<section class="login-form-container"
+         fxLayout="row"
+         fxFlexFill
+         fxLayoutAlign="center center">
+  <form [formGroup]="UserService.form"
+        class="form" #formDirective="ngForm"
+        (ngSubmit)="submitForm(UserService.form)">
+    <h1 mat-dialog-title class="dialog-header">
+      {{UserService.form.controls['id'].value ? "Edit User" : "Create User"}}
+    </h1>
+    <mat-divider></mat-divider>
+
+    <mat-dialog-content>
+      <div class="dialog-content" fxLayout="column" fxLayoutGap="5px">
+        <div fxLayout="row" fxLayoutAlign="space-evenly stretch">
+          <mat-form-field>
+            <input matInput
+                   formControlName="name"
+                   autocomplete="off"
+                   placeholder="Enter name" required>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput
+                   formControlName="phone"
+                   placeholder="Enter Phone"
+                   autocomplete="off"
+                   required>
+          </mat-form-field>
+        </div>
+
+        <div fxLayout="column" fxLayoutAlign="stretch">
+          <mat-form-field>
+            <input matInput
+                   formControlName="email"
+                   placeholder="Enter Email"
+                   autocomplete="off"
+                   required>
+          </mat-form-field>
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="space-evenly stretch">
+          <mat-form-field>
+            <input matInput
+                   formControlName="username"
+                   placeholder="Enter Username"
+                   autocomplete="off"
+                   required>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput
+                   formControlName="title"
+                   placeholder="Enter Title"
+                   autocomplete="off"
+                   required>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div fxLayout="column" fxLayoutAlign="stretch">
+        <mat-form-field appearance="fill">
+          <mat-label>Role</mat-label>
+          <mat-select [compareWith]="UserService.compareObjects"
+                      multiple
+                      required
+                      formControlName="roles">
+            <mat-option *ngFor="let role of roles" [value]="role" >
+              {{role.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+    </mat-dialog-content>
+    <mat-dialog-actions fxLayout="row" fxLayoutAlign="end stretch">
+      <div class="button">
+        <button mat-raised-button type="button" mat-dialog-close>CANCEL</button>
+        <button mat-raised-button color="primary" type="submit">
+          {{UserService.form.controls['id'].value ? "UPDATE" : "CREATE"}}
+        </button>
+      </div>
+    </mat-dialog-actions>
+  </form>
+</section>
+
+<!--<pre>{{UserService.form.value | json}}</pre>-->

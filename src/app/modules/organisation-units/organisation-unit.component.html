@@ -1,0 +1,51 @@
+<div fxFlexLayoutAlign="row" fxLayoutAlign="space-between center">
+  <div>
+    <h3>Manage Organisation Units</h3>
+  </div>
+  <div fxLayoutGap="5px">
+    <button mat-raised-button class="mat-primary" (click)="openDialog()">
+      <mat-icon>add</mat-icon>ADD NEW
+    </button>
+  </div>
+</div>
+
+<mat-form-field appearance="standard">
+  <mat-label>Filter</mat-label>
+  <input matInput (keyup)="applyFilter($event)" #input autocomplete="off">
+</mat-form-field>
+
+<div class="mat-elevation-z8">
+  <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+    <!-- This is the tree node template for leaf nodes -->
+    <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+      <!-- use a disabled button to provide padding for tree leaf -->
+      <button mat-icon-button disabled></button>
+      {{node.name}}
+    </mat-tree-node>
+    <!-- This is the tree node template for expandable nodes -->
+    <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+      <button mat-icon-button matTreeNodeToggle
+              [attr.aria-label]="'Toggle ' + node.name">
+        <mat-icon class="mat-icon-rtl-mirror">
+          {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+        </mat-icon>
+      </button>
+      {{node.name}}
+    </mat-tree-node>
+  </mat-tree>
+</div>
+
+<!--delete organisation unit dialog template-->
+<ng-template #deleteDialog>
+  <mat-dialog-content>
+    <h3>Are you sure you want to delete this organisation unit?</h3>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>NO</button>
+    <button mat-button (click)="delete()">YES</button>
+  </mat-dialog-actions>
+</ng-template>
+<!--delete organisation unit dialog template-->
+<!--<pre>-->
+<!--  {{dataSource.data | json }}-->
+<!--</pre>-->

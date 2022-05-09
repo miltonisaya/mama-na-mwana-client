@@ -1,0 +1,25 @@
+<div class="container" fxLayoutAlign="center center" fxFlexFill>
+
+
+<div fxLayoutAlign="center center" fxFlexFill>
+  <mat-card fxFlex="35">
+    <div fxLayout="column" fxLayoutAlign="center center">
+      <img src="assets/coa.png">
+      <mat-toolbar fxLayout="column" fxLayoutAlign="center center">Mama na Mwana Integration Services</mat-toolbar>
+    </div>
+    <form fxLayoutAlign="stretch" fxLayout="column" [formGroup]="formGroup" (ngSubmit)="loginProcess()">
+      <mat-form-field appearance="fill">
+        <mat-label>Username</mat-label>
+        <mat-icon matSuffix>perm_identity</mat-icon>
+        <input matInput placeholder="Username" autocomplete="off" formControlName="username">
+      </mat-form-field>
+      <mat-form-field class="" appearance="fill">
+        <mat-label>Password</mat-label>
+        <mat-icon matSuffix>vpn_key</mat-icon>
+        <input matInput placeholder="Password" type="password" autocomplete="off" formControlName="password">
+      </mat-form-field>
+      <button mat-raised-button color="primary" type="submit">Login</button>
+    </form>
+  </mat-card>
+</div>
+</div>
