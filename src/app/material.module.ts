@@ -35,6 +35,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatMenuModule} from '@angular/material/menu';
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule( {
@@ -75,7 +76,8 @@ import {MatMenuModule} from '@angular/material/menu';
     MatPaginatorModule,
     FlexLayoutModule,
     MatMenuModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    ReactiveFormsModule
   ],
   exports: [
     MatButtonModule,
@@ -96,7 +98,8 @@ import {MatMenuModule} from '@angular/material/menu';
     MatPaginatorModule,
     FlexLayoutModule,
     MatMenuModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    ReactiveFormsModule
   ],
   providers: [
     MatDatepickerModule,
