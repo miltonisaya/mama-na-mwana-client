@@ -8,7 +8,6 @@ import {NotifierService} from '../notifications/notifier.service';
 import {User} from './User';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {UserDialogComponent} from './modals/user-dialog-component';
-import {RolesService} from '../roles/roles.service';
 
 @Component({
   selector: 'app-users',

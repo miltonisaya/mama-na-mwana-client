@@ -26,7 +26,7 @@ export class HeaderComponent implements OnInit {
     this.authService.signOut();
   }
 
-  resetPassword() {
-    this.router.navigate(["/reset-password"])
+  profile() {
+    this.router.navigate(["/profile"])
   }
 }

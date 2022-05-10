@@ -4,16 +4,19 @@ import {environment} from '../../../environments/environment';
 import {Observable, of} from 'rxjs';
 import {catchError, map, tap} from 'rxjs/operators';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {patchElementFocus} from "@angular/cdk/testing/testbed/fake-events";
 
 export const BASE_URL: string = environment.baseURL;
 export const RESOURCE_URL: string = 'api/v1/users';
 export const REGISTER_RESOURCE_URL: string = 'api/v1/register';
+export const API_ENDPOINT_FIND_BY_ID: string = 'api/v1/users';
 
 @Injectable()
 
 export class UsersService {
   private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
   private API_ENDPOINT_REGISTRATION = `${BASE_URL}/${REGISTER_RESOURCE_URL}`;
+  private API_ENDPOINT_FIND_BY_ID = `${BASE_URL}/${API_ENDPOINT_FIND_BY_ID}`;
 
   constructor(private http: HttpClient) {}
 
@@ -46,6 +49,11 @@ export class UsersService {
   getUsers(param?): Observable<any> {
     return this.http.get<any>(this.API_ENDPOINT,{params: param}).pipe(
       map(this.extractData));
+  }
+
+  findById(param?): Observable<any> {
+    return this.http.get<any>(this.API_ENDPOINT_FIND_BY_ID+"/"+param.id, {}).pipe(
+      map(this.extractData))
   }
 
   /**

@@ -34,6 +34,7 @@ import {OrganisationUnitService} from './modules/organisation-units/organisation
 import {ProgramService} from './modules/programs/program.service';
 import {ProgramModule} from './modules/programs/program.module';
 import {AuthGuard} from "./helpers/auth.guard";
+import {PasswordResetModule} from "./modules/password-reset/password-reset.module";
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import {AuthGuard} from "./helpers/auth.guard";
     DataElementModule,
     ContactsModule,
     OrganisationUnitModule,
-    ProgramModule
+    ProgramModule,
+    PasswordResetModule
   ],
   providers: [
     RolesService,

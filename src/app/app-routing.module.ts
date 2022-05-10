@@ -11,6 +11,7 @@ import {ContactsComponent} from './modules/contacts/contacts.component';
 import {AuthGuard} from './helpers/auth.guard';
 import {OrganisationUnitComponent} from './modules/organisation-units/organisation-unit.component';
 import {ProgramComponent} from './modules/programs/program.component';
+import {PasswordResetComponent} from "./modules/password-reset/password-reset.component";
 
 
 const routes: Routes = [{
@@ -50,6 +51,10 @@ const routes: Routes = [{
     }, {
       path: 'programs',
       component: ProgramComponent,
+      canActivate: [AuthGuard],
+    }, {
+      path: 'profile',
+      component: PasswordResetComponent,
       canActivate: [AuthGuard],
     }
   ]
