@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {NotifierService} from '../notifications/notifier.service';
 import {UsersService} from "../users/users.service";
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormBuilder, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-users',
@@ -14,25 +14,24 @@ export class PasswordResetComponent implements OnInit {
   user;
 
   constructor(
+    private fb: FormBuilder,
     private http: HttpClient,
     private notifierService: NotifierService,
     private userService: UsersService
   ) { }
 
-  profileForm = new FormGroup({
-    name : new FormControl(''),
-    email : new FormControl(''),
-    phone : new FormControl(''),
-    username : new FormControl(''),
-    password : new FormControl(''),
-    confirmPassword : new FormControl(''),
-    title : new FormControl('')
-    }
-  );
+  profileForm = this.fb.group({
+      name : ['', Validators.required],
+      email : ['',Validators.required],
+      phone : ['',Validators.required],
+      username : ['',Validators.required],
+      password : ['',Validators.required],
+      confirmPassword : ['',Validators.required],
+      title : ['',Validators.required]
+  });
 
   ngOnInit(): void {
     this.findUserDetailsById();
-    this.updateFormValues();
   }
 
   findUserDetailsById(){
@@ -44,6 +43,7 @@ export class PasswordResetComponent implements OnInit {
 
     this.userService.findById(params).subscribe((response) =>{
       this.user = response.data;
+      this.updateFormValues();
     }, (error)=>{
       console.log(error);
       this.notifierService.showNotification(error.message,'OK','error');
