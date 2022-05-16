@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {NotifierService} from '../notifications/notifier.service';
 import {UsersService} from "../users/users.service";
+import {FormControl, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-users',
@@ -18,8 +19,20 @@ export class PasswordResetComponent implements OnInit {
     private userService: UsersService
   ) { }
 
+  profileForm = new FormGroup({
+    name : new FormControl(''),
+    email : new FormControl(''),
+    phone : new FormControl(''),
+    username : new FormControl(''),
+    password : new FormControl(''),
+    confirmPassword : new FormControl(''),
+    title : new FormControl('')
+    }
+  );
+
   ngOnInit(): void {
     this.findUserDetailsById();
+    this.updateFormValues();
   }
 
   findUserDetailsById(){
@@ -34,9 +47,15 @@ export class PasswordResetComponent implements OnInit {
     }, (error)=>{
       console.log(error);
       this.notifierService.showNotification(error.message,'OK','error');
-
     })
+  }
 
-    console.log(user);
+  updateFormValues(){
+    this.profileForm.patchValue({
+      name: this.user.name,
+      email: this.user.email,
+      phone : this.user.phone,
+      title : this.user.title
+    });
   }
 }
