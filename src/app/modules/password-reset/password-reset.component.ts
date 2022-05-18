@@ -21,10 +21,10 @@ export class PasswordResetComponent implements OnInit {
   ) { }
 
   profileForm = this.fb.group({
-      name : ['', Validators.required],
-      email : ['',Validators.required],
+      name : ['', Validators.required, Validators.minLength(3)],
+      email : ['',Validators.required, Validators.email],
       phone : ['',Validators.required],
-      username : ['',Validators.required],
+      username : ['',Validators.required, Validators.minLength(3)],
       password : ['',Validators.required],
       confirmPassword : ['',Validators.required],
       title : ['',Validators.required]
