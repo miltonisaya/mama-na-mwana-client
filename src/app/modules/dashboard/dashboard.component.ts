@@ -16,6 +16,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   cards = [];
   pieChart = [];
   barChart = [];
+  pieIsReady: boolean = false;
   params: object = {};
 
   dataSource;
@@ -31,16 +32,19 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     private dashboardService: DashboardService,
     private transactionService: TransactionsService,
     private notifierService: NotifierService
-  ) { }
+  ) {
+
+  }
 
   ngAfterViewInit() {
+
   }
 
   ngOnInit(): void {
     this.bigChart = this.dashboardService.bigChart();
     this.cards =this.dashboardService.cards();
-    this.pieChart = this.dashboardService.pieChart();
     this.barChart = this.dashboardService.barChart();
+    this.populatePieChart();
     this.getAllTransactions();
   }
 
@@ -68,5 +72,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.pageSize = e.pageSize;
       this.pageNo = e.pageIndex;
       this.getAllTransactions();
+  }
+
+  private populatePieChart() {
+    this.dashboardService.getMonthlyRegistrations().subscribe((response)=>{
+      this.pieChart = response.data;
+      this.pieIsReady = true;
+    });
   }
 }

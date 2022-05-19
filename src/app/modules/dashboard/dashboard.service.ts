@@ -1,11 +1,42 @@
 import { Injectable } from '@angular/core';
+import {HttpClient} from "@angular/common/http";
+import {environment} from "../../../environments/environment";
+import {Observable} from "rxjs";
+import {map} from "rxjs/operators";
+
+export const BASE_URL: string = environment.baseURL;
+export const REGISTRATION_STATS: string = 'api/v1/get-registrations-by-months';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DashboardService {
+  private REGISTRATION_STATS_API_ENDPOINT = `${BASE_URL}/${REGISTRATION_STATS}`;
 
-  constructor() { }
+  constructor(
+    private http: HttpClient
+  ) { }
+
+  /**
+   * helper function to extract data since
+   * we are not using a type checker in the request
+   * @returns Observable
+   *
+   * @param res
+   */
+  private extractData(res: Response) {
+    const body = res;
+    return body || {};
+  }
+
+  /**
+   * Get all pending transactions
+   * @param param
+   */
+  getMonthlyRegistrations(param?): Observable<any> {
+    return this.http.get<any>(this.REGISTRATION_STATS_API_ENDPOINT,{params: param}).pipe(
+      map(this.extractData));
+  }
 
   bigChart() {
     return [{
@@ -29,39 +60,6 @@ export class DashboardService {
 
   cards() {
     return [70,71,39,66];
-  }
-
-  pieChart() {
-    return [{
-      name: 'Chrome',
-      y: 61.41,
-      sliced: true,
-      selected: true
-    }, {
-      name: 'Internet Explorer',
-      y: 11.84
-    }, {
-      name: 'Firefox',
-      y: 10.85
-    }, {
-      name: 'Edge',
-      y: 4.67
-    }, {
-      name: 'Safari',
-      y: 4.18
-    }, {
-      name: 'Sogou Explorer',
-      y: 1.64
-    }, {
-      name: 'Opera',
-      y: 1.6
-    }, {
-      name: 'QQ',
-      y: 1.2
-    }, {
-      name: 'Other',
-      y: 2.61
-    }];
   }
 
   barChart() {
