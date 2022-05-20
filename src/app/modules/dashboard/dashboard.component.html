@@ -4,6 +4,8 @@
   </div>
 </div>
 
+<pre>{{barChart | json}}</pre>
+
 <div class="mat-elevation-z8">
   <mat-card class="mat-elevation-z8">
     <div fxLayout="row" fxLayoutAlign="center stretch">
@@ -11,10 +13,10 @@
     </div>
     <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px">
       <div fxFlex="60" class="mat-elevation-z8">
-        <app-widget-bar [data]="barChart"></app-widget-bar>
+        <app-widget-pie [data]="pieChartCouncil" [title]="titleCouncils" *ngIf="registrationByCouncilIsReady === true"></app-widget-pie>
       </div>
       <div fxFlex="40" class="mat-elevation-z8">
-        <app-widget-pie [data]="pieChart" *ngIf="pieIsReady === true"></app-widget-pie>
+        <app-widget-pie [data]="pieChartMonthly" [title]="titleMonths" *ngIf="pieIsReady === true"></app-widget-pie>
       </div>
     </div>
   </mat-card>

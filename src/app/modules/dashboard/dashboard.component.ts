@@ -14,7 +14,7 @@ import {DataElement} from "../data-elements/dataElement";
 export class DashboardComponent implements OnInit, AfterViewInit {
   bigChart = [];
   cards = [];
-  pieChart = [];
+  pieChartMonthly = [];
   barChart = [];
   pieIsReady: boolean = false;
   params: object = {};
@@ -27,6 +27,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   pageSize = 5;
   pageNo = 0;
   pageSizeOptions: number[] = [5, 10, 25, 100, 1000];
+  titleCouncils: String =  "Registration of mothers by councils";
+  titleMonths: String =  "Registration of mothers by months";
+  registrationByCouncilIsReady: boolean = false;
+  pieChartCouncil: any;
 
   constructor(
     private dashboardService: DashboardService,
@@ -41,10 +45,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.bigChart = this.dashboardService.bigChart();
-    this.cards =this.dashboardService.cards();
-    this.barChart = this.dashboardService.barChart();
-    this.populatePieChart();
+    // this.bigChart = this.dashboardService.bigChart();
+    // this.cards =this.dashboardService.cards();
+    // this.barChart = this.dashboardService.barChart();
+    this.populatePieChartByCouncil();
+    this.populatePieChartMonthly();
     this.getAllTransactions();
   }
 
@@ -74,10 +79,17 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.getAllTransactions();
   }
 
-  private populatePieChart() {
+  private populatePieChartMonthly() {
     this.dashboardService.getMonthlyRegistrations().subscribe((response)=>{
-      this.pieChart = response.data;
+      this.pieChartMonthly = response.data;
       this.pieIsReady = true;
+    });
+  }
+
+  private populatePieChartByCouncil() {
+    this.dashboardService.getRegistrationsByCouncil().subscribe((response)=>{
+      this.pieChartCouncil = response.data;
+      this.registrationByCouncilIsReady = true;
     });
   }
 }

@@ -15,56 +15,7 @@ export class BarComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.chartOptions = {
-      chart: {
-        type: 'column'
-      },
-      title: {
-        text: 'Monthly Average Rainfall'
-      },
-      subtitle: {
-        text: 'Source: WorldClimate.com'
-      },
-      xAxis: {
-        categories: [
-          'Jan',
-          'Feb',
-          'Mar',
-          'Apr',
-          'May',
-          'Jun',
-          'Jul',
-          'Aug',
-          'Sep',
-          'Oct',
-          'Nov',
-          'Dec'
-        ],
-        crosshair: true
-      },
-      yAxis: {
-        min: 0,
-        title: {
-          text: 'Rainfall (mm)'
-        }
-      },
-      tooltip: {
-        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-          '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
-        footerFormat: '</table>',
-        shared: true,
-        useHTML: true
-      },
-      plotOptions: {
-        column: {
-          pointPadding: 0.2,
-          borderWidth: 0
-        }
-      },
-      series: this.data
-    };
-
+    this.setBarChartOptions();
     HC_exporting(Highcharts);
 
     setTimeout(() => {
@@ -74,4 +25,55 @@ export class BarComponent implements OnInit {
     }, 300);
   }
 
+  setBarChartOptions (){
+    this.chartOptions = {
+      chart: {
+        type: 'column'
+      },
+      title: {
+        text: 'Registration of Mothers by Councils'
+      },
+      subtitle: {
+        text: 'Source: RapidPro'
+      },
+      xAxis: {
+        type: 'category',
+        labels: {
+          rotation: -45,
+          style: {
+            fontSize: '13px',
+            fontFamily: 'Verdana, sans-serif'
+          }
+        }
+      },
+      yAxis: {
+        min: 0,
+        title: {
+          text: 'Population (millions)'
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      tooltip: {
+        pointFormat: 'Registration of Mothers by Councils'
+      },
+      series: [{
+        name: 'Population',
+        data: this.data,
+        dataLabels: {
+          enabled: true,
+          rotation: -90,
+          color: '#FFFFFF',
+          align: 'right',
+          format: '{point.y:.1f}', // one decimal
+          y: 10, // 10 pixels down from the top
+          style: {
+            fontSize: '13px',
+            fontFamily: 'Verdana, sans-serif'
+          }
+        }
+      }]
+    };
+  }
 }

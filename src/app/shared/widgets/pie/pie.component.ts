@@ -11,6 +11,7 @@ export class PieComponent implements OnInit {
   chartOptions = {};
   HighCharts = Highcharts;
   @Input() data = [];
+  @Input() title = "";
 
   constructor() {
   }
@@ -24,7 +25,7 @@ export class PieComponent implements OnInit {
           type: 'pie'
       },
       title: {
-        text: 'Monthly Registration of Mothers'
+        text: this.title
       },
       tooltip: {
         pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
