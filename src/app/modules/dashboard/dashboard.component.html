@@ -4,6 +4,13 @@
   </div>
 </div>
 
+<div class="mat-elevation-z8" fxLayout="row" fxLayoutAlign="space-between stretch">
+  <mat-card fxFlex="100" class="mat-elevation-z8" *ngIf="numberOfRegisteredContactsIsReady === true">
+    <h1>Number of registered contacts: {{numberOfRegisteredContacts}}</h1>
+  </mat-card>
+</div>
+<p></p>
+
 <div class="mat-elevation-z8">
   <mat-card class="mat-elevation-z8">
     <div fxLayout="row" fxLayoutAlign="center stretch">

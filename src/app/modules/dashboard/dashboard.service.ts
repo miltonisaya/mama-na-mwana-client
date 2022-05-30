@@ -7,6 +7,7 @@ import {map} from "rxjs/operators";
 export const BASE_URL: string = environment.baseURL;
 export const REGISTRATION_STATS_BY_MONTHS: string = 'api/v1/get-registrations-by-months';
 export const REGISTRATION_STATS_BY_COUNCIL: string = 'api/v1/get-registrations-by-council';
+export const TOTAL_NUMBER_OF_REGISTRATIONS: string = 'api/v1/get-number-of-registrations';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export const REGISTRATION_STATS_BY_COUNCIL: string = 'api/v1/get-registrations-b
 export class DashboardService {
   private REGISTRATION_STATS_BY_MONTHS_API_ENDPOINT = `${BASE_URL}/${REGISTRATION_STATS_BY_MONTHS}`;
   private REGISTRATION_STATS_BY_COUNCIL_API_ENDPOINT = `${BASE_URL}/${REGISTRATION_STATS_BY_COUNCIL}`;
+  private TOTAL_NUMBER_OF_REGISTRATIONS_API_ENDPOINT = `${BASE_URL}/${TOTAL_NUMBER_OF_REGISTRATIONS}`;
 
   constructor(
     private http: HttpClient
@@ -45,6 +47,11 @@ export class DashboardService {
    */
   getRegistrationsByCouncil(param?): Observable<any> {
     return this.http.get<any>(this.REGISTRATION_STATS_BY_COUNCIL_API_ENDPOINT,{params: param}).pipe(
+      map(this.extractData));
+  }
+
+  getNumberOfAllContacts(): Observable<any> {
+    return this.http.get<any>(this.TOTAL_NUMBER_OF_REGISTRATIONS_API_ENDPOINT,{}).pipe(
       map(this.extractData));
   }
 

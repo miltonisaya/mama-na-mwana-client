@@ -31,6 +31,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   titleMonths: String =  "Registration of mothers by months";
   registrationByCouncilIsReady: boolean = false;
   pieChartCouncil: any;
+  numberOfRegisteredContacts: any;
+  numberOfRegisteredContactsIsReady: boolean = false;
 
   constructor(
     private dashboardService: DashboardService,
@@ -51,6 +53,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.populatePieChartByCouncil();
     this.populatePieChartMonthly();
     this.getAllTransactions();
+    this.getTotalNumberOfRegisteredContacts();
   }
 
   getAllTransactions() {
@@ -64,6 +67,16 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.dataSource = new MatTableDataSource<DataElement>(this.transactions.content);
     }, error => {
       this.notifierService.showNotification(error.message,'OK','error');
+      console.log(error);
+    });
+  }
+
+  getTotalNumberOfRegisteredContacts(){
+    return this.dashboardService.getNumberOfAllContacts().subscribe((response: any) => {
+      this.numberOfRegisteredContacts = response.data;
+      this.numberOfRegisteredContactsIsReady = true;
+    }, error => {
+      this.notifierService.showNotification(error.message, 'OK', 'error');
       console.log(error);
     });
   }
