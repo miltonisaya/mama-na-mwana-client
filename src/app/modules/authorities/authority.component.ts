@@ -15,8 +15,8 @@ import {NotifierService} from '../notifications/notifier.service';
 })
 export class AuthorityComponent implements OnInit {
   displayedColumns: string[] = ["sno",'name', 'description', 'actions'];
-  roles: any = [];
-  roleId: string;
+  authorities: any = [];
+  authorityId: string;
   dataSource: MatTableDataSource<Authority>;
   pageSize;
   @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
@@ -30,16 +30,16 @@ export class AuthorityComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getRoles();
+    this.getAuthorities();
   }
 
   /**
-   * This method returns roles
+   * This method returns authorities
    */
-  getRoles() {
+  getAuthorities() {
     return this.AuthorityService.getAuthorities().subscribe((response: any) => {
-      this.roles = response.data;
-      this.dataSource = new MatTableDataSource<Authority>(this.roles.content);
+      this.authorities = response.data;
+      this.dataSource = new MatTableDataSource<Authority>(this.authorities.content);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     }, error => {
@@ -58,35 +58,35 @@ export class AuthorityComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     if (data) {
-      const roleData = {
+      const authorityData = {
         id: data.id,
         name: data.name,
         description: data.description
       };
-      this.AuthorityService.populateForm(roleData);
+      this.AuthorityService.populateForm(authorityData);
       this.dialog.open(AuthorityDialogComponent, dialogConfig)
         .afterClosed().subscribe(() => {
-        this.getRoles();
+        this.getAuthorities();
       });
     } else {
       dialogConfig.data = {};
       this.dialog.open(AuthorityDialogComponent, dialogConfig)
         .afterClosed().subscribe(() => {
-        this.getRoles();
+        this.getAuthorities();
       });
     }
   }
 
   openDeleteDialog(id) {
-    this.roleId = id;
+    this.authorityId = id;
     this.dialog.open(this.deleteDialog)
       .afterClosed().subscribe(() => {
-      this.getRoles();
+      this.getAuthorities();
     });
   }
 
   delete() {
-    this.AuthorityService.delete(this.roleId)
+    this.AuthorityService.delete(this.authorityId)
       .subscribe(response => {
         this.notifierService.showNotification(response.message,'OK','success');
       }, error => {

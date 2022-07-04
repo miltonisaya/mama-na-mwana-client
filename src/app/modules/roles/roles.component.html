@@ -44,6 +44,9 @@
         <button matTooltip="Delete" matTooltipPosition="right" mat-icon-button color="warn" (click)="openDeleteDialog(roles.id)">
           <mat-icon>delete</mat-icon>
         </button>
+        <button matTooltip="Map Data Element" matTooltipPosition="left" mat-icon-button>
+          <mat-icon (click)="openMappingDialog(roles.id)">sync_alt</mat-icon>
+        </button>
       </td>
     </ng-container>
 

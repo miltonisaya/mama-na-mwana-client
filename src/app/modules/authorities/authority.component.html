@@ -19,29 +19,29 @@
     <!-- SNo Column -->
     <ng-container matColumnDef="sno">
       <th mat-header-cell *matHeaderCellDef> No</th>
-      <td mat-cell *matCellDef="let roles; let i = index">{{i + 1}}</td>
+      <td mat-cell *matCellDef="let authorities; let i = index">{{i + 1}}</td>
     </ng-container>
 
     <!-- Name Column -->
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef> Name</th>
-      <td mat-cell *matCellDef="let roles"> {{roles.name}} </td>
+      <td mat-cell *matCellDef="let authorities"> {{authorities.name}} </td>
     </ng-container>
 
     <!-- Description Column -->
     <ng-container matColumnDef="description">
       <th mat-header-cell *matHeaderCellDef> Description</th>
-      <td mat-cell *matCellDef="let roles"> {{roles.description}} </td>
+      <td mat-cell *matCellDef="let authorities"> {{authorities.description}} </td>
     </ng-container>
 
     <!-- Action Column -->
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Action</th>
-      <td mat-cell *matCellDef="let roles">
+      <td mat-cell *matCellDef="let authorities">
         <button matTooltip="Edit" matTooltipPosition="left" mat-icon-button>
-          <mat-icon (click)="openDialog(roles)">edit</mat-icon>
+          <mat-icon (click)="openDialog(authorities)">edit</mat-icon>
         </button>
-        <button matTooltip="Delete" matTooltipPosition="right" mat-icon-button color="warn" (click)="openDeleteDialog(roles.id)">
+        <button matTooltip="Delete" matTooltipPosition="right" mat-icon-button color="warn" (click)="openDeleteDialog(authorities.id)">
           <mat-icon>delete</mat-icon>
         </button>
       </td>
@@ -62,7 +62,7 @@
 <!--delete role dialog template-->
 <ng-template #deleteDialog>
   <mat-dialog-content>
-    <h3>Are you sure you want to delete this role?</h3>
+    <h3>Are you sure you want to delete this authority?</h3>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>NO</button>
