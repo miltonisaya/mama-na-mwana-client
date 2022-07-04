@@ -18,6 +18,7 @@ import {OrganisationUnitComponent} from '../../modules/organisation-units/organi
 import {MatTreeModule} from '@angular/material/tree';
 import {ProgramComponent} from '../../modules/programs/program.component';
 import {MatTabsModule} from "@angular/material/tabs";
+import {AuthorityComponent} from "../../modules/authorities/authority.component";
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import {MatTabsModule} from "@angular/material/tabs";
     RolesComponent,
     DataElementComponent,
     OrganisationUnitComponent,
-    ProgramComponent
+    ProgramComponent,
+    AuthorityComponent
   ],
     imports: [
         CommonModule,

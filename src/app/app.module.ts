@@ -35,6 +35,8 @@ import {ProgramService} from './modules/programs/program.service';
 import {ProgramModule} from './modules/programs/program.module';
 import {AuthGuard} from "./helpers/auth.guard";
 import {PasswordResetModule} from "./modules/password-reset/password-reset.module";
+import {AuthorityService} from "./modules/authorities/authority.service";
+import {AuthorityModule} from "./modules/authorities/authority.module";
 
 @NgModule({
   declarations: [
@@ -62,7 +64,8 @@ import {PasswordResetModule} from "./modules/password-reset/password-reset.modul
     ContactsModule,
     OrganisationUnitModule,
     ProgramModule,
-    PasswordResetModule
+    PasswordResetModule,
+    AuthorityModule
   ],
   providers: [
     RolesService,
@@ -74,6 +77,7 @@ import {PasswordResetModule} from "./modules/password-reset/password-reset.modul
     TransactionsService,
     OrganisationUnitService,
     ProgramService,
+    AuthorityService,
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
     AuthGuard
