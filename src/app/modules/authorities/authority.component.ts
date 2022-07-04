@@ -24,7 +24,7 @@ export class AuthorityComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
-    private RoleService: AuthorityService,
+    private AuthorityService: AuthorityService,
     private dialog: MatDialog,
     private notifierService: NotifierService
   ) { }
@@ -37,7 +37,7 @@ export class AuthorityComponent implements OnInit {
    * This method returns roles
    */
   getRoles() {
-    return this.RoleService.getRoles().subscribe((response: any) => {
+    return this.AuthorityService.getAuthorities().subscribe((response: any) => {
       this.roles = response.data;
       this.dataSource = new MatTableDataSource<Authority>(this.roles.content);
       this.dataSource.paginator = this.paginator;
@@ -63,7 +63,7 @@ export class AuthorityComponent implements OnInit {
         name: data.name,
         description: data.description
       };
-      this.RoleService.populateForm(roleData);
+      this.AuthorityService.populateForm(roleData);
       this.dialog.open(AuthorityDialogComponent, dialogConfig)
         .afterClosed().subscribe(() => {
         this.getRoles();
@@ -86,7 +86,7 @@ export class AuthorityComponent implements OnInit {
   }
 
   delete() {
-    this.RoleService.delete(this.roleId)
+    this.AuthorityService.delete(this.roleId)
       .subscribe(response => {
         this.notifierService.showNotification(response.message,'OK','success');
       }, error => {

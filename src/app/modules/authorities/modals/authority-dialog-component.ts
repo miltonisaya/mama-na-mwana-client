@@ -11,7 +11,7 @@ import {NotifierService} from '../../notifications/notifier.service';
 
 export class AuthorityDialogComponent implements OnInit {
   constructor(
-    public RolesService: AuthorityService,
+    public AuthorityService: AuthorityService,
     public dialogRef: MatDialogRef<AuthorityDialogComponent>,
     public notifierService: NotifierService
   ) { }
@@ -20,15 +20,15 @@ export class AuthorityDialogComponent implements OnInit {
   }
 
   submitForm(data) {
-    if (this.RolesService.form.valid) {
-      if (this.RolesService.form.get('id').value) {
-        this.RolesService.updateRole(this.RolesService.form.value)
+    if (this.AuthorityService.form.valid) {
+      if (this.AuthorityService.form.get('id').value) {
+        this.AuthorityService.updateAuthority(this.AuthorityService.form.value)
           .subscribe(response => {
             this.notifierService.showNotification(response.message,'OK', 'success');
             this.onClose();
           });
       } else {
-        this.RolesService.createRole(this.RolesService.form.value)
+        this.AuthorityService.createAuthority(this.AuthorityService.form.value)
           .subscribe(data => {
             this.onClose();
           },error => {
@@ -39,8 +39,8 @@ export class AuthorityDialogComponent implements OnInit {
   }
 
   onClose() {
-    this.RolesService.form.reset();
-    this.RolesService.initializeFormGroup();
+    this.AuthorityService.form.reset();
+    this.AuthorityService.initializeFormGroup();
     this.dialogRef.close();
   }
 }

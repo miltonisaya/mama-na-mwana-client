@@ -3,11 +3,11 @@
          fxLayout.xs="column"
          fxFlexFill
          fxLayoutAlign="center center">
-  <form [formGroup]="RolesService.form"
+  <form [formGroup]="AuthorityService.form"
         class="form" #formDirective="ngForm"
-        (ngSubmit)="submitForm(RolesService.form)">
+        (ngSubmit)="submitForm(AuthorityService.form)">
     <h1 mat-dialog-title class="dialog-header">
-      {{RolesService.form.controls['id'].value? "Edit Flow" : "Create Flow"}}
+      {{AuthorityService.form.controls['id'].value? "Edit Authority" : "Create Authority"}}
     </h1>
     <mat-divider></mat-divider>
     <mat-dialog-content>
@@ -33,7 +33,7 @@
       <div class="button">
         <button mat-raised-button type="button" mat-dialog-close>CANCEL</button>
         <button mat-raised-button color="primary" type="submit">
-          {{RolesService.form.controls['id'].value? "UPDATE" : "CREATE"}}
+          {{AuthorityService.form.controls['id'].value? "UPDATE" : "CREATE"}}
         </button>
       </div>
     </mat-dialog-actions>

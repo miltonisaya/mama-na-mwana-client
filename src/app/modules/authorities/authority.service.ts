@@ -6,7 +6,7 @@ import {catchError, map, tap} from 'rxjs/operators';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 export const BASE_URL: string = environment.baseURL;
-export const RESOURCE_URL: string = 'api/v1/roles';
+export const RESOURCE_URL: string = 'api/v1/authorities';
 
 @Injectable()
 export class AuthorityService {
@@ -32,7 +32,7 @@ export class AuthorityService {
     return body || {};
   }
 
-  getRoles(param?): Observable<any> {
+  getAuthorities(param?): Observable<any> {
     return this.http.get<any>(this.API_ENDPOINT,{params: param}).pipe(
       map(this.extractData));
   }
@@ -42,7 +42,7 @@ export class AuthorityService {
    * @param id
    */
   delete(id): Observable<any> {
-    console.log("Deleting role with id ",id);
+    console.log("Deleting authorities with id ",id);
     return this.http.delete<any>(this.API_ENDPOINT+"/"+id).pipe(
       map(this.extractData));``
   }
@@ -64,14 +64,14 @@ export class AuthorityService {
   }
 
   /**
-   * @param role
+   * @param authorities
    */
-  createRole(role): Observable<any> {
-    console.log(role);
-    return this.http.post<any>(this.API_ENDPOINT, role)
+  createAuthority(authorities): Observable<any> {
+    console.log(authorities);
+    return this.http.post<any>(this.API_ENDPOINT, authorities)
       // tslint:disable-next-line:no-shadowed-variable
-      .pipe(tap((response) => console.log(`Added role with name = ${role.name}`)),
-        catchError(this.handleError<any>('create objective'))
+      .pipe(tap((response) => console.log(`Added authorities with name = ${authorities.name}`)),
+        catchError(this.handleError<any>('create authorities'))
       );
   }
 
@@ -87,11 +87,11 @@ export class AuthorityService {
     };
   }
 
-  updateRole(role): Observable<any> {
-    console.log(role);
-    return this.http.put(this.API_ENDPOINT+"/"+role.id, role)
-      .pipe(tap(_ => console.log(`updated role with id=${role.id}`)),
-        catchError(this.handleError<any>('update role'))
+  updateAuthority(authority): Observable<any> {
+    console.log(authority);
+    return this.http.put(this.API_ENDPOINT+"/"+authority.id, authority)
+      .pipe(tap(_ => console.log(`updated authority with id=${authority.id}`)),
+        catchError(this.handleError<any>('update authority'))
       );
   }
 }
