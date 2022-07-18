@@ -7,6 +7,7 @@ import {Authority} from './authority';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {NotifierService} from '../notifications/notifier.service';
+import {DataElement} from "../data-elements/dataElement";
 
 @Component({
   selector: 'app-authorities',
@@ -18,7 +19,11 @@ export class AuthorityComponent implements OnInit {
   authorities: any = [];
   authorityId: string;
   dataSource: MatTableDataSource<Authority>;
-  pageSize;
+  pageSize = 10;
+  pageNo = 0;
+  pageSizeOptions: number[] = [10, 25, 100, 1000];
+  private params: { pageNo: number; pageSize: number };
+
   @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -37,11 +42,14 @@ export class AuthorityComponent implements OnInit {
    * This method returns authorities
    */
   getAuthorities() {
-    return this.AuthorityService.getAuthorities().subscribe((response: any) => {
+    this.params = {
+      "pageNo" : this.pageNo,
+      "pageSize" : this.pageSize
+    }
+
+    return this.AuthorityService.getAuthorities(this.params).subscribe((response: any) => {
       this.authorities = response.data;
       this.dataSource = new MatTableDataSource<Authority>(this.authorities.content);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
     }, error => {
       this.notifierService.showNotification(error.message,'OK','error');
       console.log(error);
@@ -93,5 +101,12 @@ export class AuthorityComponent implements OnInit {
         this.notifierService.showNotification(error.message,'OK','error')
       });
     this.dialog.closeAll();
+  }
+
+  pageChanged(e: any) {
+    console.log(e);
+    this.pageSize = e.pageSize;
+    this.pageNo = e.pageIndex;
+    this.getAuthorities();
   }
 }

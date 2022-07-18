@@ -7,10 +7,12 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 export const BASE_URL: string = environment.baseURL;
 export const RESOURCE_URL: string = 'api/v1/authorities';
+export const ROLE_AUTHORITY_RESOURCE_URL: string = 'api/v1/role-authorities';
 
 @Injectable()
 export class AuthorityService {
   private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
+  private ROLE_AUTHORITY_API_ENDPOINT = `${BASE_URL}/${ROLE_AUTHORITY_RESOURCE_URL}`;
 
   constructor(private http: HttpClient) {}
 
@@ -92,6 +94,14 @@ export class AuthorityService {
     return this.http.put(this.API_ENDPOINT+"/"+authority.id, authority)
       .pipe(tap(_ => console.log(`updated authority with id=${authority.id}`)),
         catchError(this.handleError<any>('update authority'))
+      );
+  }
+
+  saveRoleAuthorities(data): Observable<any> {
+    return this.http.post<any>(this.ROLE_AUTHORITY_API_ENDPOINT, data)
+      // tslint:disable-next-line:no-shadowed-variable
+      .pipe(tap((response) => console.log(`Mapped role authorities`)),
+        catchError(this.handleError<any>('Role authorities mapping'))
       );
   }
 }

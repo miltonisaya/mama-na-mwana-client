@@ -19,10 +19,13 @@ export class UsersComponent implements OnInit {
   users: any = [];
   userId: string;
   dataSource: MatTableDataSource<User>;
-  pageSize;
   @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  pageSize = 10;
+  pageNo = 0;
+  pageSizeOptions: number[] = [10, 25, 100, 1000];
+  private params: { pageNo: number; pageSize: number };
 
   constructor(
     private http: HttpClient,
@@ -39,11 +42,14 @@ export class UsersComponent implements OnInit {
    * This method returns users
    */
   getUsers() {
-    return this.UsersService.getUsers().subscribe((response: any) => {
+    this.params = {
+      "pageNo" : this.pageNo,
+      "pageSize" : this.pageSize
+    }
+
+    return this.UsersService.getUsers(this.params).subscribe((response: any) => {
       this.users = response.data;
       this.dataSource = new MatTableDataSource<User>(this.users.content);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
     }, error => {
       this.NotifierService.showNotification(error.message,'OK','error');
       console.log(error);
@@ -100,5 +106,12 @@ export class UsersComponent implements OnInit {
         this.NotifierService.showNotification(error.message,'OK','error')
       });
     this.DialogService.closeAll();
+  }
+
+  pageChanged(e: any) {
+    console.log(e);
+    this.pageSize = e.pageSize;
+    this.pageNo = e.pageIndex;
+    this.getUsers();
   }
 }

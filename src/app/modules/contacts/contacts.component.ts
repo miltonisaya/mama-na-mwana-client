@@ -5,7 +5,6 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {ContactsService} from './contacts.service';
 import {NotifierService} from '../notifications/notifier.service';
-import {Contact} from './Contact';
 import {MatDialog} from '@angular/material/dialog';
 import {DataElement} from "../data-elements/dataElement";
 
@@ -48,7 +47,6 @@ export class ContactsComponent implements OnInit {
     }
 
     return this.ContactsService.getContacts(this.params).subscribe((response: any) => {
-      this.contacts = response.data;
       this.contacts = response.data;
       this.dataSource = new MatTableDataSource<DataElement>(this.contacts.content);
     }, error => {

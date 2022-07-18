@@ -81,7 +81,13 @@
       <td class="mat-cell" colspan="3">No data matching the filter "{{input.value}}"</td>
     </tr>
   </table>
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  <mat-paginator
+    class="mat-elevation-z8"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="pageSizeOptions"
+    [length]="users?.totalElements"
+    (page)="pageChanged($event)"
+  ></mat-paginator>
 </div>
 
 

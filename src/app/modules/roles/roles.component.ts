@@ -19,10 +19,13 @@ export class RolesComponent implements OnInit {
   roles: any = [];
   roleId: string;
   dataSource: MatTableDataSource<Role>;
-  pageSize;
   @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  pageSize = 10;
+  pageNo = 0;
+  pageSizeOptions: number[] = [10, 25, 100, 1000];
+  private params: { pageNo: number; pageSize: number };
 
   constructor(
     private RoleService: RolesService,
@@ -38,11 +41,14 @@ export class RolesComponent implements OnInit {
    * This method returns roles
    */
   getRoles() {
+    this.params = {
+      "pageNo" : this.pageNo,
+      "pageSize" : this.pageSize
+    };
+
     return this.RoleService.getRoles().subscribe((response: any) => {
       this.roles = response.data;
       this.dataSource = new MatTableDataSource<Role>(this.roles.content);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
     }, error => {
       this.notifierService.showNotification(error.message,'OK','error');
       console.log(error);
@@ -96,29 +102,20 @@ export class RolesComponent implements OnInit {
     this.dialog.closeAll();
   }
 
-  openMappingDialog(id) {
+  openMappingDialog(role) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    // if (data) {
-    //   const flowKeysData = {
-    //     id: data.id,
-    //     keyDescription: data.keyDescription,
-    //     keyName: data.keyName,
-    //   };
-
-    // console.log(flowKeysData);
-    // this.FlowService.populateForm(flowKeysData);
-    this.dialog.open(RoleAuthorityMappingDialogComponent, {data: id})
+    this.dialog.open(RoleAuthorityMappingDialogComponent, {data: role})
       .afterClosed().subscribe(() => {
       this.getRoles();
     });
-    // } else {
-    //   dialogConfig.data = {};
-    //   this.dialog.open(FlowKeyDialogComponent, dialogConfig)
-    //     .afterClosed().subscribe(() => {
-    //     this.getFlows();
-    //   });
-    // }
+  }
+
+  pageChanged(e: any) {
+    console.log(e);
+    this.pageSize = e.pageSize;
+    this.pageNo = e.pageIndex;
+    this.getRoles();
   }
 }
