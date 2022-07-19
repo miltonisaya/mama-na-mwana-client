@@ -1,5 +1,5 @@
 import { Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {catchError, map, tap} from 'rxjs/operators';
@@ -8,11 +8,15 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 export const BASE_URL: string = environment.baseURL;
 export const RESOURCE_URL: string = 'api/v1/authorities';
 export const ROLE_AUTHORITY_RESOURCE_URL: string = 'api/v1/role-authorities';
+export const AUTHORITIES_BY_ROLE_RESOURCE_URL: string = 'api/v1/authorities-by-role';
+export const UNSELECTED_AUTHORITIES_BY_ROLE_RESOURCE_URL: string = 'api/v1/authorities-not-role';
 
 @Injectable()
 export class AuthorityService {
   private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
   private ROLE_AUTHORITY_API_ENDPOINT = `${BASE_URL}/${ROLE_AUTHORITY_RESOURCE_URL}`;
+  private AUTHORITIES_BY_ROLE = `${BASE_URL}/${AUTHORITIES_BY_ROLE_RESOURCE_URL}`;
+  private UNSELECTED_AUTHORITIES_BY_ROLE = `${BASE_URL}/${UNSELECTED_AUTHORITIES_BY_ROLE_RESOURCE_URL}`;
 
   constructor(private http: HttpClient) {}
 
@@ -34,8 +38,8 @@ export class AuthorityService {
     return body || {};
   }
 
-  getAuthorities(param?): Observable<any> {
-    return this.http.get<any>(this.API_ENDPOINT,{params: param}).pipe(
+  getAuthorities(params): Observable<any> {
+    return this.http.get<any>(this.API_ENDPOINT, {params}).pipe(
       map(this.extractData));
   }
 
@@ -46,7 +50,7 @@ export class AuthorityService {
   delete(id): Observable<any> {
     console.log("Deleting authorities with id ",id);
     return this.http.delete<any>(this.API_ENDPOINT+"/"+id).pipe(
-      map(this.extractData));``
+      map(this.extractData));
   }
 
   /**
@@ -69,7 +73,6 @@ export class AuthorityService {
    * @param authorities
    */
   createAuthority(authorities): Observable<any> {
-    console.log(authorities);
     return this.http.post<any>(this.API_ENDPOINT, authorities)
       // tslint:disable-next-line:no-shadowed-variable
       .pipe(tap((response) => console.log(`Added authorities with name = ${authorities.name}`)),
@@ -103,5 +106,20 @@ export class AuthorityService {
       .pipe(tap((response) => console.log(`Mapped role authorities`)),
         catchError(this.handleError<any>('Role authorities mapping'))
       );
+  }
+
+  getAuthoritiesByRoleId(data: any) {
+    return this.http.get<any>(this.AUTHORITIES_BY_ROLE+"/"+data.id).pipe(
+      map(this.extractData));
+  }
+
+  getUnselectedAuthoritiesByRoleId(data: any): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
+    }
+
+    console.log("Getting authorities by note role with id ",data.id);
+    return this.http.get<any>(this.UNSELECTED_AUTHORITIES_BY_ROLE+"/"+data.id,httpOptions).pipe(
+      map(this.extractData));
   }
 }

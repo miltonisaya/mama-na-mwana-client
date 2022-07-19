@@ -4,6 +4,8 @@ import {NotifierService} from '../../notifications/notifier.service';
 import {FormControl} from '@angular/forms';
 import {PrimeNGConfig} from "primeng/api";
 import {AuthorityService} from "../../authorities/authority.service";
+import {MatTableDataSource} from "@angular/material/table";
+import {User} from "../../users/User";
 
 @Component({
   selector: 'app-role-authority-dialog',
@@ -12,8 +14,8 @@ import {AuthorityService} from "../../authorities/authority.service";
 })
 
 export class RoleAuthorityMappingDialogComponent implements OnInit {
-  list1: any[];
-  myList: any;
+  unSelectedList: any[];
+  selectedList: [];
   myControl = new FormControl();
 
   constructor(
@@ -26,29 +28,32 @@ export class RoleAuthorityMappingDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getDataElements();
-    this.myList = [];
+    this.getUnselectedAuthorities();
+    this.selectedList = [];
     this.primengConfig.ripple = true;
+    this.getSelectedAuthorities();
   }
 
-  getDataElements() {
-    let params = {
-      pageSize: 1000
-    };
-    return this.authoritiesService.getAuthorities(params).subscribe((response: any) => {
-      this.list1 = response.data.content;
+  getSelectedAuthorities(){
+    this.selectedList = this.data.authorities;
+  }
+
+  getUnselectedAuthorities() {
+    return this.authoritiesService.getUnselectedAuthoritiesByRoleId({id: this.data.id}).subscribe((response: any) => {
+      this.unSelectedList = response.data;
     }, error => {
-      this.notifierService.showNotification(error.message, 'OK', 'error');
+      this.notifierService.showNotification(error.message,'OK','error');
       console.log(error);
     });
   }
 
   saveData() {
-    this.data.authorities = this.myList;
+    this.data.authorities = this.selectedList;
     console.log(this.data);
     return this.authoritiesService.saveRoleAuthorities(this.data).subscribe((response: any) =>{
       console.log("The response =>",response);
       this.notifierService.showNotification(response.message,'OK', 'success');
+      this.dialogRef.close();
     }, error => {
       this.notifierService.showNotification(error.message, 'OK', 'error');
       console.log("The error=>",error);
