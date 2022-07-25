@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SidebarComponent implements OnInit {
   user;
+  roles;
   constructor() { }
 
   ngOnInit(): void {
@@ -15,5 +16,7 @@ export class SidebarComponent implements OnInit {
 
   getUserDetails(){
     this.user = JSON.parse(localStorage.getItem("MNM_USER"));
+    this.roles = this.user.roles;
+    console.log("The roles =>",this.user.roles);
   }
 }

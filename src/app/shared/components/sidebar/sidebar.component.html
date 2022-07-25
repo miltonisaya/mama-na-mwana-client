@@ -2,73 +2,93 @@
   <div class="profile-card">
     <div class="header">
       <h3>{{user.name | titlecase}}</h3>
-<!--      <h4>{{user.title}}</h4>-->
       <h5>{{user.email | lowercase}}</h5>
     </div>
     <img src="assets/coa.png" alt="">
   </div>
+  <mat-divider></mat-divider>
+<!--  *ngIf="user.title.toUpperCase()=='ADMIN'"-->
+  <div *ngIf="user.title.toUpperCase()=='ADMIN'" class="menu-role">
+    <a mat-list-item routerLinkActive="list-item-active" routerLink="/dashboard">
+      <mat-icon>
+        dashboard
+      </mat-icon>
+      Dashboard
+    </a>
+    <mat-divider></mat-divider>
 
-  <mat-divider></mat-divider>
-  <a mat-list-item routerLinkActive="list-item-active" routerLink="/dashboard">
-    <mat-icon>
-      dashboard
-    </mat-icon>
-    Dashboard
-  </a>
-  <mat-divider></mat-divider>
+    <a mat-list-item routerLinkActive="list-item-active" routerLink="/organisation-units">
+      <mat-icon>
+        table_chart
+      </mat-icon>
+      Organisation Units
+    </a>
+    <mat-divider></mat-divider>
 
-  <a mat-list-item routerLinkActive="list-item-active" routerLink="/organisation-units">
-    <mat-icon>
-      table_chart
-    </mat-icon>
-    Organisation Units
-  </a>
-  <mat-divider></mat-divider>
+    <mat-divider></mat-divider>
+    <h2 class="mat-subheader">Security</h2>
+    <a mat-list-item routerLinkActive="list-item-active" routerLink="/authorities">
+      <mat-icon>
+        security
+      </mat-icon>
+      Authorities</a>
+    <a mat-list-item routerLinkActive="list-item-active" routerLink="/roles">
+      <mat-icon>
+        groups
+      </mat-icon>
+      Roles</a>
+    <a mat-list-item routerLinkActive="list-item-active" routerLink="/users">
+      <mat-icon>
+        person
+      </mat-icon>
+      Users</a>
+    <mat-divider></mat-divider>
 
-  <mat-divider></mat-divider>
-  <h2 class="mat-subheader">Security</h2>
-  <a mat-list-item routerLinkActive="list-item-active" routerLink="/authorities">
-    <mat-icon>
-      security
-    </mat-icon>
-    Authorities</a>
-  <a mat-list-item routerLinkActive="list-item-active" routerLink="/roles">
-    <mat-icon>
-      groups
-    </mat-icon>
-    Roles</a>
-  <a mat-list-item routerLinkActive="list-item-active" routerLink="/users">
-    <mat-icon>
-      person
-    </mat-icon>
-    Users</a>
-  <mat-divider></mat-divider>
+    <h2 class="mat-subheader">Flows</h2>
+    <a mat-list-item routerLinkActive="list-item-active" routerLink="/flows">
+      <mat-icon>
+        account_tree
+      </mat-icon>
+      Flows
+    </a>
+    <a mat-list-item routerLinkActive="list-item-active" routerLink="/contacts">
+      <mat-icon>
+        contacts
+      </mat-icon>
+      Contacts
+    </a>
+    <a mat-list-item routerLinkActive="list-item-active" routerLink="/data-elements">
+      <mat-icon>
+        insights
+      </mat-icon>
+      Data Elements
+    </a>
+    <a mat-list-item routerLinkActive="list-item-active" routerLink="/programs">
+      <mat-icon>
+        group_work
+      </mat-icon>
+      Programs
+    </a>
+  </div>
 
-  <h2 class="mat-subheader">Flows</h2>
-  <a mat-list-item routerLinkActive="list-item-active" routerLink="/flows">
-    <mat-icon>
-      account_tree
-    </mat-icon>
-    Flows
-  </a>
-  <a mat-list-item routerLinkActive="list-item-active" routerLink="/contacts">
-    <mat-icon>
-      contacts
-    </mat-icon>
-    Contacts
-  </a>
-  <a mat-list-item routerLinkActive="list-item-active" routerLink="/data-elements">
-    <mat-icon>
-      insights
-    </mat-icon>
-    Data Elements
-  </a>
-  <a mat-list-item routerLinkActive="list-item-active" routerLink="/programs">
-    <mat-icon>
-      group_work
-    </mat-icon>
-    Programs
-  </a>
+<!--  The menu of a facilitator-->
+  <div *ngIf="user.title.toUpperCase()=='FACILITATOR'" class="menu-role">
+    <a mat-list-item routerLinkActive="list-item-active" routerLink="/dashboard">
+      <mat-icon>
+        dashboard
+      </mat-icon>
+      Dashboard
+    </a>
+    <mat-divider></mat-divider>
+
+    <a mat-list-item routerLinkActive="list-item-active" routerLink="/organisation-units">
+      <mat-icon>
+        table_chart
+      </mat-icon>
+      Organisation Units
+    </a>
+    <mat-divider></mat-divider>
+  </div>
 </mat-nav-list>
 
 
