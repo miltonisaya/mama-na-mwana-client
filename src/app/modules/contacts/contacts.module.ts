@@ -6,6 +6,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import {AngularMaterialModule} from '../../material.module';
 import {MatDialogModule} from '@angular/material/dialog';
 import {ContactsComponent} from './contacts.component';
+import {ContactDialogComponent} from "./modals/contact-dialog-component";
 
 @NgModule({
     imports: [
@@ -18,7 +19,8 @@ import {ContactsComponent} from './contacts.component';
         MatDialogModule
     ],
     declarations: [
-        ContactsComponent
+      ContactsComponent,
+      ContactDialogComponent
     ]
 })
 export class ContactsModule {

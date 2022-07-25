@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {Observable, of} from 'rxjs';
 import {catchError, map, tap} from 'rxjs/operators';
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 export const BASE_URL: string = environment.baseURL;
 export const RESOURCE_URL: string = 'api/v1/contacts';
@@ -63,5 +64,32 @@ export class ContactsService {
     return this.http.get(this.API_ENDPOINT_TO_SYNC).pipe(
       map(this.extractData)
     );
+  }
+
+  /**
+   *
+   * @param data
+   */
+  populateForm (data){
+    this.form.setValue(data);
+  }
+
+  form: FormGroup = new FormGroup({
+    id: new FormControl(''),
+    facilityCode: new FormControl('', [Validators.required])
+  });
+
+  updateContact(contact: any) {
+    return this.http.put(this.API_ENDPOINT+"/"+contact.id, contact)
+      .pipe(tap(_ => console.log(`updated contact with id=${contact.id}`)),
+        catchError(this.handleError<any>('update contact'))
+      );
+  }
+
+  initializeFormGroup(){
+    return this.form.setValue({
+      id: '',
+      facilityCode: ''
+    });
   }
 }

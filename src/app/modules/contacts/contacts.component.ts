@@ -5,8 +5,10 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {ContactsService} from './contacts.service';
 import {NotifierService} from '../notifications/notifier.service';
-import {MatDialog} from '@angular/material/dialog';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {DataElement} from "../data-elements/dataElement";
+import {RolesDialogComponent} from "../roles/modals/roles-dialog-component";
+import {ContactDialogComponent} from "./modals/contact-dialog-component";
 
 @Component({
   selector: 'app-contacts',
@@ -14,7 +16,7 @@ import {DataElement} from "../data-elements/dataElement";
   styleUrls: ['./contacts.component.scss']
 })
 export class ContactsComponent implements OnInit {
-  displayedColumns: string[] = ["sno",'name', 'facilityCode','urn'];
+  displayedColumns: string[] = ["sno",'name', 'facilityCode','urn','actions'];
   contacts: any = [];
   userId: string;
   @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
@@ -89,9 +91,31 @@ export class ContactsComponent implements OnInit {
   }
 
   pageChanged(e: any) {
-    console.log(e);
     this.pageSize = e.pageSize;
     this.pageNo = e.pageIndex;
     this.getContacts();
+  }
+
+  openDialog(data?): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    if (data) {
+      const contactData = {
+        id: data.id,
+        facilityCode: data.facilityCode
+      };
+      this.ContactsService.populateForm(contactData);
+      this.DialogService.open(ContactDialogComponent, dialogConfig)
+        .afterClosed().subscribe(() => {
+        this.getContacts();
+      });
+    } else {
+      dialogConfig.data = {};
+      this.DialogService.open(ContactDialogComponent, dialogConfig)
+        .afterClosed().subscribe(() => {
+        this.getContacts();
+      });
+    }
   }
 }
