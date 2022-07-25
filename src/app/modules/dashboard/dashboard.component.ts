@@ -81,8 +81,14 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     });
   }
 
-  resend(transactions: any) {
-    console.log(transactions);
+  resend(transaction: any) {
+    return this.transactionService.resetTrx({id: transaction.id}).subscribe((response: any) => {
+      this.notifierService.showNotification(response.message,'OK','success');
+      console.log(response);
+    }, error => {
+      this.notifierService.showNotification(error.message, 'OK', 'error');
+      console.log(error);
+    });
   }
 
   pageChanged(e: any) {
