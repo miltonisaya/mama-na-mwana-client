@@ -71,7 +71,7 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Action</th>
         <td mat-cell *matCellDef="let transactions">
-          <button matTooltip="Resend" matTooltipPosition="left" mat-icon-button>
+          <button *ngIf="transactions.isSent==false" matTooltip="Resend" matTooltipPosition="left" mat-icon-button>
             <mat-icon (click)="resend(transactions)">autorenew</mat-icon>
           </button>
         </td>

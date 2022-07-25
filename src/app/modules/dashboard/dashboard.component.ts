@@ -84,7 +84,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   resend(transaction: any) {
     return this.transactionService.resetTrx({id: transaction.id}).subscribe((response: any) => {
       this.notifierService.showNotification(response.message,'OK','success');
-      console.log(response);
+      this.getAllTransactions();
     }, error => {
       this.notifierService.showNotification(error.message, 'OK', 'error');
       console.log(error);
