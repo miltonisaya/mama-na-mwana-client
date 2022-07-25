@@ -8,6 +8,7 @@ export const BASE_URL: string = environment.baseURL;
 export const REGISTRATION_STATS_BY_MONTHS: string = 'api/v1/get-registrations-by-months';
 export const REGISTRATION_STATS_BY_COUNCIL: string = 'api/v1/get-registrations-by-council';
 export const TOTAL_NUMBER_OF_REGISTRATIONS: string = 'api/v1/get-number-of-registrations';
+export const TOTAL_NUMBER_OF_REGISTRATIONS_BAR_CHART: string = 'api/v1/get-number-of-registrations-in-bar-chart';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class DashboardService {
   private REGISTRATION_STATS_BY_MONTHS_API_ENDPOINT = `${BASE_URL}/${REGISTRATION_STATS_BY_MONTHS}`;
   private REGISTRATION_STATS_BY_COUNCIL_API_ENDPOINT = `${BASE_URL}/${REGISTRATION_STATS_BY_COUNCIL}`;
   private TOTAL_NUMBER_OF_REGISTRATIONS_API_ENDPOINT = `${BASE_URL}/${TOTAL_NUMBER_OF_REGISTRATIONS}`;
+  private TOTAL_NUMBER_OF_REGISTRATIONS_BAR_CHART_API_ENDPOINT = `${BASE_URL}/${TOTAL_NUMBER_OF_REGISTRATIONS_BAR_CHART}`;
 
   constructor(
     private http: HttpClient
@@ -52,6 +54,11 @@ export class DashboardService {
 
   getNumberOfAllContacts(): Observable<any> {
     return this.http.get<any>(this.TOTAL_NUMBER_OF_REGISTRATIONS_API_ENDPOINT,{}).pipe(
+      map(this.extractData));
+  }
+
+  getNumberOfRegistrationsInBarChart() {
+    return this.http.get<any>(this.TOTAL_NUMBER_OF_REGISTRATIONS_BAR_CHART_API_ENDPOINT,{}).pipe(
       map(this.extractData));
   }
 
@@ -98,4 +105,5 @@ export class DashboardService {
   //
   //   }];
   // }
+
 }

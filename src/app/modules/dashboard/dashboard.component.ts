@@ -86,10 +86,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   pageChanged(e: any) {
-      console.log(e);
-      this.pageSize = e.pageSize;
-      this.pageNo = e.pageIndex;
-      this.getAllTransactions();
+    console.log(e);
+    this.pageSize = e.pageSize;
+    this.pageNo = e.pageIndex;
+    this.getAllTransactions();
   }
 
   private populatePieChartMonthly() {
