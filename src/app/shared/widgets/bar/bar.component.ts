@@ -41,7 +41,7 @@ export class BarComponent implements OnInit {
         labels: {
           rotation: -45,
           style: {
-            fontSize: '13px',
+            fontSize: '10px',
             fontFamily: 'Verdana, sans-serif'
           }
         }
@@ -49,17 +49,17 @@ export class BarComponent implements OnInit {
       yAxis: {
         min: 0,
         title: {
-          text: 'Population (millions)'
+          text: 'Number of registered mothers'
         }
       },
       legend: {
-        enabled: false
+        enabled: true
       },
       tooltip: {
         pointFormat: 'Registration of Mothers by Councils'
       },
       series: [{
-        name: 'Population',
+        name: 'Councils',
         data: this.data,
         dataLabels: {
           enabled: true,
@@ -69,7 +69,7 @@ export class BarComponent implements OnInit {
           format: '{point.y:.1f}', // one decimal
           y: 10, // 10 pixels down from the top
           style: {
-            fontSize: '13px',
+            fontSize: '10px',
             fontFamily: 'Verdana, sans-serif'
           }
         }

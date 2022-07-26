@@ -11,21 +11,28 @@
 </div>
 <p></p>
 
-<div class="mat-elevation-z8">
-  <mat-card class="mat-elevation-z8">
-    <div fxLayout="row" fxLayoutAlign="center stretch">
-      <h3>Registration Statistics</h3>
-    </div>
-    <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px">
-      <div fxFlex="60" class="mat-elevation-z8">
-        <app-widget-pie [data]="pieChartCouncil" [title]="titleCouncils" *ngIf="registrationByCouncilIsReady === true"></app-widget-pie>
-      </div>
-      <div fxFlex="40" class="mat-elevation-z8">
-        <app-widget-pie [data]="pieChartMonthly" [title]="titleMonths" *ngIf="pieIsReady === true"></app-widget-pie>
-      </div>
-    </div>
-  </mat-card>
+<div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px">
+  <div fxFlex="100" class="mat-elevation-z8">
+    <app-widget-bar [data]="bigChart" [title]="titleCouncils" *ngIf="bigChartsIsReady === true"></app-widget-bar>
+  </div>
 </div>
+<p></p>
+
+<!--<div class="mat-elevation-z8">-->
+<!--  <mat-card class="mat-elevation-z8">-->
+<!--    <div fxLayout="row" fxLayoutAlign="center stretch">-->
+<!--      <h3>Registration Statistics</h3>-->
+<!--    </div>-->
+<!--    <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px">-->
+<!--      <div fxFlex="60" class="mat-elevation-z8">-->
+<!--        <app-widget-pie [data]="pieChartCouncil" [title]="titleCouncils" *ngIf="registrationByCouncilIsReady === true"></app-widget-pie>-->
+<!--      </div>-->
+<!--      <div fxFlex="40" class="mat-elevation-z8">-->
+<!--        <app-widget-pie [data]="pieChartMonthly" [title]="titleMonths" *ngIf="pieIsReady === true"></app-widget-pie>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </mat-card>-->
+<!--</div>-->
 
 <p></p>
 
@@ -98,4 +105,4 @@
 
 <!--PieChart<pre>{{pieChart | json}}</pre>-->
 <!--<hr>-->
-<!--<pre>{{transactions | json}}</pre>-->
+<!--<pre>{{bigChart | json}}</pre>-->

@@ -33,6 +33,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   pieChartCouncil: any;
   numberOfRegisteredContacts: any;
   numberOfRegisteredContactsIsReady: boolean = false;
+  bigChartsIsReady: boolean = false;
 
   constructor(
     private dashboardService: DashboardService,
@@ -47,9 +48,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    // this.bigChart = this.dashboardService.bigChart();
-    // this.cards =this.dashboardService.cards();
-    // this.barChart = this.dashboardService.barChart();
+    this.populateBigChartByCouncil();
     this.populatePieChartByCouncil();
     this.populatePieChartMonthly();
     this.getAllTransactions();
@@ -99,16 +98,32 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   private populatePieChartMonthly() {
-    this.dashboardService.getMonthlyRegistrations().subscribe((response)=>{
+    this.dashboardService.getMonthlyRegistrations().subscribe((response : any)=>{
       this.pieChartMonthly = response.data;
       this.pieIsReady = true;
     });
   }
 
   private populatePieChartByCouncil() {
-    this.dashboardService.getRegistrationsByCouncil().subscribe((response)=>{
+    this.dashboardService.getRegistrationsByCouncil().subscribe((response : any)=>{
       this.pieChartCouncil = response.data;
       this.registrationByCouncilIsReady = true;
+    });
+  }
+
+  private populateBigChartByCouncil() {
+    this.dashboardService.getNumberOfRegistrationsInBarChart().subscribe((response : any)=>{
+      let result = response.data;
+      let finalResult = [];
+
+      result.forEach((x) => {
+        var entries = Object.entries(x);
+        finalResult.push(entries[0]);
+        // console.log(entries[0]);
+      });
+      this.bigChart = finalResult;
+      this.bigChartsIsReady = true;
+      // console.log(finalResult);
     });
   }
 }
