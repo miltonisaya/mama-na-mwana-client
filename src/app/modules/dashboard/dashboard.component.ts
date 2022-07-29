@@ -5,6 +5,7 @@ import {TransactionsService} from '../transactions/transactions.service';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {NotifierService} from '../notifications/notifier.service';
 import {DataElement} from "../data-elements/dataElement";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-dashboard',
@@ -36,7 +37,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   bigChartsIsReady: boolean = false;
 
   constructor(
-    private dashboardService: DashboardService,
+    public dashboardService: DashboardService,
     private transactionService: TransactionsService,
     private notifierService: NotifierService
   ) {
@@ -125,5 +126,18 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.bigChartsIsReady = true;
       // console.log(finalResult);
     });
+  }
+
+  getRegistrationsByDate(data) {
+    let params = {
+      startDate :data.startDate,
+      endDate: data.endDate
+    };
+
+    if (this.dashboardService.registrationsForm.valid) {
+      this.dashboardService.findRegistrationsByDate(this.dashboardService.registrationsForm.value, params).subscribe((response : any) => {
+          this.notifierService.showNotification(response.message,'OK', 'success');
+        });
+    }
   }
 }

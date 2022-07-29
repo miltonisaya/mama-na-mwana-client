@@ -3,12 +3,14 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 export const BASE_URL: string = environment.baseURL;
 export const REGISTRATION_STATS_BY_MONTHS: string = 'api/v1/get-registrations-by-months';
 export const REGISTRATION_STATS_BY_COUNCIL: string = 'api/v1/get-registrations-by-council';
 export const TOTAL_NUMBER_OF_REGISTRATIONS: string = 'api/v1/get-number-of-registrations';
 export const TOTAL_NUMBER_OF_REGISTRATIONS_BAR_CHART: string = 'api/v1/get-number-of-registrations-in-bar-chart';
+export const NUMBER_OF_REGISTRATIONS_BETWEEN_DATES: string = 'api/v1/registrations-between-dates';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +20,7 @@ export class DashboardService {
   private REGISTRATION_STATS_BY_COUNCIL_API_ENDPOINT = `${BASE_URL}/${REGISTRATION_STATS_BY_COUNCIL}`;
   private TOTAL_NUMBER_OF_REGISTRATIONS_API_ENDPOINT = `${BASE_URL}/${TOTAL_NUMBER_OF_REGISTRATIONS}`;
   private TOTAL_NUMBER_OF_REGISTRATIONS_BAR_CHART_API_ENDPOINT = `${BASE_URL}/${TOTAL_NUMBER_OF_REGISTRATIONS_BAR_CHART}`;
+  private REGISTRATIONS_BETWEEN_DATES_API_END_POINT = `${BASE_URL}/${NUMBER_OF_REGISTRATIONS_BETWEEN_DATES}`;
 
   constructor(
     private http: HttpClient
@@ -34,6 +37,11 @@ export class DashboardService {
     const body = res;
     return body || {};
   }
+
+  registrationsForm: FormGroup = new FormGroup({
+    startDate: new FormControl('', [Validators.required]),
+    endDate: new FormControl('', [Validators.required])
+  });
 
   /**
    * Get all monthly registrations
@@ -59,6 +67,11 @@ export class DashboardService {
 
   getNumberOfRegistrationsInBarChart() {
     return this.http.get<any>(this.TOTAL_NUMBER_OF_REGISTRATIONS_BAR_CHART_API_ENDPOINT,{}).pipe(
+      map(this.extractData));
+  }
+
+  findRegistrationsByDate(params: any, params1: { endDate: any; startDate: any }) {
+    return this.http.get<any>(this.REGISTRATIONS_BETWEEN_DATES_API_END_POINT,{}).pipe(
       map(this.extractData));
   }
 }
