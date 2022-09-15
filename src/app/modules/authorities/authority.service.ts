@@ -104,7 +104,7 @@ export class AuthorityService {
     return this.http.post<any>(this.ROLE_AUTHORITY_API_ENDPOINT, data)
       // tslint:disable-next-line:no-shadowed-variable
       .pipe(tap((response) => console.log(`Mapped role authorities`)),
-        catchError(this.handleError<any>('Role authorities mapping'))
+        catchError(this.handleError<any>('Menu authorities mapping'))
       );
   }
 
