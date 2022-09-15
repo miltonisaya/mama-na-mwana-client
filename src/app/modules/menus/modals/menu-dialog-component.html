@@ -3,11 +3,11 @@
          fxLayout.xs="column"
          fxFlexFill
          fxLayoutAlign="center center">
-  <form [formGroup]="RolesService.form"
+  <form [formGroup]="MenuService.form"
         class="form" #formDirective="ngForm"
-        (ngSubmit)="submitForm(RolesService.form)">
+        (ngSubmit)="submitForm(MenuService.form)">
     <h1 mat-dialog-title class="dialog-header">
-      {{RolesService.form.controls['id'].value? "Edit Flow" : "Create Flow"}}
+      {{MenuService.form.controls['id'].value? "Edit Menu" : "Create Menu"}}
     </h1>
     <mat-divider></mat-divider>
     <mat-dialog-content>
@@ -21,8 +21,8 @@
 
         <mat-form-field>
           <input matInput
-                 formControlName="description"
-                 placeholder="Enter description"
+                 formControlName="icon"
+                 placeholder="Enter icon"
                  autocomplete="off"
                  required>
         </mat-form-field>
@@ -33,7 +33,7 @@
       <div class="button">
         <button mat-raised-button type="button" mat-dialog-close>CANCEL</button>
         <button mat-raised-button color="primary" type="submit">
-          {{RolesService.form.controls['id'].value? "UPDATE" : "CREATE"}}
+          {{MenuService.form.controls['id'].value? "UPDATE" : "CREATE"}}
         </button>
       </div>
     </mat-dialog-actions>

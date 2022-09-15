@@ -6,10 +6,10 @@ import {catchError, map, tap} from 'rxjs/operators';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 export const BASE_URL: string = environment.baseURL;
-export const RESOURCE_URL: string = 'api/v1/roles';
+export const RESOURCE_URL: string = 'api/v1/menus';
 
 @Injectable()
-export class RolesService {
+export class MenuService {
   private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
 
   constructor(private http: HttpClient) {}
@@ -32,7 +32,7 @@ export class RolesService {
     return body || {};
   }
 
-  getRoles(param?): Observable<any> {
+  getMenus(param?): Observable<any> {
     return this.http.get<any>(this.API_ENDPOINT,{params: param}).pipe(
       map(this.extractData));
   }
@@ -42,7 +42,7 @@ export class RolesService {
    * @param id
    */
   delete(id): Observable<any> {
-    console.log("Deleting role with id ",id);
+    console.log("Deleting menu with id ",id);
     return this.http.delete<any>(this.API_ENDPOINT+"/"+id).pipe(
       map(this.extractData));``
   }
@@ -59,19 +59,20 @@ export class RolesService {
     return this.form.setValue({
       id: '',
       name: '',
-      description: ''
+      parentId: '',
+      icon: ''
     });
   }
 
   /**
-   * @param role
+   * @param menu
    */
-  createRole(role): Observable<any> {
-    console.log(role);
-    return this.http.post<any>(this.API_ENDPOINT, role)
+  createMenu(menu): Observable<any> {
+    console.log(menu);
+    return this.http.post<any>(this.API_ENDPOINT, menu)
       // tslint:disable-next-line:no-shadowed-variable
-      .pipe(tap((response) => console.log(`Added role with name = ${role.name}`)),
-        catchError(this.handleError<any>('create objective'))
+      .pipe(tap((response) => console.log(`Added menu with name = ${menu.name}`)),
+        catchError(this.handleError<any>('create menu'))
       );
   }
 
@@ -87,11 +88,11 @@ export class RolesService {
     };
   }
 
-  updateRole(role): Observable<any> {
-    console.log(role);
-    return this.http.put(this.API_ENDPOINT+"/"+role.id, role)
-      .pipe(tap(_ => console.log(`updated role with id=${role.id}`)),
-        catchError(this.handleError<any>('update role'))
+  updateMenu(menu): Observable<any> {
+    console.log(menu);
+    return this.http.put(this.API_ENDPOINT+"/"+menu.id, menu)
+      .pipe(tap(_ => console.log(`updated menu with id=${menu.id}`)),
+        catchError(this.handleError<any>('update menu'))
       );
   }
 }

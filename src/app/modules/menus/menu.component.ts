@@ -1,24 +1,23 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
-import {RolesService} from './roles.service';
+import {MenuService} from './menu.service';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
-import {RolesDialogComponent} from './modals/roles-dialog-component';
-import {Role} from './role';
+import {MenuDialogComponent} from './modals/menu-dialog-component';
+import {Menu} from './menu';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {NotifierService} from '../notifications/notifier.service';
-import {RoleAuthorityMappingDialogComponent} from "./modals/role-authority-mapping-dialog-component";
 
 @Component({
   selector: 'app-users',
-  templateUrl: './roles.component.html',
-  styleUrls: ['./roles.component.scss']
+  templateUrl: './menu.component.html',
+  styleUrls: ['./menu.component.scss']
 })
-export class RolesComponent implements OnInit {
+export class MenuComponent implements OnInit {
   displayedColumns: string[] = ["sno",'name', 'description', 'actions'];
-  roles: any = [];
-  roleId: string;
-  dataSource: MatTableDataSource<Role>;
+  menus: any = [];
+  menuId: string;
+  dataSource: MatTableDataSource<Menu>;
   @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -28,27 +27,27 @@ export class RolesComponent implements OnInit {
   private params: { pageNo: number; pageSize: number };
 
   constructor(
-    private RoleService: RolesService,
+    private MenuService: MenuService,
     private dialog: MatDialog,
     private notifierService: NotifierService
   ) { }
 
   ngOnInit(): void {
-    this.getRoles();
+    this.getMenus();
   }
 
   /**
    * This method returns roles
    */
-  getRoles() {
+  getMenus() {
     this.params = {
       "pageNo" : this.pageNo,
       "pageSize" : this.pageSize
     };
 
-    return this.RoleService.getRoles().subscribe((response: any) => {
-      this.roles = response.data;
-      this.dataSource = new MatTableDataSource<Role>(this.roles.content);
+    return this.MenuService.getMenus().subscribe((response: any) => {
+      this.menus = response.data;
+      this.dataSource = new MatTableDataSource<Menu>(this.menus.content);
     }, error => {
       this.notifierService.showNotification(error.message,'OK','error');
       console.log(error);
@@ -65,35 +64,35 @@ export class RolesComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     if (data) {
-      const roleData = {
+      const menuData = {
         id: data.id,
         name: data.name,
-        description: data.description
+        icon: data.icon
       };
-      this.RoleService.populateForm(roleData);
-      this.dialog.open(RolesDialogComponent, dialogConfig)
+      this.MenuService.populateForm(menuData);
+      this.dialog.open(MenuDialogComponent, dialogConfig)
         .afterClosed().subscribe(() => {
-        this.getRoles();
+        this.getMenus();
       });
     } else {
       dialogConfig.data = {};
-      this.dialog.open(RolesDialogComponent, dialogConfig)
+      this.dialog.open(MenuDialogComponent, dialogConfig)
         .afterClosed().subscribe(() => {
-        this.getRoles();
+        this.getMenus();
       });
     }
   }
 
   openDeleteDialog(id) {
-    this.roleId = id;
+    this.menuId = id;
     this.dialog.open(this.deleteDialog)
       .afterClosed().subscribe(() => {
-      this.getRoles();
+      this.getMenus();
     });
   }
 
   delete() {
-    this.RoleService.delete(this.roleId)
+    this.MenuService.delete(this.menuId)
       .subscribe(response => {
         this.notifierService.showNotification(response.message,'OK','success');
       }, error => {
@@ -102,20 +101,10 @@ export class RolesComponent implements OnInit {
     this.dialog.closeAll();
   }
 
-  openMappingDialog(role) {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    this.dialog.open(RoleAuthorityMappingDialogComponent, {data: role})
-      .afterClosed().subscribe(() => {
-      this.getRoles();
-    });
-  }
-
   pageChanged(e: any) {
     console.log(e);
     this.pageSize = e.pageSize;
     this.pageNo = e.pageIndex;
-    this.getRoles();
+    this.getMenus();
   }
 }
