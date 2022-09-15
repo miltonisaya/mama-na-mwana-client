@@ -37,6 +37,8 @@ import {AuthGuard} from "./helpers/auth.guard";
 import {PasswordResetModule} from "./modules/password-reset/password-reset.module";
 import {AuthorityService} from "./modules/authorities/authority.service";
 import {AuthorityModule} from "./modules/authorities/authority.module";
+import {MenuModule} from "./modules/menus/menu.module";
+import { MenuService } from './modules/menus/menu.service';
 
 @NgModule({
   declarations: [
@@ -64,6 +66,7 @@ import {AuthorityModule} from "./modules/authorities/authority.module";
     ContactsModule,
     OrganisationUnitModule,
     ProgramModule,
+    MenuModule,
     PasswordResetModule,
     AuthorityModule
   ],
@@ -78,6 +81,7 @@ import {AuthorityModule} from "./modules/authorities/authority.module";
     OrganisationUnitService,
     ProgramService,
     AuthorityService,
+    MenuService,
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
     AuthGuard
