@@ -19,6 +19,7 @@ import {MatTreeModule} from '@angular/material/tree';
 import {ProgramComponent} from '../../modules/programs/program.component';
 import {MatTabsModule} from "@angular/material/tabs";
 import {AuthorityComponent} from "../../modules/authorities/authority.component";
+import {MenuComponent} from "../../modules/menus/menu.component";
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import {AuthorityComponent} from "../../modules/authorities/authority.component"
     DataElementComponent,
     OrganisationUnitComponent,
     ProgramComponent,
-    AuthorityComponent
+    AuthorityComponent,
+    MenuComponent
   ],
     imports: [
         CommonModule,
