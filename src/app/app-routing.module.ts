@@ -13,6 +13,7 @@ import {OrganisationUnitComponent} from './modules/organisation-units/organisati
 import {ProgramComponent} from './modules/programs/program.component';
 import {PasswordResetComponent} from "./modules/password-reset/password-reset.component";
 import {AuthorityComponent} from "./modules/authorities/authority.component";
+import { MenuComponent } from './modules/menus/menu.component';
 
 
 const routes: Routes = [{
@@ -61,6 +62,11 @@ const routes: Routes = [{
     {
       path: 'authorities',
       component: AuthorityComponent,
+      canActivate: [AuthGuard]
+    },
+    {
+      path: 'manage-menus',
+      component: MenuComponent,
       canActivate: [AuthGuard]
     }
   ]
