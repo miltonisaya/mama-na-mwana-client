@@ -17,6 +17,5 @@ export class SidebarComponent implements OnInit {
   getUserDetails(){
     this.user = JSON.parse(localStorage.getItem("MNM_USER"));
     this.roles = this.user.roles;
-    console.log("The roles =>",this.user.roles);
   }
 }
