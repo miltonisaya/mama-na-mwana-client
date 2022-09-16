@@ -14,7 +14,7 @@ import {NotifierService} from '../notifications/notifier.service';
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
-  displayedColumns: string[] = ["sno",'name', 'description', 'actions'];
+  displayedColumns: string[] = ["sno",'name', 'icon', 'parent','role','sortOrder','actions'];
   menus: any = [];
   menuId: string;
   dataSource: MatTableDataSource<Menu>;
@@ -37,7 +37,7 @@ export class MenuComponent implements OnInit {
   }
 
   /**
-   * This method returns roles
+   * This method returns menus
    */
   getMenus() {
     this.params = {
@@ -67,7 +67,11 @@ export class MenuComponent implements OnInit {
       const menuData = {
         id: data.id,
         name: data.name,
-        icon: data.icon
+        icon: data.icon,
+        url: data.url,
+        parentId: data.parentId,
+        roleId: data.roleId,
+        sortOrder: data.sortOrder
       };
       this.MenuService.populateForm(menuData);
       this.dialog.open(MenuDialogComponent, dialogConfig)
