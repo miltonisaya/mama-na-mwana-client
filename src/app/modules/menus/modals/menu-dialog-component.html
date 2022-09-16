@@ -1,4 +1,4 @@
-<section class="login-form-container"
+<section class="menu-container"
          fxLayout="row"
          fxLayout.xs="column"
          fxFlexFill
@@ -11,23 +11,57 @@
     </h1>
     <mat-divider></mat-divider>
     <mat-dialog-content>
-      <div class="dialog-content" fxLayout="column" fxLayoutGap="5px">
-        <mat-form-field>
-          <input matInput
-                 formControlName="name"
-                 autocomplete="off"
-                 placeholder="Enter name" required>
-        </mat-form-field>
+      <div class="dialog-content" fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="space-between stretch">
+          <mat-form-field>
+            <input matInput
+                   formControlName="name"
+                   autocomplete="off"
+                   placeholder="Enter name" required>
+          </mat-form-field>
 
+          <mat-form-field>
+            <input matInput
+                   formControlName="icon"
+                   placeholder="Enter icon"
+                   autocomplete="off"
+                   required>
+          </mat-form-field>
+      </div>
+
+      <div class="dialog-content" fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="space-between stretch">
         <mat-form-field>
           <input matInput
-                 formControlName="icon"
-                 placeholder="Enter icon"
+                 formControlName="sortOrder"
                  autocomplete="off"
-                 required>
+                 type="number"
+                 placeholder="Enter sort order" required>
         </mat-form-field>
       </div>
-      <!-- <pre>{{ form | json }}</pre> -->
+
+      <div fxLayout="row" fxLayoutAlign="space-between stretch">
+        <mat-form-field appearance="fill">
+          <mat-label>Parent</mat-label>
+          <mat-select
+            required
+            formControlName="parentId">
+            <mat-option *ngFor="let menu of menus" [value]="menu.id" >
+              {{menu.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Role</mat-label>
+          <mat-select
+            required
+            formControlName="roleId">
+            <mat-option *ngFor="let role of roles" [value]="role.id" >
+              {{role.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+<!--      <pre>{{MenuService.form.value | json}}</pre>-->
     </mat-dialog-content>
     <mat-dialog-actions fxLayout="row" fxLayoutAlign="end stretch">
       <div class="button">

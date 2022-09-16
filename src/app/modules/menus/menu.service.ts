@@ -17,7 +17,11 @@ export class MenuService {
   form: FormGroup = new FormGroup({
     id: new FormControl(''),
     name: new FormControl('', [Validators.required]),
-    description: new FormControl('', [Validators.required])
+    icon: new FormControl('', [Validators.required]),
+    url: new FormControl('', [Validators.required]),
+    roleId: new FormControl('', [Validators.required]),
+    sortOrder: new FormControl('', [Validators.required]),
+    parentId: new FormControl('', [Validators.required]),
   });
 
   /**

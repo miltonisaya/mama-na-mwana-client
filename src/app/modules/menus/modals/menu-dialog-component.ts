@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {MenuService} from '../menu.service';
 import {MatDialogRef} from '@angular/material/dialog';
 import {NotifierService} from '../../notifications/notifier.service';
+import {RolesService} from "../../roles/roles.service";
 
 @Component({
   selector: 'app-menu-dialog',
@@ -10,13 +11,49 @@ import {NotifierService} from '../../notifications/notifier.service';
 })
 
 export class MenuDialogComponent implements OnInit {
+  private params: { pageNo: number; pageSize: number };
+  menus;
+  roles;
   constructor(
     public MenuService: MenuService,
+    public RoleService: RolesService,
     public dialogRef: MatDialogRef<MenuDialogComponent>,
     public notifierService: NotifierService
   ) { }
 
   ngOnInit() {
+    this.getMenus();
+    this.getRoles();
+  }
+
+  //Load menus
+  getMenus(){
+    this.params = {
+      "pageNo" : 0,
+      "pageSize" : 1000
+    };
+
+    return this.MenuService.getMenus().subscribe((response: any) => {
+      this.menus = response.data.content;
+    }, error => {
+      this.notifierService.showNotification(error.message,'OK','error');
+      console.log(error);
+    });
+  }
+
+  //Load roles
+  getRoles(){
+    this.params = {
+      "pageNo" : 0,
+      "pageSize" : 1000
+    };
+
+    return this.RoleService.getRoles().subscribe((response: any) => {
+      this.roles = response.data.content;
+    }, error => {
+      this.notifierService.showNotification(error.message,'OK','error');
+      console.log(error);
+    });
   }
 
   submitForm(data) {
