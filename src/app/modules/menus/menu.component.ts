@@ -100,7 +100,7 @@ export class MenuComponent implements OnInit {
       .subscribe(response => {
         this.notifierService.showNotification(response.message,'OK','success');
       }, error => {
-        this.notifierService.showNotification(error.message,'OK','error')
+        this.notifierService.showNotification(error.error.error,'OK','error')
       });
     this.dialog.closeAll();
   }
