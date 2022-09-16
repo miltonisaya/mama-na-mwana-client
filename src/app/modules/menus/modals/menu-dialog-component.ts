@@ -57,11 +57,13 @@ export class MenuDialogComponent implements OnInit {
   }
 
   submitForm(data) {
+    console.log("Data =>", data);
     if (this.MenuService.form.valid) {
       if (this.MenuService.form.get('id').value) {
         this.MenuService.updateMenu(this.MenuService.form.value)
           .subscribe(response => {
-            this.notifierService.showNotification(response.message,'OK', 'success');
+            console.log("The response =>",response)
+            this.notifierService.showNotification(response.data.message,'OK', 'success');
             this.onClose();
           });
       } else {
