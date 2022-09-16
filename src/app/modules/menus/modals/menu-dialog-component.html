@@ -5,7 +5,7 @@
          fxLayoutAlign="center center">
   <form [formGroup]="MenuService.form"
         class="form" #formDirective="ngForm"
-        (ngSubmit)="submitForm(MenuService.form)">
+        (ngSubmit)="submitForm(MenuService.form.value)">
     <h1 mat-dialog-title class="dialog-header">
       {{MenuService.form.controls['id'].value? "Edit Menu" : "Create Menu"}}
     </h1>
@@ -28,7 +28,7 @@
           </mat-form-field>
       </div>
 
-      <div class="dialog-content" fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="space-between stretch">
+      <div class="dialog-content" fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="space-between stretch">
         <mat-form-field>
           <input matInput
                  formControlName="sortOrder"
@@ -36,13 +36,20 @@
                  type="number"
                  placeholder="Enter sort order" required>
         </mat-form-field>
+
+        <mat-form-field>
+          <input matInput
+                 formControlName="url"
+                 autocomplete="off"
+                 placeholder="Enter url"
+          >
+        </mat-form-field>
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between stretch">
         <mat-form-field appearance="fill">
           <mat-label>Parent</mat-label>
           <mat-select
-            required
             formControlName="parentId">
             <mat-option *ngFor="let menu of menus" [value]="menu.id" >
               {{menu.name}}
