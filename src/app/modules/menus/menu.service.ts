@@ -18,10 +18,10 @@ export class MenuService {
     id: new FormControl(''),
     name: new FormControl('', [Validators.required]),
     icon: new FormControl('', [Validators.required]),
-    url: new FormControl('', [Validators.required]),
+    url: new FormControl(''),
     roleId: new FormControl('', [Validators.required]),
     sortOrder: new FormControl('', [Validators.required]),
-    parentId: new FormControl('', [Validators.required]),
+    parentId: new FormControl('')
   });
 
   /**
