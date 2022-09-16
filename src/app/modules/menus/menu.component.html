@@ -28,10 +28,28 @@
       <td mat-cell *matCellDef="let menus"> {{menus.name}} </td>
     </ng-container>
 
-    <!-- Description Column -->
-    <ng-container matColumnDef="description">
+    <!-- Icon Column -->
+    <ng-container matColumnDef="icon">
       <th mat-header-cell *matHeaderCellDef> Icon</th>
       <td mat-cell *matCellDef="let menus"> {{menus.icon}} </td>
+    </ng-container>
+
+    <!-- Parent Column -->
+    <ng-container matColumnDef="parent">
+      <th mat-header-cell *matHeaderCellDef> Parent</th>
+      <td mat-cell *matCellDef="let menus"> {{menus.parent}} </td>
+    </ng-container>
+
+    <!-- Role Column -->
+    <ng-container matColumnDef="role">
+      <th mat-header-cell *matHeaderCellDef> Role</th>
+      <td mat-cell *matCellDef="let menus"> {{menus.role}} </td>
+    </ng-container>
+
+    <!-- Sort Order Column -->
+    <ng-container matColumnDef="sortOrder">
+      <th mat-header-cell *matHeaderCellDef> Sort Order</th>
+      <td mat-cell *matCellDef="let menus"> {{menus.sortOrder}} </td>
     </ng-container>
 
     <!-- Action Column -->
@@ -64,11 +82,13 @@
   ></mat-paginator>
 </div>
 
+<!--<pre>{{menus | json}}</pre>-->
+
 
 <!--delete role dialog template-->
 <ng-template #deleteDialog>
   <mat-dialog-content>
-    <h3>Are you sure you want to delete this role?</h3>
+    <h3>Are you sure you want to delete this menu?</h3>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>NO</button>
