@@ -6,6 +6,7 @@ import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {NotifierService} from '../notifications/notifier.service';
 import {DataElement} from "../data-elements/dataElement";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {ContactsService} from "../contacts/contacts.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -39,7 +40,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   constructor(
     public dashboardService: DashboardService,
     private transactionService: TransactionsService,
-    private notifierService: NotifierService
+    private notifierService: NotifierService,
+    private contactsService: ContactsService
   ) {
 
   }
@@ -139,5 +141,23 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           this.notifierService.showNotification(response.message,'OK', 'success');
         });
     }
+  }
+
+  registrationsByFacility() {
+    this.contactsService.registrationsByFacility()
+      .subscribe( response => {
+        const string = JSON.stringify(response);
+        const result = JSON.parse(string);
+        let base64String = result.data;
+
+        const source = `data:application/pdf;base64,${base64String}`;
+        const link = document.createElement("a");
+        link.href = source;
+        link.download = `registrations-by-facility.pdf`
+        link.click();
+        // this.NotifierService.showNotification(response.message,'OK','success');
+      }, error => {
+        this.notifierService.showNotification(error.error.error, 'OK', 'error');
+      });
   }
 }

@@ -11,24 +11,12 @@
 </div>
 <p></p>
 
-<!--<form [formGroup]="dashboardService.registrationsForm"-->
-<!--      class="form" #formDirective="ngForm"-->
-<!--      (ngSubmit)="getRegistrationsByDate(dashboardService.registrationsForm)">-->
-<!--  <mat-form-field appearance="fill">-->
-<!--    <mat-label>Enter a date range</mat-label>-->
-<!--    <mat-date-range-input [rangePicker]="picker">-->
-<!--      <input matStartDate placeholder="Start date">-->
-<!--      <input matEndDate placeholder="End date">-->
-<!--    </mat-date-range-input>-->
-<!--    <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>-->
-<!--    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>-->
-<!--    <mat-date-range-picker #picker></mat-date-range-picker>-->
-<!--  </mat-form-field>-->
-
-<!--</form>-->
-
 <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px">
   <div fxFlex="100" class="mat-elevation-z8">
+    <div fxLayout="column" fxLayoutAlign="space-evenly end" >
+      <button mat-raised-button type="button" class="mat-primary mat-elevation-z8" (click)="registrationsByFacility()">DOWNLOAD REGISTRATIONS BY COUNCIL</button>
+    </div>
+
     <app-widget-bar [data]="bigChart" [title]="titleCouncils" *ngIf="bigChartsIsReady === true"></app-widget-bar>
   </div>
 </div>
