@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/dashboard']);
         }
       }, error => {
-        this.notifierService.showNotification(error.message,'OK', 'error');
+        this.notifierService.showNotification(error.error.error,'OK', 'error');
       });
   }
 }
