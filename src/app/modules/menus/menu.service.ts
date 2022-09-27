@@ -56,15 +56,18 @@ export class MenuService {
    * @param data
    */
   populateForm (data){
-    this.form.setValue(data);
+    this.form.patchValue(data);
   }
 
   initializeFormGroup(){
-    return this.form.setValue({
+    return this.form.patchValue({
       id: '',
       name: '',
+      icon: '',
       parentId: '',
-      icon: ''
+      url: '',
+      roleId: '',
+      sortOrder: ''
     });
   }
 

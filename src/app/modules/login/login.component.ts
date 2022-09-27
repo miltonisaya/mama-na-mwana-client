@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit {
   loginProcess() {
     this.authService.login(this.formGroup.value)
       .subscribe(response => {
-        console.log('the response', response)
         if (response.data.user) {
           this.notifierService.showNotification(response.message,'OK', 'success');
           this.router.navigate(['/dashboard']);
