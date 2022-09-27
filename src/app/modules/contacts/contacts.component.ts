@@ -80,13 +80,21 @@ export class ContactsComponent implements OnInit {
     this.DialogService.closeAll();
   }
 
-  syncContacts() {
-    this.ContactsService.syncContacts()
+  registrationsByFacility() {
+    this.ContactsService.registrationsByFacility()
       .subscribe( response => {
-        console.log("Sync response =>",response);
+        const string = JSON.stringify(response);
+        const result = JSON.parse(string);
+        let base64String = result.data;
+
+        const source = `data:application/pdf;base64,${base64String}`;
+        const link = document.createElement("a");
+        link.href = source;
+        link.download = `registrations-by-facility.pdf`
+        link.click();
         // this.NotifierService.showNotification(response.message,'OK','success');
       }, error => {
-        this.NotifierService.showNotification(error.message, 'OK', 'error');
+        this.NotifierService.showNotification(error.error.error, 'OK', 'error');
       });
   }
 

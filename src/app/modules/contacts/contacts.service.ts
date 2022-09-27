@@ -7,13 +7,13 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 export const BASE_URL: string = environment.baseURL;
 export const RESOURCE_URL: string = 'api/v1/contacts';
-export const SYNC_CONTACTS_URL: string = 'api/v1/sync-contacts';
+export const REGISTRATION_BY_FACILITY_URL: string = 'api/v1/contacts/registration-by-facility';
 
 @Injectable()
 
 export class ContactsService {
   private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
-  private API_ENDPOINT_TO_SYNC = `${BASE_URL}/${SYNC_CONTACTS_URL}`;
+  private API_ENDPOINT_TO_GET_REGISTRATIONS_BY_FACILITY = `${BASE_URL}/${REGISTRATION_BY_FACILITY_URL}`;
 
   constructor(private http: HttpClient) {}
 
@@ -60,8 +60,8 @@ export class ContactsService {
     };
   }
 
-  syncContacts() {
-    return this.http.get(this.API_ENDPOINT_TO_SYNC).pipe(
+  registrationsByFacility() {
+    return this.http.get(this.API_ENDPOINT_TO_GET_REGISTRATIONS_BY_FACILITY).pipe(
       map(this.extractData)
     );
   }
