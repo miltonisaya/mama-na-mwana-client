@@ -64,8 +64,10 @@ export class BarComponent implements OnInit {
         dataLabels: {
           enabled: true,
           rotation: -90,
+          crop: false,
+          overflow: 'none',
           color: '#FFFFFF',
-          align: 'right',
+          align: 'top',
           format: '{point.y:.1f}', // one decimal
           y: 10, // 10 pixels down from the top
           style: {
