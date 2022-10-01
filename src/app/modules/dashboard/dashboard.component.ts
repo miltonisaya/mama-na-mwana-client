@@ -2,10 +2,9 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {DashboardService} from './dashboard.service';
 import {MatTableDataSource} from '@angular/material/table';
 import {TransactionsService} from '../transactions/transactions.service';
-import {MatPaginator, PageEvent} from '@angular/material/paginator';
+import {MatPaginator} from '@angular/material/paginator';
 import {NotifierService} from '../notifications/notifier.service';
 import {DataElement} from "../data-elements/dataElement";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ContactsService} from "../contacts/contacts.service";
 
 @Component({
@@ -23,12 +22,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   dataSource;
   transactions: any;
-  displayedColumns: string[] = ["sno", 'dateProcessed','payload','isSent','actions'];
+  displayedColumns: string[] = ["sno", 'dateProcessed','payload','response','isSent','actions'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   pageSize = 5;
   pageNo = 0;
-  pageSizeOptions: number[] = [5, 10, 25, 100, 1000];
+  pageSizeOptions: number[] = [5, 10, 25, 100, 150, 500, 1000, 1500, 2000, 2500, 5000,10000];
   titleCouncils: String =  "Registration of mothers by councils";
   titleMonths: String =  "Registration of mothers by months";
   registrationByCouncilIsReady: boolean = false;
@@ -71,8 +70,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.transactions = response.data;
       this.dataSource = new MatTableDataSource<DataElement>(this.transactions.content);
     }, error => {
-      this.notifierService.showNotification(error.message,'OK','error');
-      console.log(error);
+      this.notifierService.showNotification(error.error.errors, 'OK', 'error');
     });
   }
 
@@ -81,8 +79,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.numberOfRegisteredContacts = response.data;
       this.numberOfRegisteredContactsIsReady = true;
     }, error => {
-      this.notifierService.showNotification(error.message, 'OK', 'error');
-      console.log(error);
+      this.notifierService.showNotification(error.error.errors, 'OK', 'error');
     });
   }
 
@@ -91,8 +88,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.numberOfRegisteredContactsToday = response.data;
       this.numberOfRegisteredContactsTodayIsReady = true;
     }, error => {
-      this.notifierService.showNotification(error.message, 'OK', 'error');
-      console.log(error);
+      this.notifierService.showNotification(error.error.errors, 'OK', 'error');
     });
   }
 
@@ -102,12 +98,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.getAllTransactions();
     }, error => {
       this.notifierService.showNotification(error.message, 'OK', 'error');
-      console.log(error);
     });
   }
 
   pageChanged(e: any) {
-    console.log(e);
     this.pageSize = e.pageSize;
     this.pageNo = e.pageIndex;
     this.getAllTransactions();
@@ -172,5 +166,23 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       }, error => {
         this.notifierService.showNotification(error.error.error, 'OK', 'error');
       });
+  }
+
+  parseTrxToJson(payload: any) {
+    if(payload !== null && payload !== undefined) {
+      let res = JSON.parse(payload);
+      delete res.dataValues;
+      return res;
+    } else {
+      return {};
+    }
+  }
+
+  parseToJson(payload: any) {
+    if(payload !== null && payload !== undefined){
+      return JSON.parse(payload);
+    } else {
+      return {};
+    }
   }
 }
