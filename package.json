@@ -29,6 +29,7 @@
     "highcharts-angular": "^2.8.0",
     "killable": "^1.0.1",
     "memory-fs": "^0.5.0",
+    "ngx-json-viewer": "^3.1.0",
     "primeicons": "^5.0.0",
     "primeng": "^13.3.2",
     "rxjs": "~6.6.0",
