@@ -36,6 +36,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   numberOfRegisteredContacts: any;
   numberOfRegisteredContactsIsReady: boolean = false;
   bigChartsIsReady: boolean = false;
+  numberOfRegisteredContactsToday: any;
+  numberOfRegisteredContactsTodayIsReady: boolean = false;
 
   constructor(
     public dashboardService: DashboardService,
@@ -56,6 +58,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.populatePieChartMonthly();
     this.getAllTransactions();
     this.getTotalNumberOfRegisteredContacts();
+    this.getTotalNumberOfRegisteredContactsToday();
   }
 
   getAllTransactions() {
@@ -77,6 +80,16 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     return this.dashboardService.getNumberOfAllContacts().subscribe((response: any) => {
       this.numberOfRegisteredContacts = response.data;
       this.numberOfRegisteredContactsIsReady = true;
+    }, error => {
+      this.notifierService.showNotification(error.message, 'OK', 'error');
+      console.log(error);
+    });
+  }
+
+  getTotalNumberOfRegisteredContactsToday(){
+    return this.dashboardService.getNumberOfTodayContacts().subscribe((response: any) => {
+      this.numberOfRegisteredContactsToday = response.data;
+      this.numberOfRegisteredContactsTodayIsReady = true;
     }, error => {
       this.notifierService.showNotification(error.message, 'OK', 'error');
       console.log(error);

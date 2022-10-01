@@ -4,9 +4,12 @@
   </div>
 </div>
 
-<div class="mat-elevation-z8" fxLayout="row" fxLayoutAlign="space-between stretch">
-  <mat-card fxFlex="100" class="mat-elevation-z8" *ngIf="numberOfRegisteredContactsIsReady === true">
-    <h1>Number of registered contacts: {{numberOfRegisteredContacts}}</h1>
+<div fxLayout="row" fxLayoutAlign="space-between stretch">
+  <mat-card fxFlex="50" class="card-red" *ngIf="numberOfRegisteredContactsIsReady === true">
+    <h1>Total # of registered contacts: {{numberOfRegisteredContacts}}</h1>
+  </mat-card>
+  <mat-card fxFlex="50" class="card-green" *ngIf="numberOfRegisteredContactsTodayIsReady === true">
+    <h1>Total # of registered contacts today: {{numberOfRegisteredContactsToday}}</h1>
   </mat-card>
 </div>
 <p></p>
