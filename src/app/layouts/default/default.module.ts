@@ -19,6 +19,7 @@ import {MatTreeModule} from '@angular/material/tree';
 import {ProgramComponent} from '../../modules/programs/program.component';
 import {MatTabsModule} from "@angular/material/tabs";
 import {AuthorityComponent} from "../../modules/authorities/authority.component";
+import {NgxJsonViewerModule} from "ngx-json-viewer";
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import {AuthorityComponent} from "../../modules/authorities/authority.component"
         ReactiveFormsModule,
         MatCardModule,
         MatTreeModule,
-        MatTabsModule
+        MatTabsModule,
+        NgxJsonViewerModule
     ],
   providers: [
     DashboardService,
