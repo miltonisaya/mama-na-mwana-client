@@ -58,23 +58,16 @@ export class BarComponent implements OnInit {
       tooltip: {
         pointFormat: 'Registration of Mothers by Councils'
       },
-      plotOptions: {
-        column: {
-          dataLabels: {
-            enabled: true,
-            crop: false,
-            overflow: 'none'
-          }
-        }
-      },
       series: [{
         name: 'Councils',
         data: this.data,
         dataLabels: {
           enabled: true,
           rotation: -90,
+          crop: false,
+          overflow: 'none',
           color: '#FFFFFF',
-          align: 'center',
+          align: 'top',
           format: '{point.y:.1f}', // one decimal
           y: 10, // 10 pixels down from the top
           style: {

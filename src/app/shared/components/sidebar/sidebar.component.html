@@ -1,10 +1,8 @@
 <mat-nav-list>
   <div class="profile-card">
-    <div class="header">
-      <h3>{{user.name | titlecase}}</h3>
-      <h5>{{user.email | lowercase}}</h5>
+    <div class="header" fxLayout="column" fxLayoutAlign="space-between stretch">
+      <h3>Logged in as: {{user.name | titlecase}}</h3>
     </div>
-    <img src="assets/coa.png" alt="">
   </div>
   <mat-divider></mat-divider>
 <!--  *ngIf="user.title.toUpperCase()=='ADMIN'"-->
