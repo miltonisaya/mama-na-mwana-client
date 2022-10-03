@@ -16,7 +16,7 @@ import {DataElement} from "../data-elements/dataElement";
 })
 
 export class MenuComponent implements OnInit {
-  displayedColumns: string[] = ["sno",'name', 'icon', 'parent','role','sortOrder','actions'];
+  displayedColumns: string[] = ["sno",'name', 'icon','url', 'parent','role','sortOrder','actions'];
   menus: any = [];
   menuId: string;
   dataSource: MatTableDataSource<Menu>;
