@@ -13,6 +13,7 @@ import {NotifierService} from '../notifications/notifier.service';
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss']
 })
+
 export class MenuComponent implements OnInit {
   displayedColumns: string[] = ["sno",'name', 'icon', 'parent','role','sortOrder','actions'];
   menus: any = [];
@@ -50,7 +51,6 @@ export class MenuComponent implements OnInit {
       this.dataSource = new MatTableDataSource<Menu>(this.menus.content);
     }, error => {
       this.notifierService.showNotification(error.message,'OK','error');
-      console.log(error);
     });
   }
 
@@ -106,7 +106,6 @@ export class MenuComponent implements OnInit {
   }
 
   pageChanged(e: any) {
-    console.log(e);
     this.pageSize = e.pageSize;
     this.pageNo = e.pageIndex;
     this.getMenus();

@@ -57,16 +57,19 @@
           </mat-select>
         </mat-form-field>
 
-        <mat-form-field appearance="fill">
-          <mat-label>Role</mat-label>
-          <mat-select
-            required
-            formControlName="roleId">
-            <mat-option *ngFor="let role of roles" [value]="role.id" >
-              {{role.name}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+        <div fxLayout="column" fxLayoutAlign="stretch">
+          <mat-form-field appearance="fill">
+            <mat-label>Role</mat-label>
+            <mat-select [compareWith]="MenuService.compareObjects"
+                        required
+                        formControlName="roleId">
+              <mat-option *ngFor="let role of roles" [value]="role.id" >
+                {{role.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
       </div>
       <pre>{{MenuService.form.value | json}}</pre>
     </mat-dialog-content>

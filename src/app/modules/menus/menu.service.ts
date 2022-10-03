@@ -102,4 +102,8 @@ export class MenuService {
         catchError(this.handleError<any>('update menu'))
       );
   }
+
+  compareObjects(o1, o2) {
+    return o1 && o2 && o1.id === o2.id;
+  }
 }
