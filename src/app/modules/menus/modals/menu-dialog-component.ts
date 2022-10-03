@@ -14,6 +14,7 @@ export class MenuDialogComponent implements OnInit {
   private params: { pageNo: number; pageSize: number };
   menus;
   roles;
+  parentMenus: any;
   constructor(
     public MenuService: MenuService,
     public RoleService: RolesService,
@@ -24,6 +25,7 @@ export class MenuDialogComponent implements OnInit {
   ngOnInit() {
     this.getMenus();
     this.getRoles();
+    this.getParentMenus();
   }
 
   //Load menus
@@ -36,8 +38,20 @@ export class MenuDialogComponent implements OnInit {
     return this.MenuService.getMenus().subscribe((response: any) => {
       this.menus = response.data.content;
     }, error => {
-      this.notifierService.showNotification(error.message,'OK','error');
-      console.log(error);
+      this.notifierService.showNotification(error.error.errors,'OK','error');
+    });
+  }
+
+  getParentMenus(){
+    this.params = {
+      "pageNo" : 0,
+      "pageSize" : 1000
+    };
+
+    return this.MenuService.getMenus(this.params).subscribe((response: any) => {
+      this.parentMenus = response.data.content;
+    }, error => {
+      this.notifierService.showNotification(error.error.errors,'OK','error');
     });
   }
 

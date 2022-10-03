@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class SidebarComponent implements OnInit {
   user;
   roles;
+  menus;
   constructor() { }
 
   ngOnInit(): void {
@@ -17,5 +18,6 @@ export class SidebarComponent implements OnInit {
   getUserDetails(){
     this.user = JSON.parse(localStorage.getItem("MNM_USER"));
     this.roles = this.user.roles;
+    this.menus = this.user.menus;
   }
 }

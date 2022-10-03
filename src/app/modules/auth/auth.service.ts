@@ -25,12 +25,11 @@ export class AuthService {
   login(data : any) {
     return this.http.post<any>(this.url, data).pipe(
       tap(response => {
-        const results = [];
         const token = response.data.token;
         const currentUser = response.data.user;
         this.currentUserValue = currentUser;
         currentUser.token = token;
-        currentUser.menus = results;
+        currentUser.menus = response.data.menus;
         localStorage.setItem("MNM_USER", JSON.stringify(currentUser));
       }),
     );
@@ -46,8 +45,4 @@ export class AuthService {
     this.notifierService.showNotification('Logged out successfully','OK','success');
     this.router.navigate(["/login"]);
   }
-
-  // isLoggedIn(){
-  //   let user
-  // }
 }

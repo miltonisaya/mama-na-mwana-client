@@ -11,6 +11,7 @@ import {HighchartsChartModule} from 'highcharts-angular';
 import {CardComponent} from './widgets/card/card.component';
 import {PieComponent} from './widgets/pie/pie.component';
 import { BarComponent } from './widgets/bar/bar.component';
+import {MatExpansionModule} from "@angular/material/expansion";
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { BarComponent } from './widgets/bar/bar.component';
         AngularMaterialModule,
         RouterModule,
         MatProgressBarModule,
-        HighchartsChartModule
+        HighchartsChartModule,
+        MatExpansionModule
     ],
   exports: [
     HeaderComponent,

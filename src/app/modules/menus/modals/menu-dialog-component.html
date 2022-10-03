@@ -51,7 +51,7 @@
           <mat-label>Parent</mat-label>
           <mat-select
             formControlName="parentId">
-            <mat-option *ngFor="let menu of menus" [value]="menu.id" >
+            <mat-option *ngFor="let menu of parentMenus" [value]="menu.id" >
               {{menu.name}}
             </mat-option>
           </mat-select>
