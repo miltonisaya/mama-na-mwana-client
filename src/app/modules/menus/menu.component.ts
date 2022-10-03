@@ -7,6 +7,7 @@ import {Menu} from './menu';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {NotifierService} from '../notifications/notifier.service';
+import {DataElement} from "../data-elements/dataElement";
 
 @Component({
   selector: 'app-users',
@@ -44,15 +45,17 @@ export class MenuComponent implements OnInit {
     this.params = {
       "pageNo" : this.pageNo,
       "pageSize" : this.pageSize
-    };
+    }
 
-    return this.MenuService.getMenus().subscribe((response: any) => {
+    return this.MenuService.getMenus(this.params).subscribe((response: any) => {
       this.menus = response.data;
       this.dataSource = new MatTableDataSource<Menu>(this.menus.content);
     }, error => {
       this.notifierService.showNotification(error.message,'OK','error');
+      console.log(error);
     });
   }
+
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
