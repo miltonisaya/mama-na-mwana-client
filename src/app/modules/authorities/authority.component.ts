@@ -51,8 +51,7 @@ export class AuthorityComponent implements OnInit {
       this.authorities = response.data;
       this.dataSource = new MatTableDataSource<Authority>(this.authorities.content);
     }, error => {
-      this.notifierService.showNotification(error.message,'OK','error');
-      console.log(error);
+      this.notifierService.showNotification(error.error.error,'OK', 'error');
     });
   }
 
@@ -98,7 +97,7 @@ export class AuthorityComponent implements OnInit {
       .subscribe(response => {
         this.notifierService.showNotification(response.message,'OK','success');
       }, error => {
-        this.notifierService.showNotification(error.message,'OK','error')
+        this.notifierService.showNotification(error.error.error,'OK', 'error');
       });
     this.dialog.closeAll();
   }

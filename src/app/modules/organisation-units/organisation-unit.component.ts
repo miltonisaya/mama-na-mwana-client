@@ -72,8 +72,7 @@ export class OrganisationUnitComponent implements OnInit {
     return this.OrganisationUnitService.getOrganisationUnits().subscribe((response: any) => {
       this.dataSource.data = response.data;
     }, error => {
-      this.notifierService.showNotification(error.message,'OK','error');
-      console.log(error);
+      this.notifierService.showNotification(error.error.error,'OK', 'error');
     });
   }
 
@@ -119,7 +118,7 @@ export class OrganisationUnitComponent implements OnInit {
       .subscribe(response => {
         this.notifierService.showNotification(response.message,'OK','success');
       }, error => {
-        this.notifierService.showNotification(error.message,'OK','error')
+        this.notifierService.showNotification(error.error.error,'OK', 'error');
       });
     this.dialog.closeAll();
   }

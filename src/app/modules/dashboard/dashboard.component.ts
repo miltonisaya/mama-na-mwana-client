@@ -70,7 +70,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.transactions = response.data;
       this.dataSource = new MatTableDataSource<DataElement>(this.transactions.content);
     }, error => {
-      this.notifierService.showNotification(error.error.errors, 'OK', 'error');
+      this.notifierService.showNotification(error.error.error, 'OK', 'error');
     });
   }
 
@@ -79,7 +79,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.numberOfRegisteredContacts = response.data;
       this.numberOfRegisteredContactsIsReady = true;
     }, error => {
-      this.notifierService.showNotification(error.error.errors, 'OK', 'error');
+      this.notifierService.showNotification(error.error.error, 'OK', 'error');
     });
   }
 
@@ -88,7 +88,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.numberOfRegisteredContactsToday = response.data;
       this.numberOfRegisteredContactsTodayIsReady = true;
     }, error => {
-      this.notifierService.showNotification(error.error.errors, 'OK', 'error');
+      this.notifierService.showNotification(error.error.error, 'OK', 'error');
     });
   }
 
@@ -97,7 +97,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.notifierService.showNotification(response.message,'OK','success');
       this.getAllTransactions();
     }, error => {
-      this.notifierService.showNotification(error.message, 'OK', 'error');
+      this.notifierService.showNotification(error.error.error, 'OK', 'error');
     });
   }
 
@@ -129,11 +129,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       result.forEach((x) => {
         var entries = Object.entries(x);
         finalResult.push(entries[0]);
-        // console.log(entries[0]);
       });
       this.bigChart = finalResult;
       this.bigChartsIsReady = true;
-      // console.log(finalResult);
+    }, error =>{
+      this.notifierService.showNotification(error.error.error, 'OK', 'error');
     });
   }
 
@@ -146,7 +146,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     if (this.dashboardService.registrationsForm.valid) {
       this.dashboardService.findRegistrationsByDate(this.dashboardService.registrationsForm.value, params).subscribe((response : any) => {
           this.notifierService.showNotification(response.message,'OK', 'success');
-        });
+        }, error =>{
+        this.notifierService.showNotification(error.error.error, 'OK', 'error');
+      });
     }
   }
 

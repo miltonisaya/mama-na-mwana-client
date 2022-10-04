@@ -46,7 +46,7 @@ export class FlowComponent implements OnInit {
     return this.FlowService.getFlows(params).subscribe((response: any) => {
       this.flows = response.data.content;
     }, error => {
-      this.notifierService.showNotification(error.message,'OK','error');
+      this.notifierService.showNotification(error.error.error, 'OK', 'error');
     });
   }
 
@@ -57,7 +57,7 @@ export class FlowComponent implements OnInit {
         this.notifierService.showNotification(response.message,'OK','success');
       }
     }, error => {
-      this.notifierService.showNotification(error,'OK','error');
+      this.notifierService.showNotification(error.error.error, 'OK', 'error');
     });
   }
 
@@ -69,7 +69,7 @@ export class FlowComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     }, error => {
-      this.notifierService.showNotification(error.message,'OK','error');
+      this.notifierService.showNotification(error.error.error, 'OK', 'error');
     })
   }
 
@@ -84,8 +84,6 @@ export class FlowComponent implements OnInit {
         keyName: data.keyName,
       };
 
-      // console.log(flowKeysData);
-      // this.FlowService.populateForm(flowKeysData);
       this.dialog.open(FlowKeyDialogComponent, {data: flowKeysData})
         .afterClosed().subscribe(() => {
         this.getFlows();
@@ -105,7 +103,6 @@ export class FlowComponent implements OnInit {
   }
 
   openResetDialog(data) {
-    console.log(data);
     this.elementId = data.id;
     this.dialog.open(this.resetDialog)
       .afterClosed().subscribe(() => {
@@ -119,7 +116,7 @@ export class FlowComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     }, error => {
-      this.notifierService.showNotification(error.message,'OK','error');
+      this.notifierService.showNotification(error.error.error, 'OK', 'error');
     })
   }
 }

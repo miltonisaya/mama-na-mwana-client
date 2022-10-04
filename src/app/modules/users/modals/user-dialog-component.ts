@@ -37,7 +37,7 @@ export class UserDialogComponent implements OnInit {
           .subscribe(data => {
             this.onClose();
           },error => {
-            this.NotifierService.showNotification(error.message,'OK', 'error');
+            this.NotifierService.showNotification(error.error.error,'OK', 'error');
           });
       }
     }

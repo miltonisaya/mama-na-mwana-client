@@ -63,7 +63,7 @@ export class PasswordResetComponent implements OnInit {
       this.user = response.data;
       this.updateFormValues();
     }, (error)=>{
-      this.notifierService.showNotification(error.error.error,'OK','error');
+      this.notifierService.showNotification(error.error.error,'OK', 'error');
     })
   }
 
@@ -82,7 +82,7 @@ export class PasswordResetComponent implements OnInit {
           .subscribe(response => {
             this.notifierService.showNotification(response.message,'OK', 'success');
           }, error => {
-            this.notifierService.showNotification(error.error.error,'OK', 'success');
+            this.notifierService.showNotification(error.error.error,'OK', 'error');
           });
     };
 }

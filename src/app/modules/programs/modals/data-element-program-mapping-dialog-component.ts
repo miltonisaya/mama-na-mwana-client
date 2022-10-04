@@ -38,7 +38,7 @@ export class DataElementProgramMappingDialogComponent implements OnInit {
     return this.dataElementService.getDataElements(params).subscribe((response: any) => {
       this.list1 = response.data.content;
     }, error => {
-      this.notifierService.showNotification(error.message, 'OK', 'error');
+      this.notifierService.showNotification(error.error.error,'OK', 'error');
       console.log(error);
     });
   }

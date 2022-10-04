@@ -46,8 +46,7 @@ export class DataElementComponent implements OnInit {
       this.dataSource = new MatTableDataSource<DataElement>(this.dataElements.content);
       this.dataSource.sort = this.sort;
     }, error => {
-      this.notifierService.showNotification(error.message,'OK','error');
-      console.log(error);
+      this.notifierService.showNotification(error.error.error, 'OK', 'error');
     });
   }
 
@@ -64,8 +63,7 @@ export class DataElementComponent implements OnInit {
       }
     }, error => {
       // console.log("The error===>",error.message);
-      this.notifierService.showNotification(error.message,'OK','error');
-      console.log(error);
+      this.notifierService.showNotification(error.error.error, 'OK', 'error');
     });  }
 
   pageChanged(e: any) {

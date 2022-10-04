@@ -47,8 +47,7 @@ export class FlowKeyDialogComponent implements OnInit {
     return this.dataElementService.getDataElements(params).subscribe((response: any) => {
       this.dataElements = response.data.content;
     }, error => {
-      this.notifierService.showNotification(error.message, 'OK', 'error');
-      console.log(error);
+      this.notifierService.showNotification(error.error.error, 'OK', 'error');
     });
   }
 
@@ -58,6 +57,8 @@ export class FlowKeyDialogComponent implements OnInit {
         .subscribe(response => {
           this.notifierService.showNotification(response.message, 'OK', 'success');
           this.onClose();
+        }, error =>{
+          this.notifierService.showNotification(error.error.error, 'OK', 'error');
         });
     }
   }
@@ -74,15 +75,12 @@ export class FlowKeyDialogComponent implements OnInit {
       rapidProFlowKeyId: this.data.id
     };
 
-    console.log("Mapping data ==>", data)
-
     this.flowKeyService.mapDataElement(data).subscribe((response: any) => {
       if (response.status == '200') {
         this.notifierService.showNotification(response.message, 'OK', 'success');
       }
     }, error => {
-      this.notifierService.showNotification(error, 'OK', 'error');
-      console.log(error);
+      this.notifierService.showNotification(error.error.error, 'OK', 'error');
     });
     this.dialogRef.close();
   }

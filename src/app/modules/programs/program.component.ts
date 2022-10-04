@@ -41,7 +41,7 @@ export class ProgramComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     }, error => {
-      this.notifierService.showNotification(error.message,'OK','error');
+      this.notifierService.showNotification(error.error.error,'OK', 'error');
       console.log(error);
     });
   }
@@ -53,16 +53,13 @@ export class ProgramComponent implements OnInit {
 
   syncPrograms(){
     return this.ProgramService.syncPrograms().subscribe((response: any) => {
-      console.log(response);
       this.getPrograms();
       if(response.status == '200'){
         console.log("The message===>",response);
         this.notifierService.showNotification(response.message,'OK','success');
       }
     }, error => {
-      // console.log("The error===>",error.message);
-      this.notifierService.showNotification(error.message,'OK','error');
-      console.log(error);
+      this.notifierService.showNotification(error.error.error,'OK', 'error');
     });  }
 
   openMappingDialog(id) {

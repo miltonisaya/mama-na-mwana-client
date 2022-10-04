@@ -52,8 +52,7 @@ export class ContactsComponent implements OnInit {
       this.contacts = response.data;
       this.dataSource = new MatTableDataSource<DataElement>(this.contacts.content);
     }, error => {
-      this.NotifierService.showNotification(error.message,'OK','error');
-      console.log(error);
+      this.NotifierService.showNotification(error.error.error,'OK', 'error');
     });
   }
 
@@ -75,7 +74,7 @@ export class ContactsComponent implements OnInit {
       .subscribe(response => {
         this.NotifierService.showNotification(response.message,'OK','success');
       }, error => {
-        this.NotifierService.showNotification(error.message,'OK','error')
+        this.NotifierService.showNotification(error.error.error,'OK', 'error');
       });
     this.DialogService.closeAll();
   }
@@ -94,7 +93,7 @@ export class ContactsComponent implements OnInit {
         link.click();
         // this.NotifierService.showNotification(response.message,'OK','success');
       }, error => {
-        this.NotifierService.showNotification(error.error.error, 'OK', 'error');
+        this.NotifierService.showNotification(error.error.error,'OK', 'error');
       });
   }
 

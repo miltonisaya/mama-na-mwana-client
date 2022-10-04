@@ -20,12 +20,13 @@ export class ContactDialogComponent implements OnInit {
   }
 
   submitForm(data) {
-    console.log("Data =>",data);
     if (this.contactService.form.get('id').value) {
       this.contactService.updateContact(this.contactService.form.value)
         .subscribe(response => {
           this.notifierService.showNotification(response.message,'OK', 'success');
           this.onClose();
+        }, error =>{
+          this.notifierService.showNotification(error.error.error,'OK', 'error');
         });
     }
   }

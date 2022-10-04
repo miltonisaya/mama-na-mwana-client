@@ -42,8 +42,7 @@ export class RoleAuthorityMappingDialogComponent implements OnInit {
     return this.authoritiesService.getUnselectedAuthoritiesByRoleId({id: this.data.id}).subscribe((response: any) => {
       this.unSelectedList = response.data;
     }, error => {
-      this.notifierService.showNotification(error.message,'OK','error');
-      console.log(error);
+      this.notifierService.showNotification(error.error.error,'OK', 'error');
     });
   }
 
@@ -51,12 +50,10 @@ export class RoleAuthorityMappingDialogComponent implements OnInit {
     this.data.authorities = this.selectedList;
     console.log(this.data);
     return this.authoritiesService.saveRoleAuthorities(this.data).subscribe((response: any) =>{
-      console.log("The response =>",response);
       this.notifierService.showNotification(response.message,'OK', 'success');
       this.dialogRef.close();
     }, error => {
-      this.notifierService.showNotification(error.message, 'OK', 'error');
-      console.log("The error=>",error);
+      this.notifierService.showNotification(error.error.error,'OK', 'error');
     })
   }
 }

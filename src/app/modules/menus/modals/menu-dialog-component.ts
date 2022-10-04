@@ -38,7 +38,7 @@ export class MenuDialogComponent implements OnInit {
     return this.MenuService.getMenus().subscribe((response: any) => {
       this.menus = response.data.content;
     }, error => {
-      this.notifierService.showNotification(error.error.errors,'OK','error');
+      this.notifierService.showNotification(error.error.error,'OK', 'error');
     });
   }
 
@@ -51,7 +51,7 @@ export class MenuDialogComponent implements OnInit {
     return this.MenuService.getMenus(this.params).subscribe((response: any) => {
       this.parentMenus = response.data.content;
     }, error => {
-      this.notifierService.showNotification(error.error.errors,'OK','error');
+      this.notifierService.showNotification(error.error.error,'OK', 'error');
     });
   }
 
@@ -66,7 +66,6 @@ export class MenuDialogComponent implements OnInit {
       this.roles = response.data.content;
     }, error => {
       this.notifierService.showNotification(error.message,'OK','error');
-      console.log(error);
     });
   }
 

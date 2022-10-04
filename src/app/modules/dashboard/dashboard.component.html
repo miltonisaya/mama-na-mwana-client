@@ -53,67 +53,6 @@
 </ul>
 </mat-card>
 
-<!--<table class="mat-elevation-z8" mat-table [dataSource]="dataSource"  fxLayout="column" fxLayoutAlign="stretch">-->
-<!--  &lt;!&ndash; SNo Column &ndash;&gt;-->
-<!--  <ng-container matColumnDef="sno">-->
-<!--    <th mat-header-cell *matHeaderCellDef> No</th>-->
-<!--    <td mat-cell *matCellDef="let transactions; let i = index">{{i + 1}}</td>-->
-<!--  </ng-container>-->
-
-<!--  &lt;!&ndash; Date Processed Column &ndash;&gt;-->
-<!--  <ng-container matColumnDef="dateProcessed">-->
-<!--    <th mat-header-cell *matHeaderCellDef> Date Processed</th>-->
-<!--    <td mat-cell *matCellDef="let transactions"> {{transactions.dateProcessed | date: 'mediumDate'}} </td>-->
-<!--  </ng-container>-->
-
-<!--  &lt;!&ndash; Payload Column &ndash;&gt;-->
-<!--  <ng-container matColumnDef="payload">-->
-<!--    <th mat-header-cell *matHeaderCellDef>Payload</th>-->
-<!--    <td mat-cell *matCellDef="let transactions" >-->
-<!--      <ngx-json-viewer [json]=parseTrxToJson(transactions.payload) [expanded]="false"></ngx-json-viewer>-->
-<!--    </td>-->
-<!--  </ng-container>-->
-
-<!--  &lt;!&ndash; Response Column &ndash;&gt;-->
-<!--  <ng-container matColumnDef="response">-->
-<!--    <th mat-header-cell *matHeaderCellDef>DHIS2 Response</th>-->
-<!--    <td mat-cell *matCellDef="let transactions" >-->
-<!--      <ngx-json-viewer [json]=parseToJson(transactions.dhisResponse) [expanded]="false"></ngx-json-viewer>-->
-<!--    </td>-->
-<!--  </ng-container>-->
-
-<!--  &lt;!&ndash; Status Column &ndash;&gt;-->
-<!--  <ng-container matColumnDef="isSent">-->
-<!--    <th mat-header-cell *matHeaderCellDef>Status</th>-->
-<!--    <td mat-cell *matCellDef="let transactions">-->
-<!--      <div *ngIf="transactions.isSent" class="success-transactions">-->
-<!--        Sent-->
-<!--      </div>-->
-<!--      <div *ngIf="transactions.isSent == false" class="pending-transactions">-->
-<!--        Not Sent-->
-<!--      </div>-->
-<!--    </td>-->
-<!--  </ng-container>-->
-
-<!--  &lt;!&ndash; Action Column &ndash;&gt;-->
-<!--  <ng-container matColumnDef="actions">-->
-<!--    <th mat-header-cell *matHeaderCellDef>Action</th>-->
-<!--    <td mat-cell *matCellDef="let transactions">-->
-<!--      <button *ngIf="transactions.isSent==false" matTooltip="Resend" matTooltipPosition="left" mat-icon-button>-->
-<!--        <mat-icon (click)="resend(transactions)">autorenew</mat-icon>-->
-<!--      </button>-->
-<!--    </td>-->
-<!--  </ng-container>-->
-
-<!--  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>-->
-<!--  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>-->
-
-<!--  &lt;!&ndash; Row shown when there is no matching data. &ndash;&gt;-->
-<!--  <tr class="mat-row" *matNoDataRow>-->
-<!--    <td class="mat-cell" colspan="3">No data matching the filter"</td>-->
-<!--  </tr>-->
-<!--</table>-->
-
 <mat-paginator
   fxLayout="column"
   fxLayoutAlign="stretch"
