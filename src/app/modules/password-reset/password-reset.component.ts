@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {NotifierService} from '../notifications/notifier.service';
 import {UsersService} from "../users/users.service";
-import {FormBuilder, Validators} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-users',
@@ -27,8 +27,26 @@ export class PasswordResetComponent implements OnInit {
       username : ['',Validators.required, Validators.minLength(3)],
       password : ['',Validators.required],
       confirmPassword : ['',Validators.required],
-      title : ['',Validators.required]
+      oldPassword : ['',Validators.required],
+      id : ['',Validators.required],
   });
+
+  validateForm(){
+    this.profileForm.addValidators(
+      this.matchValidator(this.profileForm.get('password'), this.profileForm.get('confirmPassword'))
+    );
+  }
+
+  matchValidator(
+    control: AbstractControl,
+    controlTwo: AbstractControl
+  ): ValidatorFn {
+    return () => {
+      if (control.value !== controlTwo.value)
+        return { match_error: 'The passwords do not match' };
+      return null;
+    };
+  }
 
   ngOnInit(): void {
     this.findUserDetailsById();
@@ -45,8 +63,7 @@ export class PasswordResetComponent implements OnInit {
       this.user = response.data;
       this.updateFormValues();
     }, (error)=>{
-      console.log(error);
-      this.notifierService.showNotification(error.message,'OK','error');
+      this.notifierService.showNotification(error.error.error,'OK','error');
     })
   }
 
@@ -55,7 +72,17 @@ export class PasswordResetComponent implements OnInit {
       name: this.user.name,
       email: this.user.email,
       phone : this.user.phone,
-      title : this.user.title
+      username: this.user.username,
+      id: this.user.id
     });
   }
+
+  submitForm(profileForm: FormGroup) {
+        this.userService.resetPassword(profileForm)
+          .subscribe(response => {
+            this.notifierService.showNotification(response.message,'OK', 'success');
+          }, error => {
+            this.notifierService.showNotification(error.error.error,'OK', 'success');
+          });
+    };
 }
