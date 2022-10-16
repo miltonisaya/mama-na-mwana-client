@@ -57,8 +57,7 @@ export class UserDialogComponent implements OnInit {
     return this.RoleService.getRoles().subscribe((response: any) => {
       this.roles = response.data.content;
     }, error => {
-      this.NotifierService.showNotification(error.message,'OK','error');
-      console.log(error);
+      this.NotifierService.showNotification(error.error.error,'OK', 'error');
     });
   }
 }
