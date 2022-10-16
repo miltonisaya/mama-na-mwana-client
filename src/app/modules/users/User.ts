@@ -5,5 +5,4 @@ export interface User {
   password: string;
   phone: string;
   username: string;
-  title: string
 }

@@ -15,7 +15,7 @@ import {UserDialogComponent} from './modals/user-dialog-component';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
-  displayedColumns: string[] = ["sno",'name', 'title','username','email','roles', 'actions'];
+  displayedColumns: string[] = ["sno",'name', 'username','email','roles', 'actions'];
   users: any = [];
   userId: string;
   dataSource: MatTableDataSource<User>;
@@ -73,7 +73,6 @@ export class UsersComponent implements OnInit {
         name: data.name,
         phone: data.phone,
         username: data.username,
-        title: data.title,
         roles: data.roles
       };
       this.UsersService.populateForm(userData);
@@ -109,7 +108,6 @@ export class UsersComponent implements OnInit {
   }
 
   pageChanged(e: any) {
-    console.log(e);
     this.pageSize = e.pageSize;
     this.pageNo = e.pageIndex;
     this.getUsers();

@@ -4,7 +4,6 @@ import {environment} from '../../../environments/environment';
 import {Observable, of} from 'rxjs';
 import {catchError, map, tap} from 'rxjs/operators';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {patchElementFocus} from "@angular/cdk/testing/testbed/fake-events";
 
 export const BASE_URL: string = environment.baseURL;
 export const RESOURCE_URL: string = 'api/v1/users';
@@ -26,7 +25,6 @@ export class UsersService {
     email: new FormControl('', [Validators.required, Validators.email]),
     phone: new FormControl('', [Validators.required]),
     username: new FormControl('', [Validators.required]),
-    title: new FormControl('', [Validators.required]),
     roles: new FormControl([]),
   });
 
@@ -71,7 +69,7 @@ export class UsersService {
    * @param data
    */
   populateForm (data){
-    this.form.setValue(data);
+    this.form.patchValue(data);
   }
 
   initializeFormGroup(){
@@ -81,7 +79,6 @@ export class UsersService {
       name: '',
       phone: '',
       username: '',
-      title: '',
       roles:[]
     });
   }
