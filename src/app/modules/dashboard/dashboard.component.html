@@ -25,11 +25,11 @@
 </div>
 <p></p>
 
-<div fxLayout="column" fxLayoutAlign="stretch">
+<div *ngIf="isSuperAdministrator" fxLayout="column" fxLayoutAlign="stretch">
   <h3>Transaction Logs</h3>
 </div>
 
-<mat-card class="mat-elevation-z8">
+<mat-card *ngIf="isSuperAdministrator" class="mat-elevation-z8">
 <ul>
   <li *ngFor="let trx of transactions?.content">
     <div class="transaction-logs">
@@ -54,6 +54,7 @@
 </mat-card>
 
 <mat-paginator
+  *ngIf="isSuperAdministrator"
   fxLayout="column"
   fxLayoutAlign="stretch"
   [pageSize]="pageSize"

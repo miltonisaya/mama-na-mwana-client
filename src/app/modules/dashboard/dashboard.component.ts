@@ -37,6 +37,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   bigChartsIsReady: boolean = false;
   numberOfRegisteredContactsToday: any;
   numberOfRegisteredContactsTodayIsReady: boolean = false;
+  isSuperAdministrator: boolean;
 
   constructor(
     public dashboardService: DashboardService,
@@ -55,9 +56,18 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.populateBigChartByCouncil();
     this.populatePieChartByCouncil();
     this.populatePieChartMonthly();
-    this.getAllTransactions();
+    this.checkIsAdmin();
     this.getTotalNumberOfRegisteredContacts();
     this.getTotalNumberOfRegisteredContactsToday();
+  }
+
+  //Get the user info from local storage
+  checkIsAdmin(){
+    let mnmUser = JSON.parse(localStorage.getItem("MNM_USER"));
+    if(mnmUser.isSuperAdministrator){
+      this.isSuperAdministrator = true;
+      this.getAllTransactions();
+    }
   }
 
   getAllTransactions() {
