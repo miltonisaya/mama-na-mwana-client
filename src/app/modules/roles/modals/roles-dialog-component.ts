@@ -26,13 +26,15 @@ export class RolesDialogComponent implements OnInit {
           .subscribe(response => {
             this.notifierService.showNotification(response.message,'OK', 'success');
             this.onClose();
+          }, error => {
+            this.notifierService.showNotification(error.error.error,'OK', 'error');
           });
       } else {
         this.RolesService.createRole(this.RolesService.form.value)
           .subscribe(data => {
             this.onClose();
           },error => {
-            this.notifierService.showNotification(error.message,'OK', 'error');
+            this.notifierService.showNotification(error.error.error,'OK', 'error');
           });
       }
     }

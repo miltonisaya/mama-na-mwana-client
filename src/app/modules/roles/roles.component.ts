@@ -15,7 +15,7 @@ import {RoleAuthorityMappingDialogComponent} from "./modals/role-authority-mappi
   styleUrls: ['./roles.component.scss']
 })
 export class RolesComponent implements OnInit {
-  displayedColumns: string[] = ["sno",'name', 'description', 'actions'];
+  displayedColumns: string[] = ["sno",'name', 'description','isSuperAdministrator', 'actions'];
   roles: any = [];
   roleId: string;
   dataSource: MatTableDataSource<Role>;
@@ -50,8 +50,7 @@ export class RolesComponent implements OnInit {
       this.roles = response.data;
       this.dataSource = new MatTableDataSource<Role>(this.roles.content);
     }, error => {
-      this.notifierService.showNotification(error.message,'OK','error');
-      console.log(error);
+      this.notifierService.showNotification(error.error.error,'OK', 'error');
     });
   }
 
@@ -68,6 +67,7 @@ export class RolesComponent implements OnInit {
       const roleData = {
         id: data.id,
         name: data.name,
+        isSuperAdministrator: data.isSuperAdministrator,
         description: data.description
       };
       this.RoleService.populateForm(roleData);
@@ -97,7 +97,7 @@ export class RolesComponent implements OnInit {
       .subscribe(response => {
         this.notifierService.showNotification(response.message,'OK','success');
       }, error => {
-        this.notifierService.showNotification(error.message,'OK','error')
+        this.notifierService.showNotification(error.error.error,'OK', 'error');
       });
     this.dialog.closeAll();
   }

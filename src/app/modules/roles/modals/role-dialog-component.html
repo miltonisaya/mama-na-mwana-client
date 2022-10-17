@@ -7,7 +7,7 @@
         class="form" #formDirective="ngForm"
         (ngSubmit)="submitForm(RolesService.form)">
     <h1 mat-dialog-title class="dialog-header">
-      {{RolesService.form.controls['id'].value? "Edit Flow" : "Create Flow"}}
+      {{RolesService.form.controls['id'].value? "Edit Role" : "Create Role"}}
     </h1>
     <mat-divider></mat-divider>
     <mat-dialog-content>
@@ -26,8 +26,15 @@
                  autocomplete="off"
                  required>
         </mat-form-field>
+
+        <mat-checkbox
+            color="primary"
+            formControlName="isSuperAdministrator"
+        >
+            Is a super administrator role
+        </mat-checkbox>
       </div>
-      <!-- <pre>{{ form | json }}</pre> -->
+       <pre>{{ RolesService.form.value | json }}</pre>
     </mat-dialog-content>
     <mat-dialog-actions fxLayout="row" fxLayoutAlign="end stretch">
       <div class="button">

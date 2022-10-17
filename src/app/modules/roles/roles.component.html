@@ -34,6 +34,15 @@
       <td mat-cell *matCellDef="let roles"> {{roles.description}} </td>
     </ng-container>
 
+    <!-- Description Column -->
+    <ng-container matColumnDef="isSuperAdministrator">
+      <th mat-header-cell *matHeaderCellDef>Is Super Administrator</th>
+      <td mat-cell *matCellDef="let roles">
+        <mat-icon *ngIf="roles.isSuperAdministrator" color="primary">check_circle</mat-icon>
+        <mat-icon *ngIf="!roles.isSuperAdministrator" color="warn">cancel_presentation</mat-icon>
+      </td>
+    </ng-container>
+
     <!-- Action Column -->
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Action</th>

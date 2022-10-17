@@ -17,7 +17,8 @@ export class RolesService {
   form: FormGroup = new FormGroup({
     id: new FormControl(''),
     name: new FormControl('', [Validators.required]),
-    description: new FormControl('', [Validators.required])
+    description: new FormControl('', [Validators.required]),
+    isSuperAdministrator: new FormControl(false),
   });
 
   /**
@@ -52,14 +53,15 @@ export class RolesService {
    * @param data
    */
   populateForm (data){
-    this.form.setValue(data);
+    this.form.patchValue(data);
   }
 
   initializeFormGroup(){
-    return this.form.setValue({
+    return this.form.patchValue({
       id: '',
       name: '',
-      description: ''
+      description: '',
+      isSuperAdministrator: false
     });
   }
 
@@ -67,7 +69,6 @@ export class RolesService {
    * @param role
    */
   createRole(role): Observable<any> {
-    console.log(role);
     return this.http.post<any>(this.API_ENDPOINT, role)
       // tslint:disable-next-line:no-shadowed-variable
       .pipe(tap((response) => console.log(`Added role with name = ${role.name}`)),
@@ -88,7 +89,6 @@ export class RolesService {
   }
 
   updateRole(role): Observable<any> {
-    console.log(role);
     return this.http.put(this.API_ENDPOINT+"/"+role.id, role)
       .pipe(tap(_ => console.log(`updated role with id=${role.id}`)),
         catchError(this.handleError<any>('update role'))
