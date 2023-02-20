@@ -14,15 +14,32 @@
 </div>
 <p></p>
 
-<div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px">
-  <div fxFlex="100" class="mat-elevation-z8">
-    <div fxLayout="column" fxLayoutAlign="space-evenly end" >
-      <button mat-raised-button type="button" class="mat-primary mat-elevation-z8" (click)="registrationsByFacility()">DOWNLOAD REGISTRATIONS BY FACILITY</button>
-    </div>
+<div fxLayout="row" fxLayoutAlign="space-around none">
+  <button mat-raised-button type="button" class="mat-primary mat-elevation-z8" (click)="showReportParamDialog(1)">
+    RESPONSES BY AGE GROUPS ROUND 1
+  </button>
 
-    <app-widget-bar [data]="bigChart" [title]="titleCouncils" *ngIf="bigChartsIsReady === true"></app-widget-bar>
-  </div>
+  <button mat-raised-button type="button" class="mat-primary mat-elevation-z8" (click)="showReportParamDialog(2)">
+    RESPONSES BY AGE GROUPS ROUND 2
+  </button>
+
+  <button mat-raised-button type="button" class="mat-primary mat-elevation-z8" (click)="showReportParamDialog(3)">
+    RESPONSES BY AGE GROUPS ROUND 3
+  </button>
+
+  <button mat-raised-button type="button" class="mat-primary mat-elevation-z8" (click)="showReportParamDialog(4)">
+    RESPONSES BY AGE GROUPS ROUND 4
+  </button>
+
+  <button mat-raised-button type="button" class="mat-primary mat-elevation-z8" (click)="registrationsByFacility()">
+    DOWNLOAD REGISTRATIONS BY FACILITY
+  </button>
 </div>
+<p></p>
+<div fxLayout="column" fxLayoutAlign="space-evenly stretch">
+  <app-widget-bar [data]="bigChart" [title]="titleCouncils" *ngIf="bigChartsIsReady === true"></app-widget-bar>
+</div>
+<!--</div>-->
 <p></p>
 
 <div *ngIf="isSuperAdministrator" fxLayout="column" fxLayoutAlign="stretch">
@@ -30,27 +47,28 @@
 </div>
 
 <mat-card *ngIf="isSuperAdministrator" class="mat-elevation-z8">
-<ul>
-  <li *ngFor="let trx of transactions?.content">
-    <div class="transaction-logs">
-      <b>Date Processed:</b> {{trx.dateProcessed}}
-      <br>
-      <b>Payload:</b> <ngx-json-viewer [json]=parseToJson(trx.payload) [expanded]="false"></ngx-json-viewer>
-      <br>
-      <b>DHIS2 Response:</b> {{trx.dhisResponse}}
-            <div *ngIf="trx.isSent" class="success-transactions">
-              Sent
-            </div>
-            <div *ngIf="trx.isSent == false" class="pending-transactions">
-              Not Sent
-            </div>
-            <button *ngIf="trx.isSent==false" matTooltip="Resend" matTooltipPosition="left" mat-icon-button>
-              <button mat-raised-button class="mat-button mat-primary" (click)="resend(trx)">Resend</button>
-            </button>
-      <mat-divider></mat-divider>
-    </div>
-  </li>
-</ul>
+  <ul>
+    <li *ngFor="let trx of transactions?.content">
+      <div class="transaction-logs">
+        <b>Date Processed:</b> {{trx.dateProcessed}}
+        <br>
+        <b>Payload:</b>
+        <ngx-json-viewer [json]=parseToJson(trx.payload) [expanded]="false"></ngx-json-viewer>
+        <br>
+        <b>DHIS2 Response:</b> {{trx.dhisResponse}}
+        <div *ngIf="trx.isSent" class="success-transactions">
+          Sent
+        </div>
+        <div *ngIf="trx.isSent == false" class="pending-transactions">
+          Not Sent
+        </div>
+        <button *ngIf="trx.isSent==false" matTooltip="Resend" matTooltipPosition="left" mat-icon-button>
+          <button mat-raised-button class="mat-button mat-primary" (click)="resend(trx)">Resend</button>
+        </button>
+        <mat-divider></mat-divider>
+      </div>
+    </li>
+  </ul>
 </mat-card>
 
 <mat-paginator

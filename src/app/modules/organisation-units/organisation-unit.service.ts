@@ -7,10 +7,12 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 export const BASE_URL: string = environment.baseURL;
 export const RESOURCE_URL: string = 'api/v1/parent-organisation-units';
+export const COUNCIL_URL: string = 'api/v1/organisation-units/councils';
 
 @Injectable()
 export class OrganisationUnitService {
   private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
+  private COUNCIL_ENDPOINT = `${BASE_URL}/${COUNCIL_URL}`;
 
   constructor(private http: HttpClient) {}
 
@@ -93,5 +95,9 @@ export class OrganisationUnitService {
       .pipe(tap(_ => console.log(`updated organisation unit with id=${ou.id}`)),
         catchError(this.handleError<any>('update organisation unit'))
       );
+  }
+  getCouncils(param?): Observable<any> {
+    return this.http.get<any>(this.COUNCIL_ENDPOINT,{params: param}).pipe(
+      map(this.extractData));
   }
 }

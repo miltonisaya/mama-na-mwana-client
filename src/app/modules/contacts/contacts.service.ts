@@ -1,5 +1,5 @@
 import { Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {Observable, of} from 'rxjs';
 import {catchError, map, tap} from 'rxjs/operators';
@@ -8,12 +8,14 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 export const BASE_URL: string = environment.baseURL;
 export const RESOURCE_URL: string = 'api/v1/contacts';
 export const REGISTRATION_BY_FACILITY_URL: string = 'api/v1/contacts/registration-by-facility';
+export const REGISTRATIONS_IN_AGE_GROUPS_URL: string = 'api/v1/contacts/responses-by-age-and-visit';
 
 @Injectable()
 
 export class ContactsService {
   private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
   private API_ENDPOINT_TO_GET_REGISTRATIONS_BY_FACILITY = `${BASE_URL}/${REGISTRATION_BY_FACILITY_URL}`;
+  private API_ENDPOINT_REGISTRATIONS_IN_AGE_GROUPS = `${BASE_URL}/${REGISTRATIONS_IN_AGE_GROUPS_URL}`;
 
   constructor(private http: HttpClient) {}
 
@@ -91,5 +93,14 @@ export class ContactsService {
       id: '',
       facilityCode: ''
     });
+  }
+
+  responsesInAgeGroups(params: { format: string; name: any; params: { organisationUnitId: any } }) {
+    const httpOptions = {
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
+    }
+    return this.http.post(this.API_ENDPOINT_REGISTRATIONS_IN_AGE_GROUPS,params, httpOptions).pipe(
+      map(this.extractData)
+    );
   }
 }

@@ -39,6 +39,7 @@ import {AuthorityService} from "./modules/authorities/authority.service";
 import {AuthorityModule} from "./modules/authorities/authority.module";
 import {MenuModule} from "./modules/menus/menu.module";
 import { MenuService } from './modules/menus/menu.service';
+import {DashboardModule} from "./modules/dashboard/dashboard.module";
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { MenuService } from './modules/menus/menu.service';
     ProgramModule,
     MenuModule,
     PasswordResetModule,
-    AuthorityModule
+    AuthorityModule,
+    DashboardModule
   ],
   providers: [
     RolesService,

@@ -6,6 +6,13 @@ import {MatPaginator} from '@angular/material/paginator';
 import {NotifierService} from '../notifications/notifier.service';
 import {DataElement} from "../data-elements/dataElement";
 import {ContactsService} from "../contacts/contacts.service";
+import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
+import {
+  DataElementProgramMappingDialogComponent
+} from "../programs/modals/data-element-program-mapping-dialog-component";
+import {Program} from "../programs/program";
+import {OrganisationUnitService} from "../organisation-units/organisation-unit.service";
+import {ReportParamsDialog} from "./modals/report-params-dialog";
 
 @Component({
   selector: 'app-dashboard',
@@ -38,12 +45,16 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   numberOfRegisteredContactsToday: any;
   numberOfRegisteredContactsTodayIsReady: boolean = false;
   isSuperAdministrator: boolean;
+  councils: boolean;
 
   constructor(
     public dashboardService: DashboardService,
     private transactionService: TransactionsService,
     private notifierService: NotifierService,
-    private contactsService: ContactsService
+    private contactsService: ContactsService,
+    private organisationUnitService: OrganisationUnitService,
+    private dialog: MatDialog
+
   ) {
 
   }
@@ -70,6 +81,17 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     }
   }
 
+  // /**
+  //  * This method returns data elements
+  //  */
+  // getCouncils() {
+  //   return this.organisationUnitService.getCouncils().subscribe((response: any) => {
+  //     this.councils = response.data;
+  //   }, error => {
+  //     this.notifierService.showNotification(error.error.error,'OK', 'error');
+  //     console.log(error);
+  //   });
+  // }
   getAllTransactions() {
     this.params = {
       "pageNo" : this.pageNo,
@@ -196,5 +218,15 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     } else {
       return {};
     }
+  }
+
+  showReportParamDialog(roundNumber: number) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    this.dialog.open(ReportParamsDialog, {data: roundNumber})
+      .afterClosed().subscribe(() => {
+    });
+    console.log(roundNumber);
   }
 }
