@@ -202,16 +202,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       });
   }
 
-  parseTrxToJson(payload: any) {
-    if(payload !== null && payload !== undefined) {
-      let res = JSON.parse(payload);
-      delete res.dataValues;
-      return res;
-    } else {
-      return {};
-    }
-  }
-
   parseToJson(payload: any) {
     if(payload !== null && payload !== undefined){
       return JSON.parse(payload);
@@ -220,13 +210,13 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     }
   }
 
-  showReportParamDialog(roundNumber: number) {
+  showReportParamDialog(data: any) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    this.dialog.open(ReportParamsDialog, {data: roundNumber})
+    this.dialog.open(ReportParamsDialog, {data: data})
       .afterClosed().subscribe(() => {
     });
-    console.log(roundNumber);
+    console.log(data);
   }
 }
