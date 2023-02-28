@@ -74,8 +74,6 @@ export class ReportParamsDialog implements OnInit {
   generateReport(data: any) {
     //Format the date
     this.formatSelectedDates();
-    console.log("Start date",this.formattedStartDate);
-    console.log("End date",this.formattedEndDate);
     let params = {
       format: "pdf",
       name: null,
