@@ -1,23 +1,29 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {NotifierService} from '../../notifications/notifier.service';
-import {FormControl} from '@angular/forms';
+import {FormControl, Validators} from '@angular/forms';
 import {OrganisationUnitService} from "../../organisation-units/organisation-unit.service";
 import {map, startWith} from "rxjs/operators";
 import {ContactsService} from "../../contacts/contacts.service";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-report-params-dialog',
   templateUrl: 'report-params-dialog.html',
-  styleUrls: ['report-params-dialog.sass']
+  styleUrls: ['report-params-dialog.sass'],
+  providers: [ DatePipe ]
 })
 
 export class ReportParamsDialog implements OnInit {
   myControl = new FormControl();
+  startDate = new FormControl([Validators.required]);
+  endDate = new FormControl([Validators.required]);
   councils: any;
   filteredOptions: any;
   selectedCouncil: any;
+
   constructor(
+    private datePipe: DatePipe,
     private notifierService: NotifierService,
     private organisationUnitService: OrganisationUnitService,
     private contactService: ContactsService,
@@ -58,30 +64,60 @@ export class ReportParamsDialog implements OnInit {
     return council && council.name ? council.name : '';
   }
 
-  generateReport(round: any) {
-    let fileName;
-    if (round == 1) {
-      fileName = "mnm-responses-by-age-and-facility-round-one"
-    }
+  formatSelectedDates() {
+    this.datePipe.transform(this.startDate.value, 'yyyy-MM-dd');
+    this.datePipe.transform(this.endDate.value, 'yyyy-MM-dd');
+  }
 
-    if (round == 2) {
-      fileName = "mnm-responses-by-age-and-facility-round-two"
-    }
-
-    if (round == 3) {
-      fileName = "mnm-responses-by-age-and-facility-round-three"
-    }
-
-    if (round == 4) {
-      fileName = "mnm-responses-by-age-and-facility-round-four"
-    }
-
+  generateReport(data: any) {
+    //Format the date
+    this.formatSelectedDates();
     let params = {
       format: "pdf",
-      name: fileName,
+      name: null,
       params: {
-        organisationUnitId: this.myControl.value.code
+        // start_date: this.startDate.value.toISOString().slice(0,10),
+        // end_date: this.startDate.value.toISOString().slice(0,10),
+        start_date: this.startDate.value.toISOString(),
+        end_date: this.startDate.value.toISOString(),
       }
+    }
+
+    if (this.myControl.value !== null && this.myControl.value !== undefined) {
+      params.params['organisationUnitId'] = this.myControl.value.code;
+    }
+
+    let fileName;
+    if (data.reportCode == 1) {
+      params.name = "mnm-responses-by-age-and-facility-round-one"
+    }
+
+    if (data.reportCode == 2) {
+      params.name = "mnm-responses-by-age-and-facility-round-two"
+    }
+
+    if (data.reportCode == 3) {
+      params.name = "mnm-responses-by-age-and-facility-round-three"
+    }
+
+    if (data.reportCode == 4) {
+      params.name = "mnm-responses-by-age-and-facility-round-four"
+    }
+
+    if (data.reportCode == 'N1') {
+      params.name = "mnm-national-responses-by-age-groups-round-one"
+    }
+
+    if (data.reportCode == 'N2') {
+      params.name = "mnm-national-responses-by-age-groups-round-two"
+    }
+
+    if (data.reportCode == 'N3') {
+      params.name = "mnm-national-responses-by-age-groups-round-three"
+    }
+
+    if (data.reportCode == 'N4') {
+      params.name = "mnm-national-responses-by-age-groups-round-four"
     }
 
     return this.contactService.responsesInAgeGroups(params).subscribe((response: any) => {
@@ -92,12 +128,10 @@ export class ReportParamsDialog implements OnInit {
       const source = `data:application/pdf;base64,${base64String}`;
       const link = document.createElement("a");
       link.href = source;
-      link.download = fileName+".pdf";
+      link.download = params.name + ".pdf";
       link.click();
-      // this.NotifierService.showNotification(response.message,'OK','success');
     }, error => {
       this.notifierService.showNotification(error.error.error, 'OK', 'error');
-      console.log(error);
     });
   }
 }

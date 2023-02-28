@@ -95,7 +95,7 @@ export class ContactsService {
     });
   }
 
-  responsesInAgeGroups(params: { format: string; name: any; params: { organisationUnitId: any } }) {
+  responsesInAgeGroups(params: any) {
     const httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     }

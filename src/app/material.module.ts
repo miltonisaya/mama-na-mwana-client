@@ -30,6 +30,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatMenuModule} from '@angular/material/menu';
 import {ReactiveFormsModule} from "@angular/forms";
+import {MatNativeDateModule} from "@angular/material/core";
 
 
 @NgModule( {
@@ -41,6 +42,7 @@ import {ReactiveFormsModule} from "@angular/forms";
     MatInputModule,
     MatAutocompleteModule,
     MatDatepickerModule,
+    MatNativeDateModule,
     MatFormFieldModule,
     MatRadioModule,
     MatSelectModule,
@@ -85,6 +87,7 @@ import {ReactiveFormsModule} from "@angular/forms";
     MatProgressBarModule,
     ReactiveFormsModule,
     MatDialogModule,
+    MatNativeDateModule
   ],
   providers: [
     MatDatepickerModule,

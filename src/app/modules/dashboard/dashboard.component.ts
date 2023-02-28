@@ -26,7 +26,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   barChart = [];
   pieIsReady: boolean = false;
   params: object = {};
-
   dataSource;
   transactions: any;
   displayedColumns: string[] = ["sno", 'dateProcessed','payload','response','isSent','actions'];
@@ -45,8 +44,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   numberOfRegisteredContactsToday: any;
   numberOfRegisteredContactsTodayIsReady: boolean = false;
   isSuperAdministrator: boolean;
-  councils: boolean;
-
   constructor(
     public dashboardService: DashboardService,
     private transactionService: TransactionsService,
@@ -80,18 +77,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.getAllTransactions();
     }
   }
-
-  // /**
-  //  * This method returns data elements
-  //  */
-  // getCouncils() {
-  //   return this.organisationUnitService.getCouncils().subscribe((response: any) => {
-  //     this.councils = response.data;
-  //   }, error => {
-  //     this.notifierService.showNotification(error.error.error,'OK', 'error');
-  //     console.log(error);
-  //   });
-  // }
   getAllTransactions() {
     this.params = {
       "pageNo" : this.pageNo,
@@ -211,12 +196,26 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   showReportParamDialog(data: any) {
+    let config = {};
+    config['isNational'] = false;
+    config['reportCode'] = data;
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    this.dialog.open(ReportParamsDialog, {data: data})
+    this.dialog.open(ReportParamsDialog, {data: config})
       .afterClosed().subscribe(() => {
     });
-    console.log(data);
+  }
+
+  showNationalReportParamDialog(data: any) {
+    let config = {};
+    config['isNational'] = true;
+    config['reportCode'] = data;
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    this.dialog.open(ReportParamsDialog, {data: config})
+      .afterClosed().subscribe(() => {
+    });
   }
 }
