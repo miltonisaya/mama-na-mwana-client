@@ -15,12 +15,14 @@ import {DatePipe} from "@angular/common";
 })
 
 export class ReportParamsDialog implements OnInit {
-  myControl = new FormControl();
+  myControl = new FormControl([Validators.required]);
   startDate = new FormControl([Validators.required]);
   endDate = new FormControl([Validators.required]);
   councils: any;
   filteredOptions: any;
   selectedCouncil: any;
+  formattedStartDate: any;
+  formattedEndDate: any;
 
   constructor(
     private datePipe: DatePipe,
@@ -65,21 +67,23 @@ export class ReportParamsDialog implements OnInit {
   }
 
   formatSelectedDates() {
-    this.datePipe.transform(this.startDate.value, 'yyyy-MM-dd');
-    this.datePipe.transform(this.endDate.value, 'yyyy-MM-dd');
+    this.formattedStartDate= this.datePipe.transform(this.startDate.value, 'yyyy-MM-dd');
+    this.formattedEndDate = this.datePipe.transform(this.endDate.value, 'yyyy-MM-dd');
   }
 
   generateReport(data: any) {
     //Format the date
     this.formatSelectedDates();
+    console.log("Start date",this.formattedStartDate);
+    console.log("End date",this.formattedEndDate);
     let params = {
       format: "pdf",
       name: null,
       params: {
         // start_date: this.startDate.value.toISOString().slice(0,10),
         // end_date: this.startDate.value.toISOString().slice(0,10),
-        start_date: this.startDate.value.toISOString(),
-        end_date: this.startDate.value.toISOString(),
+        start_date: this.formattedStartDate,
+        end_date: this.formattedEndDate,
       }
     }
 
