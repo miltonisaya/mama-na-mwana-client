@@ -95,7 +95,7 @@ export class OrganisationUnitService {
 
   updateOrganisationUnit(ou): Observable<any> {
     console.log(ou);
-    return this.http.put(this.API_ENDPOINT+"/"+ou.id, ou)
+    return this.http.put(this.ORGANISATION_UNIT_ENDPOINT+"/"+ou.id, ou)
       .pipe(tap(_ => console.log(`updated organisation unit with id=${ou.id}`)),
         catchError(this.handleError<any>('update organisation unit'))
       );
