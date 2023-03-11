@@ -8,18 +8,21 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 export const BASE_URL: string = environment.baseURL;
 export const RESOURCE_URL: string = 'api/v1/parent-organisation-units';
 export const COUNCIL_URL: string = 'api/v1/organisation-units/councils';
+export const ORGANISATION_UNIT_URL: string = 'api/v1/organisation-units';
 
 @Injectable()
 export class OrganisationUnitService {
   private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
   private COUNCIL_ENDPOINT = `${BASE_URL}/${COUNCIL_URL}`;
+  private ORGANISATION_UNIT_ENDPOINT = `${BASE_URL}/${ORGANISATION_UNIT_URL}`;
 
   constructor(private http: HttpClient) {}
 
   form: FormGroup = new FormGroup({
     id: new FormControl(''),
     name: new FormControl('', [Validators.required]),
-    description: new FormControl('', [Validators.required])
+    code: new FormControl('', [Validators.required]),
+    parentId: new FormControl('', [Validators.required])
   });
 
   /**
@@ -61,19 +64,20 @@ export class OrganisationUnitService {
     return this.form.setValue({
       id: '',
       name: '',
-      description: ''
+      code: '',
+      parentId: ''
     });
   }
 
   /**
-   * @param role
+   * @param ou
    */
   createOrganisationUnit(ou): Observable<any> {
     console.log(ou);
-    return this.http.post<any>(this.API_ENDPOINT, ou)
+    return this.http.post<any>(this.ORGANISATION_UNIT_ENDPOINT, ou)
       // tslint:disable-next-line:no-shadowed-variable
-      .pipe(tap((response) => console.log(`Added role with name = ${ou.name}`)),
-        catchError(this.handleError<any>('create objective'))
+      .pipe(tap((response) => console.log(`Added organisation unit with name = ${ou.name}`)),
+        catchError(this.handleError<any>('create organisation unit'))
       );
   }
 
