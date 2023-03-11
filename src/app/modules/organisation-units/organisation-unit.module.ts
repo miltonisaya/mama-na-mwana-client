@@ -6,6 +6,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import {AngularMaterialModule} from '../../material.module';
 import {MatDialogModule} from '@angular/material/dialog';
 import {OrganisationUnitDialogComponent} from './modals/organisation-unit-dialog-component';
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 @NgModule({
     imports: [
@@ -15,7 +16,8 @@ import {OrganisationUnitDialogComponent} from './modals/organisation-unit-dialog
         ReactiveFormsModule,
         FormsModule,
         SharedModule,
-        MatDialogModule
+        MatDialogModule,
+        MatAutocompleteModule
     ],
     declarations: [
         OrganisationUnitDialogComponent
