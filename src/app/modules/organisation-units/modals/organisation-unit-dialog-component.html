@@ -26,13 +26,30 @@
                  autocomplete="off"
                  required>
         </mat-form-field>
+
+        <div fxLayout="column" fxLayoutAlign="space-evenly stretch">
+          <mat-form-field class="dialog-content" appearance="fill">
+            <mat-label>Search for council</mat-label>
+            <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+              <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                {{option.name}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
       </div>
       <!-- <pre>{{ form | json }}</pre> -->
     </mat-dialog-content>
     <mat-dialog-actions fxLayout="row" fxLayoutAlign="end stretch">
       <div class="button">
         <button mat-raised-button type="button" mat-dialog-close>CANCEL</button>
-        <button mat-raised-button color="primary" type="submit">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          (click)="submitForm(OrganisationUnitService.form.value)"
+        >
           {{OrganisationUnitService.form.controls['id'].value? "UPDATE" : "CREATE"}}
         </button>
       </div>
