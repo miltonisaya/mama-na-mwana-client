@@ -1,15 +1,15 @@
 import { Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {environment} from '../../../environments/environment';
 import {Observable, of} from 'rxjs';
+import {environment} from '../../../environments/environment';
 import {catchError, map, tap} from 'rxjs/operators';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 export const BASE_URL: string = environment.baseURL;
-export const RESOURCE_URL: string = 'api/v1/users';
-@Injectable()
+export const RESOURCE_URL: string = 'api/v1/reports';
 
-export class UsersService {
+@Injectable()
+export class ReportService {
   private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
 
   constructor(private http: HttpClient) {}
@@ -17,10 +17,8 @@ export class UsersService {
   form: FormGroup = new FormGroup({
     id: new FormControl(''),
     name: new FormControl('', [Validators.required]),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    phone: new FormControl('', [Validators.required]),
-    username: new FormControl('', [Validators.required]),
-    roles: new FormControl([]),
+    description: new FormControl('', [Validators.required]),
+    isSuperAdministrator: new FormControl(false),
   });
 
   /**
@@ -35,26 +33,17 @@ export class UsersService {
     return body || {};
   }
 
-  /**
-   * Get all users
-   * @param param
-   */
-  getUsers(param?): Observable<any> {
+  getRoles(param?): Observable<any> {
     return this.http.get<any>(this.API_ENDPOINT,{params: param}).pipe(
       map(this.extractData));
   }
 
-  findById(param?): Observable<any> {
-    return this.http.get<any>(this.API_ENDPOINT+"/"+param.id, {}).pipe(
-      map(this.extractData))
-  }
-
   /**
-   * Delete user by id
+   *
    * @param id
    */
   delete(id): Observable<any> {
-    console.log("Deleting user with id ",id);
+    console.log("Deleting role with id ",id);
     return this.http.delete<any>(this.API_ENDPOINT+"/"+id).pipe(
       map(this.extractData));``
   }
@@ -68,25 +57,22 @@ export class UsersService {
   }
 
   initializeFormGroup(){
-    return this.form.setValue({
+    return this.form.patchValue({
       id: '',
-      email: '',
       name: '',
-      phone: '',
-      username: '',
-      roles:[]
+      url: '',
+      parent: ''
     });
   }
 
   /**
    * @param role
    */
-  createUser(user): Observable<any> {
-    console.log(user);
-    return this.http.post<any>(this.API_ENDPOINT+"/register", user)
+  createRole(role): Observable<any> {
+    return this.http.post<any>(this.API_ENDPOINT, role)
       // tslint:disable-next-line:no-shadowed-variable
-      .pipe(tap((response) => console.log(`Added user with name = ${user.name}`)),
-        catchError(this.handleError<any>('create objective'))
+      .pipe(tap((response) => console.log(`Added report with name = ${role.name}`)),
+        catchError(this.handleError<any>('create report'))
       );
   }
 
@@ -102,21 +88,10 @@ export class UsersService {
     };
   }
 
-  updateUser(user): Observable<any> {
-    return this.http.put(this.API_ENDPOINT+"/"+user.id, user)
-      .pipe(tap(_ => console.log(`updated user with id=${user.id}`)),
-        catchError(this.handleError<any>('update user'))
-      );
-  }
-
-  compareObjects(o1, o2) {
-    return o1 && o2 && o1.id === o2.id;
-  }
-
-  resetPassword(data): Observable<any> {
-    return this.http.put(this.API_ENDPOINT+"/change-password", data.value)
-      .pipe(tap(_ => console.log(`changed password for user with id=${data.value.id}`)),
-        catchError(this.handleError<any>('change user password'))
+  updateRole(role): Observable<any> {
+    return this.http.put(this.API_ENDPOINT+"/"+role.id, role)
+      .pipe(tap(_ => console.log(`updated report with id=${role.id}`)),
+        catchError(this.handleError<any>('update report'))
       );
   }
 }

@@ -40,6 +40,8 @@ import {AuthorityModule} from "./modules/authorities/authority.module";
 import {MenuModule} from "./modules/menus/menu.module";
 import { MenuService } from './modules/menus/menu.service';
 import {DashboardModule} from "./modules/dashboard/dashboard.module";
+import {ReportModule} from "./modules/reports/report.module";
+import {ReportService} from "./modules/reports/report.service";
 
 @NgModule({
   declarations: [
@@ -70,7 +72,8 @@ import {DashboardModule} from "./modules/dashboard/dashboard.module";
     MenuModule,
     PasswordResetModule,
     AuthorityModule,
-    DashboardModule
+    DashboardModule,
+    ReportModule
   ],
   providers: [
     RolesService,
@@ -84,6 +87,7 @@ import {DashboardModule} from "./modules/dashboard/dashboard.module";
     ProgramService,
     AuthorityService,
     MenuService,
+    ReportService,
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
     AuthGuard

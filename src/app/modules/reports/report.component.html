@@ -1,6 +1,6 @@
 <div fxFlexLayoutAlign="row" fxLayoutAlign="space-between center">
   <div>
-    <h3>Manage Menus</h3>
+    <h3>Manage Roles</h3>
   </div>
   <div fxLayoutGap="5px">
     <button mat-raised-button class="mat-primary" (click)="openDialog()">
@@ -19,54 +19,42 @@
     <!-- SNo Column -->
     <ng-container matColumnDef="sno">
       <th mat-header-cell *matHeaderCellDef> No</th>
-      <td mat-cell *matCellDef="let menus; let i = index">{{i + 1}}</td>
+      <td mat-cell *matCellDef="let roles; let i = index">{{i + 1}}</td>
     </ng-container>
 
     <!-- Name Column -->
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef> Name</th>
-      <td mat-cell *matCellDef="let menus"> {{menus.name}} </td>
+      <td mat-cell *matCellDef="let roles"> {{roles.name}} </td>
     </ng-container>
 
-    <!-- Icon Column -->
-    <ng-container matColumnDef="icon">
-      <th mat-header-cell *matHeaderCellDef> Icon</th>
-      <td mat-cell *matCellDef="let menus"> {{menus.icon}} </td>
+    <!-- Description Column -->
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef> Description</th>
+      <td mat-cell *matCellDef="let roles"> {{roles.description}} </td>
     </ng-container>
 
-    <!-- Url Column -->
-    <ng-container matColumnDef="url">
-      <th mat-header-cell *matHeaderCellDef> URL</th>
-      <td mat-cell *matCellDef="let menus"> {{menus.url}} </td>
-    </ng-container>
-
-    <!-- Parent Column -->
-    <ng-container matColumnDef="parent">
-      <th mat-header-cell *matHeaderCellDef> Parent</th>
-      <td mat-cell *matCellDef="let menus">{{menus.parentName}} </td>
-    </ng-container>
-
-    <!-- Report Column -->
-    <ng-container matColumnDef="role">
-      <th mat-header-cell *matHeaderCellDef> Report</th>
-      <td mat-cell *matCellDef="let menus"> {{menus.roleName}} </td>
-    </ng-container>
-
-    <!-- Sort Order Column -->
-    <ng-container matColumnDef="sortOrder">
-      <th mat-header-cell *matHeaderCellDef> Sort Order</th>
-      <td mat-cell *matCellDef="let menus"> {{menus.sortOrder}} </td>
+    <!-- Description Column -->
+    <ng-container matColumnDef="isSuperAdministrator">
+      <th mat-header-cell *matHeaderCellDef>Is Super Administrator</th>
+      <td mat-cell *matCellDef="let roles">
+        <mat-icon *ngIf="roles.isSuperAdministrator" color="primary">check_circle</mat-icon>
+        <mat-icon *ngIf="!roles.isSuperAdministrator" color="warn">cancel_presentation</mat-icon>
+      </td>
     </ng-container>
 
     <!-- Action Column -->
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Action</th>
-      <td mat-cell *matCellDef="let menus">
+      <td mat-cell *matCellDef="let roles">
         <button matTooltip="Edit" matTooltipPosition="left" mat-icon-button>
-          <mat-icon (click)="openDialog(menus)">edit</mat-icon>
+          <mat-icon (click)="openDialog(roles)">edit</mat-icon>
         </button>
-        <button matTooltip="Delete" matTooltipPosition="right" mat-icon-button color="warn" (click)="openDeleteDialog(menus.id)">
+        <button matTooltip="Delete" matTooltipPosition="right" mat-icon-button color="warn" (click)="openDeleteDialog(roles.id)">
           <mat-icon>delete</mat-icon>
+        </button>
+        <button matTooltip="Map Data Element" matTooltipPosition="left" mat-icon-button>
+          <mat-icon (click)="openMappingDialog(roles)">sync_alt</mat-icon>
         </button>
       </td>
     </ng-container>
@@ -83,18 +71,16 @@
     class="mat-elevation-z8"
     [pageSize]="pageSize"
     [pageSizeOptions]="pageSizeOptions"
-    [length]="menus?.totalElements"
+    [length]="roles?.totalElements"
     (page)="pageChanged($event)"
   ></mat-paginator>
 </div>
-
-<!--<pre>{{menus | json}}</pre>-->
 
 
 <!--delete role dialog template-->
 <ng-template #deleteDialog>
   <mat-dialog-content>
-    <h3>Are you sure you want to delete this menu?</h3>
+    <h3>Are you sure you want to delete this role?</h3>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>NO</button>

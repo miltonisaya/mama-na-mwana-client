@@ -14,6 +14,7 @@ import {ProgramComponent} from './modules/programs/program.component';
 import {PasswordResetComponent} from "./modules/password-reset/password-reset.component";
 import {AuthorityComponent} from "./modules/authorities/authority.component";
 import { MenuComponent } from './modules/menus/menu.component';
+import { ReportComponent } from './modules/reports/report.component';
 
 
 const routes: Routes = [{
@@ -67,6 +68,11 @@ const routes: Routes = [{
     {
       path: 'manage-menus',
       component: MenuComponent,
+      canActivate: [AuthGuard]
+    },
+    {
+      path: 'manage-reports',
+      component: ReportComponent,
       canActivate: [AuthGuard]
     }
   ]
