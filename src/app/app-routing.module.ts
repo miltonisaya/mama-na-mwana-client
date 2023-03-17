@@ -1,20 +1,20 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
-import {DashboardComponent} from './modules/dashboard/dashboard.component';
+import {DashboardComponent} from './components/dashboard/dashboard.component';
 import {DefaultComponent} from './layouts/default/default.component';
-import {UsersComponent} from './modules/users/users.component';
-import {RolesComponent} from './modules/roles/roles.component';
-import {LoginComponent} from './modules/login/login.component';
-import {FlowComponent} from './modules/flows/flow.component';
-import {DataElementComponent} from './modules/data-elements/dataElement.component';
-import {ContactsComponent} from './modules/contacts/contacts.component';
+import {UsersComponent} from './components/users/users.component';
+import {RolesComponent} from './components/roles/roles.component';
+import {LoginComponent} from './components/login/login.component';
+import {FlowComponent} from './components/flows/flow.component';
+import {DataElementComponent} from './components/data-elements/dataElement.component';
+import {ContactsComponent} from './components/contacts/contacts.component';
 import {AuthGuard} from './helpers/auth.guard';
-import {OrganisationUnitComponent} from './modules/organisation-units/organisation-unit.component';
-import {ProgramComponent} from './modules/programs/program.component';
-import {PasswordResetComponent} from "./modules/password-reset/password-reset.component";
-import {AuthorityComponent} from "./modules/authorities/authority.component";
-import { MenuComponent } from './modules/menus/menu.component';
-import { ReportComponent } from './modules/reports/report.component';
+import {OrganisationUnitComponent} from './components/organisation-units/organisation-unit.component';
+import {ProgramComponent} from './components/programs/program.component';
+import {PasswordResetComponent} from "./components/password-reset/password-reset.component";
+import {AuthorityComponent} from "./components/authorities/authority.component";
+import { MenuComponent } from './components/menus/menu.component';
+import { ReportComponent } from './components/reports/report.component';
 
 
 const routes: Routes = [{

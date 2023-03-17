@@ -6,7 +6,7 @@ import {
   HttpInterceptor, HttpErrorResponse
 } from '@angular/common/http';
 import {Observable, of, throwError} from 'rxjs';
-import {AuthService} from '../modules/auth/auth.service';
+import {AuthService} from '../components/auth/auth.service';
 import {Router} from '@angular/router';
 import {catchError} from 'rxjs/operators';
 

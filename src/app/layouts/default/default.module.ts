@@ -1,25 +1,25 @@
 import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {DefaultComponent} from './default.component';
-import {DashboardComponent} from '../../modules/dashboard/dashboard.component';
-import {UsersComponent} from '../../modules/users/users.component';
+import {DashboardComponent} from '../../components/dashboard/dashboard.component';
+import {UsersComponent} from '../../components/users/users.component';
 import {SharedModule} from '../../shared/shared.module';
 import {RouterModule} from '@angular/router';
 import {AngularMaterialModule} from '../../material.module';
-import {RolesComponent} from '../../modules/roles/roles.component';
+import {RolesComponent} from '../../components/roles/roles.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatDialogModule} from '@angular/material/dialog';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatCardModule} from '@angular/material/card';
-import {DashboardService} from '../../modules/dashboard/dashboard.service';
-import {DataElementComponent} from '../../modules/data-elements/dataElement.component';
-import {OrganisationUnitComponent} from '../../modules/organisation-units/organisation-unit.component';
+import {DashboardService} from '../../components/dashboard/dashboard.service';
+import {DataElementComponent} from '../../components/data-elements/dataElement.component';
+import {OrganisationUnitComponent} from '../../components/organisation-units/organisation-unit.component';
 import {MatTreeModule} from '@angular/material/tree';
-import {ProgramComponent} from '../../modules/programs/program.component';
+import {ProgramComponent} from '../../components/programs/program.component';
 import {MatTabsModule} from "@angular/material/tabs";
-import {AuthorityComponent} from "../../modules/authorities/authority.component";
-import {MenuComponent} from "../../modules/menus/menu.component";
+import {AuthorityComponent} from "../../components/authorities/authority.component";
+import {MenuComponent} from "../../components/menus/menu.component";
 import {NgxJsonViewerModule} from "ngx-json-viewer";
 
 
