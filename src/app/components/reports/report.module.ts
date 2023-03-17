@@ -20,10 +20,10 @@ import { ReportComponent } from './report.component';
     PickListModule,
     MatCheckboxModule,
   ],
-    declarations: [
-      ReportDialogComponent,
-      ReportComponent
-    ]
+  declarations: [
+    ReportDialogComponent,
+    ReportComponent
+  ]
 })
 export class ReportModule {
 }
