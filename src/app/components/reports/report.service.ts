@@ -33,7 +33,7 @@ export class ReportService {
     return body || {};
   }
 
-  getRoles(param?): Observable<any> {
+  getReports(param?): Observable<any> {
     return this.http.get<any>(this.API_ENDPOINT,{params: param}).pipe(
       map(this.extractData));
   }
@@ -43,7 +43,7 @@ export class ReportService {
    * @param id
    */
   delete(id): Observable<any> {
-    console.log("Deleting role with id ",id);
+    console.log("Deleting report with id ",id);
     return this.http.delete<any>(this.API_ENDPOINT+"/"+id).pipe(
       map(this.extractData));``
   }
