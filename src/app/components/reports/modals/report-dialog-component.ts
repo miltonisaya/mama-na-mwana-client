@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ReportService} from '../report.service';
 import {MatDialogRef} from '@angular/material/dialog';
 import {NotifierService} from '../../notifications/notifier.service';
@@ -10,39 +10,49 @@ import {NotifierService} from '../../notifications/notifier.service';
 })
 
 export class ReportDialogComponent implements OnInit {
+  reports: any;
+
   constructor(
-    public RolesService: ReportService,
+    public reportService: ReportService,
     public dialogRef: MatDialogRef<ReportDialogComponent>,
     public notifierService: NotifierService
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
+    this.getAllReports();
+  }
+
+  getAllReports() {
+    this.reportService.getReports().subscribe(response => {
+      this.reports = response.data;
+    })
   }
 
   submitForm(data) {
-    if (this.RolesService.form.valid) {
-      if (this.RolesService.form.get('id').value) {
-        this.RolesService.updateRole(this.RolesService.form.value)
+    if (this.reportService.form.valid) {
+      if (this.reportService.form.get('id').value) {
+        this.reportService.updateRole(this.reportService.form.value)
           .subscribe(response => {
-            this.notifierService.showNotification(response.message,'OK', 'success');
+            this.notifierService.showNotification(response.message, 'OK', 'success');
             this.onClose();
           }, error => {
-            this.notifierService.showNotification(error.error.error,'OK', 'error');
+            this.notifierService.showNotification(error.error.error, 'OK', 'error');
           });
       } else {
-        this.RolesService.createRole(this.RolesService.form.value)
+        this.reportService.createRole(this.reportService.form.value)
           .subscribe(data => {
             this.onClose();
-          },error => {
-            this.notifierService.showNotification(error.error.error,'OK', 'error');
+          }, error => {
+            this.notifierService.showNotification(error.error.error, 'OK', 'error');
           });
       }
     }
   }
 
   onClose() {
-    this.RolesService.form.reset();
-    this.RolesService.initializeFormGroup();
+    this.reportService.form.reset();
+    this.reportService.initializeFormGroup();
     this.dialogRef.close();
   }
 }
