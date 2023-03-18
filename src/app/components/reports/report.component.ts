@@ -1,10 +1,13 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {MatTableDataSource} from '@angular/material/table';
 import {ReportService} from './report.service';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {ReportDialogComponent} from './modals/report-dialog-component';
-import {Report} from './report';
 import {NotifierService} from '../notifications/notifier.service';
+import { NestedTreeControl } from '@angular/cdk/tree';
+import {MatTreeNestedDataSource} from "@angular/material/tree";
+import { Report } from './report';
+
+let TREE_DATA: Report[] = [];
 
 @Component({
   selector: 'app-users',
@@ -12,16 +15,17 @@ import {NotifierService} from '../notifications/notifier.service';
   styleUrls: ['./report.component.scss']
 })
 export class ReportComponent implements OnInit {
+  treeControl = new NestedTreeControl<Report>(node => node.children);
+  dataSource = new MatTreeNestedDataSource<Report>();
   roles: any = [];
   roleId: string;
   @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
-  private dataSource: MatTableDataSource<any>;
 
   constructor(
     private reportService: ReportService,
     private dialog: MatDialog,
     private notifierService: NotifierService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.getReports();
@@ -32,8 +36,7 @@ export class ReportComponent implements OnInit {
    */
   getReports() {
     return this.reportService.getReports().subscribe((response: any) => {
-      this.roles = response.data;
-      this.dataSource = new MatTableDataSource<Report>(this.roles.content);
+      this.dataSource.data = response.data;
     }, error => {
       this.notifierService.showNotification(error.error.error,'OK', 'error');
     });
@@ -44,13 +47,13 @@ export class ReportComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     if (data) {
-      const roleData = {
+      const reportData = {
         id: data.id,
         name: data.name,
-        isSuperAdministrator: data.isSuperAdministrator,
-        description: data.description
+        url: data.url,
+        parent: data.parent.id
       };
-      this.reportService.populateForm(roleData);
+      this.reportService.populateForm(reportData);
       this.dialog.open(ReportDialogComponent, dialogConfig)
         .afterClosed().subscribe(() => {
         this.getReports();
@@ -82,5 +85,5 @@ export class ReportComponent implements OnInit {
     this.dialog.closeAll();
   }
 
-
+  hasChild = (_: number, node: Report) => !!node.children && node.children.length > 0;
 }
