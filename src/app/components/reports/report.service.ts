@@ -11,14 +11,15 @@ export const RESOURCE_URL: string = 'api/v1/reports';
 @Injectable()
 export class ReportService {
   private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
-
+  compareObjects(o1, o2) {
+    return o1 && o2 && o1.id === o2.id;
+  }
   constructor(private http: HttpClient) {}
 
   form: FormGroup = new FormGroup({
     id: new FormControl(''),
     name: new FormControl('', [Validators.required]),
-    description: new FormControl('', [Validators.required]),
-    isSuperAdministrator: new FormControl(false),
+    url: new FormControl('')
   });
 
   /**
@@ -34,7 +35,7 @@ export class ReportService {
   }
 
   getReports(param?): Observable<any> {
-    return this.http.get<any>(this.API_ENDPOINT,{params: param}).pipe(
+    return this.http.get<any>(this.API_ENDPOINT+"/tree",{params: param}).pipe(
       map(this.extractData));
   }
 
@@ -45,8 +46,7 @@ export class ReportService {
   delete(id): Observable<any> {
     console.log("Deleting report with id ",id);
     return this.http.delete<any>(this.API_ENDPOINT+"/"+id).pipe(
-      map(this.extractData));``
-  }
+      map(this.extractData));  }
 
   /**
    *
@@ -66,12 +66,12 @@ export class ReportService {
   }
 
   /**
-   * @param role
+   * @param report
    */
-  createRole(role): Observable<any> {
-    return this.http.post<any>(this.API_ENDPOINT, role)
+  createRole(report): Observable<any> {
+    return this.http.post<any>(this.API_ENDPOINT, report)
       // tslint:disable-next-line:no-shadowed-variable
-      .pipe(tap((response) => console.log(`Added report with name = ${role.name}`)),
+      .pipe(tap((response) => console.log(`Added report with name = ${report.name}`)),
         catchError(this.handleError<any>('create report'))
       );
   }
@@ -88,9 +88,9 @@ export class ReportService {
     };
   }
 
-  updateRole(role): Observable<any> {
-    return this.http.put(this.API_ENDPOINT+"/"+role.id, role)
-      .pipe(tap(_ => console.log(`updated report with id=${role.id}`)),
+  updateRole(report): Observable<any> {
+    return this.http.put(this.API_ENDPOINT+"/"+report.id, report)
+      .pipe(tap(_ => console.log(`updated report with id=${report.id}`)),
         catchError(this.handleError<any>('update report'))
       );
   }
