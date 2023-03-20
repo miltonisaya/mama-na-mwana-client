@@ -15,19 +15,17 @@ interface ReportFlatNode {
 }
 
 @Component({
-  selector: 'app-users',
+  selector: 'app-reports',
   templateUrl: './report.component.html',
   styleUrls: ['./report.component.scss']
 })
 export class ReportComponent implements OnInit {
-  // treeControl = new NestedTreeControl<Report>(node => node.children);
-
   treeControl = new FlatTreeControl<ReportFlatNode>(
     node => node.level,
     node => node.expandable,
   );
 
-  private _transformer = (node: OrganisationUnit, level: number) => {
+  private _transformer = (node: Report, level: number) => {
     return {
       expandable: !!node.children && node.children.length > 0,
       name: node.name,
