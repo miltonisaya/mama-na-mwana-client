@@ -3,11 +3,16 @@ import {ReportService} from './report.service';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {ReportDialogComponent} from './modals/report-dialog-component';
 import {NotifierService} from '../notifications/notifier.service';
-import { NestedTreeControl } from '@angular/cdk/tree';
-import {MatTreeNestedDataSource} from "@angular/material/tree";
+import {FlatTreeControl, NestedTreeControl} from '@angular/cdk/tree';
+import {MatTreeFlatDataSource, MatTreeFlattener, MatTreeNestedDataSource} from "@angular/material/tree";
 import { Report } from './report';
+import {OrganisationUnit} from "../organisation-units/organisation-unit";
 
-let TREE_DATA: Report[] = [];
+interface ReportFlatNode {
+  expandable: boolean;
+  name: string;
+  level: number;
+}
 
 @Component({
   selector: 'app-users',
@@ -15,8 +20,30 @@ let TREE_DATA: Report[] = [];
   styleUrls: ['./report.component.scss']
 })
 export class ReportComponent implements OnInit {
-  treeControl = new NestedTreeControl<Report>(node => node.children);
-  dataSource = new MatTreeNestedDataSource<Report>();
+  // treeControl = new NestedTreeControl<Report>(node => node.children);
+
+  treeControl = new FlatTreeControl<ReportFlatNode>(
+    node => node.level,
+    node => node.expandable,
+  );
+
+  private _transformer = (node: OrganisationUnit, level: number) => {
+    return {
+      expandable: !!node.children && node.children.length > 0,
+      name: node.name,
+      level: level,
+    };
+  };
+
+  treeFlattener = new MatTreeFlattener(
+    this._transformer,
+    node => node.level,
+    node => node.expandable,
+    node => node.children,
+  );
+
+  dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+
   reportId: string;
   @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
 
