@@ -3,10 +3,9 @@ import {ReportService} from './report.service';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {ReportDialogComponent} from './modals/report-dialog-component';
 import {NotifierService} from '../notifications/notifier.service';
-import {FlatTreeControl, NestedTreeControl} from '@angular/cdk/tree';
-import {MatTreeFlatDataSource, MatTreeFlattener, MatTreeNestedDataSource} from "@angular/material/tree";
+import {FlatTreeControl} from '@angular/cdk/tree';
+import {MatTreeFlatDataSource, MatTreeFlattener} from "@angular/material/tree";
 import { Report } from './report';
-import {OrganisationUnit} from "../organisation-units/organisation-unit";
 
 interface ReportFlatNode {
   expandable: boolean;
