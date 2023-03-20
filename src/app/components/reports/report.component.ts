@@ -25,6 +25,7 @@ export class ReportComponent implements OnInit {
   );
 
   private _transformer = (node: Report, level: number) => {
+    console.log("Node ->", node)
     return {
       expandable: !!node.children && node.children.length > 0,
       name: node.name,
