@@ -17,8 +17,7 @@ let TREE_DATA: Report[] = [];
 export class ReportComponent implements OnInit {
   treeControl = new NestedTreeControl<Report>(node => node.children);
   dataSource = new MatTreeNestedDataSource<Report>();
-  roles: any = [];
-  roleId: string;
+  reportId: string;
   @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
 
   constructor(
@@ -68,7 +67,7 @@ export class ReportComponent implements OnInit {
   }
 
   openDeleteDialog(id) {
-    this.roleId = id;
+    this.reportId = id;
     this.dialog.open(this.deleteDialog)
       .afterClosed().subscribe(() => {
       this.getReports();
@@ -76,7 +75,7 @@ export class ReportComponent implements OnInit {
   }
 
   delete() {
-    this.reportService.delete(this.roleId)
+    this.reportService.delete(this.reportId)
       .subscribe(response => {
         this.notifierService.showNotification(response.message,'OK','success');
       }, error => {

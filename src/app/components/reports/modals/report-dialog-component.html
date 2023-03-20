@@ -31,7 +31,7 @@
           <mat-form-field appearance="fill">
             <mat-label>Report</mat-label>
             <mat-select [compareWith]="reportService.compareObjects"
-                        formControlName="roles">
+                        formControlName="reports">
               <mat-option *ngFor="let report of reports" [value]="report.id" >
                 {{report.name}}
               </mat-option>
