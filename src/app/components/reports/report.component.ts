@@ -56,8 +56,8 @@ export class ReportComponent implements OnInit {
       const roleData = {
         id: data.id,
         name: data.name,
-        isSuperAdministrator: data.isSuperAdministrator,
-        description: data.description
+        url: data.url,
+        parentId: data.parentId
       };
       this.ReportService.populateForm(roleData);
       this.dialog.open(ReportDialogComponent, dialogConfig)
