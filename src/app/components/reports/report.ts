@@ -1,6 +1,6 @@
 export interface Report {
-  id: string;
-  name: string;
-  url: string;
-  children?: Report[];
+  id      : string;
+  name    : string;
+  url   : string;
+  childRen: Report[];
 }

@@ -3,11 +3,11 @@
          fxLayout.xs="column"
          fxFlexFill
          fxLayoutAlign="center center">
-  <form [formGroup]="reportService.form"
+  <form [formGroup]="ReportService.form"
         class="form" #formDirective="ngForm"
-        (ngSubmit)="submitForm(reportService.form)">
+        (ngSubmit)="submitForm(ReportService.form)">
     <h1 mat-dialog-title class="dialog-header">
-      {{reportService.form.controls['id'].value? "Edit Report" : "Create Report"}}
+      {{ReportService.form.controls['id'].value? "Edit Report" : "Create Report"}}
     </h1>
     <mat-divider></mat-divider>
     <mat-dialog-content>
@@ -21,23 +21,18 @@
 
         <mat-form-field>
           <input matInput
-                 formControlName="url"
-                 placeholder="Enter report url"
+                 formControlName="description"
+                 placeholder="Enter description"
                  autocomplete="off"
-                 >
+                 required>
         </mat-form-field>
 
-        <div fxLayout="column" fxLayoutAlign="stretch">
-          <mat-form-field appearance="fill">
-            <mat-label>Report</mat-label>
-            <mat-select [compareWith]="reportService.compareObjects"
-                        formControlName="reports">
-              <mat-option *ngFor="let report of reports" [value]="report.id" >
-                {{report.name}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
+        <mat-checkbox
+            color="primary"
+            formControlName="isSuperAdministrator"
+        >
+            Is a super administrator role
+        </mat-checkbox>
       </div>
 <!--       <pre>{{ ReportService.form.value | json }}</pre>-->
     </mat-dialog-content>
@@ -45,7 +40,7 @@
       <div class="button">
         <button mat-raised-button type="button" mat-dialog-close>CANCEL</button>
         <button mat-raised-button color="primary" type="submit">
-          {{reportService.form.controls['id'].value? "UPDATE" : "CREATE"}}
+          {{ReportService.form.controls['id'].value? "UPDATE" : "CREATE"}}
         </button>
       </div>
     </mat-dialog-actions>

@@ -18,7 +18,7 @@ interface OuFlatNode {
 }
 
 @Component({
-  selector: 'app-users',
+  selector: 'app-organisation-units',
   templateUrl: './organisation-unit.component.html',
   styleUrls: ['./organisation-unit.component.scss']
 })
@@ -47,8 +47,8 @@ export class OrganisationUnitComponent implements OnInit {
   @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  // treeControl = new NestedTreeControl<OrganisationUnit>(node => node.children);
-  // dataSource = new MatTreeNestedDataSource<OrganisationUnit>();
+  // treeControl = new NestedTreeControl<Report>(node => node.children);
+  // dataSource = new MatTreeNestedDataSource<Report>();
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
   organisationUnitId;
   data;

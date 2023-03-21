@@ -11,15 +11,14 @@ export const RESOURCE_URL: string = 'api/v1/reports';
 @Injectable()
 export class ReportService {
   private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
-  compareObjects(o1, o2) {
-    return o1 && o2 && o1.id === o2.id;
-  }
+
   constructor(private http: HttpClient) {}
 
   form: FormGroup = new FormGroup({
     id: new FormControl(''),
     name: new FormControl('', [Validators.required]),
-    url: new FormControl('')
+    url: new FormControl(''),
+    parentId: new FormControl(''),
   });
 
   /**
@@ -34,8 +33,8 @@ export class ReportService {
     return body || {};
   }
 
-  getReports(param?): Observable<any> {
-    return this.http.get<any>(this.API_ENDPOINT+"/tree",{params: param}).pipe(
+  getTree(): Observable<any> {
+    return this.http.get<any>(this.API_ENDPOINT+"/tree",{}).pipe(
       map(this.extractData));
   }
 
@@ -46,7 +45,8 @@ export class ReportService {
   delete(id): Observable<any> {
     console.log("Deleting report with id ",id);
     return this.http.delete<any>(this.API_ENDPOINT+"/"+id).pipe(
-      map(this.extractData));  }
+      map(this.extractData));``
+  }
 
   /**
    *
@@ -61,14 +61,14 @@ export class ReportService {
       id: '',
       name: '',
       url: '',
-      parent: ''
+      parentId: false
     });
   }
 
   /**
-   * @param report
+   * @param role
    */
-  createRole(report): Observable<any> {
+  create(report): Observable<any> {
     return this.http.post<any>(this.API_ENDPOINT, report)
       // tslint:disable-next-line:no-shadowed-variable
       .pipe(tap((response) => console.log(`Added report with name = ${report.name}`)),
@@ -88,7 +88,7 @@ export class ReportService {
     };
   }
 
-  updateRole(report): Observable<any> {
+  update(report): Observable<any> {
     return this.http.put(this.API_ENDPOINT+"/"+report.id, report)
       .pipe(tap(_ => console.log(`updated report with id=${report.id}`)),
         catchError(this.handleError<any>('update report'))

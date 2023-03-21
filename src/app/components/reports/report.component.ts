@@ -1,68 +1,50 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {MatTableDataSource} from '@angular/material/table';
 import {ReportService} from './report.service';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {ReportDialogComponent} from './modals/report-dialog-component';
-import {NotifierService} from '../notifications/notifier.service';
-import {FlatTreeControl} from '@angular/cdk/tree';
-import {MatTreeFlatDataSource, MatTreeFlattener} from "@angular/material/tree";
 import {Report} from './report';
+import {NotifierService} from '../notifications/notifier.service';
+import {NestedTreeControl} from "@angular/cdk/tree";
+import {MatTreeNestedDataSource} from "@angular/material/tree";
 
-interface ReportFlatNode {
-  expandable: boolean;
+interface ReportNode {
   name: string;
-  level: number;
+  url: string;
+  id: string;
+  children?: ReportNode[];
 }
 
 @Component({
-  selector: 'app-reports',
+  selector: 'app-users',
   templateUrl: './report.component.html',
   styleUrls: ['./report.component.scss']
 })
 export class ReportComponent implements OnInit {
-  treeControl = new FlatTreeControl<ReportFlatNode>(
-    node => node.level,
-    node => node.expandable,
-  );
-
-  private _transformer = (node: Report, level: number) => {
-    return {
-      expandable: !!node.children && node.children.length > 0,
-      name: node.name,
-      level: level,
-    };
-  };
-
-  treeFlattener = new MatTreeFlattener(
-    this._transformer,
-    node => node.level,
-    node => node.expandable,
-    node => node.children,
-  );
-
-  dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
-
-  reportId: string;
+  roleId: string;
   @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
+  treeControl = new NestedTreeControl<ReportNode>(node => node.children);
+  dataSource = new MatTreeNestedDataSource<ReportNode>();
+  hasChild = (_: number, node: ReportNode) => !!node.children && node.children.length > 0;
 
   constructor(
-    private reportService: ReportService,
+    private ReportService: ReportService,
     private dialog: MatDialog,
     private notifierService: NotifierService
-  ) {
-  }
+  ) { }
 
   ngOnInit(): void {
-    this.getReports();
+    this.getTree();
   }
 
   /**
-   * This method returns reports
+   * This method returns roles
    */
-  getReports() {
-    return this.reportService.getReports().subscribe((response: any) => {
+  getTree() {
+    return this.ReportService.getTree().subscribe((response: any) => {
       this.dataSource.data = response.data;
     }, error => {
-      this.notifierService.showNotification(error.error.error, 'OK', 'error');
+      this.notifierService.showNotification(error.error.error,'OK', 'error');
     });
   }
 
@@ -71,43 +53,41 @@ export class ReportComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     if (data) {
-      const reportData = {
+      const roleData = {
         id: data.id,
         name: data.name,
-        url: data.url,
-        parent: data.parent.id
+        isSuperAdministrator: data.isSuperAdministrator,
+        description: data.description
       };
-      this.reportService.populateForm(reportData);
+      this.ReportService.populateForm(roleData);
       this.dialog.open(ReportDialogComponent, dialogConfig)
         .afterClosed().subscribe(() => {
-        this.getReports();
+        this.getTree();
       });
     } else {
       dialogConfig.data = {};
       this.dialog.open(ReportDialogComponent, dialogConfig)
         .afterClosed().subscribe(() => {
-        this.getReports();
+        this.getTree();
       });
     }
   }
 
   openDeleteDialog(id) {
-    this.reportId = id;
+    this.roleId = id;
     this.dialog.open(this.deleteDialog)
       .afterClosed().subscribe(() => {
-      this.getReports();
+      this.getTree();
     });
   }
 
   delete() {
-    this.reportService.delete(this.reportId)
+    this.ReportService.delete(this.roleId)
       .subscribe(response => {
-        this.notifierService.showNotification(response.message, 'OK', 'success');
+        this.notifierService.showNotification(response.message,'OK','success');
       }, error => {
-        this.notifierService.showNotification(error.error.error, 'OK', 'error');
+        this.notifierService.showNotification(error.error.error,'OK', 'error');
       });
     this.dialog.closeAll();
   }
-
-  hasChild = (_: number, node: Report) => !!node.children && node.children.length > 0;
 }
