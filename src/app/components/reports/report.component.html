@@ -1,6 +1,6 @@
 <div fxFlexLayoutAlign="row" fxLayoutAlign="space-between center">
   <div>
-    <h3>Manage Roles</h3>
+    <h3>Mama na Mwana Reports</h3>
   </div>
   <div fxLayoutGap="5px">
     <button mat-raised-button class="mat-primary" (click)="openDialog()">
@@ -9,7 +9,7 @@
   </div>
 </div>
 
-<div class="mat-elevation-z8">
+<div class="mat-elevation-z8 report-tree">
   <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="example-tree">
     <!-- This is the tree node template for leaf nodes -->
     <!-- There is inline padding applied to this node using styles.
@@ -18,7 +18,7 @@
       {{node.name}}
     </mat-tree-node>
     <!-- This is the tree node template for expandable nodes -->
-    <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
+    <mat-nested-tree-node *matTreeNodeDef="let node; when: hasNestedChild">
       <div class="mat-tree-node">
         <button mat-icon-button matTreeNodeToggle
                 [attr.aria-label]="'Toggle ' + node.name">
@@ -27,6 +27,10 @@
           </mat-icon>
         </button>
         {{node.name}}
+      </div>
+
+      <div class="nested-node" [class.report-tree-invisible]="!treeControl.isExpanded(node)">
+        <ng-container matTreeNodeOutlet></ng-container>
       </div>
       <!-- There is inline padding applied to this div using styles.
           This padding value depends on the mat-icon-button width.  -->

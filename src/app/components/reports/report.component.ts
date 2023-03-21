@@ -26,7 +26,6 @@ export class ReportComponent implements OnInit {
   treeControl = new NestedTreeControl<ReportNode>(node => node.children);
   dataSource = new MatTreeNestedDataSource<ReportNode>();
   hasChild = (_: number, node: ReportNode) => !!node.children && node.children.length > 0;
-
   constructor(
     private ReportService: ReportService,
     private dialog: MatDialog,
@@ -36,6 +35,7 @@ export class ReportComponent implements OnInit {
   ngOnInit(): void {
     this.getTree();
   }
+
 
   /**
    * This method returns roles
@@ -90,4 +90,12 @@ export class ReportComponent implements OnInit {
       });
     this.dialog.closeAll();
   }
+
+  // hasNestedChild: (index: number, node: ReportNode){
+  //   return node?.children?.length > 0;
+  // }
+  hasNestedChild(index: number, node: any){
+    return node?.children.length >0;
+  }
+
 }
