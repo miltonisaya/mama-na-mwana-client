@@ -11,7 +11,9 @@ export const RESOURCE_URL: string = 'api/v1/reports';
 @Injectable()
 export class ReportService {
   private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
-
+  compareObjects(o1, o2) {
+    return o1 && o2 && o1.id === o2.id;
+  }
   constructor(private http: HttpClient) {}
 
   form: FormGroup = new FormGroup({
@@ -91,6 +93,13 @@ export class ReportService {
   update(report): Observable<any> {
     return this.http.put(this.API_ENDPOINT+"/"+report.id, report)
       .pipe(tap(_ => console.log(`updated report with id=${report.id}`)),
+        catchError(this.handleError<any>('update report'))
+      );
+  }
+
+  getAll() {
+    return this.http.get(this.API_ENDPOINT,{})
+      .pipe(tap(_ => console.log(`Fetching reports`)),
         catchError(this.handleError<any>('update report'))
       );
   }

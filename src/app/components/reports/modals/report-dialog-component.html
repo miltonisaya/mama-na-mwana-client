@@ -21,18 +21,23 @@
 
         <mat-form-field>
           <input matInput
-                 formControlName="description"
-                 placeholder="Enter description"
+                 formControlName="url"
+                 placeholder="Enter url"
                  autocomplete="off"
                  required>
         </mat-form-field>
 
-        <mat-checkbox
-            color="primary"
-            formControlName="isSuperAdministrator"
-        >
-            Is a super administrator role
-        </mat-checkbox>
+        <div fxLayout="column" fxLayoutAlign="stretch">
+          <mat-form-field appearance="fill">
+            <mat-label>Parent</mat-label>
+            <mat-select [compareWith]="ReportService.compareObjects"
+                        formControlName="parentId">
+              <mat-option *ngFor="let report of reports" [value]="report.id" >
+                {{report.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
       </div>
 <!--       <pre>{{ ReportService.form.value | json }}</pre>-->
     </mat-dialog-content>
