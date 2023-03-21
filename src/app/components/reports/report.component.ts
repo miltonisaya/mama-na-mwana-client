@@ -5,7 +5,7 @@ import {ReportDialogComponent} from './modals/report-dialog-component';
 import {NotifierService} from '../notifications/notifier.service';
 import {FlatTreeControl} from '@angular/cdk/tree';
 import {MatTreeFlatDataSource, MatTreeFlattener} from "@angular/material/tree";
-import { Report } from './report';
+import {Report} from './report';
 
 interface ReportFlatNode {
   expandable: boolean;
@@ -25,7 +25,6 @@ export class ReportComponent implements OnInit {
   );
 
   private _transformer = (node: Report, level: number) => {
-    console.log("Node ->", node)
     return {
       expandable: !!node.children && node.children.length > 0,
       name: node.name,
@@ -49,7 +48,8 @@ export class ReportComponent implements OnInit {
     private reportService: ReportService,
     private dialog: MatDialog,
     private notifierService: NotifierService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.getReports();
@@ -62,7 +62,7 @@ export class ReportComponent implements OnInit {
     return this.reportService.getReports().subscribe((response: any) => {
       this.dataSource.data = response.data;
     }, error => {
-      this.notifierService.showNotification(error.error.error,'OK', 'error');
+      this.notifierService.showNotification(error.error.error, 'OK', 'error');
     });
   }
 
@@ -102,9 +102,9 @@ export class ReportComponent implements OnInit {
   delete() {
     this.reportService.delete(this.reportId)
       .subscribe(response => {
-        this.notifierService.showNotification(response.message,'OK','success');
+        this.notifierService.showNotification(response.message, 'OK', 'success');
       }, error => {
-        this.notifierService.showNotification(error.error.error,'OK', 'error');
+        this.notifierService.showNotification(error.error.error, 'OK', 'error');
       });
     this.dialog.closeAll();
   }
