@@ -1,12 +1,10 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {MatTableDataSource} from '@angular/material/table';
 import {ReportService} from './report.service';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {ReportDialogComponent} from './modals/report-dialog-component';
-import {Report} from './report';
 import {NotifierService} from '../notifications/notifier.service';
 import {NestedTreeControl} from "@angular/cdk/tree";
-import {MatTreeNestedDataSource} from "@angular/material/tree";
+import {MatTree, MatTreeNestedDataSource} from "@angular/material/tree";
 
 interface ReportNode {
   name: string;
@@ -21,11 +19,13 @@ interface ReportNode {
   styleUrls: ['./report.component.scss']
 })
 export class ReportComponent implements OnInit {
-  roleId: string;
+  reportId: string;
+  selectedNode: any;
   @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
+
   treeControl = new NestedTreeControl<ReportNode>(node => node.children);
   dataSource = new MatTreeNestedDataSource<ReportNode>();
-  hasChild = (_: number, node: ReportNode) => !!node.children && node.children.length > 0;
+  activeNode: any;
   constructor(
     private ReportService: ReportService,
     private dialog: MatDialog,
@@ -74,7 +74,7 @@ export class ReportComponent implements OnInit {
   }
 
   openDeleteDialog(id) {
-    this.roleId = id;
+    this.reportId = id;
     this.dialog.open(this.deleteDialog)
       .afterClosed().subscribe(() => {
       this.getTree();
@@ -82,7 +82,7 @@ export class ReportComponent implements OnInit {
   }
 
   delete() {
-    this.ReportService.delete(this.roleId)
+    this.ReportService.delete(this.reportId)
       .subscribe(response => {
         this.notifierService.showNotification(response.message,'OK','success');
       }, error => {
@@ -91,11 +91,12 @@ export class ReportComponent implements OnInit {
     this.dialog.closeAll();
   }
 
-  // hasNestedChild: (index: number, node: ReportNode){
-  //   return node?.children?.length > 0;
-  // }
   hasNestedChild(index: number, node: any){
     return node?.children.length >0;
   }
 
+  onNodeClick(node: any){
+    this.selectedNode = node;
+    console.log("The node->",node);
+  }
 }
