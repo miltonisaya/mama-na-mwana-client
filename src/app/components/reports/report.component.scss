@@ -11,8 +11,7 @@
 }
 
 mat-tree-node.selected {
-  background-color: gray;
   border-radius: 3px;
-  width: 20%;
-  color: white;
+  color: green;
+  font-weight: bold;
 }
