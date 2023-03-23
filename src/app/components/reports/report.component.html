@@ -3,8 +3,14 @@
     <h3>Mama na Mwana Reports</h3>
   </div>
   <div fxLayoutGap="5px">
+    <button mat-raised-button class="mat-primary" *ngIf="selectedNode != null && selectedNode != undefined" (click)="openDeleteDialog()">
+      DOWNLOAD
+    </button>
     <button mat-raised-button class="mat-primary" (click)="openDialog()">
-      <mat-icon>add</mat-icon>ADD NEW
+      ADD
+    </button>
+    <button mat-raised-button class="mat-warn" *ngIf="selectedNode != null && selectedNode != undefined" (click)="openDeleteDialog()">
+      DELETE
     </button>
   </div>
 </div>

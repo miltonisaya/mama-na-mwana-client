@@ -73,8 +73,8 @@ export class ReportComponent implements OnInit {
     }
   }
 
-  openDeleteDialog(id) {
-    this.reportId = id;
+  openDeleteDialog() {
+    this.reportId = this.selectedNode.id;
     this.dialog.open(this.deleteDialog)
       .afterClosed().subscribe(() => {
       this.getTree();
@@ -82,7 +82,7 @@ export class ReportComponent implements OnInit {
   }
 
   delete() {
-    this.ReportService.delete(this.reportId)
+    this.ReportService.delete(this.selectedNode.id)
       .subscribe(response => {
         this.notifierService.showNotification(response.message,'OK','success');
       }, error => {
