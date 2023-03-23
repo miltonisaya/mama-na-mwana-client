@@ -3,7 +3,7 @@
     <h3>Mama na Mwana Reports</h3>
   </div>
   <div fxLayoutGap="5px">
-    <button mat-raised-button class="mat-primary" *ngIf="selectedNode != null && selectedNode != undefined" (click)="openDeleteDialog()">
+    <button mat-raised-button class="mat-primary" *ngIf="selectedNode != null && selectedNode != undefined" (click)="openReportParamsDialog()">
       DOWNLOAD
     </button>
     <button *ngIf="isSuperAdministrator" mat-raised-button class="mat-primary" (click)="openDialog()">
@@ -55,7 +55,7 @@
 <!--delete role dialog template-->
 <ng-template #deleteDialog>
   <mat-dialog-content>
-    <h3>Are you sure you want to delete this role?</h3>
+    <h3>Are you sure you want to delete this report?</h3>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>NO</button>

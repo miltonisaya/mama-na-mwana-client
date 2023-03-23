@@ -9,6 +9,7 @@ import {PickListModule} from "primeng/picklist";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {ReportComponent} from "./report.component";
 import {MatTreeModule} from "@angular/material/tree";
+import {ReportParamsDialog} from "./modals/report-params/report-params-dialog";
 
 @NgModule({
   imports: [
@@ -24,7 +25,8 @@ import {MatTreeModule} from "@angular/material/tree";
   ],
     declarations: [
       ReportDialogComponent,
-      ReportComponent
+      ReportComponent,
+      ReportParamsDialog
     ]
 })
 export class ReportModule {

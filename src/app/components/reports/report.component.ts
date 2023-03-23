@@ -5,6 +5,7 @@ import {ReportDialogComponent} from './modals/report-dialog-component';
 import {NotifierService} from '../notifications/notifier.service';
 import {NestedTreeControl} from "@angular/cdk/tree";
 import {MatTreeNestedDataSource} from "@angular/material/tree";
+import {ReportParamsDialog} from "./modals/report-params/report-params-dialog";
 
 interface ReportNode {
   name: string;
@@ -104,6 +105,17 @@ export class ReportComponent implements OnInit {
 
   onNodeClick(node: any){
     this.selectedNode = node;
-    console.log("The node->",node);
+    console.log("The selected node is->",node);
+  }
+
+  openReportParamsDialog() {
+    console.log("Opening dialog params");
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    this.dialog.open(ReportParamsDialog, dialogConfig)
+      .afterClosed().subscribe(() => {
+      this.getTree();
+    });
   }
 }
