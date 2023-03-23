@@ -4,7 +4,7 @@ import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {ReportDialogComponent} from './modals/report-dialog-component';
 import {NotifierService} from '../notifications/notifier.service';
 import {NestedTreeControl} from "@angular/cdk/tree";
-import {MatTree, MatTreeNestedDataSource} from "@angular/material/tree";
+import {MatTreeNestedDataSource} from "@angular/material/tree";
 
 interface ReportNode {
   name: string;
@@ -21,6 +21,7 @@ interface ReportNode {
 export class ReportComponent implements OnInit {
   reportId: string;
   selectedNode: any;
+  isSuperAdministrator: boolean;
   @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
 
   treeControl = new NestedTreeControl<ReportNode>(node => node.children);
@@ -33,6 +34,14 @@ export class ReportComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTree();
+    this.checkIsAdmin();
+  }
+
+  checkIsAdmin(){
+    let mnmUser = JSON.parse(localStorage.getItem("MNM_USER"));
+    if(mnmUser.isSuperAdministrator){
+      this.isSuperAdministrator = true;
+    }
   }
 
   /**

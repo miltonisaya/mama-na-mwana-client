@@ -6,13 +6,13 @@
     <button mat-raised-button class="mat-primary" *ngIf="selectedNode != null && selectedNode != undefined" (click)="openDeleteDialog()">
       DOWNLOAD
     </button>
-    <button mat-raised-button class="mat-primary" (click)="openDialog()">
+    <button *ngIf="isSuperAdministrator" mat-raised-button class="mat-primary" (click)="openDialog()">
       ADD
     </button>
-    <button mat-raised-button class="mat-primary" *ngIf="selectedNode != null && selectedNode != undefined" (click)="openDialog(selectedNode)">
+    <button mat-raised-button class="mat-primary" *ngIf="selectedNode != null && selectedNode != undefined && isSuperAdministrator" (click)="openDialog(selectedNode)">
       UPDATE
     </button>
-    <button mat-raised-button class="mat-warn" *ngIf="selectedNode != null && selectedNode != undefined" (click)="openDeleteDialog()">
+    <button mat-raised-button class="mat-warn" *ngIf="selectedNode != null && selectedNode != undefined && isSuperAdministrator" (click)="openDeleteDialog()">
       DELETE
     </button>
   </div>
