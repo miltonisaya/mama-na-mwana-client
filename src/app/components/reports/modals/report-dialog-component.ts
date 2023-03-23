@@ -1,10 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {ReportService} from '../report.service';
-import {MatDialogRef} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {NotifierService} from '../../notifications/notifier.service';
-import {Observable} from "rxjs";
-import {map} from "rxjs/operators";
-import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-report-dialog',
@@ -17,17 +14,18 @@ export class ReportDialogComponent implements OnInit {
   constructor(
     public ReportService: ReportService,
     public dialogRef: MatDialogRef<ReportDialogComponent>,
-    public notifierService: NotifierService
+    public notifierService: NotifierService,
+
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
   ngOnInit() {
-    this.getReports()
+    this.getReports();
   }
 
   getReports() {
     this.ReportService.getAll().subscribe(response =>{
       this.reports = response.data.content;
-      console.log("Reports ->",this.reports);
     })
   }
 

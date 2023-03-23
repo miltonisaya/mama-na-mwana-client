@@ -34,6 +34,7 @@ export class ReportParamsDialog implements OnInit {
   }
 
   ngOnInit() {
+    console.log("Report params ->",this.data);
     this.getCouncils();
 
     this.filteredOptions = this.myControl.valueChanges
