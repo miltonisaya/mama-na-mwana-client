@@ -25,7 +25,6 @@ export class ReportComponent implements OnInit {
 
   treeControl = new NestedTreeControl<ReportNode>(node => node.children);
   dataSource = new MatTreeNestedDataSource<ReportNode>();
-  activeNode: any;
   constructor(
     private ReportService: ReportService,
     private dialog: MatDialog,
@@ -35,7 +34,6 @@ export class ReportComponent implements OnInit {
   ngOnInit(): void {
     this.getTree();
   }
-
 
   /**
    * This method returns roles

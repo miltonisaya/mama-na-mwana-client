@@ -9,6 +9,9 @@
     <button mat-raised-button class="mat-primary" (click)="openDialog()">
       ADD
     </button>
+    <button mat-raised-button class="mat-primary" *ngIf="selectedNode != null && selectedNode != undefined" (click)="openDialog(selectedNode)">
+      UPDATE
+    </button>
     <button mat-raised-button class="mat-warn" *ngIf="selectedNode != null && selectedNode != undefined" (click)="openDeleteDialog()">
       DELETE
     </button>

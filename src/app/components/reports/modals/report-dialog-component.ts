@@ -43,7 +43,8 @@ export class ReportDialogComponent implements OnInit {
           });
       } else {
         this.ReportService.create(this.ReportService.form.value)
-          .subscribe(data => {
+          .subscribe(response => {
+            this.notifierService.showNotification(response.message,'OK','success');
             this.onClose();
           },error => {
             this.notifierService.showNotification(error.error.error,'OK', 'error');
