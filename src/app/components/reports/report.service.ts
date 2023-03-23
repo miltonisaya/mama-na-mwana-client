@@ -103,4 +103,11 @@ export class ReportService {
         catchError(this.handleError<any>('update report'))
       );
   }
+
+  getParams(reportUrl) {
+    return this.http.get(this.API_ENDPOINT+"/params/"+reportUrl, {})
+      .pipe(tap(_ => console.log(`Fetching params`)),
+        catchError(this.handleError<any>('Fetch report params'))
+      );
+  }
 }

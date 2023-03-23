@@ -27,6 +27,7 @@ export class ReportComponent implements OnInit {
 
   treeControl = new NestedTreeControl<ReportNode>(node => node.children);
   dataSource = new MatTreeNestedDataSource<ReportNode>();
+  private params: any;
   constructor(
     private ReportService: ReportService,
     private dialog: MatDialog,
@@ -54,6 +55,15 @@ export class ReportComponent implements OnInit {
     }, error => {
       this.notifierService.showNotification(error.error.error,'OK', 'error');
     });
+  }
+
+  getReportParams(){
+    return this.ReportService.getParams(this.selectedNode.url).subscribe((response:any) =>{
+      this.params = response.data;
+      console.log("The fetched params ->",this.params);
+    }, error => {
+      this.notifierService.showNotification(error.error.error,'OK','error');
+    })
   }
 
   openDialog(data?): void {
@@ -109,11 +119,15 @@ export class ReportComponent implements OnInit {
   }
 
   openReportParamsDialog() {
+    //fetch params
+    this.getReportParams();
     console.log("Opening dialog params");
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    this.dialog.open(ReportParamsDialog, dialogConfig)
+    //add params to config
+    dialogConfig['params'] = this.params;
+    this.dialog.open(ReportParamsDialog, {data: dialogConfig})
       .afterClosed().subscribe(() => {
       this.getTree();
     });
