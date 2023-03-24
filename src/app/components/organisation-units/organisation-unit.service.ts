@@ -18,7 +18,7 @@ export class OrganisationUnitService {
     id: new FormControl(''),
     name: new FormControl('', [Validators.required]),
     code: new FormControl('', [Validators.required]),
-    parentId: new FormControl('', [Validators.required])
+    parentId: new FormControl('')
   });
 
   /**
@@ -53,7 +53,7 @@ export class OrganisationUnitService {
    * @param data
    */
   populateForm (data){
-    this.form.setValue(data);
+    this.form.patchValue(data);
   }
 
   initializeFormGroup(){

@@ -74,12 +74,12 @@ export class OrganisationUnitComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     if (data) {
-      const roleData = {
+      const ouData = {
         id: data.id,
         name: data.name,
-        description: data.description
+        code: data.code
       };
-      this.OrganisationUnitService.populateForm(roleData);
+      this.OrganisationUnitService.populateForm(ouData);
       this.Dialog.open(OrganisationUnitDialogComponent, dialogConfig)
         .afterClosed().subscribe(() => {
         this.getParentOrganisationUnits();
