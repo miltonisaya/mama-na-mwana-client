@@ -60,8 +60,6 @@ export class ReportComponent implements OnInit {
   async getReportParams(){
     return this.ReportService.getParams(this.selectedNode.url).subscribe((response:any) =>{
       this.params = response.data;
-      console.log(response.data);
-      console.log("The fetched params ->",this.params);
     }, error => {
       this.notifierService.showNotification(error.error.error,'OK','error');
     })
@@ -116,14 +114,11 @@ export class ReportComponent implements OnInit {
 
   onNodeClick(node: any){
     this.selectedNode = node;
-    console.log("The selected node is->",node);
   }
 
   async openReportParamsDialog() {
     //fetch params
     await this.getReportParams();
-    console.log("This dot params =>",this.params);
-
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;

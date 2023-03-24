@@ -34,7 +34,6 @@ export class ReportParamsDialog implements OnInit {
   }
 
   ngOnInit() {
-    console.log("Report params ->",this.data);
     this.getCouncils();
 
     this.filteredOptions = this.myControl.valueChanges
@@ -53,7 +52,6 @@ export class ReportParamsDialog implements OnInit {
       this.councils = response.data;
     }, error => {
       this.notifierService.showNotification(error.error.error, 'OK', 'error');
-      console.log(error);
     });
   }
 
