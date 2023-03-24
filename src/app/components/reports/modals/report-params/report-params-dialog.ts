@@ -23,6 +23,7 @@ export class ReportParamsDialog implements OnInit {
   selectedCouncil: any;
   formattedStartDate: any;
   formattedEndDate: any;
+  paramsIsReady:boolean = false;
 
   constructor(
     private datePipe: DatePipe,
@@ -35,7 +36,6 @@ export class ReportParamsDialog implements OnInit {
 
   ngOnInit() {
     this.getCouncils();
-
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
         startWith(''),
@@ -75,7 +75,7 @@ export class ReportParamsDialog implements OnInit {
     this.formatSelectedDates();
     let params = {
       format: "pdf",
-      name: null,
+      name: this.data.data.selectedNode.url,
       params: {
         // start_date: this.startDate.value.toISOString().slice(0,10),
         // end_date: this.startDate.value.toISOString().slice(0,10),
@@ -86,39 +86,6 @@ export class ReportParamsDialog implements OnInit {
 
     if (this.myControl.value !== null && this.myControl.value !== undefined) {
       params.params['organisationUnitId'] = this.myControl.value.code;
-    }
-
-    let fileName;
-    if (data.reportCode == 1) {
-      params.name = "mnm-responses-by-age-and-facility-round-one"
-    }
-
-    if (data.reportCode == 2) {
-      params.name = "mnm-responses-by-age-and-facility-round-two"
-    }
-
-    if (data.reportCode == 3) {
-      params.name = "mnm-responses-by-age-and-facility-round-three"
-    }
-
-    if (data.reportCode == 4) {
-      params.name = "mnm-responses-by-age-and-facility-round-four"
-    }
-
-    if (data.reportCode == 'N1') {
-      params.name = "mnm-national-responses-by-age-groups-round-one"
-    }
-
-    if (data.reportCode == 'N2') {
-      params.name = "mnm-national-responses-by-age-groups-round-two"
-    }
-
-    if (data.reportCode == 'N3') {
-      params.name = "mnm-national-responses-by-age-groups-round-three"
-    }
-
-    if (data.reportCode == 'N4') {
-      params.name = "mnm-national-responses-by-age-groups-round-four"
     }
 
     return this.contactService.responsesInAgeGroups(params).subscribe((response: any) => {

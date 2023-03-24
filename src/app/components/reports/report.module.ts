@@ -10,6 +10,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {ReportComponent} from "./report.component";
 import {MatTreeModule} from "@angular/material/tree";
 import {ReportParamsDialog} from "./modals/report-params/report-params-dialog";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import {ReportParamsDialog} from "./modals/report-params/report-params-dialog";
     PickListModule,
     MatCheckboxModule,
     MatTreeModule,
+    MatAutocompleteModule
   ],
     declarations: [
       ReportDialogComponent,

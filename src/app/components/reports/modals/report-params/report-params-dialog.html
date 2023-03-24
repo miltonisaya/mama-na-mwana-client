@@ -11,71 +11,55 @@
   <mat-divider></mat-divider>
 
   <mat-dialog-content>
-    <ng-container *ngFor="let param of data.data">
-      <ng-container [ngSwitch]="param">
-        <mat-form-field *ngSwitchCase="param.start_date || param.end_date">
-          <mat-label>Select a start date</mat-label>
-          <input matInput [matDatepicker]="startDatePicker" [formControl]="startDate">
-          <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
-          <mat-datepicker #startDatePicker></mat-datepicker>
-        </mat-form-field>
+    <ng-container *ngFor="let param of data.data.params">
+      <ng-container [ngSwitch]="param.name">
+        <div fxLayout="column" fxLayoutAlign="space-evenly stretch">
+          <mat-form-field *ngSwitchCase="'start_date' || 'end_date'">
+            <mat-label>Select a start date</mat-label>
+            <input matInput [matDatepicker]="startDatePicker" [formControl]="startDate">
+            <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #startDatePicker></mat-datepicker>
+          </mat-form-field>
 
-        <pre>{{param.start_date | json}}</pre>
-        <mat-form-field *ngSwitchCase="param.start_date || param.end_date">
-          <mat-label>Select an end date</mat-label>
-          <input matInput [matDatepicker]="endDatePicker" [formControl]="endDate">
-          <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
-          <mat-datepicker #endDatePicker></mat-datepicker>
-        </mat-form-field>
+          <mat-form-field *ngSwitchCase="'start_date' || 'end_date'">
+            <mat-label>Select an end date</mat-label>
+            <input matInput [matDatepicker]="endDatePicker" [formControl]="endDate">
+            <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #endDatePicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </ng-container>
 
+      <ng-container [ngSwitch]="param.name">
+        <div class="dialog-content" fxLayout="column" fxLayoutGap="5px">
+          <mat-form-field *ngSwitchCase="'organisationUnitId'" appearance="fill">
+            <mat-label>Search for council</mat-label>
+            <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+              <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                {{option.name}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
       </ng-container>
     </ng-container>
-<!--    <div class="dialog-content" fxLayout="column" fxLayoutGap="5px" *ngIf="data.isNational == false">-->
-<!--      <div fxLayout="column" fxLayoutAlign="space-evenly stretch">-->
-<!--        <mat-form-field class="dialog-content" appearance="fill">-->
-<!--          <mat-label>Search for council</mat-label>-->
-<!--          <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">-->
-<!--          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">-->
-<!--            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">-->
-<!--              {{option.name}}-->
-<!--            </mat-option>-->
-<!--          </mat-autocomplete>-->
-<!--        </mat-form-field>-->
-<!--      </div>-->
-<!--    </div>-->
 
-<!--    <div fxLayout="row" fxLayoutAlign="space-around none" fxLayoutGap="5px">-->
-<!--      <mat-form-field>-->
-<!--        <mat-label>Select a start date</mat-label>-->
-<!--        <input matInput [matDatepicker]="startDatePicker" [formControl]="startDate">-->
-<!--        <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>-->
-<!--        <mat-datepicker #startDatePicker></mat-datepicker>-->
-<!--      </mat-form-field>-->
-
-<!--      <mat-form-field>-->
-<!--        <mat-label>Select an end date</mat-label>-->
-<!--        <input matInput [matDatepicker]="endDatePicker" [formControl]="endDate">-->
-<!--        <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>-->
-<!--        <mat-datepicker #endDatePicker></mat-datepicker>-->
-<!--      </mat-form-field>-->
-<!--    </div>-->
-<!--  </mat-dialog-content>-->
-
-  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end none">
-    <div class="button">
-      <button mat-raised-button type="button" mat-dialog-close>CANCEL</button>
-      <button
-        mat-raised-button
-        color="primary"
-        type="submit"
-        (click)="generateReport(data)"
-      >
-        {{"GENERATE REPORT"}}
-      </button>
-    </div>
-  </mat-dialog-actions>
+    <mat-dialog-actions fxLayout="row" fxLayoutAlign="end none">
+      <div class="button">
+        <button mat-raised-button type="button" mat-dialog-close>CANCEL</button>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          (click)="generateReport(data)"
+        >
+          {{"GENERATE REPORT"}}
+        </button>
+      </div>
+    </mat-dialog-actions>
   </mat-dialog-content>
 </section>
 
-<pre>{{data.data | json}}</pre>
+<!--<pre>{{data.data | json}}</pre>-->
 <!--<pre>{{endDate.value | json}}</pre>-->

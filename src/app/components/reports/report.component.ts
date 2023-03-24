@@ -123,8 +123,15 @@ export class ReportComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
 
+    let parameters = {
+      params: this.params,
+      selectedNode: this.selectedNode
+    };
+
     //add params to config
-    dialogConfig.data = this.params;
+    // this.params['selectedNode'] = this.selectedNode;
+    // console.log("This dot params =>",this.params);
+    dialogConfig.data = parameters;
     this.dialog.open(ReportParamsDialog, {data: dialogConfig})
       .afterClosed().subscribe(() => {
       this.getTree();
