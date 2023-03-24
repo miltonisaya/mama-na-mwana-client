@@ -41,3 +41,22 @@ table {
   padding-left: 40px;
 }
 
+.nested-node {
+  padding-left: 40px;
+}
+
+.report-tree-invisible {
+  display: none;
+}
+
+.report-tree{
+  padding-left: 40px;
+}
+
+mat-tree-node.selected {
+  border-radius: 3px;
+  color: green;
+  font-weight: bold;
+}
+
+
