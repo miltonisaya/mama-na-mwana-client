@@ -1,48 +1,48 @@
 <section class="login-form-container"
+         fxFlexFill
          fxLayout="column"
          fxLayout.xs="column"
-         fxFlexFill
          fxLayoutAlign="end none">
-    <h1 mat-dialog-title class="dialog-header" fxLayout="row" fxLayoutAlign="center center">
-      {{"Map Authorities"}}
-    </h1>
+  <h1 class="dialog-header" fxLayout="row" fxLayoutAlign="center center" mat-dialog-title>
+    {{"Map Authorities"}}
+  </h1>
   <br>
-    <mat-divider></mat-divider>
-    <mat-dialog-content>
-      <p-pickList
-        [source]="unSelectedList"
-        [target]="selectedList"
-        sourceHeader="Available"
-        targetHeader="Selected"
-        [responsive]="true"
-        filterBy="Name"
-        dragdrop="true"
-        sourceFilterPlaceholder="Search by Name"
-        targetFilterPlaceholder="Search by Name"
-        [sourceStyle]="{'height':'200px'}"
-        [targetStyle]="{'height':'200px'}"
-      >
+  <mat-divider></mat-divider>
+  <mat-dialog-content>
+    <p-pickList
+      [responsive]="true"
+      [sourceStyle]="{'height':'200px'}"
+      [source]="unSelectedList"
+      [targetStyle]="{'height':'200px'}"
+      [target]="selectedList"
+      dragdrop="true"
+      filterBy="Name"
+      sourceFilterPlaceholder="Search by Name"
+      sourceHeader="Available"
+      targetFilterPlaceholder="Search by Name"
+      targetHeader="Selected"
+    >
       <ng-template let-tm pTemplate="TeamA">
         <div class="ui-helper-clearfix">
           <div style="font-size:14px;float:left;margin:15px 5px 0 0">{{tm.name}}</div>
         </div>
       </ng-template>
-      </p-pickList>
-    </mat-dialog-content>
+    </p-pickList>
+  </mat-dialog-content>
 
-    <mat-dialog-actions fxLayout="row" fxLayoutAlign="end none">
-      <div class="button">
-        <button mat-raised-button type="button" mat-dialog-close>CANCEL</button>
-        <button
-          mat-raised-button
-          color="primary"
-          type="submit"
-          (click)="saveData()"
-        >
-          {{"SAVE"}}
-        </button>
-      </div>
-    </mat-dialog-actions>
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end none">
+    <div class="button">
+      <button mat-dialog-close mat-raised-button type="button">CANCEL</button>
+      <button
+        (click)="saveData()"
+        color="primary"
+        mat-raised-button
+        type="submit"
+      >
+        {{"SAVE"}}
+      </button>
+    </div>
+  </mat-dialog-actions>
 </section>
 
 <!--Data <pre>{{data | json}}</pre>-->

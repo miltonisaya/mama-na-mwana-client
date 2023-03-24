@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../auth/auth.service';
 import {Router} from '@angular/router';
@@ -17,13 +17,14 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private notifierService: NotifierService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.initForm();
   }
 
-  initForm(){
+  initForm() {
     this.formGroup = new FormGroup({
       username: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required])
@@ -34,11 +35,11 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.formGroup.value)
       .subscribe(response => {
         if (response.data.user) {
-          this.notifierService.showNotification(response.message,'OK', 'success');
+          this.notifierService.showNotification(response.message, 'OK', 'success');
           this.router.navigate(['/dashboard']);
         }
       }, error => {
-        this.notifierService.showNotification(error.error.error,'OK', 'error');
+        this.notifierService.showNotification(error.error.error, 'OK', 'error');
       });
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,13 +9,15 @@ export class SidebarComponent implements OnInit {
   user;
   roles;
   menus;
-  constructor() { }
+
+  constructor() {
+  }
 
   ngOnInit(): void {
     this.getUserDetails();
   }
 
-  getUserDetails(){
+  getUserDetails() {
     this.user = JSON.parse(localStorage.getItem("MNM_USER"));
     this.roles = this.user.roles;
     this.menus = this.user.menus;

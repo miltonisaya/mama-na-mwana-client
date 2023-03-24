@@ -3,65 +3,68 @@
     <h3>Manage Authorities</h3>
   </div>
   <div fxLayoutGap="5px">
-    <button mat-raised-button class="mat-primary" (click)="openDialog()">
-      <mat-icon>add</mat-icon>ADD NEW
+    <button (click)="openDialog()" class="mat-primary" mat-raised-button>
+      <mat-icon>add</mat-icon>
+      ADD NEW
     </button>
   </div>
 </div>
 
 <mat-form-field appearance="standard">
   <mat-label>Filter</mat-label>
-  <input matInput (keyup)="applyFilter($event)" #input autocomplete="off">
+  <input #input (keyup)="applyFilter($event)" autocomplete="off" matInput>
 </mat-form-field>
 
 <div class="mat-elevation-z8">
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table>
     <!-- SNo Column -->
     <ng-container matColumnDef="sno">
-      <th mat-header-cell *matHeaderCellDef> No</th>
-      <td mat-cell *matCellDef="let authorities; let i = index">{{i + 1}}</td>
+      <th *matHeaderCellDef mat-header-cell> No</th>
+      <td *matCellDef="let authorities; let i = index" mat-cell>{{i + 1}}</td>
     </ng-container>
 
     <!-- Name Column -->
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> Name</th>
-      <td mat-cell *matCellDef="let authorities"> {{authorities.name}} </td>
+      <th *matHeaderCellDef mat-header-cell> Name</th>
+      <td *matCellDef="let authorities" mat-cell> {{authorities.name}} </td>
     </ng-container>
 
     <!-- Description Column -->
     <ng-container matColumnDef="description">
-      <th mat-header-cell *matHeaderCellDef> Description</th>
-      <td mat-cell *matCellDef="let authorities"> {{authorities.description}} </td>
+      <th *matHeaderCellDef mat-header-cell> Description</th>
+      <td *matCellDef="let authorities" mat-cell> {{authorities.description}} </td>
     </ng-container>
 
     <!-- Action Column -->
     <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef>Action</th>
-      <td mat-cell *matCellDef="let authorities">
-        <button matTooltip="Edit" matTooltipPosition="left" mat-icon-button>
+      <th *matHeaderCellDef mat-header-cell>Action</th>
+      <td *matCellDef="let authorities" mat-cell>
+        <button mat-icon-button matTooltip="Edit" matTooltipPosition="left">
           <mat-icon (click)="openDialog(authorities)">edit</mat-icon>
         </button>
-        <button matTooltip="Delete" matTooltipPosition="right" mat-icon-button color="warn" (click)="openDeleteDialog(authorities.id)">
+        <button (click)="openDeleteDialog(authorities.id)" color="warn" mat-icon-button matTooltip="Delete"
+                matTooltipPosition="right">
           <mat-icon>delete</mat-icon>
         </button>
       </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
 
     <!-- Row shown when there is no matching data. -->
-    <tr class="mat-row" *matNoDataRow>
+    <tr *matNoDataRow class="mat-row">
       <td class="mat-cell" colspan="3">No data matching the filter "{{input.value}}"</td>
     </tr>
   </table>
   <mat-paginator
-    class="mat-elevation-z8"
-    [pageSize]="pageSize"
-    [pageSizeOptions]="pageSizeOptions"
-    [length]="authorities?.totalElements"
     (page)="pageChanged($event)"
-  ></mat-paginator></div>
+    [length]="authorities?.totalElements"
+    [pageSizeOptions]="pageSizeOptions"
+    [pageSize]="pageSize"
+    class="mat-elevation-z8"
+  ></mat-paginator>
+</div>
 
 <!--<pre>{{authorities | json}}</pre>-->
 
@@ -73,7 +76,7 @@
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>NO</button>
-    <button mat-button (click)="delete()">YES</button>
+    <button (click)="delete()" mat-button>YES</button>
   </mat-dialog-actions>
 </ng-template>
 <!--delete authority dialog template-->

@@ -1,11 +1,11 @@
 <section class="login-form-container"
-         fxLayout="row"
          fxFlexFill
+         fxLayout="row"
          fxLayoutAlign="center center">
-  <form [formGroup]="UserService.form"
-        class="form" #formDirective="ngForm"
-        (ngSubmit)="submitForm(UserService.form)">
-    <h1 mat-dialog-title class="dialog-header">
+  <form #formDirective="ngForm"
+        (ngSubmit)="submitForm(UserService.form)" [formGroup]="UserService.form"
+        class="form">
+    <h1 class="dialog-header" mat-dialog-title>
       {{UserService.form.controls['id'].value ? "Edit User" : "Create User"}}
     </h1>
     <mat-divider></mat-divider>
@@ -14,37 +14,37 @@
       <div class="dialog-content" fxLayout="column" fxLayoutGap="5px">
         <div fxLayout="row" fxLayoutAlign="space-evenly stretch">
           <mat-form-field>
-            <input matInput
+            <input autocomplete="off"
                    formControlName="name"
-                   autocomplete="off"
+                   matInput
                    placeholder="Enter name" required>
           </mat-form-field>
 
           <mat-form-field>
-            <input matInput
+            <input autocomplete="off"
                    formControlName="phone"
+                   matInput
                    placeholder="Enter Phone"
-                   autocomplete="off"
                    required>
           </mat-form-field>
         </div>
 
         <div fxLayout="column" fxLayoutAlign="stretch">
           <mat-form-field>
-            <input matInput
+            <input autocomplete="off"
                    formControlName="email"
+                   matInput
                    placeholder="Enter Email"
-                   autocomplete="off"
                    required>
           </mat-form-field>
         </div>
 
         <div fxLayout="column" fxLayoutAlign="stretch">
           <mat-form-field>
-            <input matInput
+            <input autocomplete="off"
                    formControlName="username"
+                   matInput
                    placeholder="Enter Username"
-                   autocomplete="off"
                    required>
           </mat-form-field>
         </div>
@@ -54,10 +54,10 @@
         <mat-form-field appearance="fill">
           <mat-label>Report</mat-label>
           <mat-select [compareWith]="UserService.compareObjects"
+                      formControlName="roles"
                       multiple
-                      required
-                      formControlName="roles">
-            <mat-option *ngFor="let role of roles" [value]="role" >
+                      required>
+            <mat-option *ngFor="let role of roles" [value]="role">
               {{role.name}}
             </mat-option>
           </mat-select>
@@ -67,8 +67,8 @@
     </mat-dialog-content>
     <mat-dialog-actions fxLayout="row" fxLayoutAlign="end stretch">
       <div class="button">
-        <button mat-raised-button type="button" mat-dialog-close>CANCEL</button>
-        <button mat-raised-button color="primary" type="submit">
+        <button mat-dialog-close mat-raised-button type="button">CANCEL</button>
+        <button color="primary" mat-raised-button type="submit">
           {{UserService.form.controls['id'].value ? "UPDATE" : "CREATE"}}
         </button>
       </div>

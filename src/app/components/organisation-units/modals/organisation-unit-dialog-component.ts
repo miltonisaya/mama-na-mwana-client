@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatDialogRef} from '@angular/material/dialog';
 import {NotifierService} from '../../notifications/notifier.service';
 import {OrganisationUnitService} from '../organisation-unit.service';
@@ -16,11 +16,13 @@ export class OrganisationUnitDialogComponent implements OnInit {
   councils: any;
   selectedCouncil: any;
   filteredOptions: any;
+
   constructor(
     public OrganisationUnitService: OrganisationUnitService,
     public dialogRef: MatDialogRef<OrganisationUnitDialogComponent>,
     public notifierService: NotifierService
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.getCouncils();
@@ -31,11 +33,6 @@ export class OrganisationUnitDialogComponent implements OnInit {
         map(value => typeof value === 'string' ? value : value.name),
         map(name => name ? this._filter(name) : this.councils)
       );
-  }
-
-  private _filter(name: string): any {
-    const filterValue = name.toLowerCase();
-    return this.councils.filter(option => option.name.toLowerCase().includes(filterValue));
   }
 
   displayFn(council: any): string {
@@ -55,25 +52,24 @@ export class OrganisationUnitDialogComponent implements OnInit {
     });
   }
 
-
   submitForm(data) {
     this.OrganisationUnitService.form.patchValue({parentId: this.myControl.value.id})
     // data.parentId = this.myControl.value.id;
-    console.log('Is valid =>',this.OrganisationUnitService.form.valid);
+    console.log('Is valid =>', this.OrganisationUnitService.form.valid);
 
     if (this.OrganisationUnitService.form.valid) {
       if (this.OrganisationUnitService.form.get('id').value) {
         this.OrganisationUnitService.updateOrganisationUnit(this.OrganisationUnitService.form.value)
           .subscribe(response => {
-            this.notifierService.showNotification(response.message,'OK', 'success');
+            this.notifierService.showNotification(response.message, 'OK', 'success');
             this.onClose();
           });
       } else {
         this.OrganisationUnitService.createOrganisationUnit(this.OrganisationUnitService.form.value)
           .subscribe(data => {
             this.onClose();
-          },error => {
-            this.notifierService.showNotification(error.error.error,'OK', 'error');
+          }, error => {
+            this.notifierService.showNotification(error.error.error, 'OK', 'error');
           });
       }
     }
@@ -83,5 +79,10 @@ export class OrganisationUnitDialogComponent implements OnInit {
     this.OrganisationUnitService.form.reset();
     this.OrganisationUnitService.initializeFormGroup();
     this.dialogRef.close();
+  }
+
+  private _filter(name: string): any {
+    const filterValue = name.toLowerCase();
+    return this.councils.filter(option => option.name.toLowerCase().includes(filterValue));
   }
 }

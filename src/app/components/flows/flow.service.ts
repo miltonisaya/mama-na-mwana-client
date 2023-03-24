@@ -1,4 +1,4 @@
-import { Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {environment} from '../../../environments/environment';
@@ -13,18 +13,41 @@ export const FLOW_KEY_MAPPING_API: string = 'api/v1/reset-mapping';
 
 @Injectable()
 export class FlowService {
-  private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
-  private SYNC_API_ENDPOINT = `${BASE_URL}/${SYNC_RESOURCE_URL}`;
-  private KEYS_BY_FLOW_ID_ENDPOINT = `${BASE_URL}/${FLOW_KEYS_API}`;
-  private RESET_MAPPING_ENDPOINT = `${BASE_URL}/${FLOW_KEY_MAPPING_API}`;
-
-  constructor(private http: HttpClient) {}
-
   form: FormGroup = new FormGroup({
     id: new FormControl(''),
     name: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required])
   });
+  private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
+  private SYNC_API_ENDPOINT = `${BASE_URL}/${SYNC_RESOURCE_URL}`;
+  private KEYS_BY_FLOW_ID_ENDPOINT = `${BASE_URL}/${FLOW_KEYS_API}`;
+  private RESET_MAPPING_ENDPOINT = `${BASE_URL}/${FLOW_KEY_MAPPING_API}`;
+
+  constructor(private http: HttpClient) {
+  }
+
+  getFlows(param?): Observable<any> {
+    return this.http.get<any>(this.API_ENDPOINT, {params: param}).pipe(
+      map(this.extractData));
+  }
+
+  syncFlows() {
+    return this.http.get<any>(this.SYNC_API_ENDPOINT).pipe(
+      map(this.extractData));
+  }
+
+  getKeysByFlowId(id) {
+    return this.http.get(<any>(this.KEYS_BY_FLOW_ID_ENDPOINT + "/" + id)).pipe(
+      map(this.extractData));
+  }
+
+  resetMapping(id): Observable<any> {
+    console.log(id);
+    return this.http.put(this.RESET_MAPPING_ENDPOINT + "/" + id, id)
+      .pipe(tap(_ => console.log(`updated flow with id=${id}`)),
+        catchError(this.handleError<any>('update flow'))
+      );
+  }
 
   /**
    * helper function to extract data since
@@ -38,11 +61,6 @@ export class FlowService {
     return body || {};
   }
 
-  getFlows(param?): Observable<any> {
-    return this.http.get<any>(this.API_ENDPOINT,{params: param}).pipe(
-      map(this.extractData));
-  }
-
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
@@ -53,23 +71,5 @@ export class FlowService {
       console.log(`${operation} failed: ${error.message}`);
       return of(result as T);
     };
-  }
-
-  syncFlows() {
-    return this.http.get<any>(this.SYNC_API_ENDPOINT).pipe(
-      map(this.extractData));
-  }
-
-  getKeysByFlowId(id) {
-    return this.http.get(<any>(this.KEYS_BY_FLOW_ID_ENDPOINT + "/"+id)).pipe(
-      map(this.extractData));
-  }
-
-  resetMapping(id): Observable<any> {
-    console.log(id);
-    return this.http.put(this.RESET_MAPPING_ENDPOINT+"/"+ id,id)
-      .pipe(tap(_ => console.log(`updated flow with id=${id}`)),
-        catchError(this.handleError<any>('update flow'))
-      );
   }
 }

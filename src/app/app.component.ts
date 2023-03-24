@@ -10,7 +10,8 @@ import {Component, OnInit} from '@angular/core';
 export class AppComponent implements OnInit {
   title = 'admin-template';
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

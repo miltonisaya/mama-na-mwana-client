@@ -7,7 +7,6 @@ import {Authority} from './authority';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {NotifierService} from '../notifications/notifier.service';
-import {DataElement} from "../data-elements/dataElement";
 
 @Component({
   selector: 'app-authorities',
@@ -15,24 +14,24 @@ import {DataElement} from "../data-elements/dataElement";
   styleUrls: ['./authority.component.scss']
 })
 export class AuthorityComponent implements OnInit {
-  displayedColumns: string[] = ["sno",'name', 'description', 'actions'];
+  displayedColumns: string[] = ["sno", 'name', 'description', 'actions'];
   authorities: any = [];
   authorityId: string;
   dataSource: MatTableDataSource<Authority>;
   pageSize = 10;
   pageNo = 0;
   pageSizeOptions: number[] = [10, 25, 100, 1000];
-  private params: { pageNo: number; pageSize: number };
-
   @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  private params: { pageNo: number; pageSize: number };
 
   constructor(
     private AuthorityService: AuthorityService,
     private dialog: MatDialog,
     private notifierService: NotifierService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.getAuthorities();
@@ -43,15 +42,15 @@ export class AuthorityComponent implements OnInit {
    */
   getAuthorities() {
     this.params = {
-      "pageNo" : this.pageNo,
-      "pageSize" : this.pageSize
+      "pageNo": this.pageNo,
+      "pageSize": this.pageSize
     }
 
     return this.AuthorityService.getAuthorities(this.params).subscribe((response: any) => {
       this.authorities = response.data;
       this.dataSource = new MatTableDataSource<Authority>(this.authorities.content);
     }, error => {
-      this.notifierService.showNotification(error.error.error,'OK', 'error');
+      this.notifierService.showNotification(error.error.error, 'OK', 'error');
     });
   }
 
@@ -95,9 +94,9 @@ export class AuthorityComponent implements OnInit {
   delete() {
     this.AuthorityService.delete(this.authorityId)
       .subscribe(response => {
-        this.notifierService.showNotification(response.message,'OK','success');
+        this.notifierService.showNotification(response.message, 'OK', 'success');
       }, error => {
-        this.notifierService.showNotification(error.error.error,'OK', 'error');
+        this.notifierService.showNotification(error.error.error, 'OK', 'error');
       });
     this.dialog.closeAll();
   }

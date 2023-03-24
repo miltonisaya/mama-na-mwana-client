@@ -7,7 +7,6 @@ import {Menu} from './menu';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {NotifierService} from '../notifications/notifier.service';
-import {DataElement} from "../data-elements/dataElement";
 
 @Component({
   selector: 'app-users',
@@ -16,7 +15,7 @@ import {DataElement} from "../data-elements/dataElement";
 })
 
 export class MenuComponent implements OnInit {
-  displayedColumns: string[] = ["sno",'name', 'icon','url', 'parent','role','sortOrder','actions'];
+  displayedColumns: string[] = ["sno", 'name', 'icon', 'url', 'parent', 'role', 'sortOrder', 'actions'];
   menus: any = [];
   menuId: string;
   dataSource: MatTableDataSource<Menu>;
@@ -32,7 +31,8 @@ export class MenuComponent implements OnInit {
     private MenuService: MenuService,
     private dialog: MatDialog,
     private notifierService: NotifierService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.getMenus();
@@ -43,15 +43,15 @@ export class MenuComponent implements OnInit {
    */
   getMenus() {
     this.params = {
-      "pageNo" : this.pageNo,
-      "pageSize" : this.pageSize
+      "pageNo": this.pageNo,
+      "pageSize": this.pageSize
     }
 
     return this.MenuService.getMenus(this.params).subscribe((response: any) => {
       this.menus = response.data;
       this.dataSource = new MatTableDataSource<Menu>(this.menus.content);
     }, error => {
-      this.notifierService.showNotification(error.message,'OK','error');
+      this.notifierService.showNotification(error.message, 'OK', 'error');
       console.log(error);
     });
   }
@@ -101,9 +101,9 @@ export class MenuComponent implements OnInit {
   delete() {
     this.MenuService.delete(this.menuId)
       .subscribe(response => {
-        this.notifierService.showNotification(response.message,'OK','success');
+        this.notifierService.showNotification(response.message, 'OK', 'success');
       }, error => {
-        this.notifierService.showNotification(error.error.error,'OK', 'error');
+        this.notifierService.showNotification(error.error.error, 'OK', 'error');
       });
     this.dialog.closeAll();
   }

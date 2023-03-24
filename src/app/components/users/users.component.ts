@@ -15,7 +15,7 @@ import {UserDialogComponent} from './modals/user-dialog-component';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
-  displayedColumns: string[] = ["sno",'name', 'username','email','roles', 'actions'];
+  displayedColumns: string[] = ["sno", 'name', 'username', 'email', 'roles', 'actions'];
   users: any = [];
   userId: string;
   dataSource: MatTableDataSource<User>;
@@ -32,7 +32,8 @@ export class UsersComponent implements OnInit {
     private UsersService: UsersService,
     private NotifierService: NotifierService,
     private DialogService: MatDialog,
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.getUsers();
@@ -43,15 +44,15 @@ export class UsersComponent implements OnInit {
    */
   getUsers() {
     this.params = {
-      "pageNo" : this.pageNo,
-      "pageSize" : this.pageSize
+      "pageNo": this.pageNo,
+      "pageSize": this.pageSize
     }
 
     return this.UsersService.getUsers(this.params).subscribe((response: any) => {
       this.users = response.data;
       this.dataSource = new MatTableDataSource<User>(this.users.content);
     }, error => {
-      this.NotifierService.showNotification(error.message,'OK','error');
+      this.NotifierService.showNotification(error.message, 'OK', 'error');
       console.log(error);
     });
   }
@@ -100,9 +101,9 @@ export class UsersComponent implements OnInit {
   delete() {
     this.UsersService.delete(this.userId)
       .subscribe(response => {
-        this.NotifierService.showNotification(response.message,'OK','success');
+        this.NotifierService.showNotification(response.message, 'OK', 'success');
       }, error => {
-        this.NotifierService.showNotification(error.message,'OK','error')
+        this.NotifierService.showNotification(error.message, 'OK', 'error')
       });
     this.DialogService.closeAll();
   }

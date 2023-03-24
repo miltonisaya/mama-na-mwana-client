@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { FlowComponent } from './roles.component';
+import {FlowComponent} from './roles.component';
 
 describe('UsersComponent', () => {
   let component: FlowComponent;
@@ -8,9 +8,9 @@ describe('UsersComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FlowComponent ]
+      declarations: [FlowComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {Observable} from "rxjs";
@@ -17,6 +17,10 @@ export const NUMBER_OF_REGISTRATIONS_BETWEEN_DATES: string = 'api/v1/registratio
   providedIn: 'root'
 })
 export class DashboardService {
+  registrationsForm: FormGroup = new FormGroup({
+    startDate: new FormControl('', [Validators.required]),
+    endDate: new FormControl('', [Validators.required])
+  });
   private REGISTRATION_STATS_BY_MONTHS_API_ENDPOINT = `${BASE_URL}/${REGISTRATION_STATS_BY_MONTHS}`;
   private REGISTRATION_STATS_BY_COUNCIL_API_ENDPOINT = `${BASE_URL}/${REGISTRATION_STATS_BY_COUNCIL}`;
   private TOTAL_NUMBER_OF_REGISTRATIONS_API_ENDPOINT = `${BASE_URL}/${TOTAL_NUMBER_OF_REGISTRATIONS}`;
@@ -26,7 +30,46 @@ export class DashboardService {
 
   constructor(
     private http: HttpClient
-  ) { }
+  ) {
+  }
+
+  /**
+   * Get all monthly registrations
+   * @param param
+   */
+  getMonthlyRegistrations(param?): Observable<any> {
+    return this.http.get<any>(this.REGISTRATION_STATS_BY_MONTHS_API_ENDPOINT, {params: param}).pipe(
+      map(this.extractData));
+  }
+
+  /**
+   * Get all registrations by council
+   * @param param
+   */
+  getRegistrationsByCouncil(param?): Observable<any> {
+    return this.http.get<any>(this.REGISTRATION_STATS_BY_COUNCIL_API_ENDPOINT, {params: param}).pipe(
+      map(this.extractData));
+  }
+
+  getNumberOfAllContacts(): Observable<any> {
+    return this.http.get<any>(this.TOTAL_NUMBER_OF_REGISTRATIONS_API_ENDPOINT, {}).pipe(
+      map(this.extractData));
+  }
+
+  getNumberOfRegistrationsInBarChart() {
+    return this.http.get<any>(this.TOTAL_NUMBER_OF_REGISTRATIONS_BAR_CHART_API_ENDPOINT, {}).pipe(
+      map(this.extractData));
+  }
+
+  findRegistrationsByDate(params: any, params1: { endDate: any; startDate: any }) {
+    return this.http.get<any>(this.REGISTRATIONS_BETWEEN_DATES_API_END_POINT, {}).pipe(
+      map(this.extractData));
+  }
+
+  getNumberOfTodayContacts() {
+    return this.http.get<any>(this.TOTAL_NUMBER_OF_REGISTRATIONS_TODAY_API_ENDPOINT, {}).pipe(
+      map(this.extractData));
+  }
 
   /**
    * helper function to extract data since
@@ -38,47 +81,5 @@ export class DashboardService {
   private extractData(res: Response) {
     const body = res;
     return body || {};
-  }
-
-  registrationsForm: FormGroup = new FormGroup({
-    startDate: new FormControl('', [Validators.required]),
-    endDate: new FormControl('', [Validators.required])
-  });
-
-  /**
-   * Get all monthly registrations
-   * @param param
-   */
-  getMonthlyRegistrations(param?): Observable<any> {
-    return this.http.get<any>(this.REGISTRATION_STATS_BY_MONTHS_API_ENDPOINT,{params: param}).pipe(
-      map(this.extractData));
-  }
-  /**
-   * Get all registrations by council
-   * @param param
-   */
-  getRegistrationsByCouncil(param?): Observable<any> {
-    return this.http.get<any>(this.REGISTRATION_STATS_BY_COUNCIL_API_ENDPOINT,{params: param}).pipe(
-      map(this.extractData));
-  }
-
-  getNumberOfAllContacts(): Observable<any> {
-    return this.http.get<any>(this.TOTAL_NUMBER_OF_REGISTRATIONS_API_ENDPOINT,{}).pipe(
-      map(this.extractData));
-  }
-
-  getNumberOfRegistrationsInBarChart() {
-    return this.http.get<any>(this.TOTAL_NUMBER_OF_REGISTRATIONS_BAR_CHART_API_ENDPOINT,{}).pipe(
-      map(this.extractData));
-  }
-
-  findRegistrationsByDate(params: any, params1: { endDate: any; startDate: any }) {
-    return this.http.get<any>(this.REGISTRATIONS_BETWEEN_DATES_API_END_POINT,{}).pipe(
-      map(this.extractData));
-  }
-
-  getNumberOfTodayContacts() {
-    return this.http.get<any>(this.TOTAL_NUMBER_OF_REGISTRATIONS_TODAY_API_ENDPOINT,{}).pipe(
-      map(this.extractData));
   }
 }

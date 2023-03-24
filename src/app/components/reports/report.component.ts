@@ -28,20 +28,22 @@ export class ReportComponent implements OnInit {
   treeControl = new NestedTreeControl<ReportNode>(node => node.children);
   dataSource = new MatTreeNestedDataSource<ReportNode>();
   private params: any;
+
   constructor(
     private ReportService: ReportService,
     private dialog: MatDialog,
     private notifierService: NotifierService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.getTree();
     this.checkIsAdmin();
   }
 
-  checkIsAdmin(){
+  checkIsAdmin() {
     let mnmUser = JSON.parse(localStorage.getItem("MNM_USER"));
-    if(mnmUser.isSuperAdministrator){
+    if (mnmUser.isSuperAdministrator) {
       this.isSuperAdministrator = true;
     }
   }
@@ -53,15 +55,15 @@ export class ReportComponent implements OnInit {
     return this.ReportService.getTree().subscribe((response: any) => {
       this.dataSource.data = response.data;
     }, error => {
-      this.notifierService.showNotification(error.error.error,'OK', 'error');
+      this.notifierService.showNotification(error.error.error, 'OK', 'error');
     });
   }
 
-  async getReportParams(){
-    return this.ReportService.getParams(this.selectedNode.url).subscribe((response:any) =>{
+  async getReportParams() {
+    return this.ReportService.getParams(this.selectedNode.url).subscribe((response: any) => {
       this.params = response.data;
     }, error => {
-      this.notifierService.showNotification(error.error.error,'OK','error');
+      this.notifierService.showNotification(error.error.error, 'OK', 'error');
     })
   }
 
@@ -101,18 +103,18 @@ export class ReportComponent implements OnInit {
   delete() {
     this.ReportService.delete(this.selectedNode.id)
       .subscribe(response => {
-        this.notifierService.showNotification(response.message,'OK','success');
+        this.notifierService.showNotification(response.message, 'OK', 'success');
       }, error => {
-        this.notifierService.showNotification(error.error.error,'OK', 'error');
+        this.notifierService.showNotification(error.error.error, 'OK', 'error');
       });
     this.dialog.closeAll();
   }
 
-  hasNestedChild(index: number, node: any){
-    return node?.children.length >0;
+  hasNestedChild(index: number, node: any) {
+    return node?.children.length > 0;
   }
 
-  onNodeClick(node: any){
+  onNodeClick(node: any) {
     this.selectedNode = node;
   }
 

@@ -1,8 +1,8 @@
-import { Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {Observable, of} from 'rxjs';
-import {catchError, map, tap} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 
 export const BASE_URL: string = environment.baseURL;
 export const PENDING_RESOURCE_URL: string = 'api/v1/pending-transactions';
@@ -18,7 +18,44 @@ export class TransactionsService {
   private ALL_API_ENDPOINT = `${BASE_URL}/${ALL_RESOURCE_URL}`;
   private RESET_TRANSACTION_API_END_POINT = `${BASE_URL}/${RESET_TRANSACTIONS_RESOURCE_URL}`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
+
+  /**
+   * Get all pending transactions
+   * @param param
+   */
+  getPendingTransactions(param?): Observable<any> {
+    return this.http.get<any>(this.PENDING_API_ENDPOINT, {params: param}).pipe(
+      map(this.extractData));
+  }
+
+  /**
+   * Get all transactions
+   * @param param
+   */
+  getAll(param?): Observable<any> {
+    return this.http.get<any>(this.ALL_API_ENDPOINT, {params: param}).pipe(
+      map(this.extractData));
+  }
+
+  /**
+   * Get all sent transactions
+   * @param param
+   */
+  getSentTransactions(param?): Observable<any> {
+    return this.http.get<any>(this.SENT_API_ENDPOINT, {params: param}).pipe(
+      map(this.extractData));
+  }
+
+  resetTrx(param): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
+    }
+
+    return this.http.get<any>(this.RESET_TRANSACTION_API_END_POINT + "/" + param.id, httpOptions).pipe(
+      map(this.extractData));
+  }
 
   /**
    * helper function to extract data since
@@ -32,33 +69,6 @@ export class TransactionsService {
     return body || {};
   }
 
-  /**
-   * Get all pending transactions
-   * @param param
-   */
-  getPendingTransactions(param?): Observable<any> {
-    return this.http.get<any>(this.PENDING_API_ENDPOINT,{params: param}).pipe(
-      map(this.extractData));
-  }
-
-  /**
-   * Get all transactions
-   * @param param
-   */
-  getAll(param?): Observable<any> {
-    return this.http.get<any>(this.ALL_API_ENDPOINT,{params: param}).pipe(
-      map(this.extractData));
-  }
-
-  /**
-   * Get all sent transactions
-   * @param param
-   */
-  getSentTransactions(param?): Observable<any> {
-    return this.http.get<any>(this.SENT_API_ENDPOINT,{params: param}).pipe(
-      map(this.extractData));
-  }
-
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
@@ -69,14 +79,5 @@ export class TransactionsService {
       console.log(`${operation} failed: ${error.message}`);
       return of(result as T);
     };
-  }
-
-  resetTrx(param): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({'Content-Type': 'application/json'})
-    }
-
-    return this.http.get<any>(this.RESET_TRANSACTION_API_END_POINT+"/"+param.id, httpOptions).pipe(
-      map(this.extractData));
   }
 }

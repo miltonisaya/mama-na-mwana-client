@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthorityService} from '../authority.service';
 import {MatDialogRef} from '@angular/material/dialog';
 import {NotifierService} from '../../notifications/notifier.service';
@@ -14,7 +14,8 @@ export class AuthorityDialogComponent implements OnInit {
     public AuthorityService: AuthorityService,
     public dialogRef: MatDialogRef<AuthorityDialogComponent>,
     public notifierService: NotifierService
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
   }
@@ -24,15 +25,15 @@ export class AuthorityDialogComponent implements OnInit {
       if (this.AuthorityService.form.get('id').value) {
         this.AuthorityService.updateAuthority(this.AuthorityService.form.value)
           .subscribe(response => {
-            this.notifierService.showNotification(response.message,'OK', 'success');
+            this.notifierService.showNotification(response.message, 'OK', 'success');
             this.onClose();
           });
       } else {
         this.AuthorityService.createAuthority(this.AuthorityService.form.value)
           .subscribe(data => {
             this.onClose();
-          },error => {
-            this.notifierService.showNotification(error.error.error,'OK', 'error');
+          }, error => {
+            this.notifierService.showNotification(error.error.error, 'OK', 'error');
           });
       }
     }

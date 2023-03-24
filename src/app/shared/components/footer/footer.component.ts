@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {LoaderService} from '../../../components/loader/loader.service';
 
 @Component({
@@ -12,7 +12,8 @@ export class FooterComponent implements OnInit {
 
   constructor(
     public loaderService: LoaderService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
   }

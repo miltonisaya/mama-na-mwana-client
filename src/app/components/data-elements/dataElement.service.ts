@@ -1,8 +1,8 @@
-import { Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {environment} from '../../../environments/environment';
-import {catchError, map, tap} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 
 export const BASE_URL: string = environment.baseURL;
 export const RESOURCE_URL: string = 'api/v1/data-elements';
@@ -14,7 +14,18 @@ export class DataElementService {
   private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
   private SYNC_API_ENDPOINT = `${BASE_URL}/${SYNC_RESOURCE_URL}`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
+
+  getDataElements(param?): Observable<any> {
+    return this.http.get<any>(this.API_ENDPOINT, {params: param}).pipe(
+      map(this.extractData));
+  }
+
+  syncDataElements() {
+    return this.http.get<any>(this.SYNC_API_ENDPOINT).pipe(
+      map(this.extractData));
+  }
 
   /**
    * helper function to extract data since
@@ -28,11 +39,6 @@ export class DataElementService {
     return body || {};
   }
 
-  getDataElements(param?): Observable<any> {
-    return this.http.get<any>(this.API_ENDPOINT,{params: param}).pipe(
-      map(this.extractData));
-  }
-
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
@@ -43,10 +49,5 @@ export class DataElementService {
       console.log(`${operation} failed: ${error.message}`);
       return of(result as T);
     };
-  }
-
-  syncDataElements() {
-    return this.http.get<any>(this.SYNC_API_ENDPOINT).pipe(
-      map(this.extractData));
   }
 }

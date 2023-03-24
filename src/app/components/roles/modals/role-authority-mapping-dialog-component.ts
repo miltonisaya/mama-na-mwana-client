@@ -4,8 +4,6 @@ import {NotifierService} from '../../notifications/notifier.service';
 import {FormControl} from '@angular/forms';
 import {PrimeNGConfig} from "primeng/api";
 import {AuthorityService} from "../../authorities/authority.service";
-import {MatTableDataSource} from "@angular/material/table";
-import {User} from "../../users/User";
 
 @Component({
   selector: 'app-role-authority-dialog',
@@ -34,7 +32,7 @@ export class RoleAuthorityMappingDialogComponent implements OnInit {
     this.getSelectedAuthorities();
   }
 
-  getSelectedAuthorities(){
+  getSelectedAuthorities() {
     this.selectedList = this.data.authorities;
   }
 
@@ -42,18 +40,18 @@ export class RoleAuthorityMappingDialogComponent implements OnInit {
     return this.authoritiesService.getUnselectedAuthoritiesByRoleId({id: this.data.id}).subscribe((response: any) => {
       this.unSelectedList = response.data;
     }, error => {
-      this.notifierService.showNotification(error.error.error,'OK', 'error');
+      this.notifierService.showNotification(error.error.error, 'OK', 'error');
     });
   }
 
   saveData() {
     this.data.authorities = this.selectedList;
     console.log(this.data);
-    return this.authoritiesService.saveRoleAuthorities(this.data).subscribe((response: any) =>{
-      this.notifierService.showNotification(response.message,'OK', 'success');
+    return this.authoritiesService.saveRoleAuthorities(this.data).subscribe((response: any) => {
+      this.notifierService.showNotification(response.message, 'OK', 'success');
       this.dialogRef.close();
     }, error => {
-      this.notifierService.showNotification(error.error.error,'OK', 'error');
+      this.notifierService.showNotification(error.error.error, 'OK', 'error');
     })
   }
 }

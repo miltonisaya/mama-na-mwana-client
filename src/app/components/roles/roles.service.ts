@@ -1,4 +1,4 @@
-import { Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {environment} from '../../../environments/environment';
@@ -10,31 +10,19 @@ export const RESOURCE_URL: string = 'api/v1/roles';
 
 @Injectable()
 export class RolesService {
-  private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
-
-  constructor(private http: HttpClient) {}
-
   form: FormGroup = new FormGroup({
     id: new FormControl(''),
     name: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
     isSuperAdministrator: new FormControl(false),
   });
+  private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
 
-  /**
-   * helper function to extract data since
-   * we are not using a type checker in the request
-   * @returns Observable
-   *
-   * @param res
-   */
-  private extractData(res: Response) {
-    const body = res;
-    return body || {};
+  constructor(private http: HttpClient) {
   }
 
   getRoles(param?): Observable<any> {
-    return this.http.get<any>(this.API_ENDPOINT,{params: param}).pipe(
+    return this.http.get<any>(this.API_ENDPOINT, {params: param}).pipe(
       map(this.extractData));
   }
 
@@ -43,20 +31,21 @@ export class RolesService {
    * @param id
    */
   delete(id): Observable<any> {
-    console.log("Deleting role with id ",id);
-    return this.http.delete<any>(this.API_ENDPOINT+"/"+id).pipe(
-      map(this.extractData));``
+    console.log("Deleting role with id ", id);
+    return this.http.delete<any>(this.API_ENDPOINT + "/" + id).pipe(
+      map(this.extractData));
+    ``
   }
 
   /**
    *
    * @param data
    */
-  populateForm (data){
+  populateForm(data) {
     this.form.patchValue(data);
   }
 
-  initializeFormGroup(){
+  initializeFormGroup() {
     return this.form.patchValue({
       id: '',
       name: '',
@@ -76,6 +65,25 @@ export class RolesService {
       );
   }
 
+  updateRole(role): Observable<any> {
+    return this.http.put(this.API_ENDPOINT + "/" + role.id, role)
+      .pipe(tap(_ => console.log(`updated role with id=${role.id}`)),
+        catchError(this.handleError<any>('update role'))
+      );
+  }
+
+  /**
+   * helper function to extract data since
+   * we are not using a type checker in the request
+   * @returns Observable
+   *
+   * @param res
+   */
+  private extractData(res: Response) {
+    const body = res;
+    return body || {};
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
@@ -86,12 +94,5 @@ export class RolesService {
       console.log(`${operation} failed: ${error.message}`);
       return of(result as T);
     };
-  }
-
-  updateRole(role): Observable<any> {
-    return this.http.put(this.API_ENDPOINT+"/"+role.id, role)
-      .pipe(tap(_ => console.log(`updated role with id=${role.id}`)),
-        catchError(this.handleError<any>('update role'))
-      );
   }
 }

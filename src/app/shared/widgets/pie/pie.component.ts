@@ -20,9 +20,9 @@ export class PieComponent implements OnInit {
     this.chartOptions = {
       chart: {
         plotBackgroundColor: null,
-          plotBorderWidth: null,
-          plotShadow: false,
-          type: 'pie'
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
       },
       title: {
         text: this.title
@@ -38,17 +38,17 @@ export class PieComponent implements OnInit {
       plotOptions: {
         pie: {
           allowPointSelect: true,
-            cursor: 'pointer',
-            dataLabels: {
+          cursor: 'pointer',
+          dataLabels: {
             enabled: true,
-              format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+            format: '<b>{point.name}</b>: {point.percentage:.1f} %'
           }
         }
       },
-      exporting:{
+      exporting: {
         enabled: true
       },
-      credits:{
+      credits: {
         enabled: false
       },
       series: [{

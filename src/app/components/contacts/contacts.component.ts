@@ -7,7 +7,6 @@ import {ContactsService} from './contacts.service';
 import {NotifierService} from '../notifications/notifier.service';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {DataElement} from "../data-elements/dataElement";
-import {RolesDialogComponent} from "../roles/modals/roles-dialog-component";
 import {ContactDialogComponent} from "./modals/contact-dialog-component";
 
 @Component({
@@ -16,7 +15,7 @@ import {ContactDialogComponent} from "./modals/contact-dialog-component";
   styleUrls: ['./contacts.component.scss']
 })
 export class ContactsComponent implements OnInit {
-  displayedColumns: string[] = ["sno",'name', 'facilityCode','urn','age','actions'];
+  displayedColumns: string[] = ["sno", 'name', 'facilityCode', 'urn', 'age', 'actions'];
   contacts: any = [];
   userId: string;
   @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
@@ -33,7 +32,8 @@ export class ContactsComponent implements OnInit {
     private ContactsService: ContactsService,
     private NotifierService: NotifierService,
     private DialogService: MatDialog,
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.getContacts();
@@ -44,15 +44,15 @@ export class ContactsComponent implements OnInit {
    */
   getContacts() {
     this.params = {
-      "pageNo" : this.pageNo,
-      "pageSize" : this.pageSize
+      "pageNo": this.pageNo,
+      "pageSize": this.pageSize
     }
 
     return this.ContactsService.getContacts(this.params).subscribe((response: any) => {
       this.contacts = response.data;
       this.dataSource = new MatTableDataSource<DataElement>(this.contacts.content);
     }, error => {
-      this.NotifierService.showNotification(error.error.error,'OK', 'error');
+      this.NotifierService.showNotification(error.error.error, 'OK', 'error');
     });
   }
 
@@ -72,16 +72,16 @@ export class ContactsComponent implements OnInit {
   delete() {
     this.ContactsService.delete(this.userId)
       .subscribe(response => {
-        this.NotifierService.showNotification(response.message,'OK','success');
+        this.NotifierService.showNotification(response.message, 'OK', 'success');
       }, error => {
-        this.NotifierService.showNotification(error.error.error,'OK', 'error');
+        this.NotifierService.showNotification(error.error.error, 'OK', 'error');
       });
     this.DialogService.closeAll();
   }
 
   registrationsByFacility() {
     this.ContactsService.registrationsByFacility()
-      .subscribe( response => {
+      .subscribe(response => {
         const string = JSON.stringify(response);
         const result = JSON.parse(string);
         let base64String = result.data;
@@ -93,7 +93,7 @@ export class ContactsComponent implements OnInit {
         link.click();
         // this.NotifierService.showNotification(response.message,'OK','success');
       }, error => {
-        this.NotifierService.showNotification(error.error.error,'OK', 'error');
+        this.NotifierService.showNotification(error.error.error, 'OK', 'error');
       });
   }
 

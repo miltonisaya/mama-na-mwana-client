@@ -6,13 +6,8 @@ import {MatPaginator} from '@angular/material/paginator';
 import {NotifierService} from '../notifications/notifier.service';
 import {DataElement} from "../data-elements/dataElement";
 import {ContactsService} from "../contacts/contacts.service";
-import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
-import {
-  DataElementProgramMappingDialogComponent
-} from "../programs/modals/data-element-program-mapping-dialog-component";
-import {Program} from "../programs/program";
+import {MatDialog} from "@angular/material/dialog";
 import {OrganisationUnitService} from "../organisation-units/organisation-unit.service";
-import {ReportParamsDialog} from "./modals/report-params-dialog";
 
 @Component({
   selector: 'app-dashboard',
@@ -28,14 +23,14 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   params: object = {};
   dataSource;
   transactions: any;
-  displayedColumns: string[] = ["sno", 'dateProcessed','payload','response','isSent','actions'];
+  displayedColumns: string[] = ["sno", 'dateProcessed', 'payload', 'response', 'isSent', 'actions'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   pageSize = 5;
   pageNo = 0;
-  pageSizeOptions: number[] = [5, 10, 25, 100, 150, 500, 1000, 1500, 2000, 2500, 5000,10000];
-  titleCouncils: String =  "Registration of mothers by councils";
-  titleMonths: String =  "Registration of mothers by months";
+  pageSizeOptions: number[] = [5, 10, 25, 100, 150, 500, 1000, 1500, 2000, 2500, 5000, 10000];
+  titleCouncils: String = "Registration of mothers by councils";
+  titleMonths: String = "Registration of mothers by months";
   registrationByCouncilIsReady: boolean = false;
   pieChartCouncil: any;
   numberOfRegisteredContacts: any;
@@ -44,6 +39,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   numberOfRegisteredContactsToday: any;
   numberOfRegisteredContactsTodayIsReady: boolean = false;
   isSuperAdministrator: boolean;
+
   constructor(
     public dashboardService: DashboardService,
     private transactionService: TransactionsService,
@@ -51,7 +47,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     private contactsService: ContactsService,
     private organisationUnitService: OrganisationUnitService,
     private dialog: MatDialog
-
   ) {
 
   }
@@ -70,17 +65,18 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   //Get the user info from local storage
-  checkIsAdmin(){
+  checkIsAdmin() {
     let mnmUser = JSON.parse(localStorage.getItem("MNM_USER"));
-    if(mnmUser.isSuperAdministrator){
+    if (mnmUser.isSuperAdministrator) {
       this.isSuperAdministrator = true;
       this.getAllTransactions();
     }
   }
+
   getAllTransactions() {
     this.params = {
-      "pageNo" : this.pageNo,
-      "pageSize" : this.pageSize
+      "pageNo": this.pageNo,
+      "pageSize": this.pageSize
     }
 
     return this.transactionService.getAll(this.params).subscribe((response: any) => {
@@ -91,7 +87,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     });
   }
 
-  getTotalNumberOfRegisteredContacts(){
+  getTotalNumberOfRegisteredContacts() {
     return this.dashboardService.getNumberOfAllContacts().subscribe((response: any) => {
       this.numberOfRegisteredContacts = response.data;
       this.numberOfRegisteredContactsIsReady = true;
@@ -100,7 +96,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     });
   }
 
-  getTotalNumberOfRegisteredContactsToday(){
+  getTotalNumberOfRegisteredContactsToday() {
     return this.dashboardService.getNumberOfTodayContacts().subscribe((response: any) => {
       this.numberOfRegisteredContactsToday = response.data;
       this.numberOfRegisteredContactsTodayIsReady = true;
@@ -111,7 +107,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   resend(transaction: any) {
     return this.transactionService.resetTrx({id: transaction.id}).subscribe((response: any) => {
-      this.notifierService.showNotification(response.message,'OK','success');
+      this.notifierService.showNotification(response.message, 'OK', 'success');
       this.getAllTransactions();
     }, error => {
       this.notifierService.showNotification(error.error.error, 'OK', 'error');
@@ -124,22 +120,30 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.getAllTransactions();
   }
 
+  parseToJson(payload: any) {
+    if (payload !== null && payload !== undefined) {
+      return JSON.parse(payload);
+    } else {
+      return {};
+    }
+  }
+
   private populatePieChartMonthly() {
-    this.dashboardService.getMonthlyRegistrations().subscribe((response : any)=>{
+    this.dashboardService.getMonthlyRegistrations().subscribe((response: any) => {
       this.pieChartMonthly = response.data;
       this.pieIsReady = true;
     });
   }
 
   private populatePieChartByCouncil() {
-    this.dashboardService.getRegistrationsByCouncil().subscribe((response : any)=>{
+    this.dashboardService.getRegistrationsByCouncil().subscribe((response: any) => {
       this.pieChartCouncil = response.data;
       this.registrationByCouncilIsReady = true;
     });
   }
 
   private populateBigChartByCouncil() {
-    this.dashboardService.getNumberOfRegistrationsInBarChart().subscribe((response : any)=>{
+    this.dashboardService.getNumberOfRegistrationsInBarChart().subscribe((response: any) => {
       let result = response.data;
       let finalResult = [];
 
@@ -149,16 +153,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       });
       this.bigChart = finalResult;
       this.bigChartsIsReady = true;
-    }, error =>{
+    }, error => {
       this.notifierService.showNotification(error.error.error, 'OK', 'error');
     });
-  }
-
-  parseToJson(payload: any) {
-    if(payload !== null && payload !== undefined){
-      return JSON.parse(payload);
-    } else {
-      return {};
-    }
   }
 }

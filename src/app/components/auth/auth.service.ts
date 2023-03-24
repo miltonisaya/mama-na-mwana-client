@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpBackend, HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {tap} from 'rxjs/operators';
@@ -22,7 +22,7 @@ export class AuthService {
 
   }
 
-  login(data : any) {
+  login(data: any) {
     return this.http.post<any>(this.url, data).pipe(
       tap(response => {
         const token = response.data.token;
@@ -31,20 +31,20 @@ export class AuthService {
         currentUser.token = token;
         currentUser.menus = response.data.menus;
         currentUser.isSuperAdministrator = response.data.isSuperAdmin;
-        console.log("Current User =>",currentUser);
+        console.log("Current User =>", currentUser);
         localStorage.setItem("MNM_USER", JSON.stringify(currentUser));
       }),
     );
   }
 
-  getToken(){
-    let user =  JSON.parse(localStorage.getItem("MNM_USER"));
+  getToken() {
+    let user = JSON.parse(localStorage.getItem("MNM_USER"));
     return user.token;
   }
 
   signOut() {
     localStorage.removeItem('MNM_USER');
-    this.notifierService.showNotification('Logged out successfully','OK','success');
+    this.notifierService.showNotification('Logged out successfully', 'OK', 'success');
     this.router.navigate(["/login"]);
   }
 }

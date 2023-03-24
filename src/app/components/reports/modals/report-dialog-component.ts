@@ -11,20 +11,21 @@ import {NotifierService} from '../../notifications/notifier.service';
 
 export class ReportDialogComponent implements OnInit {
   reports: any;
+
   constructor(
     public ReportService: ReportService,
     public dialogRef: MatDialogRef<ReportDialogComponent>,
     public notifierService: NotifierService,
-
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.getReports();
   }
 
   getReports() {
-    this.ReportService.getAll().subscribe(response =>{
+    this.ReportService.getAll().subscribe(response => {
       this.reports = response.data.content;
     })
   }
@@ -34,18 +35,18 @@ export class ReportDialogComponent implements OnInit {
       if (this.ReportService.form.get('id').value) {
         this.ReportService.update(this.ReportService.form.value)
           .subscribe(response => {
-            this.notifierService.showNotification(response.message,'OK', 'success');
+            this.notifierService.showNotification(response.message, 'OK', 'success');
             this.onClose();
           }, error => {
-            this.notifierService.showNotification(error.error.error,'OK', 'error');
+            this.notifierService.showNotification(error.error.error, 'OK', 'error');
           });
       } else {
         this.ReportService.create(this.ReportService.form.value)
           .subscribe(response => {
-            this.notifierService.showNotification(response.message,'OK','success');
+            this.notifierService.showNotification(response.message, 'OK', 'success');
             this.onClose();
-          },error => {
-            this.notifierService.showNotification(error.error.error,'OK', 'error');
+          }, error => {
+            this.notifierService.showNotification(error.error.error, 'OK', 'error');
           });
       }
     }

@@ -3,17 +3,17 @@
     <h3>Manage Organisation Units</h3>
   </div>
   <div fxLayoutGap="5px">
-    <button *ngIf="isSuperAdministrator" mat-raised-button class="mat-primary" (click)="openDialog()">
+    <button (click)="openDialog()" *ngIf="isSuperAdministrator" class="mat-primary" mat-raised-button>
       ADD
     </button>
-    <button mat-raised-button class="mat-primary"
-            *ngIf="selectedNode != null && selectedNode != undefined && isSuperAdministrator"
-            (click)="openDialog(selectedNode)">
+    <button (click)="openDialog(selectedNode)" *ngIf="selectedNode != null && selectedNode != undefined && isSuperAdministrator"
+            class="mat-primary"
+            mat-raised-button>
       EDIT
     </button>
-    <button mat-raised-button class="mat-warn"
-            *ngIf="selectedNode != null && selectedNode != undefined && isSuperAdministrator"
-            (click)="openDeleteDialog(selectedNode.id)">
+    <button (click)="openDeleteDialog(selectedNode.id)" *ngIf="selectedNode != null && selectedNode != undefined && isSuperAdministrator"
+            class="mat-warn"
+            mat-raised-button>
       DELETE
     </button>
   </div>
@@ -21,7 +21,7 @@
 
 <mat-form-field appearance="standard">
   <mat-label>Filter</mat-label>
-  <input matInput (keyup)="applyFilter($event)" #input autocomplete="off">
+  <input #input (keyup)="applyFilter($event)" autocomplete="off" matInput>
 </mat-form-field>
 
 <div class="mat-elevation-z8">
@@ -29,15 +29,15 @@
     <!-- This is the tree node template for leaf nodes -->
     <!-- There is inline padding applied to this node using styles.
       This padding value depends on the mat-icon-button width. -->
-    <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle (click)="onNodeClick(node)"
-                   [class.selected]="node === selectedNode">
+    <mat-tree-node (click)="onNodeClick(node)" *matTreeNodeDef="let node" [class.selected]="node === selectedNode"
+                   matTreeNodeToggle>
       {{node.name}}
     </mat-tree-node>
     <!-- This is the tree node template for expandable nodes -->
     <mat-nested-tree-node *matTreeNodeDef="let node; when: hasNestedChild">
       <div class="mat-tree-node">
-        <button mat-icon-button matTreeNodeToggle
-                [attr.aria-label]="'Toggle ' + node.name">
+        <button [attr.aria-label]="'Toggle ' + node.name" mat-icon-button
+                matTreeNodeToggle>
           <mat-icon class="mat-icon-rtl-mirror">
             {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
           </mat-icon>
@@ -45,7 +45,7 @@
         {{node.name}}
       </div>
 
-      <div class="nested-node" [class.report-tree-invisible]="!treeControl.isExpanded(node)">
+      <div [class.report-tree-invisible]="!treeControl.isExpanded(node)" class="nested-node">
         <ng-container matTreeNodeOutlet></ng-container>
       </div>
       <!-- There is inline padding applied to this div using styles.
@@ -65,7 +65,7 @@
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>NO</button>
-    <button mat-button (click)="delete()">YES</button>
+    <button (click)="delete()" mat-button>YES</button>
   </mat-dialog-actions>
 </ng-template>
 <!--delete organisation unit dialog template-->

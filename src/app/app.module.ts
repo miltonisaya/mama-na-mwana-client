@@ -1,14 +1,14 @@
-import { BrowserModule } from '@angular/platform-browser';
+import {BrowserModule} from '@angular/platform-browser';
 import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DefaultModule} from './layouts/default/default.module';
-import { RouterModule } from '@angular/router';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {DefaultModule} from './layouts/default/default.module';
+import {RouterModule} from '@angular/router';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {RolesService} from './components/roles/roles.service';
-import { LoginComponent } from './components/login/login.component';
+import {LoginComponent} from './components/login/login.component';
 import {MatCardModule} from '@angular/material/card';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {FlexModule} from '@angular/flex-layout';
@@ -17,7 +17,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {JwtInterceptor} from './interceptors/jwt.interceptor';
 import {LoadingInterceptor} from './interceptors/loading.interceptor';
 import {RolesModule} from './components/roles/role.module';
-import { NotifierComponent } from './components/notifications/notifier/notifier.component';
+import {NotifierComponent} from './components/notifications/notifier/notifier.component';
 import {LoginModule} from './components/login/login.module';
 import {UsersModule} from './components/users/users.module';
 import {UsersService} from './components/users/users.service';
@@ -38,7 +38,7 @@ import {PasswordResetModule} from "./components/password-reset/password-reset.mo
 import {AuthorityService} from "./components/authorities/authority.service";
 import {AuthorityModule} from "./components/authorities/authority.module";
 import {MenuModule} from "./components/menus/menu.module";
-import { MenuService } from './components/menus/menu.service';
+import {MenuService} from './components/menus/menu.service';
 import {DashboardModule} from "./components/dashboard/dashboard.module";
 import {ReportModule} from "./components/reports/report.module";
 import {ReportService} from "./components/reports/report.service";
@@ -92,9 +92,9 @@ import {ReportService} from "./components/reports/report.service";
     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
     AuthGuard
   ],
-  exports: [
-  ],
+  exports: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+}

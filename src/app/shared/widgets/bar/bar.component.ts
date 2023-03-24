@@ -12,7 +12,8 @@ export class BarComponent implements OnInit {
   HighCharts = Highcharts;
   @Input() data = [];
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
     this.setBarChartOptions();
@@ -25,7 +26,7 @@ export class BarComponent implements OnInit {
     }, 300);
   }
 
-  setBarChartOptions (){
+  setBarChartOptions() {
     this.chartOptions = {
       chart: {
         type: 'column'

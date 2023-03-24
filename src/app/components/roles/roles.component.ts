@@ -15,7 +15,7 @@ import {RoleAuthorityMappingDialogComponent} from "./modals/role-authority-mappi
   styleUrls: ['./roles.component.scss']
 })
 export class RolesComponent implements OnInit {
-  displayedColumns: string[] = ["sno",'name', 'description','isSuperAdministrator', 'actions'];
+  displayedColumns: string[] = ["sno", 'name', 'description', 'isSuperAdministrator', 'actions'];
   roles: any = [];
   roleId: string;
   dataSource: MatTableDataSource<Role>;
@@ -31,7 +31,8 @@ export class RolesComponent implements OnInit {
     private RoleService: RolesService,
     private dialog: MatDialog,
     private notifierService: NotifierService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.getRoles();
@@ -42,15 +43,15 @@ export class RolesComponent implements OnInit {
    */
   getRoles() {
     this.params = {
-      "pageNo" : this.pageNo,
-      "pageSize" : this.pageSize
+      "pageNo": this.pageNo,
+      "pageSize": this.pageSize
     };
 
     return this.RoleService.getRoles().subscribe((response: any) => {
       this.roles = response.data;
       this.dataSource = new MatTableDataSource<Role>(this.roles.content);
     }, error => {
-      this.notifierService.showNotification(error.error.error,'OK', 'error');
+      this.notifierService.showNotification(error.error.error, 'OK', 'error');
     });
   }
 
@@ -95,9 +96,9 @@ export class RolesComponent implements OnInit {
   delete() {
     this.RoleService.delete(this.roleId)
       .subscribe(response => {
-        this.notifierService.showNotification(response.message,'OK','success');
+        this.notifierService.showNotification(response.message, 'OK', 'success');
       }, error => {
-        this.notifierService.showNotification(error.error.error,'OK', 'error');
+        this.notifierService.showNotification(error.error.error, 'OK', 'error');
       });
     this.dialog.closeAll();
   }

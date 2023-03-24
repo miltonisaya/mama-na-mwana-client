@@ -11,7 +11,7 @@ import {ContactsService} from "../../../contacts/contacts.service";
   selector: 'app-report-params-dialog',
   templateUrl: 'report-params-dialog.html',
   styleUrls: ['report-params-dialog.sass'],
-  providers: [ DatePipe ]
+  providers: [DatePipe]
 })
 
 export class ReportParamsDialog implements OnInit {
@@ -23,7 +23,7 @@ export class ReportParamsDialog implements OnInit {
   selectedCouncil: any;
   formattedStartDate: any;
   formattedEndDate: any;
-  paramsIsReady:boolean = false;
+  paramsIsReady: boolean = false;
 
   constructor(
     private datePipe: DatePipe,
@@ -55,18 +55,13 @@ export class ReportParamsDialog implements OnInit {
     });
   }
 
-  private _filter(name: string): any {
-    const filterValue = name.toLowerCase();
-    return this.councils.filter(option => option.name.toLowerCase().includes(filterValue));
-  }
-
   displayFn(council: any): string {
     this.selectedCouncil = council.id;
     return council && council.name ? council.name : '';
   }
 
   formatSelectedDates() {
-    this.formattedStartDate= this.datePipe.transform(this.startDate.value, 'yyyy-MM-dd');
+    this.formattedStartDate = this.datePipe.transform(this.startDate.value, 'yyyy-MM-dd');
     this.formattedEndDate = this.datePipe.transform(this.endDate.value, 'yyyy-MM-dd');
   }
 
@@ -101,6 +96,11 @@ export class ReportParamsDialog implements OnInit {
     }, error => {
       this.notifierService.showNotification(error.error.error, 'OK', 'error');
     });
+  }
+
+  private _filter(name: string): any {
+    const filterValue = name.toLowerCase();
+    return this.councils.filter(option => option.name.toLowerCase().includes(filterValue));
   }
 }
 

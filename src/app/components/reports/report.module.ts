@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { SharedModule } from 'src/app/shared/shared.module';
+import {SharedModule} from 'src/app/shared/shared.module';
 import {AngularMaterialModule} from '../../material.module';
 import {ReportDialogComponent} from './modals/report-dialog-component';
 import {PickListModule} from "primeng/picklist";
@@ -25,11 +25,11 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
     MatTreeModule,
     MatAutocompleteModule
   ],
-    declarations: [
-      ReportDialogComponent,
-      ReportComponent,
-      ReportParamsDialog
-    ]
+  declarations: [
+    ReportDialogComponent,
+    ReportComponent,
+    ReportParamsDialog
+  ]
 })
 export class ReportModule {
 }

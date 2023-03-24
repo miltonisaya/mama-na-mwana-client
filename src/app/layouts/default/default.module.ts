@@ -1,5 +1,5 @@
 import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule} from '@angular/common';
 import {DefaultComponent} from './default.component';
 import {DashboardComponent} from '../../components/dashboard/dashboard.component';
 import {UsersComponent} from '../../components/users/users.component';
@@ -35,23 +35,24 @@ import {NgxJsonViewerModule} from "ngx-json-viewer";
     AuthorityComponent,
     MenuComponent
   ],
-    imports: [
-        CommonModule,
-        SharedModule,
-        RouterModule,
-        AngularMaterialModule,
-        MatProgressSpinnerModule,
-        MatProgressBarModule,
-        MatDialogModule,
-        ReactiveFormsModule,
-        MatCardModule,
-        MatTreeModule,
-        MatTabsModule,
-        NgxJsonViewerModule
-    ],
+  imports: [
+    CommonModule,
+    SharedModule,
+    RouterModule,
+    AngularMaterialModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule,
+    MatDialogModule,
+    ReactiveFormsModule,
+    MatCardModule,
+    MatTreeModule,
+    MatTabsModule,
+    NgxJsonViewerModule
+  ],
   providers: [
     DashboardService,
   ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class DefaultModule { }
+export class DefaultModule {
+}

@@ -21,7 +21,7 @@ export class FlowComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('resetDialog') resetDialog: TemplateRef<any>;
-  displayedColumns: string[] = ["sno",'keyName', 'keyDescription','dataElement', 'actions'];
+  displayedColumns: string[] = ["sno", 'keyName', 'keyDescription', 'dataElement', 'actions'];
   dataSource: MatTableDataSource<any>;
   input: any;
 
@@ -30,7 +30,8 @@ export class FlowComponent implements OnInit {
     private FlowService: FlowService,
     private notifierService: NotifierService,
     private dialog: MatDialog
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.getFlows();
@@ -41,7 +42,7 @@ export class FlowComponent implements OnInit {
    */
   getFlows() {
     let params = {
-      pageSize : 1000
+      pageSize: 1000
     };
     return this.FlowService.getFlows(params).subscribe((response: any) => {
       this.flows = response.data.content;
@@ -53,8 +54,8 @@ export class FlowComponent implements OnInit {
   syncFlows() {
     return this.FlowService.syncFlows().subscribe((response: any) => {
       this.getFlows();
-      if(response.status == '200'){
-        this.notifierService.showNotification(response.message,'OK','success');
+      if (response.status == '200') {
+        this.notifierService.showNotification(response.message, 'OK', 'success');
       }
     }, error => {
       this.notifierService.showNotification(error.error.error, 'OK', 'error');

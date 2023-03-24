@@ -57,7 +57,7 @@ export class FlowKeyDialogComponent implements OnInit {
         .subscribe(response => {
           this.notifierService.showNotification(response.message, 'OK', 'success');
           this.onClose();
-        }, error =>{
+        }, error => {
           this.notifierService.showNotification(error.error.error, 'OK', 'error');
         });
     }

@@ -12,26 +12,26 @@ import {AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators} from "
 export class PasswordResetComponent implements OnInit {
   userId: string;
   user;
+  profileForm = this.fb.group({
+    name: ['', Validators.required, Validators.minLength(3)],
+    email: ['', Validators.required, Validators.email],
+    phone: ['', Validators.required],
+    username: ['', Validators.required, Validators.minLength(3)],
+    password: ['', Validators.required],
+    confirmPassword: ['', Validators.required],
+    oldPassword: ['', Validators.required],
+    id: ['', Validators.required],
+  });
 
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
     private notifierService: NotifierService,
     private userService: UsersService
-  ) { }
+  ) {
+  }
 
-  profileForm = this.fb.group({
-      name : ['', Validators.required, Validators.minLength(3)],
-      email : ['',Validators.required, Validators.email],
-      phone : ['',Validators.required],
-      username : ['',Validators.required, Validators.minLength(3)],
-      password : ['',Validators.required],
-      confirmPassword : ['',Validators.required],
-      oldPassword : ['',Validators.required],
-      id : ['',Validators.required],
-  });
-
-  validateForm(){
+  validateForm() {
     this.profileForm.addValidators(
       this.matchValidator(this.profileForm.get('password'), this.profileForm.get('confirmPassword'))
     );
@@ -43,7 +43,7 @@ export class PasswordResetComponent implements OnInit {
   ): ValidatorFn {
     return () => {
       if (control.value !== controlTwo.value)
-        return { match_error: 'The passwords do not match' };
+        return {match_error: 'The passwords do not match'};
       return null;
     };
   }
@@ -52,37 +52,37 @@ export class PasswordResetComponent implements OnInit {
     this.findUserDetailsById();
   }
 
-  findUserDetailsById(){
-    let user =  JSON.parse(localStorage.getItem("MNM_USER"));
+  findUserDetailsById() {
+    let user = JSON.parse(localStorage.getItem("MNM_USER"));
     this.userId = user.id;
     let params = {
-      "id" : this.userId
+      "id": this.userId
     };
 
-    this.userService.findById(params).subscribe((response) =>{
+    this.userService.findById(params).subscribe((response) => {
       this.user = response.data;
       this.updateFormValues();
-    }, (error)=>{
-      this.notifierService.showNotification(error.error.error,'OK', 'error');
+    }, (error) => {
+      this.notifierService.showNotification(error.error.error, 'OK', 'error');
     })
   }
 
-  updateFormValues(){
+  updateFormValues() {
     this.profileForm.patchValue({
       name: this.user.name,
       email: this.user.email,
-      phone : this.user.phone,
+      phone: this.user.phone,
       username: this.user.username,
       id: this.user.id
     });
   }
 
   submitForm(profileForm: FormGroup) {
-        this.userService.resetPassword(profileForm)
-          .subscribe(response => {
-            this.notifierService.showNotification(response.message,'OK', 'success');
-          }, error => {
-            this.notifierService.showNotification(error.error.error,'OK', 'error');
-          });
-    };
+    this.userService.resetPassword(profileForm)
+      .subscribe(response => {
+        this.notifierService.showNotification(response.message, 'OK', 'success');
+      }, error => {
+        this.notifierService.showNotification(error.error.error, 'OK', 'error');
+      });
+  };
 }

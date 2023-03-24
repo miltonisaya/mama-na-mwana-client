@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatDialogRef} from '@angular/material/dialog';
 import {NotifierService} from '../../notifications/notifier.service';
 import {ContactsService} from "../contacts.service";
@@ -14,7 +14,8 @@ export class ContactDialogComponent implements OnInit {
     public contactService: ContactsService,
     public dialogRef: MatDialogRef<ContactDialogComponent>,
     public notifierService: NotifierService
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
   }
@@ -23,10 +24,10 @@ export class ContactDialogComponent implements OnInit {
     if (this.contactService.form.get('id').value) {
       this.contactService.updateContact(this.contactService.form.value)
         .subscribe(response => {
-          this.notifierService.showNotification(response.message,'OK', 'success');
+          this.notifierService.showNotification(response.message, 'OK', 'success');
           this.onClose();
-        }, error =>{
-          this.notifierService.showNotification(error.error.error,'OK', 'error');
+        }, error => {
+          this.notifierService.showNotification(error.error.error, 'OK', 'error');
         });
     }
   }

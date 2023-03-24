@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 import {DashboardComponent} from './components/dashboard/dashboard.component';
 import {DefaultComponent} from './layouts/default/default.component';
 import {UsersComponent} from './components/users/users.component';
@@ -13,8 +13,8 @@ import {OrganisationUnitComponent} from './components/organisation-units/organis
 import {ProgramComponent} from './components/programs/program.component';
 import {PasswordResetComponent} from "./components/password-reset/password-reset.component";
 import {AuthorityComponent} from "./components/authorities/authority.component";
-import { MenuComponent } from './components/menus/menu.component';
-import { ReportComponent } from './components/reports/report.component';
+import {MenuComponent} from './components/menus/menu.component';
+import {ReportComponent} from './components/reports/report.component';
 
 
 const routes: Routes = [{
@@ -80,7 +80,7 @@ const routes: Routes = [{
   {
     path: 'login',
     component: LoginComponent
-}];
+  }];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

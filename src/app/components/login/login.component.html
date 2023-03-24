@@ -1,25 +1,26 @@
-<div class="container" fxLayoutAlign="center center" fxFlexFill>
+<div class="container" fxFlexFill fxLayoutAlign="center center">
 
 
-<div fxLayoutAlign="center center" fxFlexFill>
-  <mat-card fxFlex="35">
-    <div fxLayout="column" fxLayoutAlign="center center">
-      <img src="assets/coa.png">
-      <h2 fxLayout="column" fxLayoutAlign="center center" style="font-size: 1em;">Mama na Mwana Integration Services</h2>
-    </div>
-    <form fxLayoutAlign="stretch" fxLayout="column" [formGroup]="formGroup" (ngSubmit)="loginProcess()">
-      <mat-form-field appearance="fill">
-        <mat-label>Username</mat-label>
-        <mat-icon matSuffix>perm_identity</mat-icon>
-        <input matInput placeholder="Username" autocomplete="off" formControlName="username">
-      </mat-form-field>
-      <mat-form-field class="" appearance="fill">
-        <mat-label>Password</mat-label>
-        <mat-icon matSuffix>vpn_key</mat-icon>
-        <input matInput placeholder="Password" type="password" autocomplete="off" formControlName="password">
-      </mat-form-field>
-      <button mat-raised-button color="primary" type="submit">Login</button>
-    </form>
-  </mat-card>
-</div>
+  <div fxFlexFill fxLayoutAlign="center center">
+    <mat-card fxFlex="35">
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <img src="assets/coa.png">
+        <h2 fxLayout="column" fxLayoutAlign="center center" style="font-size: 1em;">Mama na Mwana Integration
+          Services</h2>
+      </div>
+      <form (ngSubmit)="loginProcess()" [formGroup]="formGroup" fxLayout="column" fxLayoutAlign="stretch">
+        <mat-form-field appearance="fill">
+          <mat-label>Username</mat-label>
+          <mat-icon matSuffix>perm_identity</mat-icon>
+          <input autocomplete="off" formControlName="username" matInput placeholder="Username">
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="">
+          <mat-label>Password</mat-label>
+          <mat-icon matSuffix>vpn_key</mat-icon>
+          <input autocomplete="off" formControlName="password" matInput placeholder="Password" type="password">
+        </mat-form-field>
+        <button color="primary" mat-raised-button type="submit">Login</button>
+      </form>
+    </mat-card>
+  </div>
 </div>

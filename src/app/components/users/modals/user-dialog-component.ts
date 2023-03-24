@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatDialogRef} from '@angular/material/dialog';
 import {NotifierService} from '../../notifications/notifier.service';
 import {UsersService} from '../users.service';
@@ -18,7 +18,8 @@ export class UserDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<UserDialogComponent>,
     public NotifierService: NotifierService,
     public RoleService: RolesService
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.getRoles();
@@ -29,15 +30,15 @@ export class UserDialogComponent implements OnInit {
       if (this.UserService.form.get('id').value) {
         this.UserService.updateUser(this.UserService.form.value)
           .subscribe(response => {
-            this.NotifierService.showNotification(response.message,'OK', 'success');
+            this.NotifierService.showNotification(response.message, 'OK', 'success');
             this.onClose();
           });
       } else {
         this.UserService.createUser(this.UserService.form.value)
           .subscribe(data => {
             this.onClose();
-          },error => {
-            this.NotifierService.showNotification(error.error.error,'OK', 'error');
+          }, error => {
+            this.NotifierService.showNotification(error.error.error, 'OK', 'error');
           });
       }
     }
@@ -56,7 +57,7 @@ export class UserDialogComponent implements OnInit {
     return this.RoleService.getRoles().subscribe((response: any) => {
       this.roles = response.data.content;
     }, error => {
-      this.NotifierService.showNotification(error.error.error,'OK', 'error');
+      this.NotifierService.showNotification(error.error.error, 'OK', 'error');
     });
   }
 }

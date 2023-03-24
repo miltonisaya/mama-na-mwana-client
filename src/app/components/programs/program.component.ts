@@ -1,4 +1,4 @@
-import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
@@ -14,7 +14,7 @@ import {DataElementProgramMappingDialogComponent} from "./modals/data-element-pr
   styleUrls: ['./program.component.scss']
 })
 export class ProgramComponent implements OnInit {
-  displayedColumns: string[] = ["sno",'name', 'code','dhis2uid','actions'];
+  displayedColumns: string[] = ["sno", 'name', 'code', 'dhis2uid', 'actions'];
   programs: any = [];
   dataSource: MatTableDataSource<Program>;
   pageSize;
@@ -25,7 +25,8 @@ export class ProgramComponent implements OnInit {
     private ProgramService: ProgramService,
     private notifierService: NotifierService,
     private dialog: MatDialog
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.getPrograms();
@@ -41,7 +42,7 @@ export class ProgramComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     }, error => {
-      this.notifierService.showNotification(error.error.error,'OK', 'error');
+      this.notifierService.showNotification(error.error.error, 'OK', 'error');
       console.log(error);
     });
   }
@@ -51,16 +52,17 @@ export class ProgramComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  syncPrograms(){
+  syncPrograms() {
     return this.ProgramService.syncPrograms().subscribe((response: any) => {
       this.getPrograms();
-      if(response.status == '200'){
-        console.log("The message===>",response);
-        this.notifierService.showNotification(response.message,'OK','success');
+      if (response.status == '200') {
+        console.log("The message===>", response);
+        this.notifierService.showNotification(response.message, 'OK', 'success');
       }
     }, error => {
-      this.notifierService.showNotification(error.error.error,'OK', 'error');
-    });  }
+      this.notifierService.showNotification(error.error.error, 'OK', 'error');
+    });
+  }
 
   openMappingDialog(id) {
     const dialogConfig = new MatDialogConfig();
@@ -73,12 +75,12 @@ export class ProgramComponent implements OnInit {
     //     keyName: data.keyName,
     //   };
 
-      // console.log(flowKeysData);
-      // this.FlowService.populateForm(flowKeysData);
-      this.dialog.open(DataElementProgramMappingDialogComponent, {data: id})
-        .afterClosed().subscribe(() => {
-        this.getPrograms();
-      });
+    // console.log(flowKeysData);
+    // this.FlowService.populateForm(flowKeysData);
+    this.dialog.open(DataElementProgramMappingDialogComponent, {data: id})
+      .afterClosed().subscribe(() => {
+      this.getPrograms();
+    });
     // } else {
     //   dialogConfig.data = {};
     //   this.dialog.open(FlowKeyDialogComponent, dialogConfig)

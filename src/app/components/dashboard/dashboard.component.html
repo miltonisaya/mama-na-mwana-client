@@ -5,16 +5,16 @@
 </div>
 
 <div fxLayout="row" fxLayoutAlign="space-between stretch">
-  <mat-card fxFlex="50" class="card-red" *ngIf="numberOfRegisteredContactsIsReady === true">
+  <mat-card *ngIf="numberOfRegisteredContactsIsReady === true" class="card-red" fxFlex="50">
     <h1>Total # of registered contacts: {{numberOfRegisteredContacts}}</h1>
   </mat-card>
-  <mat-card fxFlex="50" class="card-green" *ngIf="numberOfRegisteredContactsTodayIsReady === true">
+  <mat-card *ngIf="numberOfRegisteredContactsTodayIsReady === true" class="card-green" fxFlex="50">
     <h1>Total # of registered contacts today: {{numberOfRegisteredContactsToday}}</h1>
   </mat-card>
 </div>
 <p></p>
 <div fxLayout="column" fxLayoutAlign="space-evenly stretch">
-  <app-widget-bar [data]="bigChart" [title]="titleCouncils" *ngIf="bigChartsIsReady === true"></app-widget-bar>
+  <app-widget-bar *ngIf="bigChartsIsReady === true" [data]="bigChart" [title]="titleCouncils"></app-widget-bar>
 </div>
 <!--</div>-->
 <p></p>
@@ -30,7 +30,7 @@
         <b>Date Processed:</b> {{trx.dateProcessed}}
         <br>
         <b>Payload:</b>
-        <ngx-json-viewer [json]=parseToJson(trx.payload) [expanded]="false"></ngx-json-viewer>
+        <ngx-json-viewer [expanded]="false" [json]=parseToJson(trx.payload)></ngx-json-viewer>
         <br>
         <b>DHIS2 Response:</b> {{trx.dhisResponse}}
         <div *ngIf="trx.isSent" class="success-transactions">
@@ -39,8 +39,8 @@
         <div *ngIf="trx.isSent == false" class="pending-transactions">
           Not Sent
         </div>
-        <button *ngIf="trx.isSent==false" matTooltip="Resend" matTooltipPosition="left" mat-icon-button>
-          <button mat-raised-button class="mat-button mat-primary" (click)="resend(trx)">Resend</button>
+        <button *ngIf="trx.isSent==false" mat-icon-button matTooltip="Resend" matTooltipPosition="left">
+          <button (click)="resend(trx)" class="mat-button mat-primary" mat-raised-button>Resend</button>
         </button>
         <mat-divider></mat-divider>
       </div>
@@ -49,11 +49,11 @@
 </mat-card>
 
 <mat-paginator
+  (page)="pageChanged($event)"
   *ngIf="isSuperAdministrator"
+  [length]="transactions?.totalElements"
+  [pageSizeOptions]="pageSizeOptions"
+  [pageSize]="pageSize"
   fxLayout="column"
   fxLayoutAlign="stretch"
-  [pageSize]="pageSize"
-  [pageSizeOptions]="pageSizeOptions"
-  [length]="transactions?.totalElements"
-  (page)="pageChanged($event)"
 ></mat-paginator>

@@ -1,10 +1,10 @@
 <section class="login-form-container"
+         fxFlexFill
          fxLayout="column"
          fxLayout.xs="column"
-         fxFlexFill
          fxLayoutAlign="end none"
 >
-  <h1 mat-dialog-title class="dialog-header" fxLayout="row" fxLayoutAlign="center center">
+  <h1 class="dialog-header" fxLayout="row" fxLayoutAlign="center center" mat-dialog-title>
     {{"Report Parameters"}}
   </h1>
   <br>
@@ -16,15 +16,15 @@
         <div fxLayout="column" fxLayoutAlign="space-evenly stretch">
           <mat-form-field *ngSwitchCase="'start_date' || 'end_date'">
             <mat-label>Select a start date</mat-label>
-            <input matInput [matDatepicker]="startDatePicker" [formControl]="startDate">
-            <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+            <input [formControl]="startDate" [matDatepicker]="startDatePicker" matInput>
+            <mat-datepicker-toggle [for]="startDatePicker" matSuffix></mat-datepicker-toggle>
             <mat-datepicker #startDatePicker></mat-datepicker>
           </mat-form-field>
 
           <mat-form-field *ngSwitchCase="'start_date' || 'end_date'">
             <mat-label>Select an end date</mat-label>
-            <input matInput [matDatepicker]="endDatePicker" [formControl]="endDate">
-            <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+            <input [formControl]="endDate" [matDatepicker]="endDatePicker" matInput>
+            <mat-datepicker-toggle [for]="endDatePicker" matSuffix></mat-datepicker-toggle>
             <mat-datepicker #endDatePicker></mat-datepicker>
           </mat-form-field>
         </div>
@@ -34,7 +34,7 @@
         <div class="dialog-content" fxLayout="column" fxLayoutGap="5px">
           <mat-form-field *ngSwitchCase="'organisationUnitId'" appearance="fill">
             <mat-label>Search for council</mat-label>
-            <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+            <input [formControl]="myControl" [matAutocomplete]="auto" matInput type="text">
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
               <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
                 {{option.name}}
@@ -47,12 +47,12 @@
 
     <mat-dialog-actions fxLayout="row" fxLayoutAlign="end none">
       <div class="button">
-        <button mat-raised-button type="button" mat-dialog-close>CANCEL</button>
+        <button mat-dialog-close mat-raised-button type="button">CANCEL</button>
         <button
-          mat-raised-button
-          color="primary"
-          type="submit"
           (click)="generateReport(data)"
+          color="primary"
+          mat-raised-button
+          type="submit"
         >
           {{"GENERATE REPORT"}}
         </button>

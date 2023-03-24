@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {NotifierComponent} from './notifier/notifier.component';
 
@@ -7,16 +7,17 @@ import {NotifierComponent} from './notifier/notifier.component';
 })
 export class NotifierService {
 
-  constructor(private snackBar: MatSnackBar) { }
+  constructor(private snackBar: MatSnackBar) {
+  }
 
-  showNotification(displayMessage: string, buttonText:string, messageType: 'error' | 'success'){
-    this.snackBar.openFromComponent(NotifierComponent,{
+  showNotification(displayMessage: string, buttonText: string, messageType: 'error' | 'success') {
+    this.snackBar.openFromComponent(NotifierComponent, {
       data: {
         message: displayMessage,
         buttonText: buttonText,
         type: messageType
       },
-      duration:3000,
+      duration: 3000,
       horizontalPosition: 'right',
       verticalPosition: 'bottom',
       panelClass: messageType

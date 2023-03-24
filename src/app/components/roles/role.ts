@@ -1,6 +1,6 @@
 export interface Role {
-  id      : string;
-  name    : string;
-  description   : string;
+  id: string;
+  name: string;
+  description: string;
   isSuperAdministrator: boolean;
 }

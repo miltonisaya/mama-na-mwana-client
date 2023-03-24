@@ -1,4 +1,4 @@
-import { Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {environment} from '../../../environments/environment';
@@ -13,18 +13,60 @@ export const MAP_DATA_ELEMENT_API: string = 'api/v1/map-data-element';
 
 @Injectable()
 export class FlowKeyService {
-  private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
-  private SYNC_API_ENDPOINT = `${BASE_URL}/${SYNC_RESOURCE_URL}`;
-  private KEYS_BY_FLOW_ID_ENDPOINT = `${BASE_URL}/${FLOW_KEYS_API}`;
-  private MAP_DATA_ELEMENT_ENDPOINT = `${BASE_URL}/${MAP_DATA_ELEMENT_API}`;
-
-  constructor(private http: HttpClient) {}
-
   form: FormGroup = new FormGroup({
     id: new FormControl(''),
     dataElementId: new FormControl('', [Validators.required]),
     rapidProFlowId: new FormControl('', [Validators.required])
   });
+  private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
+  private SYNC_API_ENDPOINT = `${BASE_URL}/${SYNC_RESOURCE_URL}`;
+  private KEYS_BY_FLOW_ID_ENDPOINT = `${BASE_URL}/${FLOW_KEYS_API}`;
+  private MAP_DATA_ELEMENT_ENDPOINT = `${BASE_URL}/${MAP_DATA_ELEMENT_API}`;
+
+  constructor(private http: HttpClient) {
+  }
+
+  getFlows(param?): Observable<any> {
+    return this.http.get<any>(this.API_ENDPOINT, {params: param}).pipe(
+      map(this.extractData));
+  }
+
+  syncFlows() {
+    return this.http.get<any>(this.SYNC_API_ENDPOINT).pipe(
+      map(this.extractData));
+  }
+
+  getKeysByFlowId(id) {
+    console.log("Params =>", id);
+    return this.http.get(<any>(this.KEYS_BY_FLOW_ID_ENDPOINT + "/" + id)).pipe(
+      map(this.extractData));
+  }
+
+  /**
+   *
+   * @param data
+   */
+  populateForm(data) {
+    this.form.setValue(data);
+  }
+
+  initializeFormGroup() {
+
+  }
+
+  updateFlowKey(flowKey): Observable<any> {
+    return this.http.put(this.API_ENDPOINT + "/" + flowKey.id, flowKey)
+      .pipe(tap(_ => console.log(`updated flow key with id=${flowKey.id}`)),
+        catchError(this.handleError<any>('update flow key'))
+      );
+  }
+
+  mapDataElement(data) {
+    return this.http.put(this.MAP_DATA_ELEMENT_ENDPOINT, data)
+      .pipe(tap(_ => console.log(`Mapped flow key with data element=${data.dataElementId}`)),
+        catchError(this.handleError<any>('Mapped flow key'))
+      );
+  }
 
   /**
    * helper function to extract data since
@@ -38,11 +80,6 @@ export class FlowKeyService {
     return body || {};
   }
 
-  getFlows(param?): Observable<any> {
-    return this.http.get<any>(this.API_ENDPOINT,{params: param}).pipe(
-      map(this.extractData));
-  }
-
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
@@ -53,42 +90,5 @@ export class FlowKeyService {
       console.log(`${operation} failed: ${error.message}`);
       return of(result as T);
     };
-  }
-
-  syncFlows() {
-    return this.http.get<any>(this.SYNC_API_ENDPOINT).pipe(
-      map(this.extractData));
-  }
-
-  getKeysByFlowId(id) {
-    console.log("Params =>",id);
-    return this.http.get(<any>(this.KEYS_BY_FLOW_ID_ENDPOINT + "/"+id)).pipe(
-      map(this.extractData));
-  }
-
-  /**
-   *
-   * @param data
-   */
-  populateForm (data){
-    this.form.setValue(data);
-  }
-
-  initializeFormGroup() {
-
-  }
-
-  updateFlowKey(flowKey): Observable<any> {
-    return this.http.put(this.API_ENDPOINT+"/"+flowKey.id, flowKey)
-      .pipe(tap(_ => console.log(`updated flow key with id=${flowKey.id}`)),
-        catchError(this.handleError<any>('update flow key'))
-      );
-  }
-
-  mapDataElement(data) {
-    return this.http.put(this.MAP_DATA_ELEMENT_ENDPOINT, data)
-      .pipe(tap(_ => console.log(`Mapped flow key with data element=${data.dataElementId}`)),
-        catchError(this.handleError<any>('Mapped flow key'))
-      );
   }
 }

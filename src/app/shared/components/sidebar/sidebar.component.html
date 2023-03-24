@@ -13,7 +13,7 @@
                 <mat-expansion-panel-header>
                   <mat-panel-title>
                     <!-- Cabeceras del submenu -->
-                    <div fxLayout="row" fxLayoutAlign="space-between center" >
+                    <div fxLayout="row" fxLayoutAlign="space-between center">
                       <mat-icon>{{item.icon}}</mat-icon>
                       {{item.name}}
                     </div>
@@ -22,7 +22,7 @@
                 <span *ngFor="let child of item.children">
                   <mat-list-item routerLink="{{'/'+child.url}}">
                     <!-- Entradas de cada submenú  -->
-                    <div fxLayout="row" fxLayoutAlign="space-between center" >
+                    <div fxLayout="row" fxLayoutAlign="space-between center">
                       <mat-icon>{{child.icon}}</mat-icon>
                       {{child.name}}
                     </div>

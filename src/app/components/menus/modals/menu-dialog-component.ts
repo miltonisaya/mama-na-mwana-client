@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MenuService} from '../menu.service';
 import {MatDialogRef} from '@angular/material/dialog';
 import {NotifierService} from '../../notifications/notifier.service';
@@ -11,16 +11,18 @@ import {RolesService} from "../../roles/roles.service";
 })
 
 export class MenuDialogComponent implements OnInit {
-  private params: { pageNo: number; pageSize: number };
   menus;
   roles;
   parentMenus: any;
+  private params: { pageNo: number; pageSize: number };
+
   constructor(
     public MenuService: MenuService,
     public RoleService: RolesService,
     public dialogRef: MatDialogRef<MenuDialogComponent>,
     public notifierService: NotifierService
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.getMenus();
@@ -29,43 +31,43 @@ export class MenuDialogComponent implements OnInit {
   }
 
   //Load menus
-  getMenus(){
+  getMenus() {
     this.params = {
-      "pageNo" : 0,
-      "pageSize" : 1000
+      "pageNo": 0,
+      "pageSize": 1000
     };
 
     return this.MenuService.getMenus().subscribe((response: any) => {
       this.menus = response.data.content;
     }, error => {
-      this.notifierService.showNotification(error.error.error,'OK', 'error');
+      this.notifierService.showNotification(error.error.error, 'OK', 'error');
     });
   }
 
-  getParentMenus(){
+  getParentMenus() {
     this.params = {
-      "pageNo" : 0,
-      "pageSize" : 1000
+      "pageNo": 0,
+      "pageSize": 1000
     };
 
     return this.MenuService.getMenus(this.params).subscribe((response: any) => {
       this.parentMenus = response.data.content;
     }, error => {
-      this.notifierService.showNotification(error.error.error,'OK', 'error');
+      this.notifierService.showNotification(error.error.error, 'OK', 'error');
     });
   }
 
   //Load roles
-  getRoles(){
+  getRoles() {
     this.params = {
-      "pageNo" : 0,
-      "pageSize" : 1000
+      "pageNo": 0,
+      "pageSize": 1000
     };
 
     return this.RoleService.getRoles().subscribe((response: any) => {
       this.roles = response.data.content;
     }, error => {
-      this.notifierService.showNotification(error.message,'OK','error');
+      this.notifierService.showNotification(error.message, 'OK', 'error');
     });
   }
 
@@ -74,15 +76,15 @@ export class MenuDialogComponent implements OnInit {
       if (this.MenuService.form.get('id').value) {
         this.MenuService.updateMenu(this.MenuService.form.value)
           .subscribe(response => {
-            this.notifierService.showNotification(response.data.message,'OK', 'success');
+            this.notifierService.showNotification(response.data.message, 'OK', 'success');
             this.onClose();
           });
       } else {
         this.MenuService.createMenu(this.MenuService.form.value)
           .subscribe(data => {
             this.onClose();
-          },error => {
-            this.notifierService.showNotification(error.error.error,'OK', 'error');
+          }, error => {
+            this.notifierService.showNotification(error.error.error, 'OK', 'error');
           });
       }
     }

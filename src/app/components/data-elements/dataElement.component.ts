@@ -1,4 +1,4 @@
-import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
@@ -12,7 +12,7 @@ import {DataElementService} from './dataElement.service';
   styleUrls: ['./dataElement.component.scss']
 })
 export class DataElementComponent implements OnInit {
-  displayedColumns: string[] = ["sno",'name', 'code','dataType','dhis2uid'];
+  displayedColumns: string[] = ["sno", 'name', 'code', 'dataType', 'dhis2uid'];
   dataElements: any = [];
   dataSource: MatTableDataSource<DataElement>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -26,7 +26,8 @@ export class DataElementComponent implements OnInit {
   constructor(
     private DataElementService: DataElementService,
     private notifierService: NotifierService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.getDataElements();
@@ -37,8 +38,8 @@ export class DataElementComponent implements OnInit {
    */
   getDataElements() {
     this.params = {
-      "pageNo" : this.pageNo,
-      "pageSize" : this.pageSize
+      "pageNo": this.pageNo,
+      "pageSize": this.pageSize
     }
 
     return this.DataElementService.getDataElements(this.params).subscribe((response: any) => {
@@ -55,16 +56,17 @@ export class DataElementComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  syncDataElements(){
+  syncDataElements() {
     return this.DataElementService.syncDataElements().subscribe((response: any) => {
       this.getDataElements();
-      if(response.status == '200'){
-        this.notifierService.showNotification(response.message,'OK','success');
+      if (response.status == '200') {
+        this.notifierService.showNotification(response.message, 'OK', 'success');
       }
     }, error => {
       // console.log("The error===>",error.message);
       this.notifierService.showNotification(error.error.error, 'OK', 'error');
-    });  }
+    });
+  }
 
   pageChanged(e: any) {
     console.log(e);

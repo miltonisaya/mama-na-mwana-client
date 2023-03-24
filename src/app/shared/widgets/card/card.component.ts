@@ -27,8 +27,8 @@ export class CardComponent implements OnInit {
         type: 'area',
         backgroundColor: null,
         borderWidth: 0,
-        margin: [2,2,2,2],
-        height:60
+        margin: [2, 2, 2, 2],
+        height: 60
       },
       title: {
         text: null
@@ -41,11 +41,11 @@ export class CardComponent implements OnInit {
         outside: true
       },
       legend: {
-        enabled:false
+        enabled: false
       },
       exporting: {
         enabled: false
-      }, xAxis:{
+      }, xAxis: {
         labels: {
           enabled: true
         },
@@ -56,7 +56,7 @@ export class CardComponent implements OnInit {
         endOnTick: false,
         tickOptions: []
       },
-      yAxis:{
+      yAxis: {
         labels: {
           enabled: true
         },

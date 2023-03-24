@@ -39,16 +39,17 @@ export class OrganisationUnitComponent implements OnInit {
     private OrganisationUnitService: OrganisationUnitService,
     private Dialog: MatDialog,
     private NotifierService: NotifierService,
-) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.getParentOrganisationUnits();
     this.checkIsAdmin();
   }
 
-  checkIsAdmin(){
+  checkIsAdmin() {
     let mnmUser = JSON.parse(localStorage.getItem("MNM_USER"));
-    if(mnmUser.isSuperAdministrator){
+    if (mnmUser.isSuperAdministrator) {
       this.isSuperAdministrator = true;
     }
   }
@@ -60,7 +61,7 @@ export class OrganisationUnitComponent implements OnInit {
     return this.OrganisationUnitService.getOrganisationUnits().subscribe((response: any) => {
       this.dataSource.data = response.data;
     }, error => {
-      this.NotifierService.showNotification(error.error.error,'OK', 'error');
+      this.NotifierService.showNotification(error.error.error, 'OK', 'error');
     });
   }
 
@@ -104,16 +105,16 @@ export class OrganisationUnitComponent implements OnInit {
   delete() {
     this.OrganisationUnitService.delete(this.organisationUnitId)
       .subscribe(response => {
-        this.NotifierService.showNotification(response.message,'OK','success');
+        this.NotifierService.showNotification(response.message, 'OK', 'success');
         this.getParentOrganisationUnits();
       }, error => {
-        this.NotifierService.showNotification(error.error.error,'OK', 'error');
+        this.NotifierService.showNotification(error.error.error, 'OK', 'error');
       });
     this.Dialog.closeAll();
   }
 
-  hasNestedChild(index: number, node: any){
-    return node?.children.length >0;
+  hasNestedChild(index: number, node: any) {
+    return node?.children.length > 0;
   }
 
   onNodeClick(node) {

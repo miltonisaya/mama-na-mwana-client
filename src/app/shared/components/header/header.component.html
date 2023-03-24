@@ -1,6 +1,6 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <button mat-icon-button (click)="toggleSidebar()">
+    <button (click)="toggleSidebar()" mat-icon-button>
       <mat-icon>menu</mat-icon>
     </button>
 
@@ -19,15 +19,15 @@
           </button>
         </li>
         <li>
-          <button mat-button [matMenuTriggerFor]="menu">
+          <button [matMenuTriggerFor]="menu" mat-button>
             <mat-icon>person_outline</mat-icon>
           </button>
           <mat-menu #menu="">
-            <button mat-menu-item (click)="profile()">
+            <button (click)="profile()" mat-menu-item>
               <mat-icon>supervised_user_circle</mat-icon>
               Profile
             </button>
-            <button mat-menu-item (click)="signOut()">
+            <button (click)="signOut()" mat-menu-item>
               <mat-icon>exit_to_app</mat-icon>
               Sign Out
             </button>
