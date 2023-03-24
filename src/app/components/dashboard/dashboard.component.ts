@@ -154,68 +154,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     });
   }
 
-  getRegistrationsByDate(data) {
-    let params = {
-      startDate :data.startDate,
-      endDate: data.endDate
-    };
-
-    if (this.dashboardService.registrationsForm.valid) {
-      this.dashboardService.findRegistrationsByDate(this.dashboardService.registrationsForm.value, params).subscribe((response : any) => {
-          this.notifierService.showNotification(response.message,'OK', 'success');
-        }, error =>{
-        this.notifierService.showNotification(error.error.error, 'OK', 'error');
-      });
-    }
-  }
-
-  registrationsByFacility() {
-    this.contactsService.registrationsByFacility()
-      .subscribe( response => {
-        const string = JSON.stringify(response);
-        const result = JSON.parse(string);
-        let base64String = result.data;
-
-        const source = `data:application/pdf;base64,${base64String}`;
-        const link = document.createElement("a");
-        link.href = source;
-        link.download = `registrations-by-facility.pdf`
-        link.click();
-        // this.NotifierService.showNotification(response.message,'OK','success');
-      }, error => {
-        this.notifierService.showNotification(error.error.error, 'OK', 'error');
-      });
-  }
-
   parseToJson(payload: any) {
     if(payload !== null && payload !== undefined){
       return JSON.parse(payload);
     } else {
       return {};
     }
-  }
-
-  showReportParamDialog(data: any) {
-    let config = {};
-    config['isNational'] = false;
-    config['reportCode'] = data;
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    this.dialog.open(ReportParamsDialog, {data: config})
-      .afterClosed().subscribe(() => {
-    });
-  }
-
-  showNationalReportParamDialog(data: any) {
-    let config = {};
-    config['isNational'] = true;
-    config['reportCode'] = data;
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    this.dialog.open(ReportParamsDialog, {data: config})
-      .afterClosed().subscribe(() => {
-    });
   }
 }

@@ -13,49 +13,6 @@
   </mat-card>
 </div>
 <p></p>
-
-<div fxLayout="row" fxLayoutAlign="space-around none">
-  <button mat-raised-button type="button" class="mat-primary mat-elevation-z8" (click)="showReportParamDialog(1)">
-    RESPONSES BY AGE GROUPS ROUND 1
-  </button>
-
-  <button mat-raised-button type="button" class="mat-primary mat-elevation-z8" (click)="showReportParamDialog(2)">
-    RESPONSES BY AGE GROUPS ROUND 2
-  </button>
-
-  <button mat-raised-button type="button" class="mat-primary mat-elevation-z8" (click)="showReportParamDialog(3)">
-    RESPONSES BY AGE GROUPS ROUND 3
-  </button>
-
-  <button mat-raised-button type="button" class="mat-primary mat-elevation-z8" (click)="showReportParamDialog(4)">
-    RESPONSES BY AGE GROUPS ROUND 4
-  </button>
-
-  <button mat-raised-button type="button" class="mat-primary mat-elevation-z8" (click)="registrationsByFacility()">
-    DOWNLOAD REGISTRATIONS BY FACILITY
-  </button>
-</div>
-
-<p></p>
-
-<div fxLayout="row" fxLayoutAlign="space-around none">
-  <button mat-raised-button type="button" class="mat-primary mat-elevation-z8" (click)="showNationalReportParamDialog('N1')">
-    NATIONAL RESPONSES BY AGE GROUPS ROUND 1
-  </button>
-
-  <button mat-raised-button type="button" class="mat-primary mat-elevation-z8" (click)="showNationalReportParamDialog('N2')">
-    NATIONAL RESPONSES BY AGE GROUPS ROUND 2
-  </button>
-
-  <button mat-raised-button type="button" class="mat-primary mat-elevation-z8" (click)="showNationalReportParamDialog('N3')">
-    NATIONAL RESPONSES BY AGE GROUPS ROUND 3
-  </button>
-
-  <button mat-raised-button type="button" class="mat-primary mat-elevation-z8" (click)="showNationalReportParamDialog('N4')">
-    NATIONAL RESPONSES BY AGE GROUPS ROUND 4
-  </button>
-</div>
-<p></p>
 <div fxLayout="column" fxLayoutAlign="space-evenly stretch">
   <app-widget-bar [data]="bigChart" [title]="titleCouncils" *ngIf="bigChartsIsReady === true"></app-widget-bar>
 </div>
