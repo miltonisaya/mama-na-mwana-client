@@ -6,12 +6,7 @@ import {map} from "rxjs/operators";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 export const BASE_URL: string = environment.baseURL;
-export const REGISTRATION_STATS_BY_MONTHS: string = 'api/v1/get-registrations-by-months';
-export const REGISTRATION_STATS_BY_COUNCIL: string = 'api/v1/get-registrations-by-council';
-export const TOTAL_NUMBER_OF_REGISTRATIONS: string = 'api/v1/get-number-of-registrations';
-export const TOTAL_NUMBER_OF_REGISTRATIONS_TODAY: string = 'api/v1/contacts/registered-today';
-export const TOTAL_NUMBER_OF_REGISTRATIONS_BAR_CHART: string = 'api/v1/get-number-of-registrations-in-bar-chart';
-export const NUMBER_OF_REGISTRATIONS_BETWEEN_DATES: string = 'api/v1/registrations-between-dates';
+export const RESOURCE_URL: string = 'api/v1/contacts';
 
 @Injectable({
   providedIn: 'root'
@@ -21,12 +16,7 @@ export class DashboardService {
     startDate: new FormControl('', [Validators.required]),
     endDate: new FormControl('', [Validators.required])
   });
-  private REGISTRATION_STATS_BY_MONTHS_API_ENDPOINT = `${BASE_URL}/${REGISTRATION_STATS_BY_MONTHS}`;
-  private REGISTRATION_STATS_BY_COUNCIL_API_ENDPOINT = `${BASE_URL}/${REGISTRATION_STATS_BY_COUNCIL}`;
-  private TOTAL_NUMBER_OF_REGISTRATIONS_API_ENDPOINT = `${BASE_URL}/${TOTAL_NUMBER_OF_REGISTRATIONS}`;
-  private TOTAL_NUMBER_OF_REGISTRATIONS_TODAY_API_ENDPOINT = `${BASE_URL}/${TOTAL_NUMBER_OF_REGISTRATIONS_TODAY}`;
-  private TOTAL_NUMBER_OF_REGISTRATIONS_BAR_CHART_API_ENDPOINT = `${BASE_URL}/${TOTAL_NUMBER_OF_REGISTRATIONS_BAR_CHART}`;
-  private REGISTRATIONS_BETWEEN_DATES_API_END_POINT = `${BASE_URL}/${NUMBER_OF_REGISTRATIONS_BETWEEN_DATES}`;
+  private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
 
   constructor(
     private http: HttpClient
@@ -38,7 +28,7 @@ export class DashboardService {
    * @param param
    */
   getMonthlyRegistrations(param?): Observable<any> {
-    return this.http.get<any>(this.REGISTRATION_STATS_BY_MONTHS_API_ENDPOINT, {params: param}).pipe(
+    return this.http.get<any>(this.API_ENDPOINT+"/registrations-by-months", {params: param}).pipe(
       map(this.extractData));
   }
 
@@ -47,27 +37,21 @@ export class DashboardService {
    * @param param
    */
   getRegistrationsByCouncil(param?): Observable<any> {
-    return this.http.get<any>(this.REGISTRATION_STATS_BY_COUNCIL_API_ENDPOINT, {params: param}).pipe(
+    return this.http.get<any>(this.API_ENDPOINT+"/registrations-by-council", {params: param}).pipe(
       map(this.extractData));
   }
 
   getNumberOfAllContacts(): Observable<any> {
-    return this.http.get<any>(this.TOTAL_NUMBER_OF_REGISTRATIONS_API_ENDPOINT, {}).pipe(
+    return this.http.get<any>(this.API_ENDPOINT+"/number-of-registrations", {}).pipe(
       map(this.extractData));
   }
 
   getNumberOfRegistrationsInBarChart() {
-    return this.http.get<any>(this.TOTAL_NUMBER_OF_REGISTRATIONS_BAR_CHART_API_ENDPOINT, {}).pipe(
+    return this.http.get<any>(this.API_ENDPOINT+"/registrations-bar-chart", {}).pipe(
       map(this.extractData));
   }
-
-  findRegistrationsByDate(params: any, params1: { endDate: any; startDate: any }) {
-    return this.http.get<any>(this.REGISTRATIONS_BETWEEN_DATES_API_END_POINT, {}).pipe(
-      map(this.extractData));
-  }
-
   getNumberOfTodayContacts() {
-    return this.http.get<any>(this.TOTAL_NUMBER_OF_REGISTRATIONS_TODAY_API_ENDPOINT, {}).pipe(
+    return this.http.get<any>(this.API_ENDPOINT+"/registered-today", {}).pipe(
       map(this.extractData));
   }
 

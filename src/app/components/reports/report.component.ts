@@ -40,7 +40,6 @@ export class ReportComponent implements OnInit {
     this.getTree();
     this.checkIsAdmin();
   }
-
   checkIsAdmin() {
     let mnmUser = JSON.parse(localStorage.getItem("MNM_USER"));
     if (mnmUser.isSuperAdministrator) {
@@ -58,7 +57,6 @@ export class ReportComponent implements OnInit {
       this.notifierService.showNotification(error.error.error, 'OK', 'error');
     });
   }
-
   async getReportParams() {
     return this.ReportService.getParams(this.selectedNode.url).subscribe((response: any) => {
       this.params = response.data;
@@ -66,7 +64,6 @@ export class ReportComponent implements OnInit {
       this.notifierService.showNotification(error.error.error, 'OK', 'error');
     })
   }
-
   openDialog(data?): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
@@ -125,18 +122,19 @@ export class ReportComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
 
-    let parameters = {
+    //add params to config
+    dialogConfig.data = {
       params: this.params,
       selectedNode: this.selectedNode
     };
 
-    //add params to config
-    // this.params['selectedNode'] = this.selectedNode;
-    // console.log("This dot params =>",this.params);
-    dialogConfig.data = parameters;
     this.dialog.open(ReportParamsDialog, {data: dialogConfig})
       .afterClosed().subscribe(() => {
       this.getTree();
+    });
+
+    this.dialog.afterOpened.subscribe((dialogRef)=>{
+      dialogRef.componentInstance.data = dialogConfig;
     });
   }
 }

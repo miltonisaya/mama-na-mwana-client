@@ -23,8 +23,6 @@ export class ReportParamsDialog implements OnInit {
   selectedCouncil: any;
   formattedStartDate: any;
   formattedEndDate: any;
-  paramsIsReady: boolean = false;
-
   constructor(
     private datePipe: DatePipe,
     private notifierService: NotifierService,
