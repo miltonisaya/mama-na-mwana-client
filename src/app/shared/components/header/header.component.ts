@@ -1,6 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {AuthService} from '../../../components/auth/auth.service';
 import {Router} from "@angular/router";
+import {LoaderService} from "../../../components/loader/loader.service";
 
 @Component({
   selector: 'app-header',
@@ -13,7 +14,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    public loaderService: LoaderService
   ) {
   }
 
