@@ -6,6 +6,7 @@ import {DatePipe} from "@angular/common";
 import {NotifierService} from "../../../notifications/notifier.service";
 import {OrganisationUnitService} from "../../../organisation-units/organisation-unit.service";
 import {ContactsService} from "../../../contacts/contacts.service";
+import {ReportService} from "../../report.service";
 
 @Component({
   selector: 'app-report-params-dialog',
@@ -23,11 +24,15 @@ export class ReportParamsDialog implements OnInit {
   selectedCouncil: any;
   formattedStartDate: any;
   formattedEndDate: any;
+  params: any;
+  selectedNode: any;
+
   constructor(
-    private datePipe: DatePipe,
-    private notifierService: NotifierService,
-    private organisationUnitService: OrganisationUnitService,
-    private contactService: ContactsService,
+    private DatePipe: DatePipe,
+    private NotifierService: NotifierService,
+    private OrganisationUnitService: OrganisationUnitService,
+    private ContactsService: ContactsService,
+    private ReportService: ReportService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
   }
@@ -40,16 +45,28 @@ export class ReportParamsDialog implements OnInit {
         map(value => typeof value === 'string' ? value : value.name),
         map(name => name ? this._filter(name) : this.councils)
       );
+
+    this.getReportParams();
+  }
+
+  getReportParams() {
+    this.selectedNode = this.data.data.selectedNode;
+    console.log("selectedNode ->", this.selectedNode);
+    return this.ReportService.getParams(this.selectedNode.url).subscribe((response: any) => {
+      this.params = response.data;
+    }, error => {
+      this.NotifierService.showNotification(error.error.error, 'OK', 'error');
+    })
   }
 
   getCouncils() {
     let params = {
       pageSize: 1000
     };
-    return this.organisationUnitService.getCouncils(params).subscribe((response: any) => {
+    return this.OrganisationUnitService.getCouncils(params).subscribe((response: any) => {
       this.councils = response.data;
     }, error => {
-      this.notifierService.showNotification(error.error.error, 'OK', 'error');
+      this.NotifierService.showNotification(error.error.error, 'OK', 'error');
     });
   }
 
@@ -59,27 +76,28 @@ export class ReportParamsDialog implements OnInit {
   }
 
   formatSelectedDates() {
-    this.formattedStartDate = this.datePipe.transform(this.startDate.value, 'yyyy-MM-dd');
-    this.formattedEndDate = this.datePipe.transform(this.endDate.value, 'yyyy-MM-dd');
+    this.formattedStartDate = this.DatePipe.transform(this.startDate.value, 'yyyy-MM-dd');
+    this.formattedEndDate = this.DatePipe.transform(this.endDate.value, 'yyyy-MM-dd');
   }
 
-  generateReport(data: any) {
+  generateReport() {
     //Format the date
     this.formatSelectedDates();
-    let params = {
-      format: "pdf",
-      name: this.data.data.selectedNode.url,
-      params: {
+    let params = {};
+    params['format'] = "pdf";
+    params['name'] = this.data.data.selectedNode.url;
+    if(this.params != null){
+      params['params'] = {
         start_date: this.formattedStartDate,
         end_date: this.formattedEndDate,
-      }
+      };
     }
 
     if (this.myControl.value !== null && this.myControl.value !== undefined) {
-      params.params['organisationUnitId'] = this.myControl.value.code;
+      params['params']['organisationUnitId'] = this.myControl.value.code;
     }
 
-    return this.contactService.responsesInAgeGroups(params).subscribe((response: any) => {
+    return this.ContactsService.responsesInAgeGroups(params).subscribe((response: any) => {
       const string = JSON.stringify(response);
       const result = JSON.parse(string);
       let base64String = result.data;
@@ -87,10 +105,10 @@ export class ReportParamsDialog implements OnInit {
       const source = `data:application/pdf;base64,${base64String}`;
       const link = document.createElement("a");
       link.href = source;
-      link.download = params.name + ".pdf";
+      link.download = params['name'] + ".pdf";
       link.click();
     }, error => {
-      this.notifierService.showNotification(error.error.error, 'OK', 'error');
+      this.NotifierService.showNotification(error.error.error, 'OK', 'error');
     });
   }
 

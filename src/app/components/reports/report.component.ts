@@ -27,8 +27,6 @@ export class ReportComponent implements OnInit {
 
   treeControl = new NestedTreeControl<ReportNode>(node => node.children);
   dataSource = new MatTreeNestedDataSource<ReportNode>();
-  private params: any;
-  private isDataValueLoaded = false;
 
   constructor(
     private ReportService: ReportService,
@@ -60,15 +58,6 @@ export class ReportComponent implements OnInit {
     });
   }
 
-  getReportParams() {
-    return this.ReportService.getParams(this.selectedNode.url).subscribe((response: any) => {
-      this.params = response.data;
-      this.isDataValueLoaded = true;
-    }, error => {
-      this.notifierService.showNotification(error.error.error, 'OK', 'error');
-    })
-  }
-
   openDialog(data?): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
@@ -87,13 +76,13 @@ export class ReportComponent implements OnInit {
       this.dialog.open(ReportDialogComponent, dialogConfig)
         .afterClosed().subscribe(() => {
         this.getTree();
-        this.isDataValueLoaded = false;
+        // this.isDataValueLoaded = false;
       });
     } else {
       dialogConfig.data = {};
       this.dialog.open(ReportDialogComponent, dialogConfig)
         .afterClosed().subscribe(() => {
-        this.isDataValueLoaded = false;
+        // this.isDataValueLoaded = false;
         this.getTree();
       });
     }
@@ -126,26 +115,21 @@ export class ReportComponent implements OnInit {
   }
 
   openReportParamsDialog() {
-    //fetch params
-    this.getReportParams();
-    if (this.isDataValueLoaded) { //Only load the data when the params are set
-      const dialogConfig = new MatDialogConfig();
-      dialogConfig.disableClose = true;
-      dialogConfig.autoFocus = true;
-      dialogConfig.hasBackdrop = false;
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.hasBackdrop = false;
 
-      //add params to config
-      dialogConfig.data = {
-        params: this.params,
-        selectedNode: this.selectedNode
-      };
+    //add params to config
+    dialogConfig.data = {
+      selectedNode: this.selectedNode
+    };
+    console.log("Params added to config ->",this.selectedNode);
 
-      const dialogRef = this.dialog.open(ReportParamsDialog, {data: dialogConfig});
+    const dialogRef = this.dialog.open(ReportParamsDialog, {data: dialogConfig});
 
-      dialogRef.afterClosed().subscribe(() => {
-        this.getTree();
-        this.isDataValueLoaded = false; // Set the variable to false when the dialog is closed.
-      });
-    }
+    dialogRef.afterClosed().subscribe(() => {
+      this.getTree();
+    });
   }
 }

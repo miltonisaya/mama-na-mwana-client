@@ -9,9 +9,10 @@
   </h1>
   <br>
   <mat-divider></mat-divider>
-
+  <h2>{{selectedNode.name}}</h2>
+<!--  <h2>{{selectedNode.url}}</h2>-->
   <mat-dialog-content class="report-params-dialog">
-    <ng-container *ngFor="let param of data.data.params">
+    <ng-container *ngFor="let param of params">
       <ng-container [ngSwitch]="param.name">
         <div fxLayout="column" fxLayoutAlign="space-evenly stretch">
           <mat-form-field *ngSwitchCase="'start_date' || 'end_date'">
@@ -49,7 +50,7 @@
       <div class="button">
         <button mat-dialog-close mat-raised-button type="button">CANCEL</button>
         <button
-          (click)="generateReport(data)"
+          (click)="generateReport()"
           color="primary"
           mat-raised-button
           type="submit"
@@ -61,5 +62,5 @@
   </mat-dialog-content>
 </section>
 
-<!--<pre>{{data.data | json}}</pre>-->
+<!--<pre>{{params | json}}</pre>-->
 <!--<pre>{{endDate.value | json}}</pre>-->
