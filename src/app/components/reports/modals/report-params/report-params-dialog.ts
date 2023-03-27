@@ -70,8 +70,6 @@ export class ReportParamsDialog implements OnInit {
       format: "pdf",
       name: this.data.data.selectedNode.url,
       params: {
-        // start_date: this.startDate.value.toISOString().slice(0,10),
-        // end_date: this.startDate.value.toISOString().slice(0,10),
         start_date: this.formattedStartDate,
         end_date: this.formattedEndDate,
       }
