@@ -80,16 +80,20 @@ export class ReportParamsDialog implements OnInit {
 
   generateReport() {
     //Format the date
-    this.formatSelectedDates();
-    let params = {};
-    params['format'] = "pdf";
-    params['name'] = this.data.data.selectedNode.url;
-    if(this.params != null){
-      params['params'] = {
-        start_date: this.formattedStartDate,
-        end_date: this.formattedEndDate,
+    let params = {
+      'format': 'pdf',
+      'name': this.data.data.selectedNode.url,
+      params: {}
+    };
+
+    if (this.params.length != 0) {
+      this.formatSelectedDates();
+      params.params = {
+        'start_date': this.formattedStartDate,
+        'end_date': this.formattedEndDate
       };
     }
+    console.log("Params for the request", params);
 
     if (this.myControl.value !== null && this.myControl.value !== undefined) {
       params['params']['organisationUnitId'] = this.myControl.value.code;
