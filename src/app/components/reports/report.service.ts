@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {catchError, map, tap} from 'rxjs/operators';
@@ -38,7 +38,6 @@ export class ReportService {
     console.log("Deleting report with id ", id);
     return this.http.delete<any>(this.API_ENDPOINT + "/" + id).pipe(
       map(this.extractData));
-    ``
   }
 
   /**
@@ -54,12 +53,12 @@ export class ReportService {
       id: '',
       name: '',
       url: '',
-      parentId: false
+      parentId: ''
     });
   }
 
   /**
-   * @param role
+   * @param report
    */
   create(report): Observable<any> {
     return this.http.post<any>(this.API_ENDPOINT, report)
@@ -98,8 +97,7 @@ export class ReportService {
    * @param res
    */
   private extractData(res: Response) {
-    const body = res;
-    return body || {};
+    return res || {};
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
@@ -112,5 +110,14 @@ export class ReportService {
       console.log(`${operation} failed: ${error.message}`);
       return of(result as T);
     };
+  }
+
+  generateReport(params: any) {
+    const httpOptions = {
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
+    }
+    return this.http.post(this.API_ENDPOINT + "/generate-report", params, httpOptions).pipe(
+      map(this.extractData)
+    );
   }
 }
