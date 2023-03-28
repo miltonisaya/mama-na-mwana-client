@@ -5,7 +5,6 @@ import {map, startWith} from "rxjs/operators";
 import {DatePipe} from "@angular/common";
 import {NotifierService} from "../../../notifications/notifier.service";
 import {OrganisationUnitService} from "../../../organisation-units/organisation-unit.service";
-import {ContactsService} from "../../../contacts/contacts.service";
 import {ReportService} from "../../report.service";
 
 @Component({
@@ -31,7 +30,6 @@ export class ReportParamsDialog implements OnInit {
     private DatePipe: DatePipe,
     private NotifierService: NotifierService,
     private OrganisationUnitService: OrganisationUnitService,
-    private ContactsService: ContactsService,
     private ReportService: ReportService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
@@ -97,7 +95,7 @@ export class ReportParamsDialog implements OnInit {
       params['params']['organisationUnitId'] = this.myControl.value.code;
     }
 
-    return this.ContactsService.responsesInAgeGroups(params).subscribe((response: any) => {
+    return this.ReportService.generateReport(params).subscribe((response: any) => {
       const string = JSON.stringify(response);
       const result = JSON.parse(string);
       let base64String = result.data;
