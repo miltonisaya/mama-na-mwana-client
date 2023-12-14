@@ -68,7 +68,7 @@
     <ng-container matColumnDef="categories">
       <th *matHeaderCellDef mat-header-cell> Categories</th>
       <td *matCellDef="let categories" mat-cell>
-        <div>
+        <div *ngIf="categories.categories.length > 0">
           <ul class="categories">
             <li *ngFor="let category of categories.categories">
               {{ category.name }}
