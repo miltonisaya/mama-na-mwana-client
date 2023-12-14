@@ -15,8 +15,8 @@ div ul {
 }
 
 /* If there are more than 10 list items, create two columns */
-div ul.more-than-10 {
-  column-count: 2;
+div categories {
+  column-count: 4;
 }
 
 /* Limit each column to 10 elements */
