@@ -15,13 +15,14 @@ div ul {
 }
 
 /* If there are more than 10 list items, create two columns */
-div categories {
+div ul.more-than-10 {
   column-count: 2;
 }
 
 /* Limit each column to 10 elements */
-div ul.categories li {
+div ul.more-than-10 li {
   break-inside: avoid-column;
   page-break-inside: avoid;
   break-after: auto;
 }
+
