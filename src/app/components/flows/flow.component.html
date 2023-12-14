@@ -14,7 +14,7 @@
     <mat-label>Select a flow</mat-label>
     <mat-select (selectionChange)="getKeys($event)" [(value)]="selectedFlowId">
       <mat-option *ngFor="let flow of flows" [value]="flow.id">
-        {{flow.flowName}}
+        {{ flow.flowName }}
       </mat-option>
     </mat-select>
   </mat-form-field>
@@ -30,19 +30,19 @@
     <!-- SNo Column -->
     <ng-container matColumnDef="sno">
       <th *matHeaderCellDef mat-header-cell> No</th>
-      <td *matCellDef="let flowKeys; let i = index" mat-cell style="padding-right: 5px;">{{i + 1}}</td>
+      <td *matCellDef="let flowKeys; let i = index" mat-cell style="padding-right: 5px;">{{ i + 1 }}</td>
     </ng-container>
 
     <!-- Name Column -->
     <ng-container matColumnDef="keyName">
       <th *matHeaderCellDef mat-header-cell> Name</th>
-      <td *matCellDef="let flowKeys" mat-cell> {{flowKeys.keyName}} </td>
+      <td *matCellDef="let flowKeys" mat-cell> {{ flowKeys.keyName }}</td>
     </ng-container>
 
     <!-- Description Column -->
     <ng-container matColumnDef="keyDescription">
       <th *matHeaderCellDef mat-header-cell> Description</th>
-      <td *matCellDef="let flowKeys" mat-cell> {{flowKeys.keyDescription}} </td>
+      <td *matCellDef="let flowKeys" mat-cell> {{ flowKeys.keyDescription }}</td>
     </ng-container>
 
     <!-- Description Column -->
@@ -51,9 +51,9 @@
       <td *matCellDef="let flowKeys" mat-cell>
         <div *ngIf="flowKeys.dataElement !== undefined && flowKeys.dataElement !== null" style="color: #239e23;">
           <ul>
-            <li>Name: {{flowKeys.dataElement.name}}</li>
-            <li>DHIS UUID: {{flowKeys.dataElement.dhis2Uid}}</li>
-            <li>DHIS UUID: {{flowKeys.dataElement.code}}</li>
+            <li>Name: {{ flowKeys.dataElement.name }}</li>
+            <li>DHIS UUID: {{ flowKeys.dataElement.dhis2Uid }}</li>
+            <li>DHIS UUID: {{ flowKeys.dataElement.code }}</li>
           </ul>
         </div>
 
@@ -61,6 +61,19 @@
           <div style="color: red;">
             Key Not Mapped
           </div>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="categories">
+      <th *matHeaderCellDef mat-header-cell> Categories</th>
+      <td *matCellDef="let categories" mat-cell>
+        <div>
+          <ul class="more-than-10">
+            <li *ngFor="let category of categories.categories">
+              {{ category.name }}
+            </li>
+          </ul>
         </div>
       </td>
     </ng-container>
@@ -84,7 +97,7 @@
 
     Row shown when there is no matching data.
     <tr *matNoDataRow class="mat-row">
-      <td class="mat-cell" colspan="3">No data matching the filter "{{input.value}}"</td>
+      <td class="mat-cell" colspan="3">No data matching the filter "{{ input.value }}"</td>
     </tr>
   </table>
   <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>

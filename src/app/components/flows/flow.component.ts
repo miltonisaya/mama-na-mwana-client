@@ -21,7 +21,7 @@ export class FlowComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('resetDialog') resetDialog: TemplateRef<any>;
-  displayedColumns: string[] = ["sno", 'keyName', 'keyDescription', 'dataElement', 'actions'];
+  displayedColumns: string[] = ["sno", 'keyName', 'keyDescription','categories', 'dataElement', 'actions'];
   dataSource: MatTableDataSource<any>;
   input: any;
 

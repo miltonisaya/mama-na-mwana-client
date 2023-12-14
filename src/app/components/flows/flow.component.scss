@@ -7,3 +7,21 @@ table {
   font-size: 14px;
   width: 100%;
 }
+
+/* Default styling for the unordered list */
+div ul {
+  list-style: none;
+  padding: 0;
+}
+
+/* If there are more than 10 list items, create two columns */
+div ul.more-than-10 {
+  column-count: 2;
+}
+
+/* Limit each column to 10 elements */
+div ul.more-than-10 li {
+  break-inside: avoid-column;
+  page-break-inside: avoid;
+  break-after: auto;
+}
