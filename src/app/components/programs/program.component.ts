@@ -83,7 +83,7 @@ export class ProgramComponent implements OnInit {
     });
     // } else {
     //   dialogConfig.data = {};
-    //   this.dialog.open(FlowKeyDialogComponent, dialogConfig)
+    //   this.dialog.open(FlowCategoryDialogComponent, dialogConfig)
     //     .afterClosed().subscribe(() => {
     //     this.getFlows();
     //   });

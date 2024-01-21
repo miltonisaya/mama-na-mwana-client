@@ -6,8 +6,9 @@ import {SharedModule} from 'src/app/shared/shared.module';
 import {AngularMaterialModule} from '../../material.module';
 import {MatDialogModule} from '@angular/material/dialog';
 import {FlowComponent} from './flow.component';
-import {FlowKeyDialogComponent} from './modals/flow-key-dialog-component';
+import {FlowKeyDialogComponent} from './modals/flow-key-dialog/flow-key-dialog-component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {FlowCategoryDialogComponent} from "./modals/flow-category-dialog/flow-category-dialog-component";
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
   ],
   declarations: [
     FlowComponent,
-    FlowKeyDialogComponent
+    FlowKeyDialogComponent,
+    FlowCategoryDialogComponent
   ]
 })
 export class FlowsModule {

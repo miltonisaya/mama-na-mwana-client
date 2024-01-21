@@ -1,8 +1,8 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {NotifierService} from '../../notifications/notifier.service';
-import {FlowKeyService} from '../flowkey.service';
-import {DataElementService} from '../../data-elements/dataElement.service';
+import {NotifierService} from '../../../notifications/notifier.service';
+import {FlowKeyService} from '../../flowkey.service';
+import {DataElementService} from '../../../data-elements/dataElement.service';
 import {FormControl} from '@angular/forms';
 import {map, startWith} from 'rxjs/operators';
 

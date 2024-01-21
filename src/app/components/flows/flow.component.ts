@@ -5,7 +5,8 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
-import {FlowKeyDialogComponent} from './modals/flow-key-dialog-component';
+import {FlowKeyDialogComponent} from './modals/flow-key-dialog/flow-key-dialog-component';
+import {FlowCategoryDialogComponent} from "./modals/flow-category-dialog/flow-category-dialog-component";
 
 @Component({
   selector: 'app-users',
@@ -92,6 +93,30 @@ export class FlowComponent implements OnInit {
     } else {
       dialogConfig.data = {};
       this.dialog.open(FlowKeyDialogComponent, dialogConfig)
+        .afterClosed().subscribe(() => {
+        this.getFlows();
+      });
+    }
+  }
+
+  openMapCategoryDialog(data) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    if (data) {
+      const flowKeysData = {
+        id: data.id,
+        keyDescription: data.keyDescription,
+        keyName: data.keyName,
+      };
+
+      this.dialog.open(FlowCategoryDialogComponent, {data: flowKeysData})
+        .afterClosed().subscribe(() => {
+        this.getFlows();
+      });
+    } else {
+      dialogConfig.data = {};
+      this.dialog.open(FlowCategoryDialogComponent, dialogConfig)
         .afterClosed().subscribe(() => {
         this.getFlows();
       });

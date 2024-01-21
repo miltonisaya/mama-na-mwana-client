@@ -13,10 +13,20 @@
     <mat-dialog-content>
       <div class="dialog-content" fxLayout="column" fxLayoutGap="5px">
         <mat-form-field appearance="fill" class="dialog-content">
-          <mat-label>Search for data element</mat-label>
+          <mat-label>Search for a data element corresponding to a Yes response</mat-label>
           <input [formControl]="myControl" [matAutocomplete]="auto" matInput type="text">
           <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+            <mat-option *ngFor="let option of filteredOptionsYes | async" [value]="option">
+              {{option.name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="dialog-content">
+          <mat-label>Search for a data element corresponding to a No response</mat-label>
+          <input [formControl]="myControl" [matAutocomplete]="auto" matInput type="text">
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            <mat-option *ngFor="let option of filteredOptionsNo | async" [value]="option">
               {{option.name}}
             </mat-option>
           </mat-autocomplete>

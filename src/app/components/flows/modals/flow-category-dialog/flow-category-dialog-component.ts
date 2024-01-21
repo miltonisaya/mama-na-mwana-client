@@ -1,20 +1,22 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {NotifierService} from '../../notifications/notifier.service';
-import {FlowKeyService} from '../flowkey.service';
-import {DataElementService} from '../../data-elements/dataElement.service';
 import {FormControl} from '@angular/forms';
 import {map, startWith} from 'rxjs/operators';
+import {FlowKeyService} from "../../flowkey.service";
+import {NotifierService} from "../../../notifications/notifier.service";
+import {DataElementService} from "../../../data-elements/dataElement.service";
 
 @Component({
   selector: 'app-flow-key-dialog',
-  templateUrl: 'flow-key-dialog-component.html',
-  styleUrls: ['flow-key-dialog.component.sass']
+  templateUrl: 'flow-category-dialog-component.html',
+  styleUrls: ['flow-category-dialog.component.sass']
 })
 
-export class FlowKeyDialogComponent implements OnInit {
-  dataElements: any;
-  filteredOptions: any;
+export class FlowCategoryDialogComponent implements OnInit {
+  dataElementsYes: any;
+  dataElementsNo: any;
+  filteredOptionsYes: any;
+  filteredOptionsNo: any;
   selectedDataElement: any;
   autoFilter: any;
 
@@ -22,7 +24,7 @@ export class FlowKeyDialogComponent implements OnInit {
 
   constructor(
     public flowKeyService: FlowKeyService,
-    public dialogRef: MatDialogRef<FlowKeyDialogComponent>,
+    public dialogRef: MatDialogRef<FlowCategoryDialogComponent>,
     public notifierService: NotifierService,
     public dataElementService: DataElementService,
     @Inject(MAT_DIALOG_DATA) public data: any
@@ -30,22 +32,41 @@ export class FlowKeyDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getDataElements();
+    this.getDataElementsYes();
+    this.getDataElementsNo();
 
-    this.filteredOptions = this.myControl.valueChanges
+    this.filteredOptionsYes = this.myControl.valueChanges
       .pipe(
         startWith(''),
         map(value => typeof value === 'string' ? value : value.name),
-        map(name => name ? this._filter(name) : this.dataElements)
+        map(name => name ? this._filter(name) : this.dataElementsYes)
+      );
+
+    this.filteredOptionsNo = this.myControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => typeof value === 'string' ? value : value.name),
+        map(name => name ? this._filter(name) : this.dataElementsNo)
       );
   }
 
-  getDataElements() {
+  getDataElementsYes() {
     let params = {
       pageSize: 1000
     };
     return this.dataElementService.getDataElements(params).subscribe((response: any) => {
-      this.dataElements = response.data.content;
+      this.dataElementsYes = response.data.content;
+    }, error => {
+      this.notifierService.showNotification(error.error.error, 'OK', 'error');
+    });
+  }
+
+  getDataElementsNo() {
+    let params = {
+      pageSize: 1000
+    };
+    return this.dataElementService.getDataElements(params).subscribe((response: any) => {
+      this.dataElementsNo = response.data.content;
     }, error => {
       this.notifierService.showNotification(error.error.error, 'OK', 'error');
     });
@@ -92,7 +113,12 @@ export class FlowKeyDialogComponent implements OnInit {
 
   private _filter(name: string): any {
     const filterValue = name.toLowerCase();
-    return this.dataElements.filter(option => option.name.toLowerCase().includes(filterValue));
+    return this.dataElementsYes.filter(option => option.name.toLowerCase().includes(filterValue));
   }
+
+  // private _filter(name: string): any {
+  //   const filterValue = name.toLowerCase();
+  //   return this.dataElementsNo.filter(option => option.name.toLowerCase().includes(filterValue));
+  // }
 }
 
