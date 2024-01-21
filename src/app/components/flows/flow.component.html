@@ -14,7 +14,7 @@
     <mat-label>Select a flow</mat-label>
     <mat-select (selectionChange)="getKeys($event)" [(value)]="selectedFlowId">
       <mat-option *ngFor="let flow of flows" [value]="flow.id">
-        {{ flow.flowName }}
+        {{ flow.name }}
       </mat-option>
     </mat-select>
   </mat-form-field>
@@ -69,7 +69,7 @@
       <th *matHeaderCellDef mat-header-cell> Categories</th>
       <td *matCellDef="let categories" mat-cell>
         <div *ngIf="categories.categories.length > 0">
-          <ul class="more-than-10">
+          <ul>
             <li *ngFor="let category of categories.categories">
               {{ category.name }}
             </li>
