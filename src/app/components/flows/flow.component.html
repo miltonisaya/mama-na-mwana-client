@@ -72,16 +72,17 @@
           <ul>
             <li *ngFor="let category of categories.categories">
               <span (click)="openMapCategoryDialog(category)" class="success">
-                <div style="color: #08c37c">
-                  Name: {{ category.name }}
-                  <p *ngIf="category.yesDataElement !== null && category.yesDataElement !== undefined">
-                  Yes Data element: {{category.yesDataElement.name}}
-                  </p>
-                  <p *ngIf="category.noDataElement !== null && category.noDataElement !== undefined">
-                  No Data element: {{category.noDataElement.name}}
-                  </p>
-                </div>
+                {{ category.name }}
+                <div style="font-size: small; font-weight: bold">
+                <p *ngIf="category.yesDataElement !== null && category.yesDataElement !== undefined">
+                  Yes Data element: {{ category.yesDataElement.name }}
+                </p>
+                <p *ngIf="category.noDataElement !== null && category.noDataElement !== undefined">
+                  No Data element: {{ category.noDataElement.name }}
+                </p>
+              </div>
               </span>
+
             </li>
           </ul>
         </div>
