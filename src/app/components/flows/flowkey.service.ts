@@ -10,6 +10,7 @@ export const RESOURCE_URL: string = 'api/v1/rapidpro-flows';
 export const SYNC_RESOURCE_URL: string = 'api/v1/sync-rapidpro-flows';
 export const FLOW_KEYS_API: string = 'api/v1/get-rapid-pro-flow-keys-by-flow-id';
 export const MAP_DATA_ELEMENT_API: string = 'api/v1/map-data-element';
+export const MAP_DATA_ELEMENT_WITH_CATEGORY_API: string = 'api/v1/flows/map-data-element-with-category';
 
 @Injectable()
 export class FlowKeyService {
@@ -22,6 +23,7 @@ export class FlowKeyService {
   private SYNC_API_ENDPOINT = `${BASE_URL}/${SYNC_RESOURCE_URL}`;
   private KEYS_BY_FLOW_ID_ENDPOINT = `${BASE_URL}/${FLOW_KEYS_API}`;
   private MAP_DATA_ELEMENT_ENDPOINT = `${BASE_URL}/${MAP_DATA_ELEMENT_API}`;
+  private MAP_DATA_ELEMENT_WITH_CATEGORY_ENDPOINT = `${BASE_URL}/${MAP_DATA_ELEMENT_WITH_CATEGORY_API}`;
 
   constructor(private http: HttpClient) {
   }
@@ -90,5 +92,12 @@ export class FlowKeyService {
       console.log(`${operation} failed: ${error.message}`);
       return of(result as T);
     };
+  }
+
+  mapDataElementsWithCategory(data: { noDataElementId: any; yesDataElementId: any; categoryId: any }) {
+    return this.http.put(this.MAP_DATA_ELEMENT_WITH_CATEGORY_ENDPOINT+"/"+data.categoryId, data)
+      .pipe(tap(_ => console.log(`Mapped flow data elements with category=${data.categoryId}`)),
+        catchError(this.handleError<any>('Mapped flow category with data elements'))
+      );
   }
 }

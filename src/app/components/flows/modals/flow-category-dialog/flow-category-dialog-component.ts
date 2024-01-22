@@ -17,10 +17,12 @@ export class FlowCategoryDialogComponent implements OnInit {
   dataElementsNo: any;
   filteredOptionsYes: any;
   filteredOptionsNo: any;
-  selectedDataElement: any;
+  selectedDataElementYes: any;
+  selectedDataElementNo: any;
   autoFilter: any;
 
-  myControl = new FormControl();
+  yesDataElement = new FormControl();
+  noDataElement = new FormControl();
 
   constructor(
     public flowKeyService: FlowKeyService,
@@ -35,14 +37,14 @@ export class FlowCategoryDialogComponent implements OnInit {
     this.getDataElementsYes();
     this.getDataElementsNo();
 
-    this.filteredOptionsYes = this.myControl.valueChanges
+    this.filteredOptionsYes = this.yesDataElement.valueChanges
       .pipe(
         startWith(''),
         map(value => typeof value === 'string' ? value : value.name),
         map(name => name ? this._filter(name) : this.dataElementsYes)
       );
 
-    this.filteredOptionsNo = this.myControl.valueChanges
+    this.filteredOptionsNo = this.noDataElement.valueChanges
       .pipe(
         startWith(''),
         map(value => typeof value === 'string' ? value : value.name),
@@ -90,13 +92,16 @@ export class FlowCategoryDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  mapDataElement() {
+  mapCategoryAndDataElement() {
     let data = {
-      dataElementId: this.myControl.value.id,
-      rapidProFlowKeyId: this.data.id
+      yesDataElementId: this.yesDataElement.value.id,
+      noDataElementId: this.noDataElement.value.id,
+      categoryId: this.data.id
     };
 
-    this.flowKeyService.mapDataElement(data).subscribe((response: any) => {
+    console.log("Mapping data ->",data);
+
+    this.flowKeyService.mapDataElementsWithCategory(data).subscribe((response: any) => {
       if (response.status == '200') {
         this.notifierService.showNotification(response.message, 'OK', 'success');
       }
@@ -106,8 +111,13 @@ export class FlowCategoryDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  displayFn(dataElement: any): string {
-    this.selectedDataElement = dataElement.id;
+  displayFnYes(dataElement: any): string {
+    this.selectedDataElementYes = dataElement.id;
+    return dataElement && dataElement.name ? dataElement.name : '';
+  }
+
+  displayFnNo(dataElement: any): string {
+    this.selectedDataElementNo = dataElement.id;
     return dataElement && dataElement.name ? dataElement.name : '';
   }
 
@@ -115,10 +125,5 @@ export class FlowCategoryDialogComponent implements OnInit {
     const filterValue = name.toLowerCase();
     return this.dataElementsYes.filter(option => option.name.toLowerCase().includes(filterValue));
   }
-
-  // private _filter(name: string): any {
-  //   const filterValue = name.toLowerCase();
-  //   return this.dataElementsNo.filter(option => option.name.toLowerCase().includes(filterValue));
-  // }
 }
 

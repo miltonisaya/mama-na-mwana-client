@@ -80,21 +80,21 @@ export class FlowComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     if (data) {
-      const flowKeysData = {
+      const categoriesMappingData = {
         id: data.id,
         keyDescription: data.keyDescription,
         keyName: data.keyName,
       };
 
-      this.dialog.open(FlowKeyDialogComponent, {data: flowKeysData})
+      this.dialog.open(FlowKeyDialogComponent, {data: categoriesMappingData})
         .afterClosed().subscribe(() => {
-        this.getFlows();
+        // this.getFlows();
       });
     } else {
       dialogConfig.data = {};
       this.dialog.open(FlowKeyDialogComponent, dialogConfig)
         .afterClosed().subscribe(() => {
-        this.getFlows();
+        // this.getFlows();
       });
     }
   }
@@ -104,13 +104,13 @@ export class FlowComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     if (data) {
-      const flowKeysData = {
+      const categoriesMappingData = {
         id: data.id,
-        keyDescription: data.keyDescription,
-        keyName: data.keyName,
+        yesDataElementId: data.yesDataElementId,
+        noDataElementId: data.noDataElementId,
       };
 
-      this.dialog.open(FlowCategoryDialogComponent, {data: flowKeysData})
+      this.dialog.open(FlowCategoryDialogComponent, {data: categoriesMappingData})
         .afterClosed().subscribe(() => {
         this.getFlows();
       });

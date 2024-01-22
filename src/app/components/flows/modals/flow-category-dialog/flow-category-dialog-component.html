@@ -7,27 +7,37 @@
         (ngSubmit)="submitForm(flowKeyService.form)" [formGroup]="flowKeyService.form"
         class="form">
     <h1 class="dialog-header" mat-dialog-title>
-      {{"Map DHIS2 Data Element"}}
+      Map DHIS2 Data Element
     </h1>
     <mat-divider></mat-divider>
     <mat-dialog-content>
       <div class="dialog-content" fxLayout="column" fxLayoutGap="5px">
         <mat-form-field appearance="fill" class="dialog-content">
           <mat-label>Search for a data element corresponding to a Yes response</mat-label>
-          <input [formControl]="myControl" [matAutocomplete]="auto" matInput type="text">
-          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+          <input
+            [formControl]="yesDataElement"
+            [matAutocomplete]="yes"
+            matInput
+            type="text"
+          >
+          <mat-autocomplete #yes="matAutocomplete" [displayWith]="displayFnYes">
             <mat-option *ngFor="let option of filteredOptionsYes | async" [value]="option">
-              {{option.name}}
+              {{ option.name }}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
 
         <mat-form-field appearance="fill" class="dialog-content">
           <mat-label>Search for a data element corresponding to a No response</mat-label>
-          <input [formControl]="myControl" [matAutocomplete]="auto" matInput type="text">
-          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+          <input
+            [formControl]="noDataElement"
+            [matAutocomplete]="no"
+            matInput
+            type="text"
+          >
+          <mat-autocomplete #no="matAutocomplete" [displayWith]="displayFnNo">
             <mat-option *ngFor="let option of filteredOptionsNo | async" [value]="option">
-              {{option.name}}
+              {{ option.name }}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
@@ -37,17 +47,17 @@
       <div class="button">
         <button mat-dialog-close mat-raised-button type="button">CANCEL</button>
         <button
-          (click)="mapDataElement()"
+          (click)="mapCategoryAndDataElement()"
           color="primary"
           mat-raised-button
           type="submit"
         >
-          {{"MAP"}}
+          {{ "MAP" }}
         </button>
       </div>
     </mat-dialog-actions>
   </form>
 </section>
 
-<!--Data for Key: <pre>{{data | json}}</pre>-->
-<!--Data for Data Element: <pre>{{data | json}}</pre>-->
+<!--Data <pre>{{data | json}}</pre>-->
+<!--Yes Data Element <pre>{{yesDataElement.value | json}}</pre>-->
