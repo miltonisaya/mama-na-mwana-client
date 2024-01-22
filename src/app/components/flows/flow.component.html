@@ -71,7 +71,7 @@
         <div *ngIf="categories.categories.length > 0">
           <ul>
             <li *ngFor="let category of categories.categories">
-              <span (click)="openMapCategoryDialog(flowKeys)">{{ category.name }}</span>
+              <span (click)="openMapCategoryDialog(category)" class="success"><div style="color: #08c37c">{{ category.name }}</div></span>
             </li>
           </ul>
         </div>
@@ -113,4 +113,4 @@
     </mat-dialog-actions>
   </ng-template>
   <!--delete user dialog template-->
-
+</div>
