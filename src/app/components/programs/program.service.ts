@@ -2,17 +2,19 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {environment} from '../../../environments/environment';
-import {map} from 'rxjs/operators';
+import {catchError, map, tap} from 'rxjs/operators';
 
 export const BASE_URL: string = environment.baseURL;
 export const RESOURCE_URL: string = 'api/v1/programs';
 export const SYNC_RESOURCE_URL: string = 'api/v1/sync-programs';
+export const MAP_DATA_ELEMENTS_RESOURCE: string = 'map-data-elements';
 
 
 @Injectable()
 export class ProgramService {
   private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
   private SYNC_API_ENDPOINT = `${BASE_URL}/${SYNC_RESOURCE_URL}`;
+  private MAP_DATA_ELEMENTS_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}/${MAP_DATA_ELEMENTS_RESOURCE}`;
 
   constructor(private http: HttpClient) {
   }
@@ -25,6 +27,14 @@ export class ProgramService {
   syncPrograms() {
     return this.http.get<any>(this.SYNC_API_ENDPOINT).pipe(
       map(this.extractData));
+  }
+
+  mapDataElements(payload): Observable<any> {
+    return this.http.post<any>(this.MAP_DATA_ELEMENTS_ENDPOINT, payload)
+      // tslint:disable-next-line:no-shadowed-variable
+      .pipe(tap((response) => console.log(`Mapped data elements with program with id = ${payload.programId}`)),
+        catchError(this.handleError<any>('Map program with data element'))
+      );
   }
 
   /**
