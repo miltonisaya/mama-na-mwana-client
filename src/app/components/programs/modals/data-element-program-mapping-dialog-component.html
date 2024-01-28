@@ -12,9 +12,9 @@
     <p-pickList
       [responsive]="true"
       [sourceStyle]="{'height':'200px'}"
-      [source]="list1"
+      [source]="fetchedList"
       [targetStyle]="{'height':'200px'}"
-      [target]="myList"
+      [target]="selectedDataElementsList"
       dragdrop="true"
       filterBy="Name"
       sourceFilterPlaceholder="Search by Name"
@@ -45,4 +45,8 @@
   </mat-dialog-actions>
 </section>
 
-<!--List1 <pre>{{list1 | json}}</pre>-->
+<!--<div style="overflow: scroll";>-->
+<!--  List1 <pre>{{list1 | json}}</pre>-->
+<!--  myList <pre>{{myList | json}}</pre>-->
+<!--</div>-->
+

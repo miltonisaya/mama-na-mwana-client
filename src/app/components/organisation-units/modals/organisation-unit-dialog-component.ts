@@ -54,7 +54,6 @@ export class OrganisationUnitDialogComponent implements OnInit {
 
   submitForm(data) {
     this.OrganisationUnitService.form.patchValue({parentId: this.myControl.value.id})
-    // data.parentId = this.myControl.value.id;
     console.log('Is valid =>', this.OrganisationUnitService.form.valid);
 
     if (this.OrganisationUnitService.form.valid) {
