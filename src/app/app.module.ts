@@ -14,7 +14,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {FlexModule} from '@angular/flex-layout';
 import {AngularMaterialModule} from './material.module';
 import {ReactiveFormsModule} from '@angular/forms';
-import {JwtInterceptor} from './interceptors/jwt.interceptor';
+import {AuthInterceptor} from './interceptors/auth-interceptor.service';
 import {LoadingInterceptor} from './interceptors/loading.interceptor';
 import {RolesModule} from './components/roles/role.module';
 import {NotifierComponent} from './components/notifications/notifier/notifier.component';
@@ -73,7 +73,7 @@ import {ReportService} from "./components/reports/report.service";
     PasswordResetModule,
     AuthorityModule,
     DashboardModule,
-    ReportModule
+    ReportModule,
   ],
   providers: [
     RolesService,
@@ -88,7 +88,7 @@ import {ReportService} from "./components/reports/report.service";
     AuthorityService,
     MenuService,
     ReportService,
-    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
     AuthGuard
   ],

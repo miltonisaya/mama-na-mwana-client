@@ -88,13 +88,13 @@ export class FlowComponent implements OnInit {
 
       this.dialog.open(FlowKeyDialogComponent, {data: categoriesMappingData})
         .afterClosed().subscribe(() => {
-        // this.getFlows();
+        this.getFlows();
       });
     } else {
       dialogConfig.data = {};
       this.dialog.open(FlowKeyDialogComponent, dialogConfig)
         .afterClosed().subscribe(() => {
-        // this.getFlows();
+        this.getFlows();
       });
     }
   }

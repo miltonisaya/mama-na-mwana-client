@@ -10,7 +10,7 @@
       Map DHIS2 Data Element
     </h1>
     <mat-divider></mat-divider>
-    <mat-dialog-content>
+    <mat-dialog-content class="mat-typography">
       <div class="dialog-content" fxLayout="column" fxLayoutGap="5px">
         <mat-form-field appearance="fill" class="dialog-content">
           <mat-label>Search for a data element corresponding to a Yes response</mat-label>
@@ -22,7 +22,7 @@
           >
           <mat-autocomplete #yes="matAutocomplete" [displayWith]="displayFnYes">
             <mat-option *ngFor="let option of filteredOptionsYes | async" [value]="option">
-              {{ option.name }}
+              {{ "("+option.code+")"+" - "+ option.name }}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
@@ -37,7 +37,7 @@
           >
           <mat-autocomplete #no="matAutocomplete" [displayWith]="displayFnNo">
             <mat-option *ngFor="let option of filteredOptionsNo | async" [value]="option">
-              {{ option.name }}
+              {{ "("+option.code+")"+" - "+ option.name }}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>

@@ -6,7 +6,7 @@ import {Router} from '@angular/router';
 import {catchError} from 'rxjs/operators';
 
 @Injectable()
-export class JwtInterceptor implements HttpInterceptor {
+export class AuthInterceptor implements HttpInterceptor {
 
   constructor(
     public auth: AuthService,
@@ -24,11 +24,18 @@ export class JwtInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError(response => {
         if (response.status === 401) {
+          console.log("Response unauthorized =>",response);
           this.router.navigate(["/login"]);
           return next.handle(request);
         }
         return throwError(response);
       })
     )
+  }
+
+  private showLoginDialog() {
+    // Implement logic to show your login dialog here
+    // You might want to use a dialog component or a service to manage the login dialog
+    console.log('Show login dialog...');
   }
 }
