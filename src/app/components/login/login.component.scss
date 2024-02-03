@@ -1,7 +1,7 @@
 .mat-toolbar {
   text-align: center;
   height: auto;
-  background-color: white;
+  background-color: gray;
 }
 
 img {
@@ -13,4 +13,22 @@ img {
 
 .container {
   background-color: gray;
+}
+
+.login-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: gray
+}
+
+.login-card {
+  width: 400px;
+  text-align: center;
+}
+
+.login-icon {
+  font-size: 48px;
+  margin-bottom: 10px;
 }

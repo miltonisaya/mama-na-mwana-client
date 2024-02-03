@@ -1,13 +1,12 @@
-<div class="container" fxFlexFill fxLayoutAlign="center center">
-
-
-  <div fxFlexFill fxLayoutAlign="center center">
-    <mat-card fxFlex="35">
-      <div fxLayout="column" fxLayoutAlign="center center">
-        <img src="assets/coa.png">
-        <h2 fxLayout="column" fxLayoutAlign="center center" style="font-size: 1em;">Mama na Mwana Integration
-          Services</h2>
-      </div>
+<div class="login-container" fxLayout="column" fxLayoutAlign="center center">
+  <mat-card class="login-card">
+    <div fxLayout="column" fxLayoutAlign="center center">
+      <img src="assets/coa.png">
+      <h2 fxLayout="column" fxLayoutAlign="center center" style="font-size: 1em;">Mama na Mwana Integration
+        Services</h2>
+    </div>
+    <!--    <mat-card-title>Mama na Mwana Integration Services</mat-card-title>-->
+    <mat-card-content>
       <form (ngSubmit)="loginProcess()" [formGroup]="formGroup" fxLayout="column" fxLayoutAlign="stretch">
         <mat-form-field appearance="fill">
           <mat-label>Username</mat-label>
@@ -21,6 +20,6 @@
         </mat-form-field>
         <button color="primary" mat-raised-button type="submit">Login</button>
       </form>
-    </mat-card>
-  </div>
+    </mat-card-content>
+  </mat-card>
 </div>
