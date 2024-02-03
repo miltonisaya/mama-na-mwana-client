@@ -4,48 +4,45 @@
     class="loader-container"
     mode="indeterminate"
   >
-
   </mat-progress-bar>
 </div>
-<div class="mat-elevation-z8">
-  <mat-toolbar color="primary">
-    <mat-toolbar-row>
-      <button (click)="toggleSidebar()" mat-icon-button>
-        <mat-icon>menu</mat-icon>
-      </button>
+<mat-toolbar color="primary" class="mat-elevation-z1">
+  <mat-toolbar-row>
+    <button (click)="toggleSidebar()" mat-icon-button>
+      <mat-icon>menu</mat-icon>
+    </button>
 
-      <span>Mama na Mwana Integration Services</span>
+    <span>Mama na Mwana Integration Services</span>
 
-      <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
-        <ul fxLayout="row" fxLayoutGap="20px">
-          <li>
-            <button mat-icon-button>
-              <mat-icon>settings</mat-icon>
+    <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+      <ul fxLayout="row" fxLayoutGap="20px">
+        <li>
+          <button mat-icon-button>
+            <mat-icon>settings</mat-icon>
+          </button>
+        </li>
+        <li>
+          <button mat-icon-button>
+            <mat-icon>help_outline</mat-icon>
+          </button>
+        </li>
+        <li>
+          <button [matMenuTriggerFor]="menu" mat-button>
+            <mat-icon>person_outline</mat-icon>
+          </button>
+          <mat-menu #menu="">
+            <button (click)="profile()" mat-menu-item>
+              <mat-icon>supervised_user_circle</mat-icon>
+              Profile
             </button>
-          </li>
-          <li>
-            <button mat-icon-button>
-              <mat-icon>help_outline</mat-icon>
+            <button (click)="signOut()" mat-menu-item>
+              <mat-icon>exit_to_app</mat-icon>
+              Sign Out
             </button>
-          </li>
-          <li>
-            <button [matMenuTriggerFor]="menu" mat-button>
-              <mat-icon>person_outline</mat-icon>
-            </button>
-            <mat-menu #menu="">
-              <button (click)="profile()" mat-menu-item>
-                <mat-icon>supervised_user_circle</mat-icon>
-                Profile
-              </button>
-              <button (click)="signOut()" mat-menu-item>
-                <mat-icon>exit_to_app</mat-icon>
-                Sign Out
-              </button>
-            </mat-menu>
-          </li>
-        </ul>
+          </mat-menu>
+        </li>
+      </ul>
 
-      </div>
-    </mat-toolbar-row>
-  </mat-toolbar>
-</div>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
