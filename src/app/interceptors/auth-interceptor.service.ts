@@ -4,13 +4,16 @@ import {Observable, throwError} from 'rxjs';
 import {AuthService} from '../components/auth/auth.service';
 import {Router} from '@angular/router';
 import {catchError} from 'rxjs/operators';
+import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
+import {LoginDialogComponent} from "../components/login-dialog/login-dialog.component";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
   constructor(
     public auth: AuthService,
-    public router: Router
+    public router: Router,
+    public dialog: MatDialog
   ) {
   }
 
@@ -24,8 +27,10 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError(response => {
         if (response.status === 401) {
-          console.log("Response unauthorized =>",response);
-          this.router.navigate(["/login"]);
+          localStorage.setItem("CURRENT_ROUTE", JSON.stringify(this.router.url));
+          this.openLoginDialog();
+          console.log("Response unauthorized =>", response);
+          // this.router.navigate(["/login"]);
           return next.handle(request);
         }
         return throwError(response);
@@ -33,9 +38,13 @@ export class AuthInterceptor implements HttpInterceptor {
     )
   }
 
-  private showLoginDialog() {
-    // Implement logic to show your login dialog here
-    // You might want to use a dialog component or a service to manage the login dialog
-    console.log('Show login dialog...');
+  openLoginDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    this.dialog.open(LoginDialogComponent, dialogConfig)
+      .afterClosed().subscribe(() => {
+      console.log("Dialog closed ...")
+    });
   }
 }
