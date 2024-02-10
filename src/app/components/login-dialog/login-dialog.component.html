@@ -1,0 +1,16 @@
+<h2>Login</h2>
+<div>
+    <form (ngSubmit)="loginProcess()" [formGroup]="formGroup" fxLayout="column" fxLayoutAlign="stretch">
+        <mat-form-field appearance="fill">
+            <mat-label>Username</mat-label>
+            <mat-icon matSuffix>perm_identity</mat-icon>
+            <input autocomplete="off" formControlName="username" matInput placeholder="Username">
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="">
+            <mat-label>Password</mat-label>
+            <mat-icon matSuffix>vpn_key</mat-icon>
+            <input autocomplete="off" formControlName="password" matInput placeholder="Password" type="password">
+        </mat-form-field>
+        <button color="primary" mat-raised-button type="submit">Login</button>
+    </form>
+</div>
