@@ -42,12 +42,14 @@ import {MenuService} from './components/menus/menu.service';
 import {DashboardModule} from "./components/dashboard/dashboard.module";
 import {ReportModule} from "./components/reports/report.module";
 import {ReportService} from "./components/reports/report.service";
+import {LoginDialogComponent} from "./components/login-dialog/login-dialog.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    NotifierComponent
+    NotifierComponent,
+    LoginDialogComponent
   ],
   imports: [
     BrowserModule,
