@@ -15,7 +15,7 @@ import {ContactDialogComponent} from "./modals/contact-dialog-component";
   styleUrls: ['./contacts.component.scss']
 })
 export class ContactsComponent implements OnInit {
-  displayedColumns: string[] = ["sno", 'name', 'facilityCode', 'urn', 'age', 'actions'];
+  displayedColumns: string[] = ["sno", 'name', 'facilityCode', 'urn','sex', 'age', 'actions'];
   contacts: any = [];
   userId: string;
   @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;

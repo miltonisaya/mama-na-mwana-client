@@ -35,6 +35,13 @@
       <td *matCellDef="let contacts" mat-cell> {{contacts.urn}} </td>
     </ng-container>
 
+    
+    <!-- Sex Column -->
+    <ng-container matColumnDef="sex">
+      <th *matHeaderCellDef mat-header-cell>Sex</th>
+      <td *matCellDef="let contacts" mat-cell> {{contacts.sex}} </td>
+    </ng-container>
+
     <!-- URN Column -->
     <ng-container matColumnDef="age">
       <th *matHeaderCellDef mat-header-cell>Age</th>
