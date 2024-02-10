@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../auth/auth.service";
 import {NotifierService} from "../notifications/notifier.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
@@ -18,7 +18,8 @@ export class LoginDialogComponent implements OnInit {
     public notifierService: NotifierService,
     public router: Router,
     public dialog: MatDialog
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -37,8 +38,9 @@ export class LoginDialogComponent implements OnInit {
         if (response.data.user) {
           this.notifierService.showNotification(response.message, 'OK', 'success');
           let currentRoute = JSON.parse(localStorage.getItem("CURRENT_ROUTE"));
-          console.log("Current route =>",currentRoute);
-          this.router.navigate([`${currentRoute}`]);
+          this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+            this.router.navigate([`${currentRoute}`])
+          });
           this.dialog.closeAll();
         }
       }, error => {
