@@ -94,7 +94,7 @@ export class FlowKeyService {
     };
   }
 
-  mapDataElementsWithCategory(data: { noDataElementId: any; yesDataElementId: any; categoryId: any }) {
+  mapDataElementsWithCategory(data: { dataElementId: any; categoryId: any }) {
     return this.http.put(this.MAP_DATA_ELEMENT_WITH_CATEGORY_ENDPOINT+"/"+data.categoryId, data)
       .pipe(tap(_ => console.log(`Mapped flow data elements with category=${data.categoryId}`)),
         catchError(this.handleError<any>('Mapped flow category with data elements'))

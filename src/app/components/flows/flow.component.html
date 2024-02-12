@@ -49,6 +49,7 @@
     <ng-container matColumnDef="dataElement">
       <th *matHeaderCellDef mat-header-cell> Data Element</th>
       <td *matCellDef="let flowKeys" mat-cell>
+        <pre>{{flowKeys | json}}</pre>
         <div *ngIf="flowKeys.dataElement !== undefined && flowKeys.dataElement !== null" style="color: #239e23;">
           <ul>
             <li>Name: {{ flowKeys.dataElement.name }}</li>
@@ -74,15 +75,11 @@
               <span (click)="openMapCategoryDialog(category)" class="success">
                 {{ category.name }}
                 <div style="font-size: small; font-weight: bold">
-                <p *ngIf="category.yesDataElement !== null && category.yesDataElement !== undefined">
-                  Yes Data element: {{ category.yesDataElement.name }}
-                </p>
-                <p *ngIf="category.noDataElement !== null && category.noDataElement !== undefined">
-                  No Data element: {{ category.noDataElement.name }}
+                <p *ngIf="category.dataElementId !== null && category.dataElementId !== undefined">
+                  Data element: {{ category.dataElement.name }}
                 </p>
               </div>
               </span>
-
             </li>
           </ul>
         </div>

@@ -13,16 +13,11 @@ import {DataElementService} from "../../../data-elements/dataElement.service";
 })
 
 export class FlowCategoryDialogComponent implements OnInit {
-  dataElementsYes: any;
-  dataElementsNo: any;
-  filteredOptionsYes: any;
-  filteredOptionsNo: any;
+  dataElements: any;
+  filteredOptions: any;
   selectedDataElementYes: any;
-  selectedDataElementNo: any;
-  autoFilter: any;
 
-  yesDataElement = new FormControl();
-  noDataElement = new FormControl();
+  dataElement = new FormControl();
 
   constructor(
     public flowKeyService: FlowKeyService,
@@ -34,41 +29,21 @@ export class FlowCategoryDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getDataElementsYes();
-    this.getDataElementsNo();
-
-    this.filteredOptionsYes = this.yesDataElement.valueChanges
+    this.getDataElements();
+    this.filteredOptions = this.dataElement.valueChanges
       .pipe(
         startWith(''),
         map(value => typeof value === 'string' ? value : value.name),
-        map(name => name ? this._filter(name) : this.dataElementsYes)
-      );
-
-    this.filteredOptionsNo = this.noDataElement.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => typeof value === 'string' ? value : value.name),
-        map(name => name ? this._filter(name) : this.dataElementsNo)
+        map(name => name ? this._filter(name) : this.dataElements)
       );
   }
 
-  getDataElementsYes() {
+  getDataElements() {
     let params = {
       pageSize: 1000
     };
     return this.dataElementService.getDataElements(params).subscribe((response: any) => {
-      this.dataElementsYes = response.data.content;
-    }, error => {
-      this.notifierService.showNotification(error.error.error, 'OK', 'error');
-    });
-  }
-
-  getDataElementsNo() {
-    let params = {
-      pageSize: 1000
-    };
-    return this.dataElementService.getDataElements(params).subscribe((response: any) => {
-      this.dataElementsNo = response.data.content;
+      this.dataElements = response.data.content;
     }, error => {
       this.notifierService.showNotification(error.error.error, 'OK', 'error');
     });
@@ -94,8 +69,7 @@ export class FlowCategoryDialogComponent implements OnInit {
 
   mapCategoryAndDataElement() {
     let data = {
-      yesDataElementId: this.yesDataElement.value.id,
-      noDataElementId: this.noDataElement.value.id,
+      dataElementId: this.dataElement.value.id,
       categoryId: this.data.id
     };
 
@@ -111,19 +85,14 @@ export class FlowCategoryDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  displayFnYes(dataElement: any): string {
+  displayFn(dataElement: any): string {
     this.selectedDataElementYes = dataElement.id;
-    return dataElement && dataElement.name ? dataElement.name : '';
-  }
-
-  displayFnNo(dataElement: any): string {
-    this.selectedDataElementNo = dataElement.id;
     return dataElement && dataElement.name ? dataElement.name : '';
   }
 
   private _filter(name: string): any {
     const filterValue = name.toLowerCase();
-    return this.dataElementsYes.filter(option => option.name.toLowerCase().includes(filterValue));
+    return this.dataElements.filter(option => option.name.toLowerCase().includes(filterValue));
   }
 }
 
