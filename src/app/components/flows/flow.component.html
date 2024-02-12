@@ -49,7 +49,6 @@
     <ng-container matColumnDef="dataElement">
       <th *matHeaderCellDef mat-header-cell> Data Element</th>
       <td *matCellDef="let flowKeys" mat-cell>
-        <pre>{{flowKeys | json}}</pre>
         <div *ngIf="flowKeys.dataElement !== undefined && flowKeys.dataElement !== null" style="color: #239e23;">
           <ul>
             <li>Name: {{ flowKeys.dataElement.name }}</li>
