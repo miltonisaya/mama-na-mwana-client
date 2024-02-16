@@ -19,10 +19,9 @@ export class FlowComponent implements OnInit {
   elementId: any;
   selectedFlowId: any = null;
   flowKeys: any = [];
-  @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('resetDialog') resetDialog: TemplateRef<any>;
-  displayedColumns: string[] = ["sno", 'keyName', 'keyDescription','categories', 'dataElement', 'actions'];
+  displayedColumns: string[] = ["sno", 'keyName','categories', 'dataElement', 'actions'];
   dataSource: MatTableDataSource<any>;
   input: any;
 
@@ -68,7 +67,6 @@ export class FlowComponent implements OnInit {
     return this.FlowService.getKeysByFlowId(id).subscribe((response: any) => {
       this.flowKeys = response.data;
       this.dataSource = new MatTableDataSource<any>(this.flowKeys);
-      this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     }, error => {
       this.notifierService.showNotification(error.error.error, 'OK', 'error');
@@ -106,8 +104,7 @@ export class FlowComponent implements OnInit {
     if (data) {
       const categoriesMappingData = {
         id: data.id,
-        yesDataElementId: data.yesDataElementId,
-        noDataElementId: data.noDataElementId,
+        dataElementId: data.dataElementId
       };
 
       this.dialog.open(FlowCategoryDialogComponent, {data: categoriesMappingData})
@@ -139,7 +136,6 @@ export class FlowComponent implements OnInit {
     return this.FlowService.resetMapping(this.elementId).subscribe((response: any) => {
       this.flowKeys = response.data;
       this.dataSource = new MatTableDataSource<any>(this.flowKeys);
-      this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     }, error => {
       this.notifierService.showNotification(error.error.error, 'OK', 'error');

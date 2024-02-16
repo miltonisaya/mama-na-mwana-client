@@ -16,7 +16,6 @@ export class FlowCategoryDialogComponent implements OnInit {
   dataElements: any;
   filteredOptions: any;
   selectedDataElementYes: any;
-
   dataElement = new FormControl();
 
   constructor(
@@ -73,10 +72,8 @@ export class FlowCategoryDialogComponent implements OnInit {
       categoryId: this.data.id
     };
 
-    console.log("Mapping data ->",data);
-
     this.flowKeyService.mapDataElementsWithCategory(data).subscribe((response: any) => {
-      if (response.status == '200') {
+      if (response.status == '201') {
         this.notifierService.showNotification(response.message, 'OK', 'success');
       }
     }, error => {

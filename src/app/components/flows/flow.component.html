@@ -40,26 +40,12 @@
     </ng-container>
 
     <!-- Description Column -->
-    <ng-container matColumnDef="keyDescription">
-      <th *matHeaderCellDef mat-header-cell> Description</th>
-      <td *matCellDef="let flowKeys" mat-cell> {{ flowKeys.keyDescription }}</td>
-    </ng-container>
-
-    <!-- Description Column -->
     <ng-container matColumnDef="dataElement">
       <th *matHeaderCellDef mat-header-cell> Data Element</th>
       <td *matCellDef="let flowKeys" mat-cell>
-        <div *ngIf="flowKeys.dataElement !== undefined && flowKeys.dataElement !== null" style="color: #239e23;">
-          <ul>
-            <li>Name: {{ flowKeys.dataElement.name }}</li>
-            <li>DHIS UUID: {{ flowKeys.dataElement.dhis2Uid }}</li>
-            <li>DHIS UUID: {{ flowKeys.dataElement.code }}</li>
-          </ul>
-        </div>
-
-        <div *ngIf="flowKeys.dataElement == undefined && flowKeys.dataElement == null">
-          <div style="color: red;">
-            Key Not Mapped
+        <div *ngFor="let category of flowKeys.categories">
+          <div *ngIf="category.dataElement != null">
+            {{ "(" + category?.dataElement?.code + ") -" + category?.dataElement?.name }}
           </div>
         </div>
       </td>
@@ -73,11 +59,6 @@
             <li *ngFor="let category of categories.categories">
               <span (click)="openMapCategoryDialog(category)" class="success">
                 {{ category.name }}
-                <div style="font-size: small; font-weight: bold">
-                <p *ngIf="category.dataElementId !== null && category.dataElementId !== undefined">
-                  Data element: {{ category.dataElement.name }}
-                </p>
-              </div>
               </span>
             </li>
           </ul>
@@ -107,7 +88,6 @@
       <td class="mat-cell" colspan="3">No data matching the filter "{{ input.value }}"</td>
     </tr>
   </table>
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
 
   <!--delete user dialog template-->
   <ng-template #resetDialog>
