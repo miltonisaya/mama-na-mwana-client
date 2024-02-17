@@ -7,6 +7,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {FlowKeyDialogComponent} from './modals/flow-key-dialog/flow-key-dialog-component';
 import {FlowCategoryDialogComponent} from "./modals/flow-category-dialog/flow-category-dialog-component";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-users',
@@ -25,9 +26,8 @@ export class FlowComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
   input: any;
 
-
   constructor(
-    private FlowService: FlowService,
+    private flowService: FlowService,
     private notifierService: NotifierService,
     private dialog: MatDialog
   ) {
@@ -44,15 +44,15 @@ export class FlowComponent implements OnInit {
     let params = {
       pageSize: 1000
     };
-    return this.FlowService.getFlows(params).subscribe((response: any) => {
+    return this.flowService.getFlows(params).subscribe((response: any) => {
       this.flows = response.data.content;
     }, error => {
       this.notifierService.showNotification(error.error.error, 'OK', 'error');
     });
   }
 
-  syncFlows() {
-    return this.FlowService.syncFlows().subscribe((response: any) => {
+  syncFlows(): Subscription {
+    return this.flowService.syncFlows().subscribe((response: any) => {
       this.getFlows();
       if (response.status == '200') {
         this.notifierService.showNotification(response.message, 'OK', 'success');
@@ -64,7 +64,7 @@ export class FlowComponent implements OnInit {
 
   getKeys(event: any) {
     let id = event.value;
-    return this.FlowService.getKeysByFlowId(id).subscribe((response: any) => {
+    return this.flowService.getKeysByFlowId(id).subscribe((response: any) => {
       this.flowKeys = response.data;
       this.dataSource = new MatTableDataSource<any>(this.flowKeys);
       this.dataSource.sort = this.sort;
@@ -73,7 +73,7 @@ export class FlowComponent implements OnInit {
     })
   }
 
-  openMapDataElementDialog(data) {
+  openMapDataElementDialog(data):void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
@@ -98,7 +98,7 @@ export class FlowComponent implements OnInit {
     }
   }
 
-  openMapCategoryDialog(data) {
+  openMapCategoryDialog(data):void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
@@ -123,25 +123,24 @@ export class FlowComponent implements OnInit {
     }
   }
 
-  applyFilter($event: KeyboardEvent) {
+  applyFilter(any: KeyboardEvent): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  openResetDialog(data) {
+  openResetDialog(data): void {
     this.elementId = data.id;
     this.dialog.open(this.resetDialog)
       .afterClosed().subscribe(() => {
     });
   }
 
-  reset(id: String) {
-    return this.FlowService.resetMapping(this.elementId).subscribe((response: any) => {
-      this.flowKeys = response.data;
-      this.dataSource = new MatTableDataSource<any>(this.flowKeys);
-      this.dataSource.sort = this.sort;
+  reset(): void {
+    this.flowService.resetMapping(this.elementId).subscribe(response =>{
+      this.notifierService.showNotification(response.message, 'OK', 'success');
     }, error => {
       this.notifierService.showNotification(error.error.error, 'OK', 'error');
-    })
+      console.log(error);
+    });
   }
 }

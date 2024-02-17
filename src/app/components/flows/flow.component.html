@@ -25,7 +25,7 @@
   <input #input (keyup)="applyFilter($event)" autocomplete="off" matInput>
 </mat-form-field>
 
-<div *ngIf="flowKeys.length !== 0 && flowKeys !== undefined" class="mat-elevation-z8">
+<div *ngIf="flowKeys.length > 0" class="mat-elevation-z8">
   <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table>
     <!-- SNo Column -->
     <ng-container matColumnDef="sno">
