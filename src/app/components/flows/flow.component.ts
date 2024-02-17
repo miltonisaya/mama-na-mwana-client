@@ -1,7 +1,6 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {NotifierService} from '../notifications/notifier.service';
 import {FlowService} from './flow.service';
-import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
@@ -22,7 +21,7 @@ export class FlowComponent implements OnInit {
   flowKeys: any = [];
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('resetDialog') resetDialog: TemplateRef<any>;
-  displayedColumns: string[] = ["sno", 'keyName','categories', 'dataElement', 'actions'];
+  displayedColumns: string[] = ["sno", 'keyName', 'categories', 'dataElement', 'actions'];
   dataSource: MatTableDataSource<any>;
   input: any;
 
@@ -73,7 +72,7 @@ export class FlowComponent implements OnInit {
     })
   }
 
-  openMapDataElementDialog(data):void {
+  openMapDataElementDialog(data): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
@@ -98,7 +97,7 @@ export class FlowComponent implements OnInit {
     }
   }
 
-  openMapCategoryDialog(data):void {
+  openMapCategoryDialog(data): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
@@ -112,7 +111,16 @@ export class FlowComponent implements OnInit {
 
       this.dialog.open(FlowCategoryDialogComponent, {data: categoriesMappingData})
         .afterClosed().subscribe(() => {
-        this.getFlows();
+        /**
+         * Fetch the data using the flow id
+         */
+        return this.flowService.getKeysByFlowId(this.selectedFlowId).subscribe((response: any) => {
+          this.flowKeys = response.data;
+          this.dataSource = new MatTableDataSource<any>(this.flowKeys);
+          this.dataSource.sort = this.sort;
+        }, error => {
+          this.notifierService.showNotification(error.error.error, 'OK', 'error');
+        });
       });
     } else {
       dialogConfig.data = {};
@@ -132,15 +140,29 @@ export class FlowComponent implements OnInit {
     this.elementId = data.id;
     this.dialog.open(this.resetDialog)
       .afterClosed().subscribe(() => {
+      this.dialog.closeAll();
     });
   }
 
-  reset(): void {
-    this.flowService.resetMapping(this.elementId).subscribe(response =>{
+  reset(): any {
+    this.flowService.resetMapping(this.elementId).subscribe(response => {
       this.notifierService.showNotification(response.message, 'OK', 'success');
+
+      /**
+       * Fetch the data using the flow id
+       */
+      return this.flowService.getKeysByFlowId(this.selectedFlowId).subscribe((response: any) => {
+        this.flowKeys = response.data;
+        this.dataSource = new MatTableDataSource<any>(this.flowKeys);
+        this.dataSource.sort = this.sort;
+      }, error => {
+        this.notifierService.showNotification(error.error.error, 'OK', 'error');
+      });
+
     }, error => {
       this.notifierService.showNotification(error.error.error, 'OK', 'error');
       console.log(error);
     });
+    this.dialog.closeAll();
   }
 }
