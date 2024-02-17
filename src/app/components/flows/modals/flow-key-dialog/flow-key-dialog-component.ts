@@ -5,6 +5,7 @@ import {FlowKeyService} from '../../flowkey.service';
 import {DataElementService} from '../../../data-elements/dataElement.service';
 import {FormControl} from '@angular/forms';
 import {map, startWith} from 'rxjs/operators';
+import {FlowService} from "../../flow.service";
 
 @Component({
   selector: 'app-flow-key-dialog',
@@ -25,6 +26,7 @@ export class FlowKeyDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<FlowKeyDialogComponent>,
     public notifierService: NotifierService,
     public dataElementService: DataElementService,
+    public flowService: FlowService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
   }
@@ -78,9 +80,11 @@ export class FlowKeyDialogComponent implements OnInit {
     this.flowKeyService.mapDataElement(data).subscribe((response: any) => {
       if (response.status == '200') {
         this.notifierService.showNotification(response.message, 'OK', 'success');
+        this.flowService.getKeysByFlowId(this.data.flowId);
       }
     }, error => {
       this.notifierService.showNotification(error.error.error, 'OK', 'error');
+      this.flowService.getKeysByFlowId(this.data.flowId);
     });
     this.dialogRef.close();
   }

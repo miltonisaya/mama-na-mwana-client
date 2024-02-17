@@ -23,11 +23,14 @@ export class FlowCategoryDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<FlowCategoryDialogComponent>,
     public notifierService: NotifierService,
     public dataElementService: DataElementService,
+    public flowService: FlowKeyService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
   }
 
   ngOnInit() {
+    console.log("The passed data =>", this.data);
+
     this.getDataElements();
     this.filteredOptions = this.dataElement.valueChanges
       .pipe(
@@ -75,9 +78,12 @@ export class FlowCategoryDialogComponent implements OnInit {
     this.flowKeyService.mapDataElementsWithCategory(data).subscribe((response: any) => {
       if (response.status == '201') {
         this.notifierService.showNotification(response.message, 'OK', 'success');
+        this.flowService.getKeysByFlowId(this.data.flowId);
       }
     }, error => {
       this.notifierService.showNotification(error.error.error, 'OK', 'error');
+      this.flowService.getKeysByFlowId(this.data.flowId);
+      console.log("fetched keys by flow with id " + this.data.flowId);
     });
     this.dialogRef.close();
   }

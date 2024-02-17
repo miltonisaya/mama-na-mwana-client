@@ -104,7 +104,9 @@ export class FlowComponent implements OnInit {
     if (data) {
       const categoriesMappingData = {
         id: data.id,
-        dataElementId: data.dataElementId
+        dataElementId: data.dataElementId,
+        flowId: this.selectedFlowId,
+        categoryName: data.name
       };
 
       this.dialog.open(FlowCategoryDialogComponent, {data: categoriesMappingData})

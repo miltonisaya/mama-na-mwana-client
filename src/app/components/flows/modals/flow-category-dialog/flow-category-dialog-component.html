@@ -1,4 +1,4 @@
-<section class="login-form-container"
+<section class=""
          fxFlexFill
          fxLayout="row"
          fxLayout.xs="column"
@@ -7,8 +7,11 @@
         (ngSubmit)="submitForm(flowKeyService.form)" [formGroup]="flowKeyService.form"
         class="form">
     <h1 class="dialog-header" mat-dialog-title>
-      Map DHIS2 Data Element
+      Map DHIS2 Data Element with Category
     </h1>
+    <h3 style="color: #08c37c; font-weight: bold;">
+      Selected Category: {{ data.categoryName }}
+    </h3>
     <mat-divider></mat-divider>
     <mat-dialog-content class="mat-typography">
       <div class="dialog-content" fxLayout="column" fxLayoutGap="5px">
@@ -22,7 +25,7 @@
           >
           <mat-autocomplete #yes="matAutocomplete" [displayWith]="displayFn">
             <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-              {{ "("+option.code+")"+" - "+ option.name }}
+              {{ "(" + option.code + ")" + " - " + option.name }}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
