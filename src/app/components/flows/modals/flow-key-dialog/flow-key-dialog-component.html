@@ -7,8 +7,11 @@
         (ngSubmit)="submitForm(flowKeyService.form)" [formGroup]="flowKeyService.form"
         class="form">
     <h1 class="dialog-header" mat-dialog-title>
-      {{"Map DHIS2 Data Element"}}
+      Map DHIS2 Data Element and Key
     </h1>
+    <h3 style="color: #08c37c;">
+      Selected Key: {{ data.keyName }}
+    </h3>
     <mat-divider></mat-divider>
     <mat-dialog-content>
       <div class="dialog-content" fxLayout="column" fxLayoutGap="5px">

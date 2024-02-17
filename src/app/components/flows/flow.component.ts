@@ -82,6 +82,7 @@ export class FlowComponent implements OnInit {
         id: data.id,
         keyDescription: data.keyDescription,
         keyName: data.keyName,
+        flowId: this.selectedFlowId,
       };
 
       this.dialog.open(FlowKeyDialogComponent, {data: categoriesMappingData})
