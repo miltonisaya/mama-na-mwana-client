@@ -158,7 +158,6 @@ export class FlowComponent implements OnInit {
       }, error => {
         this.notifierService.showNotification(error.error.error, 'OK', 'error');
       });
-
     }, error => {
       this.notifierService.showNotification(error.error.error, 'OK', 'error');
       console.log(error);
