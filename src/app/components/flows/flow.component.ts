@@ -86,13 +86,31 @@ export class FlowComponent implements OnInit {
 
       this.dialog.open(FlowKeyDialogComponent, {data: categoriesMappingData})
         .afterClosed().subscribe(() => {
-        this.getFlows();
+        /**
+         * Fetch the data using the flow id
+         */
+        return this.flowService.getKeysByFlowId(this.selectedFlowId).subscribe((response: any) => {
+          this.flowKeys = response.data;
+          this.dataSource = new MatTableDataSource<any>(this.flowKeys);
+          this.dataSource.sort = this.sort;
+        }, error => {
+          this.notifierService.showNotification(error.error.error, 'OK', 'error');
+        });
       });
     } else {
       dialogConfig.data = {};
       this.dialog.open(FlowKeyDialogComponent, dialogConfig)
         .afterClosed().subscribe(() => {
-        this.getFlows();
+        /**
+         * Fetch the data using the flow id
+         */
+        return this.flowService.getKeysByFlowId(this.selectedFlowId).subscribe((response: any) => {
+          this.flowKeys = response.data;
+          this.dataSource = new MatTableDataSource<any>(this.flowKeys);
+          this.dataSource.sort = this.sort;
+        }, error => {
+          this.notifierService.showNotification(error.error.error, 'OK', 'error');
+        });
       });
     }
   }

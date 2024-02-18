@@ -36,7 +36,11 @@
     <!-- Name Column -->
     <ng-container matColumnDef="keyName">
       <th *matHeaderCellDef mat-header-cell> Name</th>
-      <td *matCellDef="let flowKeys" mat-cell> {{ flowKeys.keyName }}</td>
+      <td *matCellDef="let flowKeys" mat-cell>
+        <div class="link-data-element" (click)="openMapDataElementDialog(flowKeys)"
+             matTooltip="Click to map data element">{{ flowKeys.keyName }}
+        </div>
+      </td>
     </ng-container>
 
     <!-- Description Column -->
@@ -45,12 +49,12 @@
       <td *matCellDef="let flowKeys" mat-cell>
         <div *ngFor="let category of flowKeys.categories">
           <div *ngIf="category.dataElement != null">
-            {{ "(" + category?.dataElement?.code + ") -" + category?.dataElement?.name }}
+            {{ "(" + category?.dataElement?.code + ") - " + category?.dataElement?.name }}
           </div>
         </div>
 
-        <div *ngIf="flowKeys.dataElement !== null">
-          {{ "(" + flowKeys?.dataElement?.code + ") -" + flowKeys?.dataElement?.name }}
+        <div *ngIf="flowKeys.dataElement !== null" style="color: #08c37c">
+          {{ "(" + flowKeys?.dataElement?.code + ") - " + flowKeys?.dataElement?.name }}
         </div>
       </td>
     </ng-container>
@@ -61,9 +65,10 @@
         <div *ngIf="categories.categories.length > 0">
           <ul>
             <li *ngFor="let category of categories.categories">
-              <span (click)="openMapCategoryDialog(category)" class="success">
+              <div class="link-data-element" (click)="openMapCategoryDialog(category)"
+                   matTooltip="Click to map data element">
                 {{ category.name }}
-              </span>
+              </div>
             </li>
           </ul>
         </div>
@@ -74,10 +79,6 @@
     <ng-container matColumnDef="actions">
       <th *matHeaderCellDef mat-header-cell>Action</th>
       <td *matCellDef="let flowKeys" mat-cell>
-        <button mat-icon-button matTooltip="Map Data Element" matTooltipPosition="left">
-          <mat-icon (click)="openMapDataElementDialog(flowKeys)">sync_alt</mat-icon>
-        </button>
-
         <button mat-icon-button matTooltip="Reset Mapping" matTooltipPosition="left">
           <mat-icon (click)="openResetDialog(flowKeys)">undo</mat-icon>
         </button>
