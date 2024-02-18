@@ -48,6 +48,10 @@
             {{ "(" + category?.dataElement?.code + ") -" + category?.dataElement?.name }}
           </div>
         </div>
+
+        <div *ngIf="flowKeys.dataElement !== null">
+          {{ "(" + flowKeys?.dataElement?.code + ") -" + flowKeys?.dataElement?.name }}
+        </div>
       </td>
     </ng-container>
 
