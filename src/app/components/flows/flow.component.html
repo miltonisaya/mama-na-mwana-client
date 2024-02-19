@@ -48,13 +48,13 @@
       <th *matHeaderCellDef mat-header-cell> Data Element</th>
       <td *matCellDef="let flowKeys" mat-cell>
         <div *ngFor="let category of flowKeys.categories">
-          <div *ngIf="category.dataElement">
+          <span *ngIf="category.dataElement">
             {{ "(" + category?.dataElement?.code + ") - " + category?.dataElement?.name }}
-          </div>
+          </span>
 
-          <div *ngIf="category.dataElement" class="link-data-element" (click)="openSetPossibleValuesDialog(category)">
-            Set Possible True Values
-          </div>
+          <!--          <span *ngIf="category.possibleTrueValues" style="color: teal;">-->
+          <!--            >> [{{ category.possibleTrueValues }}]-->
+          <!--          </span>-->
         </div>
 
         <div *ngIf="flowKeys.dataElement" style="color: teal">
@@ -66,13 +66,17 @@
     <ng-container matColumnDef="categories">
       <th *matHeaderCellDef mat-header-cell> Categories</th>
       <td *matCellDef="let categories" mat-cell>
-        <div *ngIf="categories.categories.length > 0">
+        <div *ngIf="categories.categories.length > 0" style="align-content: space-around;">
           <ul>
             <li *ngFor="let category of categories.categories">
-              <div class="link-data-element" (click)="openMapCategoryDialog(category)"
+              <div class="link-data-element" style="justify-content: flex-start" (click)="openMapCategoryDialog(category)"
                    matTooltip="Click to map data element">
                 {{ category.name }}
               </div>
+              <span *ngIf="category.possibleTrueValues" style="color: teal;"> >> [{{ category.possibleTrueValues }}] </span>
+              <span *ngIf="category.dataElement" (click)="openSetPossibleValuesDialog(category)">
+                <mat-icon style="align-content: center;">add</mat-icon>
+              </span>
             </li>
           </ul>
         </div>

@@ -191,10 +191,10 @@ export class FlowComponent implements OnInit {
     dialogConfig.width = '500px';
     if (data) {
       const possibleTrueValues = {
-        possibleTrueValues: []
+        possibleTrueValues: data
       };
 
-      this.dialog.open(PossibleTrueValuesComponent,{data: possibleTrueValues})
+      this.dialog.open(PossibleTrueValuesComponent, {data: possibleTrueValues})
         .afterClosed().subscribe(() => {
         /**
          * Fetch the data using the flow id
