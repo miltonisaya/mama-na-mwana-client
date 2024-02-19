@@ -9,6 +9,7 @@ import {FlowComponent} from './flow.component';
 import {FlowKeyDialogComponent} from './modals/flow-key-dialog/flow-key-dialog-component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {FlowCategoryDialogComponent} from "./modals/flow-category-dialog/flow-category-dialog-component";
+import {PossibleTrueValuesComponent} from "./modals/possible-true-values-dialog/possible-true-values-component";
 
 @NgModule({
   imports: [
@@ -24,7 +25,8 @@ import {FlowCategoryDialogComponent} from "./modals/flow-category-dialog/flow-ca
   declarations: [
     FlowComponent,
     FlowKeyDialogComponent,
-    FlowCategoryDialogComponent
+    FlowCategoryDialogComponent,
+    PossibleTrueValuesComponent
   ]
 })
 export class FlowsModule {

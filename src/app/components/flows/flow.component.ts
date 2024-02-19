@@ -7,6 +7,7 @@ import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {FlowKeyDialogComponent} from './modals/flow-key-dialog/flow-key-dialog-component';
 import {FlowCategoryDialogComponent} from "./modals/flow-category-dialog/flow-category-dialog-component";
 import {Subscription} from "rxjs";
+import {PossibleTrueValuesComponent} from "./modals/possible-true-values-dialog/possible-true-values-component";
 
 @Component({
   selector: 'app-users',
@@ -181,5 +182,37 @@ export class FlowComponent implements OnInit {
       console.log(error);
     });
     this.dialog.closeAll();
+  }
+
+  openSetPossibleValuesDialog(data: any) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '500px';
+    if (data) {
+      const possibleTrueValues = {
+        possibleTrueValues: []
+      };
+
+      this.dialog.open(PossibleTrueValuesComponent,{data: possibleTrueValues})
+        .afterClosed().subscribe(() => {
+        /**
+         * Fetch the data using the flow id
+         */
+        return this.flowService.getKeysByFlowId(this.selectedFlowId).subscribe((response: any) => {
+          this.flowKeys = response.data;
+          this.dataSource = new MatTableDataSource<any>(this.flowKeys);
+          this.dataSource.sort = this.sort;
+        }, error => {
+          this.notifierService.showNotification(error.error.error, 'OK', 'error');
+        });
+      });
+    } else {
+      dialogConfig.data = {};
+      this.dialog.open(PossibleTrueValuesComponent, dialogConfig)
+        .afterClosed().subscribe(() => {
+        this.getFlows();
+      });
+    }
   }
 }

@@ -51,9 +51,13 @@
           <div *ngIf="category.dataElement">
             {{ "(" + category?.dataElement?.code + ") - " + category?.dataElement?.name }}
           </div>
+
+          <div *ngIf="category.dataElement" class="link-data-element" (click)="openSetPossibleValuesDialog(category)">
+            Set Possible True Values
+          </div>
         </div>
 
-        <div *ngIf="flowKeys.dataElement" style="color: #08c37c">
+        <div *ngIf="flowKeys.dataElement" style="color: teal">
           {{ "(" + flowKeys?.dataElement?.code + ") - " + flowKeys?.dataElement?.name }}
         </div>
       </td>

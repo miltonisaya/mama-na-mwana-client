@@ -19,13 +19,16 @@ export class FlowKeyService {
     dataElementId: new FormControl('', [Validators.required]),
     rapidProFlowId: new FormControl('', [Validators.required])
   });
+
   private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
   private SYNC_API_ENDPOINT = `${BASE_URL}/${SYNC_RESOURCE_URL}`;
   private KEYS_BY_FLOW_ID_ENDPOINT = `${BASE_URL}/${FLOW_KEYS_API}`;
   private MAP_DATA_ELEMENT_ENDPOINT = `${BASE_URL}/${MAP_DATA_ELEMENT_API}`;
   private MAP_DATA_ELEMENT_WITH_CATEGORY_ENDPOINT = `${BASE_URL}/${MAP_DATA_ELEMENT_WITH_CATEGORY_API}`;
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient
+  ) {
   }
 
   getFlows(param?): Observable<any> {
@@ -53,7 +56,6 @@ export class FlowKeyService {
   }
 
   initializeFormGroup() {
-
   }
 
   updateFlowKey(flowKey): Observable<any> {
@@ -95,7 +97,7 @@ export class FlowKeyService {
   }
 
   mapDataElementsWithCategory(data: { dataElementId: any; categoryId: any }) {
-    return this.http.put(this.MAP_DATA_ELEMENT_WITH_CATEGORY_ENDPOINT+"/"+data.categoryId, data)
+    return this.http.put(this.MAP_DATA_ELEMENT_WITH_CATEGORY_ENDPOINT + "/" + data.categoryId, data)
       .pipe(tap(_ => console.log(`Mapped flow data elements with category=${data.categoryId}`)),
         catchError(this.handleError<any>('Mapped flow category with data elements'))
       );
