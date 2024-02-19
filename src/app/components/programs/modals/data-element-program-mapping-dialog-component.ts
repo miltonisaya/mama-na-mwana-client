@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {NotifierService} from '../../notifications/notifier.service';
 import {DataElementService} from '../../data-elements/dataElement.service';
 import {PrimeNGConfig} from "primeng/api";
@@ -21,6 +21,7 @@ export class DataElementProgramMappingDialogComponent implements OnInit {
     public dataElementService: DataElementService,
     public programService: ProgramService,
     private primengConfig: PrimeNGConfig,
+    private matDialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
   }
@@ -58,6 +59,7 @@ export class DataElementProgramMappingDialogComponent implements OnInit {
       this.notifierService.showNotification(error.error.error, 'OK', 'error');
       console.log("Error =>", error);
     })
+    this.matDialog.closeAll()
   }
 }
 
