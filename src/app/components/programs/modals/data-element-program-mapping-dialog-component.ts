@@ -54,12 +54,12 @@ export class DataElementProgramMappingDialogComponent implements OnInit {
       response.data.content;
       console.log("Response=>", response);
       this.notifierService.showNotification(response.message.message, 'OK', 'success');
-
+      this.matDialog.closeAll()
     }, error => {
       this.notifierService.showNotification(error.error.error, 'OK', 'error');
       console.log("Error =>", error);
+      this.matDialog.closeAll()
     })
-    this.matDialog.closeAll()
   }
 }
 
