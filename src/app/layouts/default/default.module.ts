@@ -20,7 +20,6 @@ import {ProgramComponent} from '../../components/programs/program.component';
 import {MatTabsModule} from "@angular/material/tabs";
 import {AuthorityComponent} from "../../components/authorities/authority.component";
 import {MenuComponent} from "../../components/menus/menu.component";
-import {NgxJsonViewerModule} from "ngx-json-viewer";
 
 
 @NgModule({
@@ -46,8 +45,7 @@ import {NgxJsonViewerModule} from "ngx-json-viewer";
     ReactiveFormsModule,
     MatCardModule,
     MatTreeModule,
-    MatTabsModule,
-    NgxJsonViewerModule
+    MatTabsModule
   ],
   providers: [
     DashboardService,
