@@ -29,8 +29,7 @@
       <div class="transaction-logs">
         <b>Date Processed:</b> {{trx.dateProcessed}}
         <br>
-        <b>Payload:</b>
-<!--        <ngx-json-viewer [expanded]="false" [json]=parseToJson(trx.payload)></ngx-json-viewer>-->
+        <b>Payload:</b>{{trx.payload}}
         <br>
         <b>DHIS2 Response:</b> {{trx.dhisResponse}}
         <div *ngIf="trx.isSent" class="success-transactions">
