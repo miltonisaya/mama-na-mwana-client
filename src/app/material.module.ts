@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
 
@@ -63,7 +63,10 @@ import {MatNativeDateModule} from "@angular/material/core";
     FlexLayoutModule,
     MatMenuModule,
     MatProgressBarModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
   ],
   exports: [
     MatButtonModule,
@@ -87,11 +90,15 @@ import {MatNativeDateModule} from "@angular/material/core";
     MatProgressBarModule,
     ReactiveFormsModule,
     MatDialogModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
   ],
   providers: [
     MatDatepickerModule,
-  ]
+  ],
+  schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA]
 })
 
 export class AngularMaterialModule {

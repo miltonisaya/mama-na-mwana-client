@@ -15,6 +15,7 @@ import {PasswordResetComponent} from "./components/password-reset/password-reset
 import {AuthorityComponent} from "./components/authorities/authority.component";
 import {MenuComponent} from './components/menus/menu.component';
 import {ReportComponent} from './components/reports/report.component';
+import {DatasetsComponent} from "./components/datasets/datasets.component";
 
 
 const routes: Routes = [{
@@ -54,6 +55,10 @@ const routes: Routes = [{
     }, {
       path: 'programs',
       component: ProgramComponent,
+      canActivate: [AuthGuard],
+    }, {
+      path: 'data-sets',
+      component: DatasetsComponent,
       canActivate: [AuthGuard],
     }, {
       path: 'profile',

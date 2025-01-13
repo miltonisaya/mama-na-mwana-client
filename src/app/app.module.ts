@@ -43,13 +43,15 @@ import {DashboardModule} from "./components/dashboard/dashboard.module";
 import {ReportModule} from "./components/reports/report.module";
 import {ReportService} from "./components/reports/report.service";
 import {LoginDialogComponent} from "./components/login-dialog/login-dialog.component";
+import { DatasetsComponent } from './components/datasets/datasets.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     NotifierComponent,
-    LoginDialogComponent
+    LoginDialogComponent,
+    DatasetsComponent
   ],
   imports: [
     BrowserModule,
