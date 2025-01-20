@@ -1,75 +1,104 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable, of} from 'rxjs';
-import {environment} from '../../../environments/environment';
-import {catchError, map, tap} from 'rxjs/operators';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {Observable, throwError} from 'rxjs';
+import {catchError, retry} from 'rxjs/operators';
+import {environment} from "../../../environments/environment";
 
 export const BASE_URL: string = environment.baseURL;
-export const RESOURCE_URL: string = 'api/v1/rapidpro-flows';
-export const SYNC_RESOURCE_URL: string = 'api/v1/sync-rapidpro-flows';
-export const FLOW_KEYS_API: string = 'api/v1/get-rapid-pro-flow-keys-by-flow-id';
-export const FLOW_KEY_MAPPING_API: string = 'api/v1/reset-mapping';
 
-@Injectable()
-export class FlowService {
-  form: FormGroup = new FormGroup({
-    id: new FormControl(''),
-    name: new FormControl('', [Validators.required]),
-    description: new FormControl('', [Validators.required])
-  });
-  private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
-  private SYNC_API_ENDPOINT = `${BASE_URL}/${SYNC_RESOURCE_URL}`;
-  private KEYS_BY_FLOW_ID_ENDPOINT = `${BASE_URL}/${FLOW_KEYS_API}`;
-  private RESET_MAPPING_ENDPOINT = `${BASE_URL}/${FLOW_KEY_MAPPING_API}`;
+export interface Dataset {
+  id: string;
+  name: string;
+  code: string;
+  description?: string;
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+
+export class DatasetsService {
+  private readonly baseApiUrl = BASE_URL + "/api/v1"; // Replace with your base API URL
+  private datasetsEndpoint = `${this.baseApiUrl}/dataSets`;
 
   constructor(private http: HttpClient) {
   }
 
-  getFlows(param?): Observable<any> {
-    return this.http.get<any>(this.API_ENDPOINT, {params: param}).pipe(
-      map(this.extractData));
-  }
+  /**
+   * Get all datasets
+   * @returns Observable of Dataset array
+   */
+  getAllDatasets(): Observable<Dataset[]> {
+    console.log(this.datasetsEndpoint);
 
-  syncFlows() {
-    return this.http.get<any>(this.SYNC_API_ENDPOINT).pipe(
-      map(this.extractData));
-  }
-
-  getKeysByFlowId(id) {
-    return this.http.get(<any>(this.KEYS_BY_FLOW_ID_ENDPOINT + "/" + id)).pipe(
-      map(this.extractData));
-  }
-
-  resetMapping(id): Observable<any> {
-    console.log(id);
-    return this.http.put(this.RESET_MAPPING_ENDPOINT + "/" + id, id)
-      .pipe(tap(_ => console.log(`updated flow with id=${id}`)),
-        catchError(this.handleError<any>('update flow'))
-      );
+    return this.http.get<Dataset[]>(this.datasetsEndpoint).pipe(
+      retry(3), // Retry the request up to 3 times
+      catchError(this.handleError)
+    );
   }
 
   /**
-   * helper function to extract data since
-   * we are not using a type checker in the request
-   * @returns Observable
-   *
-   * @param res
+   * @returns Observable of the Dataset
    */
-  private extractData(res: Response) {
-    const body = res;
-    return body || {};
+  syncDatasets(): Observable<any> {
+    const url = `${this.datasetsEndpoint}/sync-data-sets`;
+    console.log("The url =>", url);
+    return this.http.get<any>(url).pipe(
+      catchError(this.handleError)
+    );
   }
 
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
+  /**
+   * Create a new dataset
+   * @param dataset Dataset object
+   * @returns Observable of the created Dataset
+   */
+  createDataset(dataset: Dataset): Observable<Dataset> {
+    return this.http.post<Dataset>(this.datasetsEndpoint, dataset).pipe(
+      catchError(this.handleError)
+    );
+  }
 
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
+  /**
+   * Update an existing dataset
+   * @param id Dataset ID
+   * @param dataset Dataset object
+   * @returns Observable of the updated Dataset
+   */
+  updateDataset(id: string, dataset: Partial<Dataset>): Observable<Dataset> {
+    const url = `${this.datasetsEndpoint}/${id}`;
+    return this.http.put<Dataset>(url, dataset).pipe(
+      catchError(this.handleError)
+    );
+  }
 
-      // TODO: better job of transforming error for user consumption
-      console.log(`${operation} failed: ${error.message}`);
-      return of(result as T);
-    };
+  /**
+   * Delete a dataset
+   * @param id Dataset ID
+   * @returns Observable of void
+   */
+  deleteDataset(id: string): Observable<void> {
+    const url = `${this.datasetsEndpoint}/${id}`;
+    return this.http.delete<void>(url).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  /**
+   * Handle HTTP errors
+   * @param error HttpErrorResponse
+   * @returns Observable that throws an error
+   */
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    if (error.error instanceof ErrorEvent) {
+      // Client-side or network error
+      console.error('Client-side error:', error.error.message);
+    } else {
+      // Backend error
+      console.error(
+        `Server-side error: ${error.status} - ${error.message}`
+      );
+    }
+    return throwError(() => new Error('Something went wrong; please try again later.'));
   }
 }
