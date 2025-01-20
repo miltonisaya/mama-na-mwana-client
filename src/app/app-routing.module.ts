@@ -57,7 +57,7 @@ const routes: Routes = [{
       component: ProgramComponent,
       canActivate: [AuthGuard],
     }, {
-      path: 'data-sets',
+      path: 'datasets',
       component: DatasetsComponent,
       canActivate: [AuthGuard],
     }, {

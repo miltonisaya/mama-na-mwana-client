@@ -1,0 +1,13 @@
+.filter-container {
+  margin-bottom: 16px;
+}
+
+.full-width-table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.full-width-table th,
+.full-width-table td {
+  word-wrap: break-word;
+}
