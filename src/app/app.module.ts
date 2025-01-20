@@ -44,6 +44,7 @@ import {ReportModule} from "./components/reports/report.module";
 import {ReportService} from "./components/reports/report.service";
 import {LoginDialogComponent} from "./components/login-dialog/login-dialog.component";
 import { DatasetsComponent } from './components/datasets/datasets.component';
+import {DatasetsService} from "./components/datasets/datasets.service";
 
 @NgModule({
   declarations: [
@@ -92,6 +93,7 @@ import { DatasetsComponent } from './components/datasets/datasets.component';
     AuthorityService,
     MenuService,
     ReportService,
+    DatasetsService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
     AuthGuard
