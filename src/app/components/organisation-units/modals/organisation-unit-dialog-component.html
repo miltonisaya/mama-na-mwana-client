@@ -7,7 +7,7 @@
         (ngSubmit)="submitForm(OrganisationUnitService.form)" [formGroup]="OrganisationUnitService.form"
         class="form">
     <h1 class="dialog-header" mat-dialog-title>
-      {{OrganisationUnitService.form.controls['id'].value ? "Edit Organisation Unit" : "Create Organisation Unit"}}
+      {{ OrganisationUnitService.form.controls['id'].value ? "Edit Organisation Unit" : "Create Organisation Unit" }}
     </h1>
     <mat-divider></mat-divider>
     <mat-dialog-content>
@@ -32,7 +32,7 @@
                  formControlName="otherNames"
                  matInput
                  placeholder="Enter other names"
-                 required>
+          >
         </mat-form-field>
 
         <div fxLayout="column" fxLayoutAlign="space-evenly stretch">
@@ -41,7 +41,7 @@
             <input [formControl]="myControl" [matAutocomplete]="auto" matInput type="text">
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
               <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                {{option.name}}
+                {{ option.name }}
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
@@ -58,7 +58,7 @@
           mat-raised-button
           type="submit"
         >
-          {{OrganisationUnitService.form.controls['id'].value ? "UPDATE" : "CREATE"}}
+          {{ OrganisationUnitService.form.controls['id'].value ? "UPDATE" : "CREATE" }}
         </button>
       </div>
     </mat-dialog-actions>

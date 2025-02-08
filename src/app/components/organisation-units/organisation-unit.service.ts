@@ -14,6 +14,7 @@ export class OrganisationUnitService {
     id: new FormControl(''),
     name: new FormControl('', [Validators.required]),
     code: new FormControl('', [Validators.required]),
+    otherNames: new FormControl(''),
     parentId: new FormControl('')
   });
   private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
@@ -50,7 +51,8 @@ export class OrganisationUnitService {
       id: '',
       name: '',
       code: '',
-      parentId: ''
+      parentId: '',
+      otherNames:''
     });
   }
 
