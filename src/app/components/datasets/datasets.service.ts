@@ -3,14 +3,15 @@ import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {catchError, retry} from 'rxjs/operators';
 import {environment} from "../../../environments/environment";
+import {DataElement} from "../data-elements/dataElement";
 
 export const BASE_URL: string = environment.baseURL;
 
 export interface Dataset {
   id: string;
-  name: string;
+  displayName: string;
   code: string;
-  description?: string;
+  dataElements?: DataElement[];
 }
 
 @Injectable({
@@ -19,7 +20,8 @@ export interface Dataset {
 
 export class DatasetsService {
   private readonly baseApiUrl = BASE_URL + "/api/v1"; // Replace with your base API URL
-  private datasetsEndpoint = `${this.baseApiUrl}/dataSets`;
+  private datasetsEndpoint = `${this.baseApiUrl}/data-sets`;
+  private dataElementEndpoint = `${this.baseApiUrl}/data-elements`;
 
   constructor(private http: HttpClient) {
   }
@@ -28,10 +30,9 @@ export class DatasetsService {
    * Get all datasets
    * @returns Observable of Dataset array
    */
-  getAllDatasets(): Observable<Dataset[]> {
+  getAllDatasets(): Observable<any> {
     console.log(this.datasetsEndpoint);
-
-    return this.http.get<Dataset[]>(this.datasetsEndpoint).pipe(
+    return this.http.get<any>(this.datasetsEndpoint).pipe(
       retry(3), // Retry the request up to 3 times
       catchError(this.handleError)
     );
@@ -100,5 +101,13 @@ export class DatasetsService {
       );
     }
     return throwError(() => new Error('Something went wrong; please try again later.'));
+  }
+
+  findByDataset(selectedDataSetId: string): Observable<any> {
+    const url = `${this.dataElementEndpoint}/datasets/${selectedDataSetId}`;
+    console.log('The url =>', url);
+    return this.http.get<any>(url).pipe(
+      catchError(this.handleError)
+    );
   }
 }

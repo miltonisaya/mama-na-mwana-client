@@ -1,11 +1,12 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
-import {Program} from "../programs/program";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {NotifierService} from "../notifications/notifier.service";
 import {MatDialog} from "@angular/material/dialog";
-import {DatasetsService} from "./datasets.service";
+import {Dataset, DatasetsService} from "./datasets.service";
+import {MatSelectChange} from "@angular/material/select";
+import {DataElement} from "../data-elements/dataElement";
 
 @Component({
   selector: 'app-datasets',
@@ -15,12 +16,14 @@ import {DatasetsService} from "./datasets.service";
 export class DatasetsComponent implements OnInit {
   displayedColumns: string[] = ["sno", 'name', 'code', 'dhis2uid', 'actions'];
   programs: any = [];
-  dataSource: MatTableDataSource<Program>;
+  dataSource: MatTableDataSource<Dataset>;
   pageSize: any;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  datasets: any;
+  datasets: Dataset[];
   error: any;
+  selectedDataSetId: any;
+  dataElements: DataElement[];
 
   constructor(
     private datasetsService: DatasetsService,
@@ -34,16 +37,20 @@ export class DatasetsComponent implements OnInit {
   }
 
   fetchDatasets(): void {
-    this.datasetsService.getAllDatasets().subscribe({
-      next: (data) => (this.datasets = data),
-      error: (err) => (this.error = err.message),
+    this.datasetsService.getAllDatasets().subscribe(response => {
+      this.datasets = response.data.content;
+      this.dataSource = new MatTableDataSource<Dataset>(response.data.content);
+    }, error => {
+      this.error = error;
     });
   }
 
   syncDatasets() {
-    this.datasetsService.syncDatasets();
-    this.fetchDatasets();
-    console.log("Synchronizing data sets")
+    this.datasetsService.syncDatasets().subscribe(res => {
+      console.log('Sync Response =>', res.data.content);
+    }, err => {
+      this.error = err.message;
+    });
   }
 
   applyFilter($event: KeyboardEvent) {
@@ -52,6 +59,13 @@ export class DatasetsComponent implements OnInit {
 
   openMappingDialog(id) {
     console.log(id);
+  }
 
+  getDataElementsByDataset($event: MatSelectChange) {
+    this.datasetsService.findByDataset(this.selectedDataSetId).subscribe(response => {
+      this.dataElements = response.data.data;
+    }, error => {
+      console.log(error);
+    })
   }
 }
