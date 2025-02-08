@@ -46,7 +46,7 @@ export class RoleAuthorityMappingDialogComponent implements OnInit {
 
   saveData() {
     this.data.authorities = this.selectedList;
-    console.log(this.data);
+    console.log('Selected Authorities =>',this.data.authorities);
     return this.authoritiesService.saveRoleAuthorities(this.data).subscribe((response: any) => {
       this.notifierService.showNotification(response.message, 'OK', 'success');
       this.dialogRef.close();
