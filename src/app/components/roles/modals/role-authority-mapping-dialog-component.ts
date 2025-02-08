@@ -14,7 +14,6 @@ import {AuthorityService} from "../../authorities/authority.service";
 export class RoleAuthorityMappingDialogComponent implements OnInit {
   unSelectedList: any[];
   selectedList: [];
-  myControl = new FormControl();
 
   constructor(
     public dialogRef: MatDialogRef<RoleAuthorityMappingDialogComponent>,
@@ -46,7 +45,6 @@ export class RoleAuthorityMappingDialogComponent implements OnInit {
 
   saveData() {
     this.data.authorities = this.selectedList;
-    console.log('Selected Authorities =>',this.data.authorities);
     return this.authoritiesService.saveRoleAuthorities(this.data).subscribe((response: any) => {
       this.notifierService.showNotification(response.message, 'OK', 'success');
       this.dialogRef.close();
