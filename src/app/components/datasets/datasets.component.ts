@@ -16,7 +16,7 @@ import {DataElement} from "../data-elements/dataElement";
 export class DatasetsComponent implements OnInit {
   displayedColumns: string[] = ["sno", 'name', 'code', 'dhis2uid', 'actions'];
   programs: any = [];
-  dataSource: MatTableDataSource<Dataset>;
+  dataSource: MatTableDataSource<DataElement>;
   pageSize: any;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -39,7 +39,6 @@ export class DatasetsComponent implements OnInit {
   fetchDatasets(): void {
     this.datasetsService.getAllDatasets().subscribe(response => {
       this.datasets = response.data.content;
-      this.dataSource = new MatTableDataSource<Dataset>(response.data.content);
     }, error => {
       this.error = error;
     });
@@ -64,6 +63,7 @@ export class DatasetsComponent implements OnInit {
   getDataElementsByDataset($event: MatSelectChange) {
     this.datasetsService.findByDataset(this.selectedDataSetId).subscribe(response => {
       this.dataElements = response.data.data;
+      this.dataSource = new MatTableDataSource<DataElement>(response.data.content);
     }, error => {
       console.log(error);
     })
