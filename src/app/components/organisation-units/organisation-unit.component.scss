@@ -53,10 +53,10 @@ table {
   padding-left: 40px;
 }
 
-mat-tree-node.selected {
-  border-radius: 3px;
-  color: green;
-  font-weight: bold;
+.example-tree-invisible {
+  display: none;
 }
 
-
+.example-tree {
+  width: 100%;
+}
