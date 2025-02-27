@@ -34,3 +34,20 @@ div ul.more-than-10 li {
   text-decoration: underline;
   color: teal;
 }
+
+/* manage-flows.component.css */
+
+/* Prevent text wrapping in the Categories column */
+.mat-column-categories {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Optional: Enable horizontal scrolling for the table */
+.mat-table {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+

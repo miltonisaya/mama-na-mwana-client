@@ -6,7 +6,7 @@ import {map} from 'rxjs/operators';
 
 export const BASE_URL: string = environment.baseURL;
 export const RESOURCE_URL: string = 'api/v1/data-elements';
-export const SYNC_RESOURCE_URL: string = 'api/v1/sync-data-elements';
+export const SYNC_RESOURCE_URL: string = 'api/v1/data-elements/sync-data-elements';
 
 
 @Injectable()
