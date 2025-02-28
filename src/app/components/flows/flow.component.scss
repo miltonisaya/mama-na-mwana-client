@@ -51,3 +51,57 @@ div ul.more-than-10 li {
   white-space: nowrap;
 }
 
+
+
+//Table style
+.mat-column-sno {
+  width: 5%;
+}
+
+.mat-cell.mat-column-sno {
+  text-align: right;
+}
+
+.mat-header-cell.mat-column-sno {
+  text-align: center;
+}
+
+.mat-column-keyName {
+  width: 20%;
+}
+
+.mat-column-dataElement {
+  width: 25%;
+}
+
+.mat-cell.mat-column-dataElement {
+  overflow-wrap: break-word;
+}
+
+.mat-column-categories {
+  width: 30%;
+}
+
+.mat-cell.mat-column-categories {
+  overflow-wrap: break-word;
+}
+
+.mat-column-possibleValues {
+  width: 15%;
+}
+
+.mat-cell.mat-column-possibleValues {
+  overflow-wrap: break-word;
+}
+
+.mat-column-actions {
+  width: 5%;
+}
+
+.mat-cell.mat-column-actions {
+  text-align: center;
+}
+
+.mat-header-cell.mat-column-actions {
+  text-align: left;
+}
