@@ -22,7 +22,7 @@ export class FlowComponent implements OnInit {
   flowKeys: any = [];
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('resetDialog') resetDialog: TemplateRef<any>;
-  displayedColumns: string[] = ["sno", 'keyName', 'categories', 'dataElement', 'actions'];
+  displayedColumns: string[] = ["sno", 'keyName', 'categories','possibleValues', 'dataElement', 'actions'];
   dataSource: MatTableDataSource<any>;
   input: any;
 
