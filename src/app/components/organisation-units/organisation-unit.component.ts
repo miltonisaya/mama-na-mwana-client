@@ -7,7 +7,6 @@ import {OrganisationUnitService} from './organisation-unit.service';
 import {OrganisationUnitDialogComponent} from './modals/organisation-unit-dialog-component';
 import {NestedTreeControl} from '@angular/cdk/tree';
 import {MatTreeNestedDataSource} from '@angular/material/tree';
-import {OrganisationUnit} from "./organisation-unit";
 
 interface OuNode {
   id: string;
@@ -69,19 +68,47 @@ export class OrganisationUnitComponent implements OnInit {
     );
   }
 
-  loadChildren(node: OrganisationUnit) {
+  // loadChildren(node: OrganisationUnit) {
+  //   if (!node.children && node.hasChildren) {
+  //     console.log('Fetching children for:', node.id, node.name);
+  //     this.organisationUnitService.getChildren(node.id).subscribe(
+  //       (response: OrganisationUnit[]) => {
+  //         console.log('Children loaded for', node.name, ':', response);
+  //         node.children = response;
+  //         this.dataSource.data = [...this.dataSource.data];
+  //       },
+  //       error => {
+  //         this.notifierService.showNotification(error.error.error, 'OK', 'error');
+  //       }
+  //     );
+  //   }
+  // }
+
+  loadChildren(node: OuNode) {
     if (!node.children && node.hasChildren) {
       console.log('Fetching children for:', node.id, node.name);
       this.organisationUnitService.getChildren(node.id).subscribe(
-        (response: OrganisationUnit[]) => {
+        (response: OuNode[]) => {
           console.log('Children loaded for', node.name, ':', response);
-          node.children = response;
-          this.dataSource.data = [...this.dataSource.data];
+          node.children = response; // Assign children to the node
+
+          // Manual refresh: Reset and reassign dataSource.data to force re-render
+          const currentData = this.dataSource.data;
+          this.dataSource.data = []; // Clear the data source
+          this.dataSource.data = currentData; // Reassign the updated data
+          this.treeControl.dataNodes = this.dataSource.data; // Sync tree control
+          this.treeControl.expand(node); // Ensure node stays expanded
+          this.cdr.detectChanges(); // Force change detection
+
+          console.log('Updated dataSource.data after refresh:', this.dataSource.data);
         },
         error => {
           this.notifierService.showNotification(error.error.error, 'OK', 'error');
+          console.error('Error fetching children:', error);
         }
       );
+    } else {
+      console.log('No fetch needed for', node.name, '- already loaded or no children');
     }
   }
 
