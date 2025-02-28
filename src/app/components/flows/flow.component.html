@@ -28,18 +28,20 @@
 </mat-form-field>
 
 <div *ngIf="flowKeys.length" class="mat-elevation-z8">
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%">
+
     <!-- SNo Column -->
     <ng-container matColumnDef="sno">
-      <th mat-header-cell *matHeaderCellDef> No </th>
+      <th mat-header-cell *matHeaderCellDef> No</th>
       <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
     </ng-container>
 
     <!-- Name Column -->
     <ng-container matColumnDef="keyName">
-      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <th mat-header-cell *matHeaderCellDef> Name</th>
       <td mat-cell *matCellDef="let element">
-        <div class="link-data-element" (click)="openMapDataElementDialog(element)" matTooltip="Click to map data element">
+        <div class="link-data-element" (click)="openMapDataElementDialog(element)"
+             matTooltip="Click to map data element">
           {{ element.keyName }}
         </div>
       </td>
@@ -47,7 +49,7 @@
 
     <!-- Data Element Column -->
     <ng-container matColumnDef="dataElement">
-      <th mat-header-cell *matHeaderCellDef> Data Element </th>
+      <th mat-header-cell *matHeaderCellDef> Data Element</th>
       <td mat-cell *matCellDef="let element">
         <div *ngFor="let category of element.categories">
           <span *ngIf="category.dataElement">
@@ -62,18 +64,33 @@
 
     <!-- Categories Column -->
     <ng-container matColumnDef="categories">
-      <th mat-header-cell *matHeaderCellDef> Categories </th>
+      <th mat-header-cell *matHeaderCellDef> Categories</th>
       <td mat-cell *matCellDef="let element">
         <div *ngIf="element.categories.length">
           <ul>
             <li *ngFor="let category of element.categories">
-              <div class="link-data-element" (click)="openMapCategoryDialog(category)" matTooltip="Click to map data element">
+              <div class="link-data-element" (click)="openMapCategoryDialog(category)"
+                   matTooltip="Click to map data element">
                 {{ category.name }}
               </div>
-              <span *ngIf="category.possibleTrueValues" style="color: teal;">
-                >> [{{ category.possibleTrueValues }}]
+              <!-- other content -->
+            </li>
+          </ul>
+        </div>
+      </td>
+    </ng-container>
+
+    <!-- Possible Values Column -->
+    <ng-container matColumnDef="possibleValues">
+      <th mat-header-cell *matHeaderCellDef> Possible Values</th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngIf="element.categories.length">
+          <ul>
+            <li *ngFor="let category of element.categories">
+              <span style="color: teal;">
+                {{ category.possibleTrueValues }}
               </span>
-              <span *ngIf="category.dataElement" (click)="openSetPossibleValuesDialog(category)">
+              <span (click)="openSetPossibleValuesDialog(category)">
                 <mat-icon>add</mat-icon>
               </span>
             </li>
@@ -84,7 +101,7 @@
 
     <!-- Actions Column -->
     <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef> Action </th>
+      <th mat-header-cell *matHeaderCellDef> Action</th>
       <td mat-cell *matCellDef="let element">
         <button mat-icon-button matTooltip="Reset Mapping" matTooltipPosition="left" (click)="openResetDialog(element)">
           <mat-icon>undo</mat-icon>
@@ -98,7 +115,7 @@
 
     <!-- No Data Row -->
     <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell" colspan="5">No data matching the filter "{{ input.value }}"</td>
+      <td class="mat-cell" colspan="6">No data matching the filter "{{ input.value }}"</td>
     </tr>
   </table>
 
