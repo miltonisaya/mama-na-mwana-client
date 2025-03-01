@@ -135,7 +135,7 @@ export class OrganisationUnitComponent implements OnInit {
     dialogConfig.autoFocus = true;
 
     if (data) {
-      const ouData = {id: data.id, name: data.name, code: data.code};
+      const ouData = {id: data.id, name: data.name, code: data.code, parentId: data.parentId};
       this.organisationUnitService.populateForm(ouData);
       this.dialog
         .open(OrganisationUnitDialogComponent, dialogConfig)

@@ -4,10 +4,10 @@
          fxLayout.xs="column"
          fxLayoutAlign="center center">
   <form #formDirective="ngForm"
-        (ngSubmit)="submitForm(OrganisationUnitService.form)" [formGroup]="OrganisationUnitService.form"
+        (ngSubmit)="submitForm(organisationUnitService.form)" [formGroup]="organisationUnitService.form"
         class="form">
     <h1 class="dialog-header" mat-dialog-title>
-      {{ OrganisationUnitService.form.controls['id'].value ? "Edit Organisation Unit" : "Create Organisation Unit" }}
+      {{ organisationUnitService.form.controls['id'].value ? "Edit Organisation Unit" : "Create Organisation Unit" }}
     </h1>
     <mat-divider></mat-divider>
     <mat-dialog-content>
@@ -53,14 +53,16 @@
       <div class="button">
         <button mat-dialog-close mat-raised-button type="button">CANCEL</button>
         <button
-          (click)="submitForm(OrganisationUnitService.form.value)"
+          (click)="submitForm(organisationUnitService.form.value)"
           color="primary"
           mat-raised-button
           type="submit"
         >
-          {{ OrganisationUnitService.form.controls['id'].value ? "UPDATE" : "CREATE" }}
+          {{ organisationUnitService.form.controls['id'].value ? "UPDATE" : "CREATE" }}
         </button>
       </div>
     </mat-dialog-actions>
   </form>
 </section>
+
+<!--<pre>{{ organisationUnitService.form.value | json }}</pre>-->

@@ -18,7 +18,7 @@ export class OrganisationUnitDialogComponent implements OnInit {
   filteredOptions: any;
 
   constructor(
-    public OrganisationUnitService: OrganisationUnitService,
+    public organisationUnitService: OrganisationUnitService,
     public dialogRef: MatDialogRef<OrganisationUnitDialogComponent>,
     public notifierService: NotifierService
   ) {
@@ -44,7 +44,7 @@ export class OrganisationUnitDialogComponent implements OnInit {
     let params = {
       pageSize: 1000
     };
-    return this.OrganisationUnitService.getCouncils(params).subscribe((response: any) => {
+    return this.organisationUnitService.getCouncils(params).subscribe((response: any) => {
       this.councils = response.data;
     }, error => {
       this.notifierService.showNotification(error.error.error, 'OK', 'error');
@@ -53,18 +53,18 @@ export class OrganisationUnitDialogComponent implements OnInit {
   }
 
   submitForm(data) {
-    this.OrganisationUnitService.form.patchValue({parentId: this.myControl.value.id})
-    console.log('Is valid =>', this.OrganisationUnitService.form.valid);
+    this.organisationUnitService.form.patchValue({parentId: this.myControl.value.id})
+    console.log('Is valid =>', this.organisationUnitService.form.valid);
 
-    if (this.OrganisationUnitService.form.valid) {
-      if (this.OrganisationUnitService.form.get('id').value) {
-        this.OrganisationUnitService.updateOrganisationUnit(this.OrganisationUnitService.form.value)
+    if (this.organisationUnitService.form.valid) {
+      if (this.organisationUnitService.form.get('id').value) {
+        this.organisationUnitService.updateOrganisationUnit(this.organisationUnitService.form.value)
           .subscribe(response => {
             this.notifierService.showNotification(response.message, 'OK', 'success');
             this.onClose();
           });
       } else {
-        this.OrganisationUnitService.createOrganisationUnit(this.OrganisationUnitService.form.value)
+        this.organisationUnitService.createOrganisationUnit(this.organisationUnitService.form.value)
           .subscribe(data => {
             this.onClose();
           }, error => {
@@ -75,8 +75,8 @@ export class OrganisationUnitDialogComponent implements OnInit {
   }
 
   onClose() {
-    this.OrganisationUnitService.form.reset();
-    this.OrganisationUnitService.initializeFormGroup();
+    this.organisationUnitService.form.reset();
+    this.organisationUnitService.initializeFormGroup();
     this.dialogRef.close();
   }
 
