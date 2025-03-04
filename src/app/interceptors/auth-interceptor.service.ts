@@ -30,7 +30,8 @@ export class AuthInterceptor implements HttpInterceptor {
           localStorage.setItem("CURRENT_ROUTE", JSON.stringify(this.router.url));
           this.openLoginDialog();
           console.log("Response unauthorized =>", response);
-          // this.router.navigate(["/login"]);
+          window.location.reload();
+//           this.router.navigate([this.router.url]);
           return next.handle(request);
         }
         return throwError(response);
