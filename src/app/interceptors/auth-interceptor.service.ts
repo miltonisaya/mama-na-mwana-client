@@ -30,7 +30,6 @@ export class AuthInterceptor implements HttpInterceptor {
           localStorage.setItem("CURRENT_ROUTE", JSON.stringify(this.router.url));
           this.openLoginDialog();
           console.log("Response unauthorized =>", response);
-          window.location.reload();
 //           this.router.navigate([this.router.url]);
           return next.handle(request);
         }
@@ -45,6 +44,7 @@ export class AuthInterceptor implements HttpInterceptor {
     dialogConfig.autoFocus = true;
     this.dialog.open(LoginDialogComponent, dialogConfig)
       .afterClosed().subscribe(() => {
+      window.location.reload();
       console.log("Dialog closed ...")
     });
   }
