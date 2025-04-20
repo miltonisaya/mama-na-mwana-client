@@ -2,7 +2,17 @@
   <div>
     <h3>Manage Contacts</h3>
   </div>
+  <div fxLayoutGap="5px">
+    <button
+      mat-raised-button
+      class="mat-primary"
+      (click)="syncContacts()"
+    >
+      SYNC
+    </button>
+  </div>
 </div>
+
 
 <mat-form-field appearance="standard">
   <mat-label>Filter</mat-label>
@@ -35,7 +45,7 @@
       <td *matCellDef="let contacts" mat-cell> {{contacts.urn}} </td>
     </ng-container>
 
-    
+
     <!-- Sex Column -->
     <ng-container matColumnDef="sex">
       <th *matHeaderCellDef mat-header-cell>Sex</th>
