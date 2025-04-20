@@ -60,6 +60,11 @@ export class ContactsService {
       );
   }
 
+  syncContacts(): Observable<any> {
+    console.log(this.API_ENDPOINT + "/sync");
+    return this.http.get(this.API_ENDPOINT + "/sync");
+  }
+
   initializeFormGroup() {
     return this.form.setValue({
       id: '',
