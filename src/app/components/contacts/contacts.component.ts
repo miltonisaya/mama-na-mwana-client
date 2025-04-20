@@ -1,5 +1,4 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
@@ -15,7 +14,7 @@ import {ContactDialogComponent} from "./modals/contact-dialog-component";
   styleUrls: ['./contacts.component.scss']
 })
 export class ContactsComponent implements OnInit {
-  displayedColumns: string[] = ["sno", 'name', 'facilityCode', 'urn','sex', 'age', 'actions'];
+  displayedColumns: string[] = ["sno", 'name', 'facilityCode', 'urn', 'sex', 'age', 'actions'];
   contacts: any = [];
   userId: string;
   @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
@@ -28,7 +27,6 @@ export class ContactsComponent implements OnInit {
   private params: { pageNo: number; pageSize: number };
 
   constructor(
-    private http: HttpClient,
     private ContactsService: ContactsService,
     private NotifierService: NotifierService,
     private DialogService: MatDialog,
@@ -124,5 +122,16 @@ export class ContactsComponent implements OnInit {
         this.getContacts();
       });
     }
+  }
+
+  syncContacts() {
+    this.ContactsService.syncContacts().subscribe((response: any) => {
+      this.getContacts();
+      if (response.status == '200') {
+        this.NotifierService.showNotification(response.message, 'OK', 'success');
+      }
+    }, error => {
+      this.NotifierService.showNotification(error.error.error, 'OK', 'error');
+    });
   }
 }
