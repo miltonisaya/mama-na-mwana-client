@@ -1,13 +1,13 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {DashboardService} from './dashboard.service';
-import {MatTableDataSource} from '@angular/material/table';
-import {TransactionsService} from '../transactions/transactions.service';
-import {MatPaginator} from '@angular/material/paginator';
-import {NotifierService} from '../notifications/notifier.service';
-import {DataElement} from "../data-elements/dataElement";
-import {ContactsService} from "../contacts/contacts.service";
-import {MatDialog} from "@angular/material/dialog";
-import {OrganisationUnitService} from "../organisation-units/organisation-unit.service";
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { DashboardService } from './dashboard.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { TransactionsService } from '../transactions/transactions.service';
+import { MatPaginator } from '@angular/material/paginator';
+import { NotifierService } from '../notifications/notifier.service';
+import { DataElement } from "../data-elements/dataElement";
+import { ContactsService } from "../contacts/contacts.service";
+import { MatDialog } from "@angular/material/dialog";
+import { OrganisationUnitService } from "../organisation-units/organisation-unit.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -29,8 +29,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   pageSize = 5;
   pageNo = 0;
   pageSizeOptions: number[] = [5, 10, 25, 100, 150, 500, 1000, 1500, 2000, 2500, 5000, 10000];
-  titleCouncils: String = "Registration of mothers by councils";
-  titleMonths: String = "Registration of mothers by months";
+  titleCouncils: String = "Registration of clients by councils";
+  titleMonths: String = "Registration of clients by months";
   registrationByCouncilIsReady: boolean = false;
   pieChartCouncil: any;
   numberOfRegisteredContacts: any;
@@ -106,7 +106,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   resend(transaction: any) {
-    return this.transactionService.resetTrx({id: transaction.id}).subscribe((response: any) => {
+    return this.transactionService.resetTrx({ id: transaction.id }).subscribe((response: any) => {
       this.notifierService.showNotification(response.message, 'OK', 'success');
       this.getAllTransactions();
     }, error => {

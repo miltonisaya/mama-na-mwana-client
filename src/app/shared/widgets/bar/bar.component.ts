@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import HC_exporting from 'highcharts/modules/exporting';
 
@@ -32,7 +32,7 @@ export class BarComponent implements OnInit {
         type: 'column'
       },
       title: {
-        text: 'Registration of Mothers by Councils'
+        text: 'Registration of clients by Councils'
       },
       subtitle: {
         text: 'Source: RapidPro'
@@ -57,7 +57,7 @@ export class BarComponent implements OnInit {
         enabled: true
       },
       tooltip: {
-        pointFormat: 'Registration of Mothers by Councils'
+        pointFormat: 'Registration of clients by Councils'
       },
       series: [{
         name: 'Councils',
