@@ -1,34 +1,43 @@
 <!-- manage-flows.component.html -->
 
-<div fxLayoutAlign="space-between center">
+<div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
   <div>
-    <h3>Manage Flows</h3>
+    <h2 class="page-title">
+      <mat-icon>sync_alt</mat-icon>
+      Manage Flows
+    </h2>
+    <p class="page-subtitle">Configure and map RapidPro flows to data elements</p>
   </div>
-  <div fxLayoutGap="5px">
-    <button (click)="syncFlows()" class="mat-primary" mat-raised-button>
-      SYNC FLOWS
+  <div>
+    <button (click)="syncFlows()" mat-raised-button color="primary" class="sync-btn">
+      <mat-icon>sync</mat-icon>
+      Sync Flows
     </button>
   </div>
 </div>
 
-<div>
-  <mat-form-field appearance="fill">
-    <mat-label>Select a flow</mat-label>
-    <mat-select (selectionChange)="getKeys($event)" [(value)]="selectedFlowId">
-      <mat-option *ngFor="let flow of flows" [value]="flow.id">
-        {{ flow.name }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-</div>
+<mat-card class="table-card">
+  <mat-card-content>
+    <div class="flow-selector">
+      <mat-form-field appearance="outline" class="flow-select-field">
+        <mat-label>Select a flow</mat-label>
+        <mat-icon matPrefix>folder_open</mat-icon>
+        <mat-select (selectionChange)="getKeys($event)" [(value)]="selectedFlowId">
+          <mat-option *ngFor="let flow of flows" [value]="flow.id">
+            {{ flow.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
 
-<mat-form-field *ngIf="flowKeys.length" appearance="standard">
-  <mat-label>Filter</mat-label>
-  <input #input (keyup)="applyFilter($event)" autocomplete="off" matInput>
-</mat-form-field>
+    <mat-form-field *ngIf="flowKeys.length" appearance="outline" class="filter-field">
+      <mat-label>Search flow keys</mat-label>
+      <mat-icon matPrefix>search</mat-icon>
+      <input #input (keyup)="applyFilter($event)" autocomplete="off" matInput placeholder="Type to filter...">
+    </mat-form-field>
 
-<div *ngIf="flowKeys.length" class="mat-elevation-z8">
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%">
+    <div *ngIf="flowKeys.length" class="table-container">
+      <table mat-table [dataSource]="dataSource">
 
     <!-- SNo Column -->
     <ng-container matColumnDef="sno">
@@ -109,22 +118,33 @@
       </td>
     </ng-container>
 
-    <!-- Header and Row Declarations -->
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <!-- Header and Row Declarations -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-    <!-- No Data Row -->
-    <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell" colspan="6">No data matching the filter "{{ input.value }}"</td>
-    </tr>
-  </table>
+        <!-- No Data Row -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell no-data" colspan="6">
+            <mat-icon>search_off</mat-icon>
+            No data matching the filter "{{ input.value }}"
+          </td>
+        </tr>
+      </table>
+    </div>
+  </mat-card-content>
+</mat-card>
 
-  <!-- Reset Dialog Template -->
-  <ng-template #resetDialog>
-    <h3 mat-dialog-title>Are you sure you want to reset this mapping?</h3>
-    <mat-dialog-actions align="end">
-      <button mat-button mat-dialog-close>NO</button>
-      <button mat-button (click)="reset()">YES</button>
-    </mat-dialog-actions>
-  </ng-template>
-</div>
+<!-- Reset Dialog Template -->
+<ng-template #resetDialog>
+  <div class="dialog-header">
+    <mat-icon color="warn">refresh</mat-icon>
+    <h2>Reset Mapping</h2>
+  </div>
+  <mat-dialog-content>
+    <p>Are you sure you want to reset this mapping? This action cannot be undone.</p>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-raised-button color="warn" (click)="reset()">Reset</button>
+  </mat-dialog-actions>
+</ng-template>

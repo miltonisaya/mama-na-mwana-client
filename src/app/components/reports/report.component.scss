@@ -1,5 +1,62 @@
+// Page Header
+.page-header {
+  margin-bottom: 24px;
+
+  .page-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+    color: #1976d2;
+
+    mat-icon {
+      font-size: 28px;
+      width: 28px;
+      height: 28px;
+    }
+  }
+
+  .page-subtitle {
+    margin: 8px 0 0 0;
+    color: #607d8b;
+    font-size: 14px;
+  }
+
+  .action-btn {
+    border-radius: 20px !important;
+    padding: 0 20px !important;
+    height: 40px;
+    font-weight: 600;
+
+    mat-icon {
+      margin-right: 6px;
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+// Tree Card
+.tree-card {
+  border-radius: 16px !important;
+  padding: 8px;
+}
+
+// Tree Container
+.tree-container {
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  padding: 16px;
+  background: #fafafa;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
 .nested-node {
-  padding-left: 40px;
+  padding-left: 32px;
 }
 
 .report-tree-invisible {
@@ -7,11 +64,79 @@
 }
 
 .report-tree {
-  padding-left: 40px;
+  padding-left: 16px;
+
+  .mat-tree {
+    background: transparent;
+  }
+
+  .mat-tree-node {
+    min-height: 44px;
+    padding: 6px 16px;
+    border-radius: 8px;
+    margin: 2px 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    color: #2c3e50;
+
+    &:hover {
+      background-color: #e3f2fd;
+    }
+  }
+
+  .mat-icon-button {
+    color: #1976d2;
+  }
 }
 
 mat-tree-node.selected {
-  border-radius: 3px;
-  color: green;
-  font-weight: bold;
+  background-color: #1976d2 !important;
+  color: white !important;
+  font-weight: 500;
+  border-radius: 8px;
+}
+
+// Dialog styles
+.dialog-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 24px 24px 0 24px;
+
+  mat-icon {
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: #2c3e50;
+  }
+}
+
+::ng-deep {
+  mat-dialog-content {
+    padding: 16px 24px !important;
+
+    p {
+      margin: 0;
+      color: #607d8b;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+  }
+
+  mat-dialog-actions {
+    padding: 16px 24px 24px 24px !important;
+    gap: 12px;
+
+    button {
+      border-radius: 8px !important;
+      min-width: 100px;
+    }
+  }
 }

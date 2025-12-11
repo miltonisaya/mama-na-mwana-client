@@ -11,6 +11,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {FlowCategoryDialogComponent} from "./modals/flow-category-dialog/flow-category-dialog-component";
 import {PossibleTrueValuesComponent} from "./modals/possible-true-values-dialog/possible-true-values-component";
 import {CategoryService} from "./category.service";
+import {MatCardModule} from "@angular/material/card";
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import {CategoryService} from "./category.service";
     FormsModule,
     SharedModule,
     MatDialogModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatCardModule
   ],
   declarations: [
     FlowComponent,

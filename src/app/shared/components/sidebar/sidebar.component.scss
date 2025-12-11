@@ -1,18 +1,171 @@
 :host {
+  display: block;
+  height: 100%;
+  background: linear-gradient(180deg, #0d47a1 0%, #1565c0 50%, #1976d2 100%);
+
   mat-icon {
     vertical-align: middle;
-    margin-right: 20px;
+    margin-right: 16px;
+    color: rgba(255, 255, 255, 0.9);
   }
 }
 
 .profile-card {
   text-align: center;
-  padding: 0 20px 20px 20px;
+  padding: 32px 20px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+  .header {
+    h3 {
+      color: white;
+      font-size: 14px;
+      font-weight: 500;
+      margin: 0;
+      opacity: 0.95;
+      letter-spacing: 0.3px;
+
+      &::before {
+        content: '';
+        display: block;
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+        border-radius: 50%;
+        margin: 0 auto 12px;
+        background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 28px;
+      }
+    }
+  }
 
   img {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     object-fit: cover;
     border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+}
+
+// Override mat-divider
+::ng-deep .mat-divider {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+// Navigation list styling
+::ng-deep {
+  .mat-nav-list {
+    padding: 8px 12px;
+
+    .mat-list-item {
+      height: 48px !important;
+      border-radius: 10px;
+      margin-bottom: 4px;
+      color: rgba(255, 255, 255, 0.85);
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.15) !important;
+        color: white;
+      }
+
+      &.active, &:active {
+        background: rgba(255, 255, 255, 0.2) !important;
+        color: white;
+      }
+
+      .mat-list-item-content {
+        padding: 0 16px !important;
+      }
+    }
+  }
+
+  // Expansion panel (submenu) styling
+  .mat-accordion {
+    .mat-expansion-panel {
+      background: transparent !important;
+      box-shadow: none !important;
+      margin-bottom: 4px;
+
+      &.mat-expanded {
+        background: rgba(255, 255, 255, 0.08) !important;
+        border-radius: 10px;
+      }
+
+      .mat-expansion-panel-header {
+        height: 48px !important;
+        padding: 0 16px;
+        border-radius: 10px;
+        background: transparent !important;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.15) !important;
+        }
+
+        .mat-expansion-panel-header-title {
+          color: rgba(255, 255, 255, 0.85);
+          font-weight: 500;
+        }
+
+        .mat-expansion-indicator::after {
+          color: rgba(255, 255, 255, 0.7);
+        }
+      }
+
+      .mat-expansion-panel-body {
+        padding: 0 8px 8px 8px;
+
+        .mat-list-item {
+          height: 44px !important;
+          padding-left: 24px;
+          font-size: 14px;
+
+          &::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            width: 6px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+          }
+        }
+      }
+    }
+  }
+
+  // Panel title icon and text
+  .mat-panel-title {
+    div {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      font-weight: 500;
+
+      mat-icon {
+        font-size: 22px;
+        width: 22px;
+        height: 22px;
+      }
+    }
+  }
+}
+
+// Menu item text styling
+.mat-list-item {
+  div[fxLayout="row"] {
+    font-size: 14px;
+    font-weight: 500;
+
+    mat-icon {
+      font-size: 22px;
+      width: 22px;
+      height: 22px;
+    }
   }
 }

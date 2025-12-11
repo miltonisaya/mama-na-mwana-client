@@ -1,58 +1,114 @@
-<div fxFlexLayoutAlign="row" fxLayoutAlign="space-between center">
+<div class="dashboard-header" fxLayout="row" fxLayoutAlign="space-between center">
   <div>
-    <h3>Dashboard</h3>
+    <h2 class="page-title">Dashboard</h2>
+    <p class="page-subtitle">Overview of system statistics and activities</p>
   </div>
 </div>
 
-<div fxLayout="row" fxLayoutAlign="space-between stretch">
-  <mat-card *ngIf="numberOfRegisteredContactsIsReady === true" class="card-red" fxFlex="50">
-    <h1>Total # of registered contacts: {{numberOfRegisteredContacts}}</h1>
-  </mat-card>
-  <mat-card *ngIf="numberOfRegisteredContactsTodayIsReady === true" class="card-green" fxFlex="50">
-    <h1>Total # of registered contacts today: {{numberOfRegisteredContactsToday}}</h1>
-  </mat-card>
-</div>
-<p></p>
-<div fxLayout="column" fxLayoutAlign="space-evenly stretch">
-  <app-widget-bar *ngIf="bigChartsIsReady === true" [data]="bigChart" [title]="titleCouncils"></app-widget-bar>
-</div>
-<!--</div>-->
-<p></p>
-
-<div *ngIf="isSuperAdministrator" fxLayout="column" fxLayoutAlign="stretch">
-  <h3>Transaction Logs</h3>
-</div>
-
-<mat-card *ngIf="isSuperAdministrator" class="mat-elevation-z8">
-  <ul>
-    <li *ngFor="let trx of transactions?.content">
-      <div class="transaction-logs">
-        <b>Date Processed:</b> {{trx.dateProcessed}}
-        <br>
-        <b>Payload:</b>{{trx.payload}}
-        <br>
-        <b>DHIS2 Response:</b> {{trx.dhisResponse}}
-        <div *ngIf="trx.isSent" class="success-transactions">
-          Sent
-        </div>
-        <div *ngIf="trx.isSent == false" class="pending-transactions">
-          Not Sent
-        </div>
-        <button *ngIf="trx.isSent==false" mat-icon-button matTooltip="Resend" matTooltipPosition="left">
-          <button (click)="resend(trx)" class="mat-button mat-primary" mat-raised-button>Resend</button>
-        </button>
-        <mat-divider></mat-divider>
+<div class="stats-cards" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="24px">
+  <mat-card *ngIf="numberOfRegisteredContactsIsReady === true" class="stat-card stat-card-primary" fxFlex="50" fxFlex.lt-md="100">
+    <div class="stat-card-content">
+      <div class="stat-icon">
+        <mat-icon>people</mat-icon>
       </div>
-    </li>
-  </ul>
-</mat-card>
+      <div class="stat-info">
+        <span class="stat-label">Total Registered Contacts</span>
+        <span class="stat-value">{{numberOfRegisteredContacts | number}}</span>
+        <span class="stat-trend">
+          <mat-icon>trending_up</mat-icon>
+          All time registrations
+        </span>
+      </div>
+    </div>
+  </mat-card>
+  <mat-card *ngIf="numberOfRegisteredContactsTodayIsReady === true" class="stat-card stat-card-success" fxFlex="50" fxFlex.lt-md="100">
+    <div class="stat-card-content">
+      <div class="stat-icon">
+        <mat-icon>person_add</mat-icon>
+      </div>
+      <div class="stat-info">
+        <span class="stat-label">Registered Today</span>
+        <span class="stat-value">{{numberOfRegisteredContactsToday | number}}</span>
+        <span class="stat-trend">
+          <mat-icon>today</mat-icon>
+          Today's registrations
+        </span>
+      </div>
+    </div>
+  </mat-card>
+</div>
 
-<mat-paginator
-  (page)="pageChanged($event)"
-  *ngIf="isSuperAdministrator"
-  [length]="transactions?.totalElements"
-  [pageSizeOptions]="pageSizeOptions"
-  [pageSize]="pageSize"
-  fxLayout="column"
-  fxLayoutAlign="stretch"
-></mat-paginator>
+<div class="chart-section" fxLayout="column" fxLayoutAlign="space-evenly stretch">
+  <mat-card class="chart-card" *ngIf="bigChartsIsReady === true">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>bar_chart</mat-icon>
+        Registrations by Council
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <app-widget-bar [data]="bigChart" [title]="titleCouncils"></app-widget-bar>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div *ngIf="isSuperAdministrator" class="transaction-section">
+  <div class="section-header" fxLayout="row" fxLayoutAlign="space-between center">
+    <h3>
+      <mat-icon>receipt_long</mat-icon>
+      Transaction Logs
+    </h3>
+  </div>
+
+  <mat-card class="transaction-card">
+    <div class="transaction-list">
+      <div *ngFor="let trx of transactions?.content" class="transaction-item">
+        <div class="transaction-details">
+          <div class="transaction-row">
+            <span class="transaction-label">
+              <mat-icon>schedule</mat-icon>
+              Date Processed:
+            </span>
+            <span class="transaction-value">{{trx.dateProcessed}}</span>
+          </div>
+          <div class="transaction-row payload-row">
+            <span class="transaction-label">
+              <mat-icon>code</mat-icon>
+              Payload:
+            </span>
+            <span class="transaction-value payload">{{trx.payload}}</span>
+          </div>
+          <div class="transaction-row">
+            <span class="transaction-label">
+              <mat-icon>cloud_done</mat-icon>
+              DHIS2 Response:
+            </span>
+            <span class="transaction-value">{{trx.dhisResponse}}</span>
+          </div>
+        </div>
+        <div class="transaction-status" fxLayout="row" fxLayoutAlign="space-between center">
+          <span *ngIf="trx.isSent" class="status-badge status-success">
+            <mat-icon>check_circle</mat-icon>
+            Sent
+          </span>
+          <span *ngIf="trx.isSent == false" class="status-badge status-pending">
+            <mat-icon>pending</mat-icon>
+            Not Sent
+          </span>
+          <button *ngIf="trx.isSent==false" (click)="resend(trx)" mat-raised-button color="primary" class="resend-btn">
+            <mat-icon>replay</mat-icon>
+            Resend
+          </button>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+
+  <mat-paginator
+    (page)="pageChanged($event)"
+    [length]="transactions?.totalElements"
+    [pageSizeOptions]="pageSizeOptions"
+    [pageSize]="pageSize"
+    class="transaction-paginator"
+  ></mat-paginator>
+</div>

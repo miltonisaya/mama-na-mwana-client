@@ -1,29 +1,37 @@
-<div fxFlexLayoutAlign="row" fxLayoutAlign="space-between center">
+<div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
   <div>
-    <h3>Mama na Mwana Reports</h3>
+    <h2 class="page-title">
+      <mat-icon>assessment</mat-icon>
+      Mama na Mwana Reports
+    </h2>
+    <p class="page-subtitle">Access and download system reports</p>
   </div>
-  <div fxLayoutGap="5px">
-    <button (click)="openReportParamsDialog()" *ngIf="selectedNode != null && selectedNode != undefined" class="mat-primary"
-            mat-raised-button>
-      DOWNLOAD
+  <div fxLayoutGap="8px">
+    <button (click)="openReportParamsDialog()" *ngIf="selectedNode != null && selectedNode != undefined"
+            mat-raised-button color="accent" class="action-btn">
+      <mat-icon>download</mat-icon>
+      Download
     </button>
-    <button (click)="openDialog()" *ngIf="isSuperAdministrator" class="mat-primary" mat-raised-button>
-      ADD
+    <button (click)="openDialog()" *ngIf="isSuperAdministrator" mat-raised-button color="primary" class="action-btn">
+      <mat-icon>add</mat-icon>
+      Add
     </button>
     <button (click)="openDialog(selectedNode)" *ngIf="selectedNode != null && selectedNode != undefined && isSuperAdministrator"
-            class="mat-primary"
-            mat-raised-button>
-      EDIT
+            mat-raised-button color="primary" class="action-btn">
+      <mat-icon>edit</mat-icon>
+      Edit
     </button>
     <button (click)="openDeleteDialog()" *ngIf="selectedNode != null && selectedNode != undefined && isSuperAdministrator"
-            class="mat-warn"
-            mat-raised-button>
-      DELETE
+            mat-raised-button color="warn" class="action-btn">
+      <mat-icon>delete</mat-icon>
+      Delete
     </button>
   </div>
 </div>
 
-<div class="mat-elevation-z8 report-tree">
+<mat-card class="tree-card">
+  <mat-card-content>
+    <div class="tree-container report-tree">
   <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="example-tree">
     <!-- This is the tree node template for leaf nodes -->
     <!-- There is inline padding applied to this node using styles.
@@ -53,19 +61,23 @@
            role="group">
         <ng-container matTreeNodeOutlet></ng-container>
       </div>
-    </mat-nested-tree-node>
-  </mat-tree>
-</div>
+      </mat-nested-tree-node>
+    </mat-tree>
+    </div>
+  </mat-card-content>
+</mat-card>
 
-
-<!--delete role dialog template-->
+<!--delete report dialog template-->
 <ng-template #deleteDialog>
+  <div class="dialog-header">
+    <mat-icon color="warn">warning</mat-icon>
+    <h2>Confirm Deletion</h2>
+  </div>
   <mat-dialog-content>
-    <h3>Are you sure you want to delete this report?</h3>
+    <p>Are you sure you want to delete this report? This action cannot be undone.</p>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>NO</button>
-    <button (click)="delete()" mat-button>YES</button>
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button (click)="delete()" mat-raised-button color="warn">Delete</button>
   </mat-dialog-actions>
 </ng-template>
-<!--delete role dialog template-->

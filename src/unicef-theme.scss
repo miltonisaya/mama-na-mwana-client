@@ -2,9 +2,67 @@
 
 @include mat.core();
 
-$unicef-theme-primary: mat.define-palette(mat.$cyan-palette);
-$unicef-theme-accent: mat.define-palette(mat.$pink-palette,A200, A100, A400);
+// Professional blue color palette
+$mnm-blue: (
+  50: #e3f2fd,
+  100: #bbdefb,
+  200: #90caf9,
+  300: #64b5f6,
+  400: #42a5f5,
+  500: #1976d2,
+  600: #1565c0,
+  700: #0d47a1,
+  800: #0a3d91,
+  900: #062f70,
+  A100: #82b1ff,
+  A200: #448aff,
+  A400: #2979ff,
+  A700: #2962ff,
+  contrast: (
+    50: rgba(0, 0, 0, 0.87),
+    100: rgba(0, 0, 0, 0.87),
+    200: rgba(0, 0, 0, 0.87),
+    300: rgba(0, 0, 0, 0.87),
+    400: rgba(0, 0, 0, 0.87),
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(0, 0, 0, 0.87),
+    A200: white,
+    A400: white,
+    A700: white,
+  )
+);
+
+$unicef-theme-primary: mat.define-palette($mnm-blue, 500, 300, 700);
+$unicef-theme-accent: mat.define-palette(mat.$light-blue-palette, A200, A100, A400);
 $unicef-theme-warn: mat.define-palette(mat.$red-palette);
 
-$unicef-theme: mat.define-light-theme($unicef-theme-primary,$unicef-theme-accent,$unicef-theme-warn);
+$unicef-theme: mat.define-light-theme((
+  color: (
+    primary: $unicef-theme-primary,
+    accent: $unicef-theme-accent,
+    warn: $unicef-theme-warn,
+  )
+));
+
 @include mat.all-component-themes($unicef-theme);
+
+// Custom global variables
+:root {
+  --primary-blue: #1976d2;
+  --primary-blue-dark: #0d47a1;
+  --primary-blue-light: #42a5f5;
+  --accent-blue: #03a9f4;
+  --background-light: #f5f7fa;
+  --card-shadow: 0 4px 20px rgba(25, 118, 210, 0.15);
+  --card-shadow-hover: 0 8px 30px rgba(25, 118, 210, 0.25);
+  --text-primary: #2c3e50;
+  --text-secondary: #607d8b;
+  --success-green: #4caf50;
+  --warning-orange: #ff9800;
+  --error-red: #f44336;
+  --border-radius: 12px;
+}

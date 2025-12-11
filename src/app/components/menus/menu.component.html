@@ -1,21 +1,29 @@
-<div fxFlexLayoutAlign="row" fxLayoutAlign="space-between center">
+<div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
   <div>
-    <h3>Manage Menus</h3>
+    <h2 class="page-title">
+      <mat-icon>menu</mat-icon>
+      Manage Menus
+    </h2>
+    <p class="page-subtitle">Create and manage navigation menu items</p>
   </div>
-  <div fxLayoutGap="5px">
-    <button (click)="openDialog()" class="mat-primary" mat-raised-button>
-      ADD NEW
+  <div>
+    <button (click)="openDialog()" mat-raised-button color="primary" class="add-btn">
+      <mat-icon>add</mat-icon>
+      Add New Menu
     </button>
   </div>
 </div>
 
-<mat-form-field appearance="standard">
-  <mat-label>Filter</mat-label>
-  <input #input (keyup)="applyFilter($event)" autocomplete="off" matInput>
-</mat-form-field>
+<mat-card class="table-card">
+  <mat-card-content>
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>Search menus</mat-label>
+      <mat-icon matPrefix>search</mat-icon>
+      <input #input (keyup)="applyFilter($event)" autocomplete="off" matInput placeholder="Type to filter...">
+    </mat-form-field>
 
-<div class="mat-elevation-z8">
-  <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table>
+    <div class="table-container">
+      <table [dataSource]="dataSource" mat-table>
     <!-- SNo Column -->
     <ng-container matColumnDef="sno">
       <th *matHeaderCellDef mat-header-cell> No</th>
@@ -72,34 +80,39 @@
       </td>
     </ng-container>
 
-    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
-    <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+        <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
 
-    <!-- Row shown when there is no matching data. -->
-    <tr *matNoDataRow class="mat-row">
-      <td class="mat-cell" colspan="3">No data matching the filter "{{input.value}}"</td>
-    </tr>
-  </table>
-  <mat-paginator
-    (page)="pageChanged($event)"
-    [length]="menus?.totalElements"
-    [pageSizeOptions]="pageSizeOptions"
-    [pageSize]="pageSize"
-    class="mat-elevation-z8"
-  ></mat-paginator>
-</div>
+        <!-- Row shown when there is no matching data. -->
+        <tr *matNoDataRow class="mat-row">
+          <td class="mat-cell no-data" colspan="8">
+            <mat-icon>search_off</mat-icon>
+            No data matching the filter "{{input.value}}"
+          </td>
+        </tr>
+      </table>
+    </div>
 
-<!--<pre>{{menus | json}}</pre>-->
+    <mat-paginator
+      (page)="pageChanged($event)"
+      [length]="menus?.totalElements"
+      [pageSizeOptions]="pageSizeOptions"
+      [pageSize]="pageSize"
+    ></mat-paginator>
+  </mat-card-content>
+</mat-card>
 
-
-<!--delete role dialog template-->
+<!--delete dialog template-->
 <ng-template #deleteDialog>
+  <div class="dialog-header">
+    <mat-icon color="warn">warning</mat-icon>
+    <h2>Confirm Deletion</h2>
+  </div>
   <mat-dialog-content>
-    <h3>Are you sure you want to delete this menu?</h3>
+    <p>Are you sure you want to delete this menu? This action cannot be undone.</p>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>NO</button>
-    <button (click)="delete()" mat-button>YES</button>
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button (click)="delete()" mat-raised-button color="warn">Delete</button>
   </mat-dialog-actions>
 </ng-template>
-<!--delete role dialog template-->

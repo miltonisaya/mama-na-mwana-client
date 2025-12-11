@@ -9,15 +9,143 @@ html, body {
 
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: 'Roboto', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  background-color: var(--background-light, #f5f7fa);
+  color: var(--text-primary, #2c3e50);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+// Snackbar styles
 .error.mat-snack-bar-container {
-  background-color: #cc0000;
+  background-color: var(--error-red, #f44336);
   color: white;
+  border-radius: 8px;
 }
 
 .success.mat-snack-bar-container {
-  background-color: #239e23;
+  background-color: var(--success-green, #4caf50);
   color: white;
+  border-radius: 8px;
+}
+
+// Global card styles
+.mat-card {
+  border-radius: var(--border-radius, 12px) !important;
+  box-shadow: var(--card-shadow, 0 4px 20px rgba(25, 118, 210, 0.15)) !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: none !important;
+
+  &:hover {
+    box-shadow: var(--card-shadow-hover, 0 8px 30px rgba(25, 118, 210, 0.25)) !important;
+  }
+}
+
+// Global button enhancements
+.mat-raised-button, .mat-flat-button {
+  border-radius: 8px !important;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  padding: 0 24px !important;
+  transition: all 0.3s ease;
+
+  &.mat-primary {
+    background: linear-gradient(135deg, var(--primary-blue, #1976d2) 0%, var(--primary-blue-dark, #0d47a1) 100%);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(25, 118, 210, 0.4);
+    }
+  }
+}
+
+// Form field improvements
+.mat-form-field {
+  .mat-form-field-outline {
+    border-radius: 8px;
+  }
+}
+
+// Global scrollbar styling
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-blue-light, #42a5f5);
+  border-radius: 4px;
+
+  &:hover {
+    background: var(--primary-blue, #1976d2);
+  }
+}
+
+// Typography enhancements
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary, #2c3e50);
+  font-weight: 600;
+}
+
+// Mat-table improvements
+.mat-table {
+  border-radius: var(--border-radius, 12px);
+  overflow: hidden;
+
+  .mat-header-row {
+    background: linear-gradient(135deg, var(--primary-blue, #1976d2) 0%, var(--primary-blue-dark, #0d47a1) 100%);
+
+    .mat-header-cell {
+      color: white;
+      font-weight: 600;
+      font-size: 14px;
+    }
+  }
+
+  .mat-row {
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: rgba(25, 118, 210, 0.05);
+    }
+
+    &:nth-child(even) {
+      background-color: rgba(25, 118, 210, 0.02);
+    }
+  }
+}
+
+// Paginator styling
+.mat-paginator {
+  border-radius: 0 0 var(--border-radius, 12px) var(--border-radius, 12px);
+  background: white;
+}
+
+// Dialog improvements
+.mat-dialog-container {
+  border-radius: var(--border-radius, 12px) !important;
+  padding: 0 !important;
+  overflow: hidden;
+}
+
+// Progress bar styling
+.mat-progress-bar {
+  border-radius: 4px;
+
+  .mat-progress-bar-fill::after {
+    background: linear-gradient(90deg, var(--primary-blue, #1976d2), var(--accent-blue, #03a9f4));
+  }
+}
+
+// Tooltip styling
+.mat-tooltip {
+  background-color: var(--primary-blue-dark, #0d47a1);
+  font-size: 12px;
+  border-radius: 6px;
+  padding: 8px 12px;
 }

@@ -2,17 +2,41 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  background: #f5f7fa;
 }
 
 mat-drawer {
-  width: 350px;
+  width: 280px;
+  border: none !important;
+  box-shadow: 4px 0 20px rgba(13, 71, 161, 0.15);
 }
 
 mat-drawer-container {
   height: 100%;
+  background: #f5f7fa;
 }
 
 mat-drawer-content {
-  padding: 20px;
+  padding: 24px 32px;
+  background: #f5f7fa;
+  overflow-x: hidden;
+
+  // Add subtle top padding for content below header
+  &::before {
+    content: '';
+    display: block;
+    height: 0;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  mat-drawer {
+    width: 260px;
+  }
+
+  mat-drawer-content {
+    padding: 16px;
+  }
 }
 

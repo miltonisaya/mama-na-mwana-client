@@ -1,24 +1,24 @@
 <div class="login-container" fxLayout="column" fxLayoutAlign="center center">
   <mat-card class="login-card">
     <div fxLayout="column" fxLayoutAlign="center center">
-      <img src="assets/coa.png">
-      <h2 fxLayout="column" fxLayoutAlign="center center" style="font-size: 1em;">Mama na Mwana Integration
-        Services</h2>
+      <img src="assets/coa.png" alt="Coat of Arms">
+      <h2>Mama na Mwana Integration Services</h2>
     </div>
-    <!--    <mat-card-title>Mama na Mwana Integration Services</mat-card-title>-->
     <mat-card-content>
       <form (ngSubmit)="loginProcess()" [formGroup]="formGroup" fxLayout="column" fxLayoutAlign="stretch">
         <mat-form-field appearance="fill">
           <mat-label>Username</mat-label>
-          <mat-icon matSuffix>perm_identity</mat-icon>
-          <input autocomplete="off" formControlName="username" matInput placeholder="Username">
+          <mat-icon matSuffix>person</mat-icon>
+          <input autocomplete="off" formControlName="username" matInput placeholder="Enter your username">
         </mat-form-field>
-        <mat-form-field appearance="fill" class="">
+        <mat-form-field appearance="fill">
           <mat-label>Password</mat-label>
-          <mat-icon matSuffix>vpn_key</mat-icon>
-          <input autocomplete="off" formControlName="password" matInput placeholder="Password" type="password">
+          <mat-icon matSuffix>lock</mat-icon>
+          <input autocomplete="off" formControlName="password" matInput placeholder="Enter your password" type="password">
         </mat-form-field>
-        <button color="primary" mat-raised-button type="submit">Login</button>
+        <button color="primary" mat-raised-button type="submit">
+          Sign In
+        </button>
       </form>
     </mat-card-content>
   </mat-card>

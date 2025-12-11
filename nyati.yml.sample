@@ -1,5 +1,5 @@
 # npm i -g nyatictl
-# nyatictl --conf nyati.yaml --exec
+# nyatictl --conf nyati.yaml --exec all
 #
 #  - name: yarn_install
 #    cmd: yarn install
@@ -7,14 +7,14 @@
 #    expect: 0
 #
 
-version: 0.7
+version: 0.1.3
 appname: client
 dir: '/var/www/html/'
 params:
 hosts:
   live:
-    host: ip_address
-    username: 'username'
+    host: 172.16.18.119
+    username: ''
     port: 22
     askpass: 0
     privateKey: ''
@@ -31,17 +31,17 @@ tasks:
     cmd: mkdir -p /var/www/html/${appname}/releases/${release_version}
     expect: 0
   - name: git_clone
-    cmd: git clone -b develop git@github.com:JAM-Solutions/zan-mutm-client.git /var/www/html/${appname}/releases/${release_version}
+    cmd: git clone -b develop git@github.com:miltonisaya/mama-na-mwana-client.git /var/www/html/${appname}/releases/${release_version}
     expect: 0
   - name: yarn_install
-    cmd: yarn install --silent --non-interactive
+    cmd: yarn install
     dir: /var/www/html/${appname}/releases/${release_version}
     expect: 0
   - name: setup .env
     cmd: ln -sfn /var/www/html/${appname}/shared/.env /var/www/html/${appname}/releases/${release_version}/.env
     expect: 0
-  - name: yarn_build
-    cmd: yarn run build
+  - name: npm_build
+    cmd: yarn build
     dir: /var/www/html/${appname}/releases/${release_version}
     expect: 0
   - name: change group permission
