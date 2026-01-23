@@ -3,7 +3,9 @@
   width: 100%;
 
   ::ng-deep {
-    .highcharts-container {
+    .highcharts-container,
+    .highcharts-root {
+      width: 100% !important;
       border-radius: 8px;
       overflow: hidden;
     }
