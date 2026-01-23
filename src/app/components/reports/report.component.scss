@@ -9,18 +9,19 @@
     margin: 0;
     font-size: 24px;
     font-weight: 600;
-    color: #1976d2;
+    color: var(--text-primary, #1f2937);
 
     mat-icon {
       font-size: 28px;
       width: 28px;
       height: 28px;
+      color: var(--primary-color, #1976d2);
     }
   }
 
   .page-subtitle {
     margin: 8px 0 0 0;
-    color: #607d8b;
+    color: var(--text-secondary, #6b7280);
     font-size: 14px;
   }
 
@@ -48,9 +49,9 @@
 // Tree Container
 .tree-container {
   border-radius: 12px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--border-color, #e5e7eb);
   padding: 16px;
-  background: #fafafa;
+  background: #f9fafb;
   max-height: 600px;
   overflow-y: auto;
 }
@@ -78,20 +79,20 @@
     cursor: pointer;
     transition: all 0.2s ease;
     font-size: 14px;
-    color: #2c3e50;
+    color: var(--text-primary, #1f2937);
 
     &:hover {
-      background-color: #e3f2fd;
+      background-color: rgba(25, 118, 210, 0.08);
     }
   }
 
   .mat-icon-button {
-    color: #1976d2;
+    color: var(--primary-color, #1976d2);
   }
 }
 
 mat-tree-node.selected {
-  background-color: #1976d2 !important;
+  background-color: var(--primary-color, #1976d2) !important;
   color: white !important;
   font-weight: 500;
   border-radius: 8px;
@@ -108,13 +109,14 @@ mat-tree-node.selected {
     font-size: 32px;
     width: 32px;
     height: 32px;
+    color: var(--primary-color, #1976d2);
   }
 
   h2 {
     margin: 0;
     font-size: 20px;
     font-weight: 600;
-    color: #2c3e50;
+    color: var(--text-primary, #1f2937);
   }
 }
 
@@ -124,7 +126,7 @@ mat-tree-node.selected {
 
     p {
       margin: 0;
-      color: #607d8b;
+      color: var(--text-secondary, #6b7280);
       font-size: 14px;
       line-height: 1.6;
     }

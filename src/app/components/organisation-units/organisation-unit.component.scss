@@ -9,18 +9,19 @@
     margin: 0;
     font-size: 24px;
     font-weight: 600;
-    color: #1976d2;
+    color: var(--text-primary, #1f2937);
 
     mat-icon {
       font-size: 28px;
       width: 28px;
       height: 28px;
+      color: var(--primary-color, #1976d2);
     }
   }
 
   .page-subtitle {
     margin: 8px 0 0 0;
-    color: #607d8b;
+    color: var(--text-secondary, #6b7280);
     font-size: 14px;
   }
 
@@ -64,7 +65,7 @@
       margin-right: 8px;
 
       mat-icon {
-        color: #607d8b;
+        color: var(--text-secondary, #6b7280);
       }
     }
   }
@@ -73,9 +74,9 @@
 // Tree Container
 .tree-container {
   border-radius: 12px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--border-color, #e5e7eb);
   padding: 16px;
-  background: #fafafa;
+  background: #f9fafb;
   max-height: 600px;
   overflow-y: auto;
 }
@@ -83,7 +84,7 @@
 // Tree Styles
 .mat-tree {
   background: transparent;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Inter', 'Roboto', sans-serif;
 }
 
 .ou-tree-invisible {
@@ -120,22 +121,22 @@
     cursor: pointer;
     transition: all 0.2s ease;
     font-size: 14px;
-    color: #2c3e50;
+    color: var(--text-primary, #1f2937);
 
     &:hover {
-      background-color: #e3f2fd;
+      background-color: rgba(25, 118, 210, 0.08);
     }
 
     &.selected,
     span.selected {
-      background-color: #1976d2;
+      background-color: var(--primary-color, #1976d2);
       color: white;
       font-weight: 500;
     }
   }
 
   .mat-icon-button {
-    color: #1976d2;
+    color: var(--primary-color, #1976d2);
 
     .mat-icon {
       font-size: 24px;
@@ -146,7 +147,7 @@
 }
 
 span.selected {
-  background-color: #1976d2;
+  background-color: var(--primary-color, #1976d2);
   color: white;
   padding: 6px 12px;
   border-radius: 8px;
@@ -164,13 +165,14 @@ span.selected {
     font-size: 32px;
     width: 32px;
     height: 32px;
+    color: var(--primary-color, #1976d2);
   }
 
   h2 {
     margin: 0;
     font-size: 20px;
     font-weight: 600;
-    color: #2c3e50;
+    color: var(--text-primary, #1f2937);
   }
 }
 
@@ -180,7 +182,7 @@ span.selected {
 
     p {
       margin: 0;
-      color: #607d8b;
+      color: var(--text-secondary, #6b7280);
       font-size: 14px;
       line-height: 1.6;
     }

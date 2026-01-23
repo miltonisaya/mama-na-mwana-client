@@ -1,7 +1,7 @@
 .mat-toolbar {
   text-align: center;
   height: auto;
-  background: linear-gradient(135deg, #1976d2 0%, #0d47a1 100%);
+  background: var(--primary-color, #1976d2);
 }
 
 img {
@@ -13,7 +13,7 @@ img {
 }
 
 .container {
-  background: linear-gradient(135deg, #1976d2 0%, #0d47a1 100%);
+  background: var(--primary-color, #1976d2);
 }
 
 .login-container {
@@ -21,7 +21,7 @@ img {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #1976d2 0%, #0d47a1 50%, #1565c0 100%);
+  background: linear-gradient(135deg, #1976d2 0%, #1565c0 50%, #0d47a1 100%);
   position: relative;
   overflow: hidden;
 
@@ -69,7 +69,7 @@ img {
   backdrop-filter: blur(10px);
 
   h2 {
-    color: #1976d2;
+    color: var(--text-primary, #1f2937);
     font-weight: 600;
     margin-bottom: 32px;
     font-size: 1.3em !important;
@@ -93,7 +93,7 @@ img {
     letter-spacing: 1px;
     margin-top: 16px;
     border-radius: 24px !important;
-    background: linear-gradient(135deg, #1976d2 0%, #0d47a1 100%);
+    background: var(--primary-color, #1976d2);
     transition: all 0.3s ease;
 
     &:hover {
@@ -110,20 +110,20 @@ img {
   ::ng-deep {
     .mat-form-field-appearance-fill {
       .mat-form-field-flex {
-        background-color: #f5f7fa;
+        background-color: #f9fafb;
         border-radius: 12px;
         padding: 4px 16px 0 16px;
         border: 2px solid transparent;
         transition: all 0.3s ease;
 
         &:hover {
-          background-color: #e8f4fc;
+          background-color: rgba(25, 118, 210, 0.05);
         }
       }
 
       &.mat-focused .mat-form-field-flex {
-        background-color: #e3f2fd;
-        border-color: #1976d2;
+        background-color: rgba(25, 118, 210, 0.08);
+        border-color: var(--primary-color, #1976d2);
       }
 
       .mat-form-field-underline {
@@ -136,15 +136,15 @@ img {
     }
 
     .mat-form-field-label {
-      color: #607d8b;
+      color: var(--text-secondary, #6b7280);
     }
 
     .mat-input-element {
-      color: #2c3e50;
+      color: var(--text-primary, #1f2937);
     }
 
     .mat-icon {
-      color: #1976d2;
+      color: var(--primary-color, #1976d2);
     }
   }
 }
@@ -152,7 +152,7 @@ img {
 .login-icon {
   font-size: 48px;
   margin-bottom: 10px;
-  color: #1976d2;
+  color: var(--primary-color, #1976d2);
 }
 
 // Responsive design

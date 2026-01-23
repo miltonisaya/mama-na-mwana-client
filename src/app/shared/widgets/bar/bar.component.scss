@@ -3,7 +3,9 @@
   width: 100%;
 
   ::ng-deep {
-    .highcharts-container {
+    .highcharts-container,
+    .highcharts-root {
+      width: 100% !important;
       border-radius: 8px;
       overflow: hidden;
     }
@@ -13,34 +15,34 @@
     }
 
     .highcharts-title {
-      font-family: 'Roboto', sans-serif !important;
+      font-family: 'Inter', 'Roboto', sans-serif !important;
       font-weight: 600 !important;
-      fill: #2c3e50 !important;
+      fill: var(--text-primary, #1f2937) !important;
     }
 
     .highcharts-axis-title {
-      font-family: 'Roboto', sans-serif !important;
-      fill: #607d8b !important;
+      font-family: 'Inter', 'Roboto', sans-serif !important;
+      fill: var(--text-secondary, #6b7280) !important;
     }
 
     .highcharts-axis-labels text {
-      font-family: 'Roboto', sans-serif !important;
-      fill: #607d8b !important;
+      font-family: 'Inter', 'Roboto', sans-serif !important;
+      fill: var(--text-secondary, #6b7280) !important;
     }
 
     .highcharts-legend-item text {
-      font-family: 'Roboto', sans-serif !important;
-      fill: #2c3e50 !important;
+      font-family: 'Inter', 'Roboto', sans-serif !important;
+      fill: var(--text-primary, #1f2937) !important;
     }
 
     .highcharts-tooltip-box {
       fill: white;
-      stroke: #1976d2;
+      stroke: var(--border-color, #e5e7eb);
     }
 
     .highcharts-tooltip text {
-      fill: #2c3e50 !important;
-      font-family: 'Roboto', sans-serif !important;
+      fill: var(--text-primary, #1f2937) !important;
+      font-family: 'Inter', 'Roboto', sans-serif !important;
     }
   }
 }

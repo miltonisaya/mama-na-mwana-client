@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import HC_exporting from 'highcharts/modules/exporting';
 
@@ -7,12 +7,15 @@ import HC_exporting from 'highcharts/modules/exporting';
   templateUrl: './bar.component.html',
   styleUrls: ['./bar.component.scss']
 })
-export class BarComponent implements OnInit {
-  chartOptions = {};
+export class BarComponent implements OnInit, OnDestroy, AfterViewInit {
+  chartOptions: any = {};
   HighCharts = Highcharts;
   @Input() data = [];
 
-  constructor() {
+  private resizeObserver: ResizeObserver | null = null;
+  private chartRef: Highcharts.Chart | null = null;
+
+  constructor(private elementRef: ElementRef) {
   }
 
   ngOnInit(): void {
@@ -26,10 +29,39 @@ export class BarComponent implements OnInit {
     }, 300);
   }
 
+  ngAfterViewInit(): void {
+    this.setupResizeObserver();
+  }
+
+  ngOnDestroy(): void {
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+    }
+  }
+
+  onChartInstance(chart: Highcharts.Chart): void {
+    this.chartRef = chart;
+  }
+
+  private setupResizeObserver(): void {
+    this.resizeObserver = new ResizeObserver(() => {
+      if (this.chartRef) {
+        setTimeout(() => {
+          this.chartRef?.reflow();
+        }, 100);
+      }
+    });
+
+    this.resizeObserver.observe(this.elementRef.nativeElement);
+  }
+
   setBarChartOptions() {
     this.chartOptions = {
       chart: {
-        type: 'column'
+        type: 'column',
+        reflow: true,
+        spacingLeft: 10,
+        spacingRight: 10
       },
       title: {
         text: 'Registration of clients by Councils'

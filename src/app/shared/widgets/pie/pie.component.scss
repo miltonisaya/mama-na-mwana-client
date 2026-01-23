@@ -13,29 +13,29 @@
     }
 
     .highcharts-title {
-      font-family: 'Roboto', sans-serif !important;
+      font-family: 'Inter', 'Roboto', sans-serif !important;
       font-weight: 600 !important;
-      fill: #2c3e50 !important;
+      fill: var(--text-primary, #1f2937) !important;
     }
 
     .highcharts-data-label text {
-      font-family: 'Roboto', sans-serif !important;
-      fill: #2c3e50 !important;
+      font-family: 'Inter', 'Roboto', sans-serif !important;
+      fill: var(--text-primary, #1f2937) !important;
     }
 
     .highcharts-legend-item text {
-      font-family: 'Roboto', sans-serif !important;
-      fill: #2c3e50 !important;
+      font-family: 'Inter', 'Roboto', sans-serif !important;
+      fill: var(--text-primary, #1f2937) !important;
     }
 
     .highcharts-tooltip-box {
       fill: white;
-      stroke: #1976d2;
+      stroke: var(--border-color, #e5e7eb);
     }
 
     .highcharts-tooltip text {
-      fill: #2c3e50 !important;
-      font-family: 'Roboto', sans-serif !important;
+      fill: var(--text-primary, #1f2937) !important;
+      font-family: 'Inter', 'Roboto', sans-serif !important;
     }
   }
 }

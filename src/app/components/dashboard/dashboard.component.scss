@@ -6,7 +6,7 @@
     margin: 0;
     font-size: 28px;
     font-weight: 700;
-    color: #1976d2;
+    color: var(--text-primary, #1f2937);
     display: flex;
     align-items: center;
     gap: 12px;
@@ -14,7 +14,7 @@
 
   .page-subtitle {
     margin: 8px 0 0 0;
-    color: #607d8b;
+    color: var(--text-secondary, #6b7280);
     font-size: 14px;
   }
 }
@@ -92,23 +92,41 @@
     }
   }
 
-  // Primary card (blue gradient)
+  // Primary card (white with purple accent)
   &.stat-card-primary {
-    background: linear-gradient(135deg, #1976d2 0%, #0d47a1 100%);
-    color: white;
+    background: white;
+    color: var(--text-primary, #1f2937);
+    border: 1px solid var(--border-color, #e5e7eb);
 
     .stat-icon {
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(25, 118, 210, 0.1);
+
+      mat-icon {
+        color: var(--primary-color, #1976d2);
+      }
+    }
+
+    .stat-label {
+      color: var(--text-secondary, #6b7280);
     }
   }
 
-  // Success card (teal gradient)
+  // Success card (white with teal accent)
   &.stat-card-success {
-    background: linear-gradient(135deg, #00acc1 0%, #00838f 100%);
-    color: white;
+    background: white;
+    color: var(--text-primary, #1f2937);
+    border: 1px solid var(--border-color, #e5e7eb);
 
     .stat-icon {
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(16, 185, 129, 0.1);
+
+      mat-icon {
+        color: var(--success-green, #10b981);
+      }
+    }
+
+    .stat-label {
+      color: var(--text-secondary, #6b7280);
     }
   }
 }
@@ -116,11 +134,14 @@
 // Chart Section
 .chart-section {
   margin-bottom: 32px;
+  width: 100%;
 }
 
 .chart-card {
   border-radius: 16px !important;
   padding: 8px;
+  width: 100%;
+  box-sizing: border-box;
 
   mat-card-header {
     padding: 16px 16px 0 16px;
@@ -131,16 +152,23 @@
       gap: 12px;
       font-size: 18px;
       font-weight: 600;
-      color: #1976d2;
+      color: var(--text-primary, #1f2937);
 
       mat-icon {
-        color: #1976d2;
+        color: var(--primary-color, #1976d2);
       }
     }
   }
 
   mat-card-content {
     padding: 16px;
+    width: 100%;
+    box-sizing: border-box;
+
+    app-widget-bar {
+      display: block;
+      width: 100%;
+    }
   }
 }
 
@@ -158,11 +186,11 @@
     gap: 12px;
     font-size: 20px;
     font-weight: 600;
-    color: #1976d2;
+    color: var(--text-primary, #1f2937);
     margin: 0;
 
     mat-icon {
-      color: #1976d2;
+      color: var(--primary-color, #1976d2);
     }
   }
 }
@@ -180,11 +208,11 @@
 
 .transaction-item {
   padding: 20px 24px;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--border-color, #e5e7eb);
   transition: background-color 0.2s ease;
 
   &:hover {
-    background-color: #f5f7fa;
+    background-color: #f9fafb;
   }
 
   &:last-child {
@@ -213,24 +241,24 @@
   gap: 8px;
   min-width: 160px;
   font-weight: 600;
-  color: #607d8b;
+  color: var(--text-secondary, #6b7280);
 
   mat-icon {
     font-size: 18px;
     width: 18px;
     height: 18px;
-    color: #1976d2;
+    color: var(--primary-color, #1976d2);
   }
 }
 
 .transaction-value {
-  color: #2c3e50;
+  color: var(--text-primary, #1f2937);
   flex: 1;
 
   &.payload {
     font-family: 'Roboto Mono', monospace;
     font-size: 12px;
-    background: #f5f7fa;
+    background: #f9fafb;
     padding: 8px 12px;
     border-radius: 6px;
     word-break: break-all;
@@ -249,7 +277,7 @@
 
 .transaction-status {
   padding-top: 12px;
-  border-top: 1px dashed #e0e0e0;
+  border-top: 1px dashed var(--border-color, #e5e7eb);
 }
 
 .status-badge {
@@ -268,13 +296,13 @@
   }
 
   &.status-success {
-    background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%);
-    color: white;
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--success-green, #10b981);
   }
 
   &.status-pending {
-    background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
-    color: white;
+    background: rgba(25, 118, 210, 0.1);
+    color: var(--primary-color, #1976d2);
   }
 }
 
