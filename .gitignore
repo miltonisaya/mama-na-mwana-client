@@ -47,3 +47,4 @@ Thumbs.db
 .angular/*
 .tool-versions
 nyati.yaml
+.clauderc.md
