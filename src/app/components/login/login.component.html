@@ -1,20 +1,21 @@
-<div class="login-container" fxLayout="column" fxLayoutAlign="center center">
+<div class="login-container">
   <mat-card class="login-card">
-    <div fxLayout="column" fxLayoutAlign="center center">
+    <div class="login-header">
       <img src="assets/coa.png" alt="Coat of Arms">
-      <h2>Mama na Mwana Integration Services</h2>
+      <h2>Mama na Mwana</h2>
+      <p class="subtitle">Integration Services Portal</p>
     </div>
     <mat-card-content>
-      <form (ngSubmit)="loginProcess()" [formGroup]="formGroup" fxLayout="column" fxLayoutAlign="stretch">
+      <form (ngSubmit)="loginProcess()" [formGroup]="formGroup">
         <mat-form-field appearance="fill">
           <mat-label>Username</mat-label>
-          <mat-icon matSuffix>person</mat-icon>
           <input autocomplete="off" formControlName="username" matInput placeholder="Enter your username">
+          <mat-icon matSuffix>person_outline</mat-icon>
         </mat-form-field>
         <mat-form-field appearance="fill">
           <mat-label>Password</mat-label>
-          <mat-icon matSuffix>lock</mat-icon>
           <input autocomplete="off" formControlName="password" matInput placeholder="Enter your password" type="password">
+          <mat-icon matSuffix>lock_outline</mat-icon>
         </mat-form-field>
         <button color="primary" mat-raised-button type="submit">
           Sign In
