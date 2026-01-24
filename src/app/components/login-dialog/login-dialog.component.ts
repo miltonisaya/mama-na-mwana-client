@@ -33,6 +33,11 @@ export class LoginDialogComponent implements OnInit {
   }
 
   loginProcess() {
+    if (this.formGroup.invalid) {
+      this.formGroup.markAllAsTouched();
+      return;
+    }
+
     this.authService.login(this.formGroup.value)
       .subscribe(response => {
         if (response.data.user) {

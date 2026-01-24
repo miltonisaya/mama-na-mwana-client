@@ -1,16 +1,39 @@
-<h2>Login</h2>
-<div>
-    <form (ngSubmit)="loginProcess()" [formGroup]="formGroup" fxLayout="column" fxLayoutAlign="stretch">
-        <mat-form-field appearance="fill">
-            <mat-label>Username</mat-label>
-            <mat-icon matSuffix>perm_identity</mat-icon>
-            <input autocomplete="off" formControlName="username" matInput placeholder="Username">
+<div class="login-dialog">
+  <div class="dialog-header">
+    <div class="icon-wrapper">
+      <mat-icon>lock_outline</mat-icon>
+    </div>
+    <h2>Session Expired</h2>
+    <p class="subtitle">Please sign in again to continue</p>
+  </div>
+
+  <div class="dialog-content">
+    <form (ngSubmit)="loginProcess()" [formGroup]="formGroup">
+      <div class="form-field-wrapper">
+        <mat-form-field appearance="outline">
+          <mat-label>Username</mat-label>
+          <input autocomplete="off" formControlName="username" matInput placeholder="Enter your username">
+          <mat-icon matSuffix>person_outline</mat-icon>
+          <mat-error *ngIf="formGroup.get('username')?.hasError('required')">
+            Username is required
+          </mat-error>
         </mat-form-field>
-        <mat-form-field appearance="fill" class="">
-            <mat-label>Password</mat-label>
-            <mat-icon matSuffix>vpn_key</mat-icon>
-            <input autocomplete="off" formControlName="password" matInput placeholder="Password" type="password">
+      </div>
+
+      <div class="form-field-wrapper">
+        <mat-form-field appearance="outline">
+          <mat-label>Password</mat-label>
+          <input autocomplete="off" formControlName="password" matInput placeholder="Enter your password" type="password">
+          <mat-icon matSuffix>lock_outline</mat-icon>
+          <mat-error *ngIf="formGroup.get('password')?.hasError('required')">
+            Password is required
+          </mat-error>
         </mat-form-field>
-        <button color="primary" mat-raised-button type="submit">Login</button>
+      </div>
+
+      <button color="primary" mat-raised-button type="submit" class="submit-btn" [disabled]="formGroup.invalid">
+        Sign In
+      </button>
     </form>
+  </div>
 </div>
