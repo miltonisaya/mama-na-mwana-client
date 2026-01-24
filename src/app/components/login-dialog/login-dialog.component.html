@@ -1,39 +1,68 @@
 <div class="login-dialog">
+  <!-- Header Section -->
   <div class="dialog-header">
-    <div class="icon-wrapper">
-      <mat-icon>lock_outline</mat-icon>
+    <div class="brand-icon">
+      <img src="assets/coa.png" alt="Logo" class="logo">
     </div>
-    <h2>Session Expired</h2>
-    <p class="subtitle">Please sign in again to continue</p>
+    <div class="header-text">
+      <h2>Session Expired</h2>
+      <p class="subtitle">Your session has timed out for security reasons.<br>Please sign in again to continue.</p>
+    </div>
   </div>
 
+  <!-- Divider -->
+  <div class="divider"></div>
+
+  <!-- Form Section -->
   <div class="dialog-content">
     <form (ngSubmit)="loginProcess()" [formGroup]="formGroup">
-      <div class="form-field-wrapper">
-        <mat-form-field appearance="outline">
-          <mat-label>Username</mat-label>
-          <input autocomplete="off" formControlName="username" matInput placeholder="Enter your username">
-          <mat-icon matSuffix>person_outline</mat-icon>
-          <mat-error *ngIf="formGroup.get('username')?.hasError('required')">
-            Username is required
-          </mat-error>
-        </mat-form-field>
+      <div class="form-group">
+        <label class="field-label">Username</label>
+        <div class="input-wrapper" [class.focused]="usernameFocused" [class.error]="formGroup.get('username')?.invalid && formGroup.get('username')?.touched">
+          <mat-icon class="input-icon">person_outline</mat-icon>
+          <input
+            type="text"
+            formControlName="username"
+            placeholder="Enter your username"
+            autocomplete="off"
+            (focus)="usernameFocused = true"
+            (blur)="usernameFocused = false">
+        </div>
+        <span class="error-message" *ngIf="formGroup.get('username')?.hasError('required') && formGroup.get('username')?.touched">
+          Username is required
+        </span>
       </div>
 
-      <div class="form-field-wrapper">
-        <mat-form-field appearance="outline">
-          <mat-label>Password</mat-label>
-          <input autocomplete="off" formControlName="password" matInput placeholder="Enter your password" type="password">
-          <mat-icon matSuffix>lock_outline</mat-icon>
-          <mat-error *ngIf="formGroup.get('password')?.hasError('required')">
-            Password is required
-          </mat-error>
-        </mat-form-field>
+      <div class="form-group">
+        <label class="field-label">Password</label>
+        <div class="input-wrapper" [class.focused]="passwordFocused" [class.error]="formGroup.get('password')?.invalid && formGroup.get('password')?.touched">
+          <mat-icon class="input-icon">lock_outline</mat-icon>
+          <input
+            [type]="hidePassword ? 'password' : 'text'"
+            formControlName="password"
+            placeholder="Enter your password"
+            autocomplete="off"
+            (focus)="passwordFocused = true"
+            (blur)="passwordFocused = false">
+          <button type="button" class="toggle-password" (click)="hidePassword = !hidePassword" tabindex="-1">
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </div>
+        <span class="error-message" *ngIf="formGroup.get('password')?.hasError('required') && formGroup.get('password')?.touched">
+          Password is required
+        </span>
       </div>
 
-      <button color="primary" mat-raised-button type="submit" class="submit-btn" [disabled]="formGroup.invalid">
-        Sign In
+      <button type="submit" class="submit-btn" [disabled]="formGroup.invalid">
+        <span class="btn-text">Sign In</span>
+        <mat-icon class="btn-icon">arrow_forward</mat-icon>
       </button>
     </form>
+  </div>
+
+  <!-- Footer -->
+  <div class="dialog-footer">
+    <mat-icon class="security-icon">security</mat-icon>
+    <span>Secure authentication</span>
   </div>
 </div>
