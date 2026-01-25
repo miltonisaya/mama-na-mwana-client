@@ -48,53 +48,9 @@
   margin-bottom: 16px;
 }
 
-.flow-select-field {
-  width: 100%;
-  max-width: 500px;
+// Flow select field - uses global filter-field styles from styles.scss
 
-  ::ng-deep {
-    .mat-form-field-wrapper {
-      padding-bottom: 0;
-    }
-
-    .mat-form-field-outline {
-      border-radius: 12px;
-    }
-
-    .mat-form-field-prefix {
-      margin-right: 8px;
-
-      mat-icon {
-        color: var(--primary-color, #1976d2);
-      }
-    }
-  }
-}
-
-// Filter Field
-.filter-field {
-  width: 100%;
-  max-width: 400px;
-  margin-bottom: 16px;
-
-  ::ng-deep {
-    .mat-form-field-wrapper {
-      padding-bottom: 0;
-    }
-
-    .mat-form-field-outline {
-      border-radius: 12px;
-    }
-
-    .mat-form-field-prefix {
-      margin-right: 8px;
-
-      mat-icon {
-        color: var(--text-secondary, #6b7280);
-      }
-    }
-  }
-}
+// Filter Field - uses global styles from styles.scss
 
 // Table Container
 .table-container {

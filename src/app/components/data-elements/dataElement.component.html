@@ -1,68 +1,77 @@
-<div fxFlexLayoutAlign="row" fxLayoutAlign="space-between center">
+<div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
   <div>
-    <h3>Manage Data Elements</h3>
+    <h2 class="page-title">
+      <mat-icon>data_object</mat-icon>
+      Manage Data Elements
+    </h2>
+    <p class="page-subtitle">View and synchronize DHIS2 data elements</p>
   </div>
-  <div fxLayoutGap="5px">
-    <button (click)="syncDataElements()" class="mat-primary" mat-raised-button>
-      SYNC
+  <div>
+    <button (click)="syncDataElements()" mat-raised-button color="primary" class="sync-btn">
+      <mat-icon>sync</mat-icon>
+      Sync Data Elements
     </button>
   </div>
 </div>
 
-<mat-form-field appearance="standard">
-  <mat-label>Filter</mat-label>
-  <input #input (keyup)="applyFilter($event)" autocomplete="off" matInput>
-</mat-form-field>
+<mat-card class="table-card">
+  <mat-card-content>
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>Search data elements</mat-label>
+      <mat-icon matPrefix>search</mat-icon>
+      <input #input (keyup)="applyFilter($event)" autocomplete="off" matInput placeholder="Type to filter...">
+    </mat-form-field>
 
-<div class="mat-elevation-z8">
-  <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table>
-    <!-- SNo Column -->
-    <ng-container matColumnDef="sno">
-      <th *matHeaderCellDef mat-header-cell> No</th>
-      <td *matCellDef="let dataElements; let i = index" mat-cell>{{i + 1}}</td>
-    </ng-container>
+    <div class="table-container">
+      <table [dataSource]="dataSource" mat-table>
+        <!-- SNo Column -->
+        <ng-container matColumnDef="sno">
+          <th *matHeaderCellDef mat-header-cell>No</th>
+          <td *matCellDef="let dataElements; let i = index" mat-cell>{{i + 1}}</td>
+        </ng-container>
 
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <th *matHeaderCellDef mat-header-cell> Name</th>
-      <td *matCellDef="let dataElements" mat-cell> {{dataElements.name}} </td>
-    </ng-container>
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th *matHeaderCellDef mat-header-cell>Name</th>
+          <td *matCellDef="let dataElements" mat-cell>{{dataElements.name}}</td>
+        </ng-container>
 
-    <!-- Code Column -->
-    <ng-container matColumnDef="code">
-      <th *matHeaderCellDef mat-header-cell> Code</th>
-      <td *matCellDef="let dataElements" mat-cell> {{dataElements.code}} </td>
-    </ng-container>
+        <!-- Code Column -->
+        <ng-container matColumnDef="code">
+          <th *matHeaderCellDef mat-header-cell>Code</th>
+          <td *matCellDef="let dataElements" mat-cell>{{dataElements.code}}</td>
+        </ng-container>
 
-    <!-- Value Type Column -->
-    <ng-container matColumnDef="dataType">
-      <th *matHeaderCellDef mat-header-cell> Value Type</th>
-      <td *matCellDef="let dataElements" mat-cell>{{ dataElements.dataType }}  </td>
-    </ng-container>
+        <!-- Value Type Column -->
+        <ng-container matColumnDef="dataType">
+          <th *matHeaderCellDef mat-header-cell>Value Type</th>
+          <td *matCellDef="let dataElements" mat-cell>{{dataElements.dataType}}</td>
+        </ng-container>
 
-    <!-- Description Column -->
-    <ng-container matColumnDef="dhis2uid">
-      <th *matHeaderCellDef mat-header-cell> DHIS2 UUID</th>
-      <td *matCellDef="let dataElements" mat-cell> {{dataElements.dhisUid}} </td>
-    </ng-container>
+        <!-- DHIS2 UUID Column -->
+        <ng-container matColumnDef="dhis2uid">
+          <th *matHeaderCellDef mat-header-cell>DHIS2 UUID</th>
+          <td *matCellDef="let dataElements" mat-cell>{{dataElements.dhisUid}}</td>
+        </ng-container>
 
-    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
-    <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+        <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
 
-    <!-- Row shown when there is no matching data. -->
-    <tr *matNoDataRow class="mat-row">
-      <td class="mat-cell" colspan="3">No data matching the filter "{{input.value}}"</td>
-    </tr>
-  </table>
+        <!-- Row shown when there is no matching data. -->
+        <tr *matNoDataRow class="mat-row">
+          <td class="mat-cell no-data" colspan="5">
+            <mat-icon>search_off</mat-icon>
+            No data matching the filter "{{input.value}}"
+          </td>
+        </tr>
+      </table>
+    </div>
 
-  <mat-paginator
-    (page)="pageChanged($event)"
-    [length]="dataElements?.totalElements"
-    [pageSizeOptions]="pageSizeOptions"
-    [pageSize]="pageSize"
-    class="mat-elevation-z8"
-  ></mat-paginator>
-
-</div>
-
-<!--<pre>{{dataElements | json}}</pre>-->
+    <mat-paginator
+      (page)="pageChanged($event)"
+      [length]="dataElements?.totalElements"
+      [pageSizeOptions]="pageSizeOptions"
+      [pageSize]="pageSize"
+    ></mat-paginator>
+  </mat-card-content>
+</mat-card>

@@ -46,30 +46,7 @@
   padding: 8px;
 }
 
-// Filter Field
-.filter-field {
-  width: 100%;
-  max-width: 400px;
-  margin-bottom: 16px;
-
-  ::ng-deep {
-    .mat-form-field-wrapper {
-      padding-bottom: 0;
-    }
-
-    .mat-form-field-outline {
-      border-radius: 12px;
-    }
-
-    .mat-form-field-prefix {
-      margin-right: 8px;
-
-      mat-icon {
-        color: var(--text-secondary, #6b7280);
-      }
-    }
-  }
-}
+// Filter Field - uses global styles from styles.scss
 
 // Tree Container
 .tree-container {

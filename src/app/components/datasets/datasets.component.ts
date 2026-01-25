@@ -11,7 +11,7 @@ import {DataElement} from "../data-elements/dataElement";
 @Component({
   selector: 'app-datasets',
   templateUrl: './datasets.component.html',
-  styleUrls: ['./datasets.component.css']
+  styleUrls: ['./datasets.component.scss']
 })
 export class DatasetsComponent implements OnInit {
   displayedColumns: string[] = ["sno", 'name', 'code', 'dhis2uid', 'actions'];

@@ -1,86 +1,91 @@
-<div fxLayout="row" fxLayoutAlign="space-between center">
+<div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
   <div>
-    <h3>Manage Datasets</h3>
+    <h2 class="page-title">
+      <mat-icon>dataset</mat-icon>
+      Manage Datasets
+    </h2>
+    <p class="page-subtitle">View and manage DHIS2 datasets and their data elements</p>
   </div>
-  <div fxLayout="row" fxLayoutGap="5px">
-    <button (click)="syncDatasets()" class="mat-primary" mat-raised-button>
-      <mat-icon>add</mat-icon>
-      SYNC
+  <div>
+    <button (click)="syncDatasets()" mat-raised-button color="primary" class="sync-btn">
+      <mat-icon>sync</mat-icon>
+      Sync Datasets
     </button>
   </div>
 </div>
 
-<div fxLayout="column">
-  <mat-form-field appearance="fill">
-    <mat-label>Select a dataset</mat-label>
-    <mat-select (selectionChange)="getDataElementsByDataset($event)" [(value)]="selectedDataSetId">
-      <mat-option *ngFor="let dataset of datasets" [value]="dataset.id">
-        {{ dataset.displayName }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-</div>
+<mat-card class="table-card">
+  <mat-card-content>
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>Select a dataset</mat-label>
+      <mat-icon matPrefix>folder_open</mat-icon>
+      <mat-select (selectionChange)="getDataElementsByDataset($event)" [(value)]="selectedDataSetId">
+        <mat-option *ngFor="let dataset of datasets" [value]="dataset.id">
+          {{ dataset.displayName }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-<div fxLayout="row" class="filter-container" fxLayoutAlign="start stretch">
-  <mat-form-field appearance="standard" fxFlex>
-    <mat-label>Filter</mat-label>
-    <input #input (keyup)="applyFilter($event)" autocomplete="off" matInput>
-  </mat-form-field>
-</div>
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>Search data elements</mat-label>
+      <mat-icon matPrefix>search</mat-icon>
+      <input #input (keyup)="applyFilter($event)" autocomplete="off" matInput placeholder="Type to filter...">
+    </mat-form-field>
 
-<div class="mat-elevation-z8 table-container">
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 full-width-table">
-    <!-- SNo Column -->
-    <ng-container matColumnDef="sno">
-      <th mat-header-cell *matHeaderCellDef fxFlex="10"> No</th>
-      <td mat-cell *matCellDef="let datasets; let i = index" fxFlex="10"> {{ i + 1 }}</td>
-    </ng-container>
+    <div class="table-container">
+      <table mat-table [dataSource]="dataSource">
+        <!-- SNo Column -->
+        <ng-container matColumnDef="sno">
+          <th mat-header-cell *matHeaderCellDef>No</th>
+          <td mat-cell *matCellDef="let datasets; let i = index">{{ i + 1 }}</td>
+        </ng-container>
 
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef fxFlex="30"> Name</th>
-      <td mat-cell *matCellDef="let datasets" fxFlex="30"> {{ datasets.displayName }}</td>
-    </ng-container>
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let datasets">{{ datasets.displayName }}</td>
+        </ng-container>
 
-    <!-- Code Column -->
-    <ng-container matColumnDef="code">
-      <th mat-header-cell *matHeaderCellDef fxFlex="20"> Code</th>
-      <td mat-cell *matCellDef="let datasets" fxFlex="20"> {{ datasets.code }}</td>
-    </ng-container>
+        <!-- Code Column -->
+        <ng-container matColumnDef="code">
+          <th mat-header-cell *matHeaderCellDef>Code</th>
+          <td mat-cell *matCellDef="let datasets">{{ datasets.code }}</td>
+        </ng-container>
 
-    <!-- DHIS2 UUID Column -->
-    <ng-container matColumnDef="dhis2uid">
-      <th mat-header-cell *matHeaderCellDef fxFlex="30"> DHIS2 UUID</th>
-      <td mat-cell *matCellDef="let datasets" fxFlex="30"> {{ datasets.dhisUid }}</td>
-    </ng-container>
+        <!-- DHIS2 UUID Column -->
+        <ng-container matColumnDef="dhis2uid">
+          <th mat-header-cell *matHeaderCellDef>DHIS2 UUID</th>
+          <td mat-cell *matCellDef="let datasets">{{ datasets.dhisUid }}</td>
+        </ng-container>
 
-    <!-- Action Column -->
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef fxFlex="10"> Action</th>
-      <td mat-cell *matCellDef="let datasets" fxFlex="10">
-        <button
-          mat-icon-button
-          matTooltip="Map Data Element"
-          matTooltipPosition="left"
-          (click)="openMappingDialog(datasets.id)"
-        >
-          <mat-icon>sync_alt</mat-icon>
-        </button>
-      </td>
-    </ng-container>
+        <!-- Action Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Action</th>
+          <td mat-cell *matCellDef="let datasets">
+            <button
+              mat-icon-button
+              matTooltip="Map Data Element"
+              matTooltipPosition="left"
+              (click)="openMappingDialog(datasets.id)"
+            >
+              <mat-icon>sync_alt</mat-icon>
+            </button>
+          </td>
+        </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-    <!-- Row shown when there is no matching data -->
-    <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell" colspan="5">
-        No data matching the filter "{{ input.value }}"
-      </td>
-    </tr>
-  </table>
+        <!-- Row shown when there is no matching data -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell no-data" colspan="5">
+            <mat-icon>search_off</mat-icon>
+            No data matching the filter "{{ input.value }}"
+          </td>
+        </tr>
+      </table>
+    </div>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-</div>
-
-<!--<pre>{{ datasets | json }}</pre>-->
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  </mat-card-content>
+</mat-card>

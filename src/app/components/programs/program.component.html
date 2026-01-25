@@ -1,67 +1,76 @@
-<div fxFlexLayoutAlign="row" fxLayoutAlign="space-between center">
+<div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
   <div>
-    <h3>Manage Programs</h3>
+    <h2 class="page-title">
+      <mat-icon>apps</mat-icon>
+      Manage Programs
+    </h2>
+    <p class="page-subtitle">View and manage DHIS2 programs</p>
   </div>
-  <div fxLayoutGap="5px">
-    <button (click)="syncPrograms()" class="mat-primary" mat-raised-button>
-      <mat-icon>add</mat-icon>
-      SYNC
+  <div>
+    <button (click)="syncPrograms()" mat-raised-button color="primary" class="sync-btn">
+      <mat-icon>sync</mat-icon>
+      Sync Programs
     </button>
   </div>
 </div>
 
-<mat-form-field appearance="standard">
-  <mat-label>Filter</mat-label>
-  <input #input (keyup)="applyFilter($event)" autocomplete="off" matInput>
-</mat-form-field>
+<mat-card class="table-card">
+  <mat-card-content>
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>Search programs</mat-label>
+      <mat-icon matPrefix>search</mat-icon>
+      <input #input (keyup)="applyFilter($event)" autocomplete="off" matInput placeholder="Type to filter...">
+    </mat-form-field>
 
-<div class="mat-elevation-z8">
-  <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table>
-    <!-- SNo Column -->
-    <ng-container matColumnDef="sno">
-      <th *matHeaderCellDef mat-header-cell> No</th>
-      <td *matCellDef="let programs; let i = index" mat-cell>{{i + 1}}</td>
-    </ng-container>
+    <div class="table-container">
+      <table [dataSource]="dataSource" mat-table>
+        <!-- SNo Column -->
+        <ng-container matColumnDef="sno">
+          <th *matHeaderCellDef mat-header-cell>No</th>
+          <td *matCellDef="let programs; let i = index" mat-cell>{{i + 1}}</td>
+        </ng-container>
 
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <th *matHeaderCellDef mat-header-cell> Name</th>
-      <td *matCellDef="let programs" mat-cell> {{programs.displayName}} </td>
-    </ng-container>
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th *matHeaderCellDef mat-header-cell>Name</th>
+          <td *matCellDef="let programs" mat-cell>{{programs.displayName}}</td>
+        </ng-container>
 
-    <!-- Code Column -->
-    <ng-container matColumnDef="code">
-      <th *matHeaderCellDef mat-header-cell> Code</th>
-      <td *matCellDef="let programs" mat-cell> {{programs.code}} </td>
-    </ng-container>
+        <!-- Code Column -->
+        <ng-container matColumnDef="code">
+          <th *matHeaderCellDef mat-header-cell>Code</th>
+          <td *matCellDef="let programs" mat-cell>{{programs.code}}</td>
+        </ng-container>
 
-    <!-- Description Column -->
-    <ng-container matColumnDef="dhis2uid">
-      <th *matHeaderCellDef mat-header-cell> DHIS2 UUID</th>
-      <td *matCellDef="let programs" mat-cell> {{programs.dhisUid}} </td>
-    </ng-container>
+        <!-- DHIS2 UUID Column -->
+        <ng-container matColumnDef="dhis2uid">
+          <th *matHeaderCellDef mat-header-cell>DHIS2 UUID</th>
+          <td *matCellDef="let programs" mat-cell>{{programs.dhisUid}}</td>
+        </ng-container>
 
-    <!-- Action Column -->
-    <ng-container matColumnDef="actions">
-      <th *matHeaderCellDef mat-header-cell>Action</th>
-      <td *matCellDef="let programs" mat-cell>
-        <button mat-icon-button matTooltip="Map Data Element" matTooltipPosition="left">
-          <mat-icon (click)="openMappingDialog(programs.id)">sync_alt</mat-icon>
-        </button>
-      </td>
-    </ng-container>
+        <!-- Action Column -->
+        <ng-container matColumnDef="actions">
+          <th *matHeaderCellDef mat-header-cell>Action</th>
+          <td *matCellDef="let programs" mat-cell>
+            <button mat-icon-button matTooltip="Map Data Element" matTooltipPosition="left">
+              <mat-icon (click)="openMappingDialog(programs.id)">sync_alt</mat-icon>
+            </button>
+          </td>
+        </ng-container>
 
-    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
-    <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+        <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
 
-    <!-- Row shown when there is no matching data. -->
-    <tr *matNoDataRow class="mat-row">
-      <td class="mat-cell" colspan="3">No data matching the filter "{{input.value}}"</td>
-    </tr>
-  </table>
-  <mat-paginator
-    [pageSizeOptions]="[5, 10, 25, 100]"
-  ></mat-paginator>
-</div>
+        <!-- Row shown when there is no matching data. -->
+        <tr *matNoDataRow class="mat-row">
+          <td class="mat-cell no-data" colspan="5">
+            <mat-icon>search_off</mat-icon>
+            No data matching the filter "{{input.value}}"
+          </td>
+        </tr>
+      </table>
+    </div>
 
-<!--<pre>{{programs | json}}</pre>-->
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  </mat-card-content>
+</mat-card>
