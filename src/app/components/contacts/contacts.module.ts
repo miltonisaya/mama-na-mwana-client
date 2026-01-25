@@ -7,6 +7,7 @@ import {AngularMaterialModule} from '../../material.module';
 import {MatDialogModule} from '@angular/material/dialog';
 import {ContactsComponent} from './contacts.component';
 import {ContactDialogComponent} from "./modals/contact-dialog-component";
+import {MatCardModule} from "@angular/material/card";
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import {ContactDialogComponent} from "./modals/contact-dialog-component";
     ReactiveFormsModule,
     FormsModule,
     SharedModule,
-    MatDialogModule
+    MatDialogModule,
+    MatCardModule
   ],
   declarations: [
     ContactsComponent,
