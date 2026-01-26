@@ -13,8 +13,6 @@ import {MatDialog} from "@angular/material/dialog";
 export class LoginDialogComponent implements OnInit {
   formGroup: FormGroup;
   hidePassword = true;
-  usernameFocused = false;
-  passwordFocused = false;
 
   constructor(
     public authService: AuthService,

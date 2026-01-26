@@ -1,68 +1,42 @@
 <div class="login-dialog">
-  <!-- Header Section -->
+  <!-- Header -->
   <div class="dialog-header">
-    <div class="brand-icon">
-      <img src="assets/coa.png" alt="Logo" class="logo">
-    </div>
-    <div class="header-text">
-      <h2>Session Expired</h2>
-      <p class="subtitle">Your session has timed out for security reasons.<br>Please sign in again to continue.</p>
-    </div>
+    <img src="assets/coa.png" alt="Logo" class="logo">
+    <h2>Session Expired</h2>
+    <p class="subtitle">Please sign in again to continue</p>
   </div>
 
-  <!-- Divider -->
-  <div class="divider"></div>
+  <!-- Form -->
+  <form [formGroup]="formGroup" (ngSubmit)="loginProcess()" class="login-form">
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Username</mat-label>
+      <mat-icon matPrefix>person_outline</mat-icon>
+      <input matInput formControlName="username" placeholder="Enter your username" autocomplete="off">
+      <mat-error *ngIf="formGroup.get('username')?.hasError('required')">
+        Username is required
+      </mat-error>
+    </mat-form-field>
 
-  <!-- Form Section -->
-  <div class="dialog-content">
-    <form (ngSubmit)="loginProcess()" [formGroup]="formGroup">
-      <div class="form-group">
-        <label class="field-label">Username</label>
-        <div class="input-wrapper" [class.focused]="usernameFocused" [class.error]="formGroup.get('username')?.invalid && formGroup.get('username')?.touched">
-          <mat-icon class="input-icon">person_outline</mat-icon>
-          <input
-            type="text"
-            formControlName="username"
-            placeholder="Enter your username"
-            autocomplete="off"
-            (focus)="usernameFocused = true"
-            (blur)="usernameFocused = false">
-        </div>
-        <span class="error-message" *ngIf="formGroup.get('username')?.hasError('required') && formGroup.get('username')?.touched">
-          Username is required
-        </span>
-      </div>
-
-      <div class="form-group">
-        <label class="field-label">Password</label>
-        <div class="input-wrapper" [class.focused]="passwordFocused" [class.error]="formGroup.get('password')?.invalid && formGroup.get('password')?.touched">
-          <mat-icon class="input-icon">lock_outline</mat-icon>
-          <input
-            [type]="hidePassword ? 'password' : 'text'"
-            formControlName="password"
-            placeholder="Enter your password"
-            autocomplete="off"
-            (focus)="passwordFocused = true"
-            (blur)="passwordFocused = false">
-          <button type="button" class="toggle-password" (click)="hidePassword = !hidePassword" tabindex="-1">
-            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
-          </button>
-        </div>
-        <span class="error-message" *ngIf="formGroup.get('password')?.hasError('required') && formGroup.get('password')?.touched">
-          Password is required
-        </span>
-      </div>
-
-      <button type="submit" class="submit-btn" [disabled]="formGroup.invalid">
-        <span class="btn-text">Sign In</span>
-        <mat-icon class="btn-icon">arrow_forward</mat-icon>
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Password</mat-label>
+      <mat-icon matPrefix>lock_outline</mat-icon>
+      <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'" placeholder="Enter your password" autocomplete="off">
+      <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword" tabindex="-1">
+        <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
       </button>
-    </form>
-  </div>
+      <mat-error *ngIf="formGroup.get('password')?.hasError('required')">
+        Password is required
+      </mat-error>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit" class="submit-btn" [disabled]="formGroup.invalid">
+      Sign In
+    </button>
+  </form>
 
   <!-- Footer -->
   <div class="dialog-footer">
-    <mat-icon class="security-icon">security</mat-icon>
+    <mat-icon>verified_user</mat-icon>
     <span>Secure authentication</span>
   </div>
 </div>
