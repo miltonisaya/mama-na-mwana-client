@@ -1,30 +1,24 @@
-<section class="login-form-container"
-         fxFlexFill
-         fxLayout="column"
-         fxLayout.xs="column"
-         fxLayoutAlign="end none">
+<section class="dialog-container">
   <h1 class="dialog-header" fxLayout="row" fxLayoutAlign="center center" mat-dialog-title>
-    {{"Map DHIS2 Data Element"}}
+    Map DHIS2 Data Element
   </h1>
-  <br>
   <mat-divider></mat-divider>
-  <mat-dialog-content>
+  <mat-dialog-content class="dialog-content">
     <p-pickList
-      [responsive]="true"
-      [sourceStyle]="{'height':'200px'}"
       [source]="fetchedList"
-      [targetStyle]="{'height':'200px'}"
+      [sourceStyle]="{'height':'260px'}"
       [target]="selectedDataElementsList"
-      dragdrop="true"
-      filterBy="Name"
-      sourceFilterPlaceholder="Search by Name"
+      [targetStyle]="{'height':'260px'}"
+      [dragdrop]="true"
+      filterBy="name"
+      sourceFilterPlaceholder="Search by name"
       sourceHeader="Available"
-      targetFilterPlaceholder="Search by Name"
+      targetFilterPlaceholder="Search by name"
       targetHeader="Selected"
     >
-      <ng-template let-tm pTemplate="TeamA">
-        <div class="ui-helper-clearfix">
-          <div style="font-size:14px;float:left;margin:15px 5px 0 0">{{tm.name}}</div>
+      <ng-template let-item pTemplate="item">
+        <div class="picklist-item">
+          <span>{{ item.name }}</span>
         </div>
       </ng-template>
     </p-pickList>
@@ -39,14 +33,9 @@
         mat-raised-button
         type="submit"
       >
-        {{"SAVE"}}
+        SAVE
       </button>
     </div>
   </mat-dialog-actions>
 </section>
-
-<!--<div style="overflow: scroll";>-->
-<!--  List1 <pre>{{list1 | json}}</pre>-->
-<!--  myList <pre>{{myList | json}}</pre>-->
-<!--</div>-->
 

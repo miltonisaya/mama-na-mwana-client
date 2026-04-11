@@ -444,6 +444,28 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+// Data element mapping dialog — tighter padding overrides
+.data-element-mapping-dialog {
+  .mat-dialog-title,
+  [mat-dialog-title] {
+    padding: 12px 16px !important;
+    font-size: 15px !important;
+  }
+
+  mat-dialog-content,
+  .mat-dialog-content,
+  [mat-dialog-content] {
+    padding: 8px 16px !important;
+    max-height: 75vh !important;
+  }
+
+  mat-dialog-actions,
+  .mat-dialog-actions,
+  [mat-dialog-actions] {
+    padding: 10px 16px !important;
+  }
+}
+
 // Progress bar styling
 .mat-progress-bar {
   border-radius: 4px;

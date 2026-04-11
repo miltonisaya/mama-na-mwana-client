@@ -1,15 +1,107 @@
-.form
-  width: 500px
+.dialog-container
+  width: 700px
+  display: flex
+  flex-direction: column
 
 .dialog-header
-  //color: #008080
-  margin-bottom: 0px
+  font-size: 16px
+  font-weight: 600
+  margin-bottom: 4px
 
 .dialog-content
-  margin-top: 10px
+  margin-top: 8px
+  overflow: hidden
+  padding: 0
+
+  // Force horizontal layout
+  ::ng-deep .p-picklist
+    display: flex
+    flex-direction: row
+    align-items: flex-start
+    gap: 6px
+    width: 100%
+
+  ::ng-deep .p-picklist-list-wrapper
+    flex: 1
+    min-width: 0
+    border: 1px solid #e0e0e0
+    border-radius: 4px
+    overflow: hidden
+
+  // Section headers (Available / Selected)
+  ::ng-deep .p-picklist-header
+    background: #f5f5f5
+    border-bottom: 1px solid #e0e0e0
+    padding: 6px 10px
+    font-size: 12px
+    font-weight: 600
+    text-transform: uppercase
+    letter-spacing: 0.5px
+    color: #555
+
+  // Search filter input area
+  ::ng-deep .p-picklist-filter-container
+    padding: 6px 8px
+    border-bottom: 1px solid #e0e0e0
+    background: #fafafa
+
+  ::ng-deep .p-picklist-filter-input
+    font-size: 12px
+    padding: 4px 8px
+    width: 100%
+    border: 1px solid #ddd
+    border-radius: 3px
+    outline: none
+
+    &:focus
+      border-color: #1976d2
+
+  // Individual list items — compact and readable
+  ::ng-deep .p-picklist-item
+    padding: 5px 10px
+    font-size: 12px
+    color: #333
+    border-bottom: 1px solid #f0f0f0
+    cursor: pointer
+    transition: background 0.15s ease
+
+    &:last-child
+      border-bottom: none
+
+    &:hover
+      background: #e3f2fd
+
+    &.p-highlight
+      background: #bbdefb
+      color: #0d47a1
+
+  // Transfer buttons (arrows between the two lists)
+  ::ng-deep .p-picklist-buttons
+    display: flex
+    flex-direction: column
+    justify-content: center
+    gap: 4px
+    padding: 0 2px
+
+  ::ng-deep .p-picklist-buttons .p-button
+    width: 28px
+    height: 28px
+    padding: 0
+    border-radius: 50%
+
+    .p-button-icon
+      font-size: 11px
+
+.picklist-item
+  display: flex
+  align-items: center
+  width: 100%
+
+  span
+    font-size: 12px
+    line-height: 1.4
+    white-space: normal
+    word-break: break-word
 
 .button
-  margin: 5px
-
-h1
-  white-space: pre
+  margin: 4px

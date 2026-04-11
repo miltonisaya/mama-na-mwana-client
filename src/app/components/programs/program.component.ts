@@ -77,7 +77,7 @@ export class ProgramComponent implements OnInit {
 
     // console.log(flowKeysData);
     // this.FlowService.populateForm(flowKeysData);
-    this.dialog.open(DataElementProgramMappingDialogComponent, {data: id})
+    this.dialog.open(DataElementProgramMappingDialogComponent, {data: id, width: '750px', panelClass: 'data-element-mapping-dialog'})
       .afterClosed().subscribe(() => {
       this.getPrograms();
     });

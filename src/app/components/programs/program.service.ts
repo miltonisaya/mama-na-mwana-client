@@ -29,6 +29,11 @@ export class ProgramService {
       map(this.extractData));
   }
 
+  getProgramById(id: string): Observable<any> {
+    return this.http.get<any>(`${this.API_ENDPOINT}/${id}`).pipe(
+      map(this.extractData));
+  }
+
   mapDataElements(payload): Observable<any> {
     return this.http.post<any>(this.MAP_DATA_ELEMENTS_ENDPOINT, payload)
       // tslint:disable-next-line:no-shadowed-variable

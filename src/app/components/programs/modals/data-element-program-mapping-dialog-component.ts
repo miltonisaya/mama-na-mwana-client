@@ -4,6 +4,7 @@ import {NotifierService} from '../../notifications/notifier.service';
 import {DataElementService} from '../../data-elements/dataElement.service';
 import {PrimeNGConfig} from "primeng/api";
 import {ProgramService} from "../program.service";
+import {forkJoin} from "rxjs";
 
 @Component({
   selector: 'app-flow-key-dialog',
@@ -12,8 +13,8 @@ import {ProgramService} from "../program.service";
 })
 
 export class DataElementProgramMappingDialogComponent implements OnInit {
-  fetchedList: any[];
-  selectedDataElementsList: any;
+  fetchedList: any[] = [];
+  selectedDataElementsList: any[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<DataElementProgramMappingDialogComponent>,
@@ -27,20 +28,27 @@ export class DataElementProgramMappingDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getDataElements();
-    this.selectedDataElementsList = [];
     this.primengConfig.ripple = true;
+    this.loadData();
   }
 
-  getDataElements() {
-    let params = {
-      pageSize: 1000
-    };
-    return this.dataElementService.getDataElements(params).subscribe((response: any) => {
-      this.fetchedList = response.data.content;
-    }, error => {
-      this.notifierService.showNotification(error.error.error, 'OK', 'error');
-      console.log(error);
+  loadData() {
+    const allDataElements$ = this.dataElementService.getDataElements({pageSize: 1000});
+    const program$ = this.programService.getProgramById(this.data);
+
+    forkJoin([allDataElements$, program$]).subscribe({
+      next: ([dataElementsResponse, programResponse]) => {
+        const allElements: any[] = dataElementsResponse.data.content;
+        const mappedElements: any[] = programResponse.data.dataElements ?? [];
+        const mappedIds = new Set(mappedElements.map((e: any) => e.id));
+
+        this.selectedDataElementsList = mappedElements;
+        this.fetchedList = allElements.filter(e => !mappedIds.has(e.id));
+      },
+      error: (error) => {
+        this.notifierService.showNotification(error.error?.error ?? 'Failed to load data', 'OK', 'error');
+        console.error(error);
+      }
     });
   }
 
@@ -62,6 +70,3 @@ export class DataElementProgramMappingDialogComponent implements OnInit {
     })
   }
 }
-
-
-
