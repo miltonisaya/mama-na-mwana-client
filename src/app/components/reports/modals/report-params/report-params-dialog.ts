@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {FormControl, Validators} from '@angular/forms';
+import {UntypedFormControl, Validators} from '@angular/forms';
 import {map, startWith} from "rxjs/operators";
 import {DatePipe} from "@angular/common";
 import {NotifierService} from "../../../notifications/notifier.service";
@@ -15,9 +15,9 @@ import {ReportService} from "../../report.service";
 })
 
 export class ReportParamsDialog implements OnInit {
-  myControl = new FormControl([Validators.required]);
-  startDate = new FormControl([Validators.required]);
-  endDate = new FormControl([Validators.required]);
+  myControl = new UntypedFormControl([Validators.required]);
+  startDate = new UntypedFormControl([Validators.required]);
+  endDate = new UntypedFormControl([Validators.required]);
   councils: any;
   filteredOptions: any;
   selectedCouncil: any;
