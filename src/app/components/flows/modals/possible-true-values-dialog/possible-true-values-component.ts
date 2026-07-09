@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {NotifierService} from '../../../notifications/notifier.service';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {CategoryService} from "../../category.service";
 import {FlowService} from "../../flow.service";
 
@@ -12,10 +12,10 @@ import {FlowService} from "../../flow.service";
 })
 
 export class PossibleTrueValuesComponent implements OnInit {
-  possibleValuesForm: FormGroup;
+  possibleValuesForm: UntypedFormGroup;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     public dialogRef: MatDialogRef<PossibleTrueValuesComponent>,
     public notifierService: NotifierService,
     public categoryService: CategoryService,
