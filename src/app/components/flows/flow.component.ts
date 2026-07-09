@@ -65,7 +65,7 @@ export class FlowComponent implements OnInit {
   getKeys(event: any) {
     let id = event.value;
     return this.flowService.getKeysByFlowId(id).subscribe((response: any) => {
-      this.flowKeys = response.data;
+      this.flowKeys = response.data ?? [];
       this.dataSource = new MatTableDataSource<any>(this.flowKeys);
       this.dataSource.sort = this.sort;
     }, error => {
@@ -91,7 +91,7 @@ export class FlowComponent implements OnInit {
          * Fetch the data using the flow id
          */
         return this.flowService.getKeysByFlowId(this.selectedFlowId).subscribe((response: any) => {
-          this.flowKeys = response.data;
+          this.flowKeys = response.data ?? [];
           this.dataSource = new MatTableDataSource<any>(this.flowKeys);
           this.dataSource.sort = this.sort;
         }, error => {
@@ -106,7 +106,7 @@ export class FlowComponent implements OnInit {
          * Fetch the data using the flow id
          */
         return this.flowService.getKeysByFlowId(this.selectedFlowId).subscribe((response: any) => {
-          this.flowKeys = response.data;
+          this.flowKeys = response.data ?? [];
           this.dataSource = new MatTableDataSource<any>(this.flowKeys);
           this.dataSource.sort = this.sort;
         }, error => {
@@ -134,7 +134,7 @@ export class FlowComponent implements OnInit {
          * Fetch the data using the flow id
          */
         return this.flowService.getKeysByFlowId(this.selectedFlowId).subscribe((response: any) => {
-          this.flowKeys = response.data;
+          this.flowKeys = response.data ?? [];
           this.dataSource = new MatTableDataSource<any>(this.flowKeys);
           this.dataSource.sort = this.sort;
         }, error => {
@@ -172,7 +172,7 @@ export class FlowComponent implements OnInit {
        * Fetch the data using the flow id
        */
       return this.flowService.getKeysByFlowId(this.selectedFlowId).subscribe((response: any) => {
-        this.flowKeys = response.data;
+        this.flowKeys = response.data ?? [];
         this.dataSource = new MatTableDataSource<any>(this.flowKeys);
         this.dataSource.sort = this.sort;
       }, error => {
@@ -201,7 +201,7 @@ export class FlowComponent implements OnInit {
          * Fetch the data using the flow id
          */
         return this.flowService.getKeysByFlowId(this.selectedFlowId).subscribe((response: any) => {
-          this.flowKeys = response.data;
+          this.flowKeys = response.data ?? [];
           this.dataSource = new MatTableDataSource<any>(this.flowKeys);
           this.dataSource.sort = this.sort;
         }, error => {
