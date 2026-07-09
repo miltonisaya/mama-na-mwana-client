@@ -31,7 +31,6 @@ export class AuthService {
         currentUser.token = token;
         currentUser.menus = response.data.menus;
         currentUser.isSuperAdministrator = response.data.isSuperAdmin;
-        console.log("Current User =>", currentUser);
         localStorage.setItem("MNM_USER", JSON.stringify(currentUser));
       }),
     );
