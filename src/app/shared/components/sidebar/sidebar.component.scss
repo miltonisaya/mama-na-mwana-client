@@ -24,6 +24,11 @@
   border-bottom: 1px solid var(--border-color, #e5e7eb);
 
   .header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+
     h3 {
       color: var(--text-primary, #1f2937);
       font-size: 14px;
