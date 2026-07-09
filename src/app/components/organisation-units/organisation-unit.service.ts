@@ -92,6 +92,12 @@ export class OrganisationUnitService {
       .pipe(map(this.extractData));
   }
 
+  getById(id: string): Observable<any> {
+    return this.http
+      .get<any>(`${this.API_ENDPOINT}/${id}`)
+      .pipe(map(this.extractData));
+  }
+
   private extractData(res: any) {
     const body = res;
     return body || {};
