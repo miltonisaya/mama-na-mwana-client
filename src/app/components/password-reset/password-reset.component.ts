@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import {NotifierService} from '../notifications/notifier.service';
 import {UsersService} from "../users/users.service";
-import {AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators} from "@angular/forms";
+import {AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidatorFn, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-users',
@@ -24,7 +24,7 @@ export class PasswordResetComponent implements OnInit {
   });
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private http: HttpClient,
     private notifierService: NotifierService,
     private userService: UsersService
@@ -77,7 +77,7 @@ export class PasswordResetComponent implements OnInit {
     });
   }
 
-  submitForm(profileForm: FormGroup) {
+  submitForm(profileForm: UntypedFormGroup) {
     this.userService.resetPassword(profileForm)
       .subscribe(response => {
         this.notifierService.showNotification(response.message, 'OK', 'success');
