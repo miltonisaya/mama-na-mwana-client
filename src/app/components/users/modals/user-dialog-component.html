@@ -1,79 +1,54 @@
-<section class="login-form-container"
-         fxFlexFill
-         fxLayout="row"
-         fxLayoutAlign="center center">
-  <form #formDirective="ngForm"
-        (ngSubmit)="submitForm(UserService.form)" [formGroup]="UserService.form"
-        class="form">
-    <h1 class="dialog-header" mat-dialog-title>
-      {{UserService.form.controls['id'].value ? "Edit User" : "Create User"}}
-    </h1>
-    <mat-divider></mat-divider>
+<div class="mnm-dialog">
+  <div class="mnm-dialog-head">
+    <mat-icon class="mnm-dialog-icon">person</mat-icon>
+    <div>
+      <h2 mat-dialog-title>{{UserService.form.controls['id'].value ? "Edit User" : "Create User"}}</h2>
+      <p class="mnm-dialog-subtitle">Manage user account details and role</p>
+    </div>
+  </div>
 
-    <mat-dialog-content>
-      <div class="dialog-content" fxLayout="column" fxLayoutGap="5px">
-        <div fxLayout="row" fxLayoutAlign="space-evenly stretch">
-          <mat-form-field>
-            <input autocomplete="off"
-                   formControlName="name"
-                   matInput
-                   placeholder="Enter name" required>
-          </mat-form-field>
+  <form #formDirective="ngForm" [formGroup]="UserService.form" (ngSubmit)="submitForm(UserService.form)">
+    <mat-dialog-content class="mnm-dialog-body">
+      <div class="mnm-row">
+        <mat-form-field appearance="outline" class="mnm-field">
+          <mat-label>Full Name</mat-label>
+          <mat-icon matPrefix>person_outline</mat-icon>
+          <input matInput autocomplete="off" formControlName="name" required>
+        </mat-form-field>
 
-          <mat-form-field>
-            <input autocomplete="off"
-                   formControlName="phone"
-                   matInput
-                   placeholder="Enter Phone"
-                   required>
-          </mat-form-field>
-        </div>
-
-        <div fxLayout="column" fxLayoutAlign="stretch">
-          <mat-form-field>
-            <input autocomplete="off"
-                   formControlName="email"
-                   matInput
-                   placeholder="Enter Email"
-                   required>
-          </mat-form-field>
-        </div>
-
-        <div fxLayout="column" fxLayoutAlign="stretch">
-          <mat-form-field>
-            <input autocomplete="off"
-                   formControlName="username"
-                   matInput
-                   placeholder="Enter Username"
-                   required>
-          </mat-form-field>
-        </div>
-      </div>
-
-      <div fxLayout="column" fxLayoutAlign="stretch">
-        <mat-form-field appearance="fill">
-          <mat-label>Report</mat-label>
-          <mat-select [compareWith]="UserService.compareObjects"
-                      formControlName="roles"
-                      multiple
-                      required>
-            <mat-option *ngFor="let role of roles" [value]="role">
-              {{role.name}}
-            </mat-option>
-          </mat-select>
+        <mat-form-field appearance="outline" class="mnm-field">
+          <mat-label>Phone</mat-label>
+          <mat-icon matPrefix>phone</mat-icon>
+          <input matInput autocomplete="off" formControlName="phone" required>
         </mat-form-field>
       </div>
 
+      <mat-form-field appearance="outline" class="mnm-field">
+        <mat-label>Email</mat-label>
+        <mat-icon matPrefix>email</mat-icon>
+        <input matInput autocomplete="off" formControlName="email" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="mnm-field">
+        <mat-label>Username</mat-label>
+        <mat-icon matPrefix>alternate_email</mat-icon>
+        <input matInput autocomplete="off" formControlName="username" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="mnm-field">
+        <mat-label>Role</mat-label>
+        <mat-icon matPrefix>admin_panel_settings</mat-icon>
+        <mat-select [compareWith]="UserService.compareObjects" formControlName="roles" multiple required>
+          <mat-option *ngFor="let role of roles" [value]="role">{{role.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
     </mat-dialog-content>
-    <mat-dialog-actions fxLayout="row" fxLayoutAlign="end stretch">
-      <div class="button">
-        <button mat-dialog-close mat-raised-button type="button">CANCEL</button>
-        <button color="primary" mat-raised-button type="submit">
-          {{UserService.form.controls['id'].value ? "UPDATE" : "CREATE"}}
-        </button>
-      </div>
+
+    <mat-dialog-actions class="mnm-dialog-foot">
+      <button mat-button mat-dialog-close type="button">Cancel</button>
+      <button mat-raised-button color="primary" type="submit">
+        {{UserService.form.controls['id'].value ? "Update" : "Create"}}
+      </button>
     </mat-dialog-actions>
   </form>
-</section>
-
-<!--<pre>{{UserService.form.value | json}}</pre>-->
+</div>
