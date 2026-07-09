@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../auth/auth.service";
 import {NotifierService} from "../notifications/notifier.service";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {UntypedFormControl, UntypedFormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 
@@ -11,7 +11,7 @@ import {MatDialog} from "@angular/material/dialog";
   styleUrls: ['./login-dialog.component.scss']
 })
 export class LoginDialogComponent implements OnInit {
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
   hidePassword = true;
 
   constructor(
@@ -27,9 +27,9 @@ export class LoginDialogComponent implements OnInit {
   }
 
   initForm() {
-    this.formGroup = new FormGroup({
-      username: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required])
+    this.formGroup = new UntypedFormGroup({
+      username: new UntypedFormControl('', [Validators.required]),
+      password: new UntypedFormControl('', [Validators.required])
     });
   }
 
