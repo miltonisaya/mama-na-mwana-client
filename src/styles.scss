@@ -3,482 +3,489 @@
 @import '../node_modules/primeicons/primeicons.css';
 @import '../node_modules/primeng/resources/primeng.min.css';
 
-html, body {
-  height: 100%;
+// ─── Design tokens ───────────────────────────────────────────────────────────
+:root {
+  --primary-color: #1976d2;
+  --primary-color-dark: #1565c0;
+  --primary-color-light: #42a5f5;
+  --success-green: #10b981;
+  --error-red: #ef4444;
+  --warn-orange: #f59e0b;
+  --text-primary: #1f2937;
+  --text-secondary: #6b7280;
+  --border-color: #e5e7eb;
+  --background-light: #f9fafb;
+  --card-shadow: 0 1px 3px rgba(0,0,0,0.07), 0 4px 16px rgba(25,118,210,0.08);
+  --card-shadow-hover: 0 4px 12px rgba(0,0,0,0.1), 0 8px 24px rgba(25,118,210,0.12);
+  --border-radius: 12px;
 }
+
+// ─── Base ─────────────────────────────────────────────────────────────────────
+html, body { height: 100%; }
 
 body {
   margin: 0;
   font-family: 'Inter', 'Roboto', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-  background-color: var(--background-light, #f9fafb);
-  color: var(--text-primary, #1f2937);
+  background-color: var(--background-light);
+  color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-// Remove bullets from navigation lists
-.mat-nav-list,
-.mat-list,
-mat-nav-list,
-mat-list {
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+// ─── Scrollbar ────────────────────────────────────────────────────────────────
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+  &:hover { background: #9ca3af; }
+}
+
+// ─── Navigation list bullets ──────────────────────────────────────────────────
+.mat-nav-list, .mat-list, mat-nav-list, mat-list {
   ul, li, span {
     list-style: none !important;
     list-style-type: none !important;
-    &::marker {
-      display: none !important;
-      content: none !important;
-    }
+    &::marker { display: none !important; content: none !important; }
   }
-
-  > span {
-    display: block;
-  }
+  > span { display: block; }
 }
 
-// Snackbar styles
+// ─── Snackbar ────────────────────────────────────────────────────────────────
 .error.mat-snack-bar-container {
-  background-color: var(--error-red, #f44336);
+  background-color: var(--error-red);
   color: white;
-  border-radius: 8px;
+  border-radius: 10px;
 }
-
 .success.mat-snack-bar-container {
-  background-color: var(--success-green, #4caf50);
+  background-color: var(--success-green);
   color: white;
-  border-radius: 8px;
+  border-radius: 10px;
 }
 
-// Global card styles
+// ─── Cards ────────────────────────────────────────────────────────────────────
 .mat-card {
-  border-radius: var(--border-radius, 12px) !important;
-  box-shadow: var(--card-shadow, 0 4px 20px rgba(25, 118, 210, 0.1)) !important;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 1px solid var(--border-color, #e5e7eb) !important;
-
-  &:hover {
-    box-shadow: var(--card-shadow-hover, 0 8px 30px rgba(25, 118, 210, 0.15)) !important;
-  }
+  border-radius: var(--border-radius) !important;
+  box-shadow: var(--card-shadow) !important;
+  border: 1px solid var(--border-color) !important;
+  transition: box-shadow 0.2s ease;
+  &:hover { box-shadow: var(--card-shadow-hover) !important; }
 }
 
-// Global button enhancements
+// ─── Buttons ─────────────────────────────────────────────────────────────────
 .mat-raised-button, .mat-flat-button {
   border-radius: 8px !important;
   font-weight: 500;
-  letter-spacing: 0.5px;
-  padding: 0 24px !important;
-  transition: all 0.3s ease;
+  letter-spacing: 0.3px;
+  transition: all 0.2s ease;
 
-  &.mat-primary {
-    background: var(--primary-color, #1976d2);
-
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(25, 118, 210, 0.4);
-    }
+  &.mat-primary:hover {
+    box-shadow: 0 4px 12px rgba(25, 118, 210, 0.35);
+    transform: translateY(-1px);
   }
 }
 
-// Form field improvements
-.mat-form-field {
-  .mat-form-field-outline {
-    border-radius: 8px;
-  }
+// ─── Form fields (outline variant — used in tables + dialogs) ────────────────
+.mat-form-field-appearance-outline {
+  .mat-form-field-outline { border-radius: 8px; }
+  .mat-form-field-outline-start { border-radius: 8px 0 0 8px !important; }
+  .mat-form-field-outline-end { border-radius: 0 8px 8px 0 !important; }
 }
 
-// Global Filter Field Styling
+// ─── Filter field (shared by all list pages) ──────────────────────────────────
 .filter-field {
   width: 100% !important;
   margin-bottom: 20px !important;
 
-  .mat-form-field-wrapper {
-    padding-bottom: 0 !important;
-  }
+  .mat-form-field-wrapper { padding-bottom: 0 !important; }
 
   .mat-form-field-flex {
     background-color: #f9fafb;
-    border-radius: 12px !important;
+    border-radius: 10px !important;
     padding: 4px 16px !important;
-    border: 1px solid var(--border-color, #e5e7eb);
+    border: 1px solid var(--border-color);
     transition: all 0.2s ease;
-
-    &:hover {
-      border-color: #d1d5db;
-      background-color: #f3f4f6;
-    }
+    &:hover { border-color: #d1d5db; background-color: #f3f4f6; }
   }
 
   &.mat-focused .mat-form-field-flex {
-    background-color: #ffffff;
-    border-color: var(--primary-color, #1976d2);
+    background-color: #fff;
+    border-color: var(--primary-color);
     box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
   }
 
-  .mat-form-field-outline {
-    display: none !important;
-  }
-
-  .mat-form-field-infix {
-    padding: 8px 0 !important;
-    border-top: 0 !important;
-  }
-
-  .mat-form-field-prefix {
-    margin-right: 12px;
-
-    mat-icon {
-      color: var(--text-secondary, #6b7280);
-      font-size: 22px;
-      width: 22px;
-      height: 22px;
-    }
-  }
-
-  .mat-form-field-suffix {
-    margin-left: 12px;
-
-    mat-icon {
-      color: var(--text-secondary, #6b7280);
-    }
-  }
-
-  .mat-form-field-label {
-    color: var(--text-secondary, #6b7280);
-    font-weight: 500;
-  }
-
-  .mat-input-element {
-    font-size: 15px;
-    color: var(--text-primary, #1f2937);
-
-    &::placeholder {
-      color: #9ca3af;
-    }
-  }
-
-  .mat-form-field-subscript-wrapper {
-    display: none;
-  }
+  .mat-form-field-outline { display: none !important; }
+  .mat-form-field-infix { padding: 8px 0 !important; border-top: 0 !important; }
+  .mat-form-field-prefix { margin-right: 12px; mat-icon { color: var(--text-secondary); font-size: 20px; width: 20px; height: 20px; } }
+  .mat-form-field-label { color: var(--text-secondary); font-weight: 500; }
+  .mat-input-element { font-size: 14px; color: var(--text-primary); }
+  .mat-form-field-subscript-wrapper { display: none; }
 }
 
-// Global scrollbar styling
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--primary-color-light, #42a5f5);
-  border-radius: 4px;
-
-  &:hover {
-    background: var(--primary-color, #1976d2);
-  }
-}
-
-// Typography enhancements
-h1, h2, h3, h4, h5, h6 {
-  color: var(--text-primary, #2c3e50);
-  font-weight: 600;
-}
-
-// Mat-table improvements
+// ─── Table ────────────────────────────────────────────────────────────────────
 .mat-table {
-  border-radius: var(--border-radius, 12px);
+  border-radius: var(--border-radius);
   overflow: hidden;
 
   .mat-header-row {
     background: #f9fafb;
-
     .mat-header-cell {
-      color: var(--text-secondary, #6b7280);
+      color: var(--text-secondary);
       font-weight: 600;
-      font-size: 12px;
+      font-size: 11px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.6px;
     }
   }
 
   .mat-row {
-    transition: background-color 0.2s ease;
-    border-bottom: 1px solid var(--border-color, #e5e7eb);
-
-    &:hover {
-      background-color: rgba(25, 118, 210, 0.03);
-    }
+    transition: background-color 0.15s ease;
+    border-bottom: 1px solid var(--border-color);
+    &:hover { background-color: rgba(25, 118, 210, 0.03); }
+    &:last-child { border-bottom: none; }
   }
 }
 
-// Paginator styling
+// ─── Paginator ───────────────────────────────────────────────────────────────
 .mat-paginator {
-  border-radius: 0 0 var(--border-radius, 12px) var(--border-radius, 12px);
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
   background: white;
 }
 
-// Dialog improvements
-.mat-dialog-container {
-  border-radius: var(--border-radius, 16px) !important;
-  padding: 0 !important;
-  overflow: hidden;
-  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2) !important;
+// ─── Tooltip ─────────────────────────────────────────────────────────────────
+.mat-tooltip {
+  background-color: #111827;
+  font-size: 12px;
+  border-radius: 6px;
+  padding: 6px 10px;
 }
 
-// Global dialog form styling
-// Note: login-dialog has its own isolated styles that override these with !important
-.mat-dialog-container {
-  .form:not(.login-form),
-  form:not(.login-form) {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    min-width: 400px;
-    max-width: 600px;
-  }
+// ─── Progress bar ────────────────────────────────────────────────────────────
+.mat-progress-bar {
+  border-radius: 4px;
+  .mat-progress-bar-fill::after { background: var(--primary-color); }
+}
 
-  // Dialog header/title (login-dialog overrides these with its own styles)
-  [mat-dialog-title],
-  .mat-dialog-title {
-    margin: 0 !important;
-    padding: 20px 24px !important;
-    font-size: 20px !important;
-    font-weight: 600 !important;
-    color: var(--text-primary, #1f2937) !important;
-    background: #ffffff;
-    border-bottom: 1px solid var(--border-color, #e5e7eb);
+// ─── Dialog container ────────────────────────────────────────────────────────
+.mat-dialog-container {
+  border-radius: 16px !important;
+  padding: 0 !important;
+  overflow: hidden;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.08), 0 24px 48px rgba(0,0,0,0.16) !important;
+}
+
+// ─── .mnm-dialog — shared structure for ALL CRUD/config dialogs ──────────────
+// Usage:
+//   <div class="mnm-dialog">
+//     <div class="mnm-dialog-head"><mat-icon class="mnm-dialog-icon">…</mat-icon><div><h2 mat-dialog-title>…</h2><p class="mnm-dialog-subtitle">…</p></div></div>
+//     <form …>
+//       <mat-dialog-content class="mnm-dialog-body">…</mat-dialog-content>
+//       <mat-dialog-actions class="mnm-dialog-foot">…</mat-dialog-actions>
+//     </form>
+//   </div>
+.mnm-dialog {
+  min-width: 480px;
+  display: flex;
+  flex-direction: column;
+
+  // ── Header ──
+  .mnm-dialog-head {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 16px;
+    padding: 24px 28px;
+    background: #fff;
+    border-bottom: 1px solid var(--border-color);
+    flex-shrink: 0;
   }
 
-  // Exclude login-dialog from these form styles
-  > div:not(.login-dialog) {
-    > form:not(.login-form) {
-      padding: 24px;
-
-      mat-form-field {
-        width: 100%;
-        margin-bottom: 16px;
-      }
-
-      button[type="submit"] {
-        width: 100%;
-        height: 44px;
-        margin-top: 8px;
-      }
-    }
+  .mnm-dialog-icon {
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px;
+    border-radius: 14px;
+    background: rgba(25, 118, 210, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color);
+    font-size: 24px !important;
+    flex-shrink: 0;
   }
 
-  // Mat divider after title
-  mat-divider,
-  .mat-divider {
-    display: none; // Hide default divider since we add border to title
-  }
-
-  // Subtitle in dialogs (h3 after title)
-  h3 {
+  h2[mat-dialog-title] {
     margin: 0 !important;
-    padding: 12px 24px !important;
-    font-size: 14px !important;
-    font-weight: 500 !important;
-    background: #f0fdf4;
-    border-bottom: 1px solid #e0e0e0;
+    padding: 0 !important;
+    font-size: 17px !important;
+    font-weight: 600 !important;
+    color: var(--text-primary) !important;
+    line-height: 1.35;
+    background: transparent !important;
+    border: none !important;
   }
 
-  // Dialog content
-  mat-dialog-content,
-  .mat-dialog-content,
-  [mat-dialog-content] {
-    padding: 24px !important;
+  .mnm-dialog-subtitle {
+    margin: 4px 0 0 !important;
+    padding: 0 !important;
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.45;
+    font-weight: 400;
+  }
+
+  // ── Body / content ──
+  .mnm-dialog-body {
+    padding: 28px 28px 20px !important;
     margin: 0 !important;
-    max-height: 65vh !important;
+    display: flex;
+    flex-direction: column;
+    // gap:0 — let mat-form-field's own subscript wrapper handle rhythm;
+    // we zero that wrapper below to make the gap explicit and even.
+    gap: 0;
+    max-height: 65vh;
     overflow-y: auto;
 
-    .dialog-content {
-      margin-top: 0 !important;
+    // Zero out Material's built-in subscript bottom padding so our
+    // margin-bottom on each field is the single source of spacing truth.
+    .mat-form-field-wrapper {
+      padding-bottom: 0 !important;
     }
 
-    // Form field spacing
-    mat-form-field,
-    .mat-form-field {
+    // Full-width field with consistent bottom spacing
+    .mnm-field {
       width: 100%;
-      margin-bottom: 8px;
+      margin-bottom: 20px;
 
-      &:last-child {
-        margin-bottom: 0;
-      }
+      &:last-of-type { margin-bottom: 0; }
     }
 
-    // Row layout for form fields
-    [fxLayout="row"] {
-      gap: 16px;
+    // Side-by-side field row — row itself carries the bottom margin
+    .mnm-row {
+      display: flex;
+      gap: 20px;
+      width: 100%;
+      margin-bottom: 20px;
 
-      mat-form-field,
-      .mat-form-field {
+      &:last-child { margin-bottom: 0; }
+
+      .mnm-field {
         flex: 1;
         min-width: 0;
+        margin-bottom: 0; // row margin handles vertical rhythm
       }
     }
 
-    // Checkbox styling
-    mat-checkbox,
-    .mat-checkbox {
-      margin: 12px 0;
+    mat-checkbox {
+      display: block;
+      margin-top: 4px;
+      margin-bottom: 8px;
     }
   }
 
-  // Dialog actions/buttons
-  mat-dialog-actions,
-  .mat-dialog-actions,
-  [mat-dialog-actions] {
-    padding: 16px 24px !important;
-    margin: 0 !important;
-    background: #fafafa;
-    border-top: 1px solid #e0e0e0;
+  // ── Footer / actions ──
+  .mnm-dialog-foot {
     display: flex !important;
     justify-content: flex-end !important;
-    gap: 12px;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 24px !important;
+    margin: 0 !important;
+    border-top: 1px solid var(--border-color);
+    background: #f9fafb;
+    flex-shrink: 0;
 
-    .button {
-      display: flex;
-      gap: 12px;
-      margin: 0 !important;
+    button[mat-button] {
+      color: var(--text-secondary);
+      font-weight: 500;
+      letter-spacing: 0.3px;
+    }
+
+    button[mat-raised-button] {
+      border-radius: 20px !important;
+      padding: 0 28px !important;
+      font-weight: 600;
+      height: 40px;
+      letter-spacing: 0.3px;
+    }
+  }
+}
+
+// ─── Transfer list (shared by roles + programs dialogs) ───────────────────────
+.mnm-transfer {
+  display: flex;
+  align-items: stretch;
+  gap: 12px;
+  width: 100%;
+
+  .mnm-panel {
+    flex: 1;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 380px;
+    background: #fff;
+
+    &.mnm-panel-assigned { border-color: rgba(16, 185, 129, 0.4); }
+  }
+
+  .mnm-panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background: #f9fafb;
+    border-bottom: 1px solid var(--border-color);
+    flex-shrink: 0;
+
+    &.mnm-panel-head-assigned {
+      background: rgba(16, 185, 129, 0.04);
+      border-bottom-color: rgba(16, 185, 129, 0.2);
+    }
+  }
+
+  .mnm-panel-title {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #374151;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+
+    mat-icon { font-size: 16px; width: 16px; height: 16px; color: var(--primary-color); }
+    &.assigned mat-icon { color: var(--success-green); }
+  }
+
+  .mnm-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 20px;
+    padding: 0 5px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    background: rgba(25, 118, 210, 0.12);
+    color: var(--primary-color);
+
+    &.assigned { background: rgba(16, 185, 129, 0.12); color: var(--success-green); }
+  }
+
+  .mnm-search {
+    display: flex;
+    align-items: center;
+    padding: 7px 12px;
+    border-bottom: 1px solid #f3f4f6;
+    gap: 8px;
+    flex-shrink: 0;
+
+    mat-icon { font-size: 15px; width: 15px; height: 15px; color: #9ca3af; flex-shrink: 0; }
+
+    input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 12px;
+      color: var(--text-primary);
+      background: transparent;
+      &::placeholder { color: #9ca3af; }
     }
 
     button {
-      min-width: 100px;
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
+      mat-icon { font-size: 14px; width: 14px; height: 14px; }
+    }
+  }
+
+  .mnm-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2px 0;
+
+    &::-webkit-scrollbar { width: 3px; }
+    &::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 2px; }
+  }
+
+  .mnm-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 14px;
+    cursor: pointer;
+    transition: background-color 0.12s ease;
+    border-bottom: 1px solid #fafafa;
+    user-select: none;
+
+    &:last-child { border-bottom: none; }
+    &:hover { background: rgba(25, 118, 210, 0.04); }
+    &.item-sel { background: rgba(25, 118, 210, 0.08); }
+    &.assigned:hover { background: rgba(16, 185, 129, 0.04); }
+    &.assigned.item-sel { background: rgba(16, 185, 129, 0.08); }
+  }
+
+  .mnm-item-info {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex: 1;
+    min-width: 0;
+
+    .item-icon { font-size: 14px; width: 14px; height: 14px; color: #d1d5db; }
+    .item-icon-assigned { color: var(--success-green); }
+    .item-name { font-size: 12px; color: #374151; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  }
+
+  .mnm-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 16px;
+    color: #9ca3af;
+    gap: 8px;
+    height: 100%;
+
+    mat-icon { font-size: 32px; width: 32px; height: 32px; color: #d1d5db; }
+    span { font-size: 12px; text-align: center; }
+  }
+
+  .mnm-panel-foot {
+    padding: 5px 14px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--primary-color);
+    background: rgba(25, 118, 210, 0.06);
+    border-top: 1px solid rgba(25, 118, 210, 0.15);
+    flex-shrink: 0;
+
+    &.assigned { color: var(--success-green); background: rgba(16, 185, 129, 0.06); border-top-color: rgba(16, 185, 129, 0.15); }
+  }
+
+  .mnm-arrows {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 0 2px;
+
+    button.mat-fab {
+      width: 40px;
       height: 40px;
-      border-radius: 8px !important;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      font-size: 13px;
-
-      &[mat-dialog-close] {
-        background: #f5f5f5;
-        color: #666;
-        border: 1px solid #ddd;
-
-        &:hover {
-          background: #eeeeee;
-        }
-      }
-
-      &[color="primary"] {
-        background: var(--primary-color, #1976d2);
-        box-shadow: 0 2px 8px rgba(25, 118, 210, 0.3);
-
-        &:hover {
-          box-shadow: 0 4px 12px rgba(25, 118, 210, 0.4);
-          transform: translateY(-1px);
-        }
-      }
+      box-shadow: 0 2px 6px rgba(0,0,0,0.14) !important;
+      mat-icon { font-size: 18px; width: 18px; height: 18px; }
     }
   }
-
-  // Section containers inside dialogs
-  section {
-    width: 100% !important;
-    padding: 0 !important;
-    margin: 0 !important;
-
-    &.login-form-container,
-    &.menu-container {
-      display: block !important;
-    }
-
-    // Hide br tags that add unnecessary spacing
-    > br {
-      display: none;
-    }
-  }
-
-  // PrimeNG pick-list styling in dialogs
-  p-picklist,
-  .p-picklist {
-    display: block;
-    padding: 0 24px;
-    margin-bottom: 16px;
-
-    .p-picklist-list-wrapper {
-      border-radius: 8px;
-      overflow: hidden;
-    }
-
-    .p-picklist-header {
-      background: var(--primary-color, #1976d2);
-      color: white;
-      font-weight: 600;
-      padding: 12px 16px;
-    }
-
-    .p-picklist-filter-container {
-      padding: 12px;
-      background: #f9fafb;
-    }
-
-    .p-picklist-item {
-      padding: 12px 16px;
-      border-bottom: 1px solid var(--border-color, #e5e7eb);
-
-      &:hover {
-        background: rgba(25, 118, 210, 0.05);
-      }
-    }
-
-    .p-picklist-buttons {
-      .p-button {
-        background: var(--primary-color, #1976d2);
-        border: none;
-        border-radius: 6px;
-        margin: 4px;
-
-        &:hover {
-          background: var(--primary-color-dark, #1565c0);
-        }
-      }
-    }
-  }
-}
-
-// Data element mapping dialog — tighter padding overrides
-.data-element-mapping-dialog {
-  .mat-dialog-title,
-  [mat-dialog-title] {
-    padding: 12px 16px !important;
-    font-size: 15px !important;
-  }
-
-  mat-dialog-content,
-  .mat-dialog-content,
-  [mat-dialog-content] {
-    padding: 8px 16px !important;
-    max-height: 75vh !important;
-  }
-
-  mat-dialog-actions,
-  .mat-dialog-actions,
-  [mat-dialog-actions] {
-    padding: 10px 16px !important;
-  }
-}
-
-// Progress bar styling
-.mat-progress-bar {
-  border-radius: 4px;
-
-  .mat-progress-bar-fill::after {
-    background: var(--primary-color, #1976d2);
-  }
-}
-
-// Tooltip styling
-.mat-tooltip {
-  background-color: var(--text-primary, #1f2937);
-  font-size: 12px;
-  border-radius: 6px;
-  padding: 8px 12px;
 }
