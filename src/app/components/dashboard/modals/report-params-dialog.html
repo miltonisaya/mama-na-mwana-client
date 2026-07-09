@@ -1,17 +1,13 @@
-<section class="login-form-container"
-         fxFlexFill
-         fxLayout="column"
-         fxLayout.xs="column"
-         fxLayoutAlign="end none">
-  <h1 class="dialog-header" fxLayout="row" fxLayoutAlign="center center" mat-dialog-title>
+<section class="login-form-container">
+  <h1 class="dialog-header" mat-dialog-title>
     {{"Report Parameters"}}
   </h1>
   <br>
   <mat-divider></mat-divider>
 
   <mat-dialog-content>
-    <div *ngIf="data.isNational == false" class="dialog-content" fxLayout="column" fxLayoutGap="5px">
-      <div fxLayout="column" fxLayoutAlign="space-evenly stretch">
+    <div *ngIf="data.isNational == false" class="dialog-content">
+      <div>
         <mat-form-field appearance="fill" class="dialog-content">
           <mat-label>Search for council</mat-label>
           <input [formControl]="myControl" [matAutocomplete]="auto" matInput type="text">
@@ -24,7 +20,7 @@
       </div>
     </div>
 
-    <div fxLayout="row" fxLayoutAlign="space-around none" fxLayoutGap="5px">
+    <div class="dialog-date-row">
       <mat-form-field>
         <mat-label>Select a start date</mat-label>
         <input [formControl]="startDate" [matDatepicker]="startDatePicker" matInput>
@@ -41,7 +37,7 @@
     </div>
   </mat-dialog-content>
 
-  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end none">
+  <mat-dialog-actions align="end">
     <div class="button">
       <button mat-dialog-close mat-raised-button type="button">CANCEL</button>
       <button
