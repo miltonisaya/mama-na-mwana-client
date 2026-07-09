@@ -1,41 +1,32 @@
-<section class="login-form-container"
-         fxFlexFill
-         fxLayout="row"
-         fxLayout.xs="column"
-         fxLayoutAlign="center center">
-  <form #formDirective="ngForm"
-        (ngSubmit)="submitForm(AuthorityService.form)" [formGroup]="AuthorityService.form"
-        class="form">
-    <h1 class="dialog-header" mat-dialog-title>
-      {{AuthorityService.form.controls['id'].value ? "Edit Authority" : "Create Authority"}}
-    </h1>
-    <mat-divider></mat-divider>
-    <mat-dialog-content>
-      <div class="dialog-content" fxLayout="column" fxLayoutGap="5px">
-        <mat-form-field>
-          <input autocomplete="off"
-                 formControlName="name"
-                 matInput
-                 placeholder="Enter name" required>
-        </mat-form-field>
+<div class="mnm-dialog">
+  <div class="mnm-dialog-head">
+    <mat-icon class="mnm-dialog-icon">vpn_key</mat-icon>
+    <div>
+      <h2 mat-dialog-title>{{AuthorityService.form.controls['id'].value ? "Edit Authority" : "Create Authority"}}</h2>
+      <p class="mnm-dialog-subtitle">Define a system authority and its description</p>
+    </div>
+  </div>
 
-        <mat-form-field>
-          <input autocomplete="off"
-                 formControlName="description"
-                 matInput
-                 placeholder="Enter description"
-                 required>
-        </mat-form-field>
-      </div>
-      <!-- <pre>{{ form | json }}</pre> -->
+  <form #formDirective="ngForm" [formGroup]="AuthorityService.form" (ngSubmit)="submitForm(AuthorityService.form)">
+    <mat-dialog-content class="mnm-dialog-body">
+      <mat-form-field appearance="outline" class="mnm-field">
+        <mat-label>Name</mat-label>
+        <mat-icon matPrefix>label</mat-icon>
+        <input matInput autocomplete="off" formControlName="name" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="mnm-field">
+        <mat-label>Description</mat-label>
+        <mat-icon matPrefix>description</mat-icon>
+        <input matInput autocomplete="off" formControlName="description" required>
+      </mat-form-field>
     </mat-dialog-content>
-    <mat-dialog-actions fxLayout="row" fxLayoutAlign="end stretch">
-      <div class="button">
-        <button mat-dialog-close mat-raised-button type="button">CANCEL</button>
-        <button color="primary" mat-raised-button type="submit">
-          {{AuthorityService.form.controls['id'].value ? "UPDATE" : "CREATE"}}
-        </button>
-      </div>
+
+    <mat-dialog-actions class="mnm-dialog-foot">
+      <button mat-button mat-dialog-close type="button">Cancel</button>
+      <button mat-raised-button color="primary" type="submit">
+        {{AuthorityService.form.controls['id'].value ? "Update" : "Create"}}
+      </button>
     </mat-dialog-actions>
   </form>
-</section>
+</div>
