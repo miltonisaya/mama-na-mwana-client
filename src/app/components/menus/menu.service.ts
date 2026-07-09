@@ -1,23 +1,23 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {catchError, map, tap} from 'rxjs/operators';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 
 export const BASE_URL: string = environment.baseURL;
 export const RESOURCE_URL: string = 'api/v1/menus';
 
 @Injectable()
 export class MenuService {
-  form: FormGroup = new FormGroup({
-    id: new FormControl(''),
-    name: new FormControl('', [Validators.required]),
-    icon: new FormControl('', [Validators.required]),
-    url: new FormControl(''),
-    roleId: new FormControl('', [Validators.required]),
-    sortOrder: new FormControl('', [Validators.required]),
-    parentId: new FormControl('')
+  form: UntypedFormGroup = new UntypedFormGroup({
+    id: new UntypedFormControl(''),
+    name: new UntypedFormControl('', [Validators.required]),
+    icon: new UntypedFormControl('', [Validators.required]),
+    url: new UntypedFormControl(''),
+    roleId: new UntypedFormControl('', [Validators.required]),
+    sortOrder: new UntypedFormControl('', [Validators.required]),
+    parentId: new UntypedFormControl('')
   });
   private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
 
