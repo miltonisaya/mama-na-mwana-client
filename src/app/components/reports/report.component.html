@@ -1,4 +1,4 @@
-<div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+<div class="page-header">
   <div>
     <h2 class="page-title">
       <mat-icon>assessment</mat-icon>
@@ -6,7 +6,7 @@
     </h2>
     <p class="page-subtitle">Access and download system reports</p>
   </div>
-  <div fxLayoutGap="8px">
+  <div class="btn-group">
     <button (click)="openReportParamsDialog()" *ngIf="selectedNode != null && selectedNode != undefined"
             mat-raised-button color="accent" class="action-btn">
       <mat-icon>download</mat-icon>
