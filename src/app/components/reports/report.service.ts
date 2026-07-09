@@ -1,20 +1,20 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {catchError, map, tap} from 'rxjs/operators';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 
 export const BASE_URL: string = environment.baseURL;
 export const RESOURCE_URL: string = 'api/v1/reports';
 
 @Injectable()
 export class ReportService {
-  form: FormGroup = new FormGroup({
-    id: new FormControl(''),
-    name: new FormControl('', [Validators.required]),
-    url: new FormControl(''),
-    parentId: new FormControl(''),
+  form: UntypedFormGroup = new UntypedFormGroup({
+    id: new UntypedFormControl(''),
+    name: new UntypedFormControl('', [Validators.required]),
+    url: new UntypedFormControl(''),
+    parentId: new UntypedFormControl(''),
   });
   private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
 
