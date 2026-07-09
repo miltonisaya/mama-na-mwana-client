@@ -1,4 +1,4 @@
-<div class="page-header" fxLayout="row" fxLayoutAlign="space-between center">
+<div class="page-header">
   <div>
     <h2 class="page-title">
       <mat-icon>account_tree</mat-icon>
@@ -6,7 +6,7 @@
     </h2>
     <p class="page-subtitle">View and manage the organizational hierarchy</p>
   </div>
-  <div fxLayoutGap="8px">
+  <div class="btn-group">
     <button
       *ngIf="isSuperAdministrator"
       (click)="openDialog()"
