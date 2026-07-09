@@ -89,6 +89,11 @@ export class AuthorityService {
       map(this.extractData));
   }
 
+  syncPermissions(): Observable<any> {
+    return this.http.post<any>(`${this.API_ENDPOINT}/sync`, {}).pipe(
+      map(this.extractData));
+  }
+
   getUnselectedAuthoritiesByRoleId(data: any): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
