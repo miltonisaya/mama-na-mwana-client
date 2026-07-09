@@ -1,68 +1,48 @@
-<section class="login-form-container"
-         fxFlexFill
-         fxLayout="row"
-         fxLayout.xs="column"
-         fxLayoutAlign="center center">
-  <form #formDirective="ngForm"
-        (ngSubmit)="submitForm(organisationUnitService.form)" [formGroup]="organisationUnitService.form"
-        class="form">
-    <h1 class="dialog-header" mat-dialog-title>
-      {{ organisationUnitService.form.controls['id'].value ? "Edit Organisation Unit" : "Create Organisation Unit" }}
-    </h1>
-    <mat-divider></mat-divider>
-    <mat-dialog-content>
-      <div class="dialog-content" fxLayout="column" fxLayoutGap="5px">
-        <mat-form-field>
-          <input autocomplete="off"
-                 formControlName="name"
-                 matInput
-                 placeholder="Enter name" required>
-        </mat-form-field>
+<div class="mnm-dialog">
+  <div class="mnm-dialog-head">
+    <mat-icon class="mnm-dialog-icon">account_balance</mat-icon>
+    <div>
+      <h2 mat-dialog-title>{{organisationUnitService.form.controls['id'].value ? "Edit Organisation Unit" : "Create Organisation Unit"}}</h2>
+      <p class="mnm-dialog-subtitle">Manage health facility and council details</p>
+    </div>
+  </div>
 
-        <mat-form-field>
-          <input autocomplete="off"
-                 formControlName="code"
-                 matInput
-                 placeholder="Enter code"
-                 required>
-        </mat-form-field>
+  <form #formDirective="ngForm" [formGroup]="organisationUnitService.form" (ngSubmit)="submitForm(organisationUnitService.form)">
+    <mat-dialog-content class="mnm-dialog-body">
+      <mat-form-field appearance="outline" class="mnm-field">
+        <mat-label>Name</mat-label>
+        <mat-icon matPrefix>label</mat-icon>
+        <input matInput autocomplete="off" formControlName="name" required>
+      </mat-form-field>
 
-        <mat-form-field>
-          <input autocomplete="off"
-                 formControlName="otherNames"
-                 matInput
-                 placeholder="Enter other names"
-          >
-        </mat-form-field>
+      <mat-form-field appearance="outline" class="mnm-field">
+        <mat-label>Code</mat-label>
+        <mat-icon matPrefix>qr_code</mat-icon>
+        <input matInput autocomplete="off" formControlName="code" required>
+      </mat-form-field>
 
-        <div fxLayout="column" fxLayoutAlign="space-evenly stretch">
-          <mat-form-field appearance="fill" class="dialog-content">
-            <mat-label>Search for council</mat-label>
-            <input [formControl]="myControl" [matAutocomplete]="auto" matInput type="text">
-            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-              <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                {{ option.name }}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-        </div>
-      </div>
-      <!-- <pre>{{ form | json }}</pre> -->
+      <mat-form-field appearance="outline" class="mnm-field">
+        <mat-label>Other Names</mat-label>
+        <mat-icon matPrefix>alternate_email</mat-icon>
+        <input matInput autocomplete="off" formControlName="otherNames">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="mnm-field">
+        <mat-label>Search for council</mat-label>
+        <mat-icon matPrefix>search</mat-icon>
+        <input matInput type="text" [formControl]="myControl" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">{{option.name}}</mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
     </mat-dialog-content>
-    <mat-dialog-actions fxLayout="row" fxLayoutAlign="end stretch">
-      <div class="button">
-        <button mat-dialog-close mat-raised-button type="button">CANCEL</button>
-        <button
-          (click)="submitForm(organisationUnitService.form.value)"
-          color="primary"
-          mat-raised-button
-          type="submit"
-        >
-          {{ organisationUnitService.form.controls['id'].value ? "UPDATE" : "CREATE" }}
-        </button>
-      </div>
+
+    <mat-dialog-actions class="mnm-dialog-foot">
+      <button mat-button mat-dialog-close type="button">Cancel</button>
+      <button mat-raised-button color="primary" type="submit"
+        (click)="submitForm(organisationUnitService.form.value)">
+        {{organisationUnitService.form.controls['id'].value ? "Update" : "Create"}}
+      </button>
     </mat-dialog-actions>
   </form>
-</section>
-
-<!--<pre>{{ organisationUnitService.form.value | json }}</pre>-->
+</div>
