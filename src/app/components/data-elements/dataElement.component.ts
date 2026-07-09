@@ -46,12 +46,14 @@ export class DataElementComponent implements OnInit {
       this.dataElements = response.data;
       this.dataSource = new MatTableDataSource<DataElement>(this.dataElements.content);
       this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
     }, error => {
       this.notifierService.showNotification(error.error.error, 'OK', 'error');
     });
   }
 
   applyFilter(event: Event) {
+    if (!this.dataSource) return;
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
