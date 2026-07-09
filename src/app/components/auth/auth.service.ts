@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpBackend, HttpClient} from '@angular/common/http';
+import { HttpBackend, HttpClient } from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {tap} from 'rxjs/operators';
 import {NotifierService} from '../notifications/notifier.service';
