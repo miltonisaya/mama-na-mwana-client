@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {FormControl} from '@angular/forms';
+import {UntypedFormControl} from '@angular/forms';
 import {map, startWith} from 'rxjs/operators';
 import {FlowKeyService} from "../../flowkey.service";
 import {NotifierService} from "../../../notifications/notifier.service";
@@ -16,7 +16,7 @@ export class FlowCategoryDialogComponent implements OnInit {
   dataElements: any;
   filteredOptions: any;
   selectedDataElementYes: any;
-  dataElement = new FormControl();
+  dataElement = new UntypedFormControl();
 
   constructor(
     public flowKeyService: FlowKeyService,
