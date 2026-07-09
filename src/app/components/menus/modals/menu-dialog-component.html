@@ -1,85 +1,66 @@
-<section class="menu-container"
-         fxFlexFill
-         fxLayout="row"
-         fxLayout.xs="column"
-         fxLayoutAlign="center center">
-  <form #formDirective="ngForm"
-        (ngSubmit)="submitForm(MenuService.form.value)" [formGroup]="MenuService.form"
-        class="form">
-    <h1 class="dialog-header" mat-dialog-title>
-      {{MenuService.form.controls['id'].value ? "Edit Menu" : "Create Menu"}}
-    </h1>
-    <mat-divider></mat-divider>
-    <mat-dialog-content>
-      <div class="dialog-content" fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="5px">
-        <mat-form-field>
-          <input autocomplete="off"
-                 formControlName="name"
-                 matInput
-                 placeholder="Enter name" required>
+<div class="mnm-dialog">
+  <div class="mnm-dialog-head">
+    <mat-icon class="mnm-dialog-icon">menu</mat-icon>
+    <div>
+      <h2 mat-dialog-title>{{MenuService.form.controls['id'].value ? "Edit Menu" : "Create Menu"}}</h2>
+      <p class="mnm-dialog-subtitle">Configure navigation menu item details</p>
+    </div>
+  </div>
+
+  <form #formDirective="ngForm" [formGroup]="MenuService.form" (ngSubmit)="submitForm(MenuService.form.value)">
+    <mat-dialog-content class="mnm-dialog-body">
+      <div class="mnm-row">
+        <mat-form-field appearance="outline" class="mnm-field">
+          <mat-label>Name</mat-label>
+          <mat-icon matPrefix>label</mat-icon>
+          <input matInput autocomplete="off" formControlName="name" required>
         </mat-form-field>
 
-        <mat-form-field>
-          <input autocomplete="off"
-                 formControlName="icon"
-                 matInput
-                 placeholder="Enter icon"
-                 required>
+        <mat-form-field appearance="outline" class="mnm-field">
+          <mat-label>Icon</mat-label>
+          <mat-icon matPrefix>insert_emoticon</mat-icon>
+          <input matInput autocomplete="off" formControlName="icon" required>
         </mat-form-field>
       </div>
 
-      <div class="dialog-content" fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="5px">
-        <mat-form-field>
-          <input autocomplete="off"
-                 formControlName="sortOrder"
-                 matInput
-                 placeholder="Enter sort order"
-                 required type="number">
+      <div class="mnm-row">
+        <mat-form-field appearance="outline" class="mnm-field">
+          <mat-label>Sort Order</mat-label>
+          <mat-icon matPrefix>sort</mat-icon>
+          <input matInput autocomplete="off" formControlName="sortOrder" required type="number">
         </mat-form-field>
 
-        <mat-form-field>
-          <input autocomplete="off"
-                 formControlName="url"
-                 matInput
-                 placeholder="Enter url"
-          >
+        <mat-form-field appearance="outline" class="mnm-field">
+          <mat-label>URL</mat-label>
+          <mat-icon matPrefix>link</mat-icon>
+          <input matInput autocomplete="off" formControlName="url">
         </mat-form-field>
       </div>
 
-      <div fxLayout="row" fxLayoutAlign="space-between stretch">
-        <mat-form-field appearance="fill">
-          <mat-label>Parent</mat-label>
-          <mat-select
-            formControlName="parentId">
-            <mat-option *ngFor="let menu of parentMenus" [value]="menu.id">
-              {{menu.name}}
-            </mat-option>
+      <div class="mnm-row">
+        <mat-form-field appearance="outline" class="mnm-field">
+          <mat-label>Parent Menu</mat-label>
+          <mat-icon matPrefix>account_tree</mat-icon>
+          <mat-select formControlName="parentId">
+            <mat-option *ngFor="let menu of parentMenus" [value]="menu.id">{{menu.name}}</mat-option>
           </mat-select>
         </mat-form-field>
 
-        <div fxLayout="column" fxLayoutAlign="stretch">
-          <mat-form-field appearance="fill">
-            <mat-label>Report</mat-label>
-            <mat-select [compareWith]="MenuService.compareObjects"
-                        formControlName="roleId"
-                        required>
-              <mat-option *ngFor="let role of roles" [value]="role.id">
-                {{role.name}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
+        <mat-form-field appearance="outline" class="mnm-field">
+          <mat-label>Role</mat-label>
+          <mat-icon matPrefix>admin_panel_settings</mat-icon>
+          <mat-select [compareWith]="MenuService.compareObjects" formControlName="roleId" required>
+            <mat-option *ngFor="let role of roles" [value]="role.id">{{role.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
-      <!--      <pre>{{MenuService.form.value | json}}</pre>-->
     </mat-dialog-content>
-    <mat-dialog-actions fxLayout="row" fxLayoutAlign="end stretch">
-      <div class="button">
-        <button mat-dialog-close mat-raised-button type="button">CANCEL</button>
-        <button color="primary" mat-raised-button type="submit">
-          {{MenuService.form.controls['id'].value ? "UPDATE" : "CREATE"}}
-        </button>
-      </div>
+
+    <mat-dialog-actions class="mnm-dialog-foot">
+      <button mat-button mat-dialog-close type="button">Cancel</button>
+      <button mat-raised-button color="primary" type="submit">
+        {{MenuService.form.controls['id'].value ? "Update" : "Create"}}
+      </button>
     </mat-dialog-actions>
   </form>
-</section>
+</div>
