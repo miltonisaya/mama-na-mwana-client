@@ -104,11 +104,13 @@ export class RolesComponent implements OnInit {
   }
 
   openMappingDialog(role) {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    this.dialog.open(RoleAuthorityMappingDialogComponent, {data: role})
-      .afterClosed().subscribe(() => {
+    this.dialog.open(RoleAuthorityMappingDialogComponent, {
+      data: role,
+      width: '780px',
+      maxWidth: '95vw',
+      maxHeight: '90vh',
+      disableClose: true,
+    }).afterClosed().subscribe(() => {
       this.getRoles();
     });
   }
