@@ -40,8 +40,8 @@ export class ReportParamsDialog implements OnInit {
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
         startWith(''),
-        map(value => typeof value === 'string' ? value : value.name),
-        map(name => name ? this._filter(name) : this.councils)
+        map(value => (value == null || typeof value === 'string') ? value : value.name),
+        map(name => name ? this._filter(name) : (this.councils ?? []))
       );
 
     this.getReportParams();
@@ -69,8 +69,9 @@ export class ReportParamsDialog implements OnInit {
   }
 
   displayFn(council: any): string {
+    if (!council) return '';
     this.selectedCouncil = council.id;
-    return council && council.name ? council.name : '';
+    return council.name ?? '';
   }
 
   formatSelectedDates() {
@@ -115,6 +116,7 @@ export class ReportParamsDialog implements OnInit {
   }
 
   private _filter(name: string): any {
+    if (!this.councils) return [];
     const filterValue = name.toLowerCase();
     return this.councils.filter(option => option.name.toLowerCase().includes(filterValue));
   }
