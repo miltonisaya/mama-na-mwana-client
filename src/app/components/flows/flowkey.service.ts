@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {catchError, map, tap} from 'rxjs/operators';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 
 export const BASE_URL: string = environment.baseURL;
 export const RESOURCE_URL: string = 'api/v1/rapidpro-flows';
@@ -14,10 +14,10 @@ export const MAP_DATA_ELEMENT_WITH_CATEGORY_API: string = 'api/v1/flows/map-data
 
 @Injectable()
 export class FlowKeyService {
-  form: FormGroup = new FormGroup({
-    id: new FormControl(''),
-    dataElementId: new FormControl('', [Validators.required]),
-    rapidProFlowId: new FormControl('', [Validators.required])
+  form: UntypedFormGroup = new UntypedFormGroup({
+    id: new UntypedFormControl(''),
+    dataElementId: new UntypedFormControl('', [Validators.required]),
+    rapidProFlowId: new UntypedFormControl('', [Validators.required])
   });
 
   private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
