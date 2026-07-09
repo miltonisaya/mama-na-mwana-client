@@ -315,6 +315,20 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+// ─── Page/section headers — flex row with space-between alignment ─────────────
+// Replaces fxLayout="row" fxLayoutAlign="space-between center" on .page-header
+// and .dashboard-header elements throughout the app.
+.page-header,
+.dashboard-header,
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// Button groups inside headers (replaces fxLayoutGap="8px")
+.btn-group { display: flex; gap: 8px; align-items: center; }
+
 // ─── Transfer list (shared by roles + programs dialogs) ───────────────────────
 .mnm-transfer {
   display: flex;
