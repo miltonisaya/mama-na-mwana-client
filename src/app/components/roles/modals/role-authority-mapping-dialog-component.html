@@ -1,48 +1,137 @@
-<section class="login-form-container"
-         fxFlexFill
-         fxLayout="column"
-         fxLayout.xs="column"
-         fxLayoutAlign="end none">
-  <h1 class="dialog-header" fxLayout="row" fxLayoutAlign="center center" mat-dialog-title>
-    {{"Map Authorities"}}
-  </h1>
-  <br>
-  <mat-divider></mat-divider>
-  <mat-dialog-content>
-    <p-pickList
-      [responsive]="true"
-      [sourceStyle]="{'height':'200px'}"
-      [source]="unSelectedList"
-      [targetStyle]="{'height':'200px'}"
-      [target]="selectedList"
-      dragdrop="true"
-      filterBy="Name"
-      sourceFilterPlaceholder="Search by Name"
-      sourceHeader="Available"
-      targetFilterPlaceholder="Search by Name"
-      targetHeader="Selected"
-    >
-      <ng-template let-tm pTemplate="TeamA">
-        <div class="ui-helper-clearfix">
-          <div style="font-size:14px;float:left;margin:15px 5px 0 0">{{tm.name}}</div>
-        </div>
-      </ng-template>
-    </p-pickList>
-  </mat-dialog-content>
+<!-- ====== FIXED HEADER + SEARCH (never scrolls) ====== -->
+<div class="d-header">
 
-  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end none">
-    <div class="button">
-      <button mat-dialog-close mat-raised-button type="button">CANCEL</button>
+  <div class="d-header-top">
+    <div class="d-avatar">
+      <mat-icon>admin_panel_settings</mat-icon>
+    </div>
+    <div class="d-header-info">
+      <h2 class="d-title">Assign Permissions</h2>
+      <span class="d-role-tag">{{ data.name }}</span>
+    </div>
+    <div class="d-stats" *ngIf="!loading">
+      <span class="d-chip d-chip-green">
+        <mat-icon>check_circle</mat-icon>
+        {{ assignedCount }} assigned
+      </span>
+      <span class="d-chip d-chip-blue">
+        <mat-icon>vpn_key</mat-icon>
+        {{ allAuthorities.length }} total
+      </span>
+    </div>
+  </div>
+
+  <div class="d-search-row">
+    <div class="d-search-box" [class.focused]="searchFocused">
+      <mat-icon class="d-search-icon">search</mat-icon>
+      <input
+        class="d-search-input"
+        [(ngModel)]="search"
+        [disabled]="loading"
+        placeholder="Search permissions by name or resource…"
+        autocomplete="off"
+        (focus)="searchFocused = true"
+        (blur)="searchFocused = false">
       <button
-        (click)="saveData()"
-        color="primary"
-        mat-raised-button
-        type="submit"
-      >
-        {{"SAVE"}}
+        *ngIf="search"
+        mat-icon-button
+        class="d-search-clear"
+        (click)="search = ''; searchFocused = false"
+        tabindex="-1">
+        <mat-icon>close</mat-icon>
       </button>
     </div>
-  </mat-dialog-actions>
-</section>
+  </div>
 
-<!--Data <pre>{{data | json}}</pre>-->
+  <mat-progress-bar
+    *ngIf="loading"
+    mode="indeterminate"
+    class="d-progress">
+  </mat-progress-bar>
+
+</div>
+
+<!-- ====== SCROLLABLE GROUPS ====== -->
+<mat-dialog-content class="d-content">
+
+  <div *ngIf="loading" class="d-loading">
+    <span>Loading permissions…</span>
+  </div>
+
+  <div *ngIf="!loading" class="d-groups">
+
+    <div
+      *ngFor="let group of filteredGroups; trackBy: trackByResource"
+      class="d-group">
+
+      <!-- Group row -->
+      <div class="d-group-header" (click)="toggleGroup(group.resource)">
+        <mat-checkbox
+          color="primary"
+          [checked]="isGroupAllChecked(group)"
+          [indeterminate]="isGroupIndeterminate(group)"
+          (click)="$event.stopPropagation()"
+          (change)="toggleGroupAll(group, $event)">
+        </mat-checkbox>
+        <mat-icon class="d-group-folder">
+          {{ expandedGroups.has(group.resource) ? 'folder_open' : 'folder' }}
+        </mat-icon>
+        <span class="d-group-name">{{ group.resource }}</span>
+        <span class="d-group-count" [class.has-checked]="group.checkedCount > 0">
+          {{ group.checkedCount }}/{{ group.authorities.length }}
+        </span>
+        <mat-icon class="d-chevron">
+          {{ expandedGroups.has(group.resource) ? 'expand_less' : 'expand_more' }}
+        </mat-icon>
+      </div>
+
+      <!-- Permission rows -->
+      <div *ngIf="expandedGroups.has(group.resource)" class="d-perm-list">
+        <div
+          *ngFor="let auth of group.authorities; trackBy: trackByAuthId"
+          class="d-perm-item"
+          [class.is-checked]="checkedIds.has(auth.id)"
+          (click)="togglePermission(auth.id)">
+          <mat-checkbox
+            color="primary"
+            [checked]="checkedIds.has(auth.id)"
+            (click)="$event.stopPropagation()"
+            (change)="togglePermission(auth.id)">
+          </mat-checkbox>
+          <div class="d-perm-info">
+            <span class="d-perm-name">{{ auth.name }}</span>
+            <span class="d-perm-method">{{ getMethodLabel(auth.description) }}</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Empty states -->
+    <div *ngIf="filteredGroups.length === 0 && search" class="d-empty">
+      <mat-icon>search_off</mat-icon>
+      <p>No permissions match <strong>"{{ search }}"</strong></p>
+    </div>
+    <div *ngIf="filteredGroups.length === 0 && !search" class="d-empty">
+      <mat-icon>lock_open</mat-icon>
+      <p>No permissions available</p>
+    </div>
+
+  </div>
+</mat-dialog-content>
+
+<!-- ====== ACTIONS ====== -->
+<mat-dialog-actions align="end" class="d-actions">
+  <button mat-stroked-button mat-dialog-close class="d-btn-cancel">
+    Cancel
+  </button>
+  <button
+    mat-flat-button
+    color="primary"
+    class="d-btn-save"
+    [disabled]="saving"
+    (click)="saveData()">
+    <mat-icon>save</mat-icon>
+    {{ saving ? 'Saving…' : 'Save Changes' }}
+  </button>
+</mat-dialog-actions>
