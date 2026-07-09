@@ -26,7 +26,7 @@
       <input #input (keyup)="applyFilter($event)" autocomplete="off" matInput placeholder="Type to filter...">
     </mat-form-field>
 
-    <div class="table-container">
+    <div *ngIf="dataSource" class="table-container">
       <table [dataSource]="dataSource" mat-table>
     <!-- SNo Column -->
     <ng-container matColumnDef="sno">
