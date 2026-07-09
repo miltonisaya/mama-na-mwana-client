@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {catchError, map, tap} from 'rxjs/operators';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 
 export const BASE_URL: string = environment.baseURL;
 export const RESOURCE_URL: string = 'api/v1/authorities';
@@ -13,10 +13,10 @@ export const UNSELECTED_AUTHORITIES_BY_ROLE_RESOURCE_URL: string = 'api/v1/autho
 
 @Injectable()
 export class AuthorityService {
-  form: FormGroup = new FormGroup({
-    id: new FormControl(''),
-    name: new FormControl('', [Validators.required]),
-    description: new FormControl('', [Validators.required])
+  form: UntypedFormGroup = new UntypedFormGroup({
+    id: new UntypedFormControl(''),
+    name: new UntypedFormControl('', [Validators.required]),
+    description: new UntypedFormControl('', [Validators.required])
   });
   private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
   private ROLE_AUTHORITY_API_ENDPOINT = `${BASE_URL}/${ROLE_AUTHORITY_RESOURCE_URL}`;
