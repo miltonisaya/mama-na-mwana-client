@@ -1,12 +1,12 @@
-<div class="dashboard-header" fxLayout="row" fxLayoutAlign="space-between center">
+<div class="dashboard-header">
   <div>
     <h2 class="page-title">Dashboard</h2>
     <p class="page-subtitle">Overview of system statistics and activities</p>
   </div>
 </div>
 
-<div class="stats-cards" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="24px">
-  <mat-card *ngIf="numberOfRegisteredContactsIsReady === true" class="stat-card stat-card-primary" fxFlex="50" fxFlex.lt-md="100">
+<div class="stats-cards">
+  <mat-card *ngIf="numberOfRegisteredContactsIsReady === true" class="stat-card stat-card-primary">
     <div class="stat-card-content">
       <div class="stat-icon">
         <mat-icon>people</mat-icon>
@@ -21,7 +21,7 @@
       </div>
     </div>
   </mat-card>
-  <mat-card *ngIf="numberOfRegisteredContactsTodayIsReady === true" class="stat-card stat-card-success" fxFlex="50" fxFlex.lt-md="100">
+  <mat-card *ngIf="numberOfRegisteredContactsTodayIsReady === true" class="stat-card stat-card-success">
     <div class="stat-card-content">
       <div class="stat-icon">
         <mat-icon>person_add</mat-icon>
@@ -38,7 +38,7 @@
   </mat-card>
 </div>
 
-<div class="chart-section" fxLayout="column" fxLayoutAlign="space-evenly stretch">
+<div class="chart-section">
   <mat-card class="chart-card" *ngIf="bigChartsIsReady === true">
     <mat-card-header>
       <mat-card-title>
@@ -53,7 +53,7 @@
 </div>
 
 <div *ngIf="isSuperAdministrator" class="transaction-section">
-  <div class="section-header" fxLayout="row" fxLayoutAlign="space-between center">
+  <div class="section-header">
     <h3>
       <mat-icon>receipt_long</mat-icon>
       Transaction Logs
@@ -86,7 +86,7 @@
             <span class="transaction-value">{{trx.dhisResponse}}</span>
           </div>
         </div>
-        <div class="transaction-status" fxLayout="row" fxLayoutAlign="space-between center">
+        <div class="transaction-status">
           <span *ngIf="trx.isSent" class="status-badge status-success">
             <mat-icon>check_circle</mat-icon>
             Sent
