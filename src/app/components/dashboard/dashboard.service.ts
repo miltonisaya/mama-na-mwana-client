@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {UntypedFormControl, UntypedFormGroup, Validators} from "@angular/forms";
 
 export const BASE_URL: string = environment.baseURL;
 export const RESOURCE_URL: string = 'api/v1/contacts';
@@ -12,9 +12,9 @@ export const RESOURCE_URL: string = 'api/v1/contacts';
   providedIn: 'root'
 })
 export class DashboardService {
-  registrationsForm: FormGroup = new FormGroup({
-    startDate: new FormControl('', [Validators.required]),
-    endDate: new FormControl('', [Validators.required])
+  registrationsForm: UntypedFormGroup = new UntypedFormGroup({
+    startDate: new UntypedFormControl('', [Validators.required]),
+    endDate: new UntypedFormControl('', [Validators.required])
   });
   private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
 
