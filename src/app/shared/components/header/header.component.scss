@@ -53,9 +53,18 @@ ul {
   }
 }
 
+// Toolbar right-side spacer + icon list
+.toolbar-spacer { flex: 1; }
+.toolbar-icons {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+}
+
 // Right side icons
 ::ng-deep {
-  ul[fxLayout="row"] {
+  .toolbar-icons {
     li {
       button {
         color: var(--text-secondary, #6b7280);
