@@ -53,7 +53,7 @@ export class TransactionsService {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     }
 
-    return this.http.get<any>(this.RESET_TRANSACTION_API_END_POINT + "/" + param.id, httpOptions).pipe(
+    return this.http.post<any>(this.RESET_TRANSACTION_API_END_POINT + "/" + param.id, null, httpOptions).pipe(
       map(this.extractData));
   }
 
