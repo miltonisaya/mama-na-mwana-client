@@ -1,5 +1,5 @@
 <div class="profile-card">
-  <div class="header" fxLayout="column" fxLayoutAlign="space-between stretch">
+  <div class="header">
     <h3>Logged in as: {{user.name | titlecase}}</h3>
   </div>
 </div>
@@ -13,7 +13,7 @@
                 <mat-expansion-panel-header>
                   <mat-panel-title>
                     <!-- Cabeceras del submenu -->
-                    <div fxLayout="row" fxLayoutAlign="space-between center">
+                    <div style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;width:100%">
                       <mat-icon>{{item.icon}}</mat-icon>
                       {{item.name}}
                     </div>
@@ -22,7 +22,7 @@
                 <span *ngFor="let child of item.children">
                   <mat-list-item routerLink="{{'/'+child.url}}">
                     <!-- Entradas de cada submenú  -->
-                    <div fxLayout="row" fxLayoutAlign="space-between center">
+                    <div style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;width:100%">
                       <mat-icon>{{child.icon}}</mat-icon>
                       {{child.name}}
                     </div>
@@ -34,7 +34,7 @@
           <span *ngIf="!item.children || item.children.length === 0">
             <mat-list-item routerLink="{{'/'+item.url}}">
               <!-- Entradas principales -->
-              <div fxLayout="row" fxLayoutAlign="space-between center">
+              <div style="display:flex;flex-direction:row;align-items:center;justify-content:space-between;width:100%">
                 <mat-icon>{{item.icon}}</mat-icon>
                 {{item.name}}
               </div>
