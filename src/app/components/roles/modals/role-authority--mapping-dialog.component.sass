@@ -1,15 +1,360 @@
-.form
-  width: 500px
+// ─── Angular Material overrides ───────────────────────────────────────────
+// mat-dialog-content's default margin: 0 -24px bleeds out of the container;
+// reset it so our own padding rules apply cleanly.
+::ng-deep .mat-dialog-content.d-content
+  margin: 0 !important
+  padding: 0 !important
+  max-height: 54vh !important
+  overflow-y: auto !important
+  display: block !important
 
-.dialog-header
-  //color: #008080
-  margin-bottom: 0px
+::ng-deep .mat-dialog-actions.d-actions
+  padding: 14px 24px !important
+  margin-bottom: 0 !important
+  min-height: unset !important
+  border-top: 1px solid #E2E8F0
 
-.dialog-content
-  margin-top: 10px
+// ─── Header (fixed, never scrolls) ────────────────────────────────────────
+.d-header
+  border-bottom: 1px solid #E2E8F0
 
-.button
-  margin: 5px
+.d-header-top
+  display: flex
+  align-items: center
+  gap: 14px
+  padding: 20px 24px 12px
 
-h1
-  white-space: pre
+.d-avatar
+  width: 42px
+  height: 42px
+  border-radius: 10px
+  background: #EFF6FF
+  border: 1px solid #BFDBFE
+  display: flex
+  align-items: center
+  justify-content: center
+  flex-shrink: 0
+
+  mat-icon
+    font-size: 20px
+    width: 20px
+    height: 20px
+    color: #2563EB
+
+.d-header-info
+  flex: 1
+  min-width: 0
+
+.d-title
+  margin: 0 0 3px
+  font-size: 16px
+  font-weight: 700
+  color: #0F172A
+  line-height: 1.2
+
+.d-role-tag
+  display: inline-flex
+  align-items: center
+  font-size: 12px
+  font-weight: 600
+  color: #2563EB
+  background: #EFF6FF
+  border: 1px solid #BFDBFE
+  border-radius: 6px
+  padding: 2px 8px
+
+.d-stats
+  display: flex
+  gap: 6px
+  align-items: center
+  flex-shrink: 0
+
+.d-chip
+  display: inline-flex
+  align-items: center
+  gap: 4px
+  padding: 5px 10px
+  border-radius: 20px
+  font-size: 12px
+  font-weight: 600
+  white-space: nowrap
+
+  mat-icon
+    font-size: 13px
+    width: 13px
+    height: 13px
+
+  &.d-chip-green
+    background: #F0FDF4
+    color: #16A34A
+    border: 1px solid #BBF7D0
+
+    mat-icon
+      color: #16A34A
+
+  &.d-chip-blue
+    background: #EFF6FF
+    color: #2563EB
+    border: 1px solid #BFDBFE
+
+    mat-icon
+      color: #2563EB
+
+// ─── Search ───────────────────────────────────────────────────────────────
+.d-search-row
+  padding: 0 20px 16px
+
+.d-search-box
+  display: flex
+  align-items: center
+  gap: 10px
+  background: #F8FAFC
+  border: 1.5px solid #E2E8F0
+  border-radius: 10px
+  padding: 9px 14px
+  transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease
+
+  &.focused
+    border-color: #2563EB
+    background: #FFFFFF
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1)
+
+  .d-search-icon
+    font-size: 18px
+    width: 18px
+    height: 18px
+    color: #94A3B8
+    flex-shrink: 0
+
+  .d-search-input
+    flex: 1
+    border: none
+    outline: none
+    font-size: 13.5px
+    color: #0F172A
+    background: transparent
+    min-width: 0
+
+    &::placeholder
+      color: #94A3B8
+
+    &:disabled
+      cursor: wait
+
+  .d-search-clear
+    width: 28px
+    height: 28px
+    line-height: 28px
+    flex-shrink: 0
+
+    ::ng-deep .mat-icon
+      font-size: 16px
+      width: 16px
+      height: 16px
+
+// ─── Loading bar ──────────────────────────────────────────────────────────
+.d-progress
+  display: block
+
+// ─── Scrollable content ───────────────────────────────────────────────────
+.d-content
+  // Controlled by ::ng-deep override above
+
+// Loading placeholder
+.d-loading
+  display: flex
+  align-items: center
+  justify-content: center
+  padding: 48px 24px
+  color: #94A3B8
+  font-size: 14px
+
+// ─── Groups ───────────────────────────────────────────────────────────────
+.d-groups
+  padding: 14px 20px
+  display: flex
+  flex-direction: column
+  gap: 6px
+
+// Custom scrollbar inside the content area
+::ng-deep .mat-dialog-content.d-content
+  &::-webkit-scrollbar
+    width: 5px
+
+  &::-webkit-scrollbar-track
+    background: transparent
+
+  &::-webkit-scrollbar-thumb
+    background: #CBD5E1
+    border-radius: 3px
+
+    &:hover
+      background: #94A3B8
+
+// ─── Group card ───────────────────────────────────────────────────────────
+.d-group
+  border: 1px solid #E2E8F0
+  border-radius: 10px
+  overflow: hidden
+  background: #FFFFFF
+  transition: border-color 0.15s ease, box-shadow 0.15s ease
+
+  &:hover
+    border-color: #BFDBFE
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.08)
+
+// Group header row
+.d-group-header
+  display: flex
+  align-items: center
+  gap: 10px
+  padding: 9px 14px
+  background: #F8FAFC
+  cursor: pointer
+  user-select: none
+  transition: background-color 0.12s ease
+
+  &:hover
+    background: #F1F5F9
+
+  .d-group-folder
+    font-size: 17px
+    width: 17px
+    height: 17px
+    color: #64748B
+    flex-shrink: 0
+
+  .d-group-name
+    flex: 1
+    font-size: 11px
+    font-weight: 700
+    color: #475569
+    text-transform: uppercase
+    letter-spacing: 0.8px
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
+
+  .d-group-count
+    font-size: 11px
+    font-weight: 700
+    padding: 2px 8px
+    border-radius: 10px
+    background: #E2E8F0
+    color: #94A3B8
+    flex-shrink: 0
+    white-space: nowrap
+    transition: background-color 0.15s ease, color 0.15s ease
+
+    &.has-checked
+      background: #D1FAE5
+      color: #065F46
+
+  .d-chevron
+    font-size: 18px
+    width: 18px
+    height: 18px
+    color: #94A3B8
+    flex-shrink: 0
+
+// ─── Permission rows ──────────────────────────────────────────────────────
+.d-perm-list
+  border-top: 1px solid #F1F5F9
+
+.d-perm-item
+  display: flex
+  align-items: center
+  gap: 12px
+  padding: 9px 14px 9px 20px
+  cursor: pointer
+  user-select: none
+  transition: background-color 0.1s ease
+  border-bottom: 1px solid #F8FAFC
+  border-left: 3px solid transparent
+
+  &:last-child
+    border-bottom: none
+
+  &:hover
+    background: #F8FAFC
+
+  &.is-checked
+    background: #EFF6FF
+    border-left-color: #3B82F6
+
+    .d-perm-name
+      color: #1D4ED8
+
+.d-perm-info
+  display: flex
+  flex-direction: column
+  gap: 2px
+  flex: 1
+  min-width: 0
+
+.d-perm-name
+  font-size: 12px
+  font-weight: 600
+  color: #334155
+  font-family: 'SFMono-Regular', 'Consolas', 'Liberation Mono', monospace
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+  transition: color 0.1s ease
+
+.d-perm-method
+  font-size: 11px
+  color: #94A3B8
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+
+// ─── Empty state ──────────────────────────────────────────────────────────
+.d-empty
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+  padding: 56px 24px
+  gap: 10px
+  text-align: center
+
+  mat-icon
+    font-size: 40px
+    width: 40px
+    height: 40px
+    color: #CBD5E1
+
+  p
+    margin: 0
+    font-size: 14px
+    color: #94A3B8
+
+    strong
+      color: #64748B
+
+// ─── Action bar ───────────────────────────────────────────────────────────
+.d-actions
+  gap: 10px
+
+.d-btn-cancel
+  border-radius: 8px !important
+  height: 38px !important
+  font-size: 13px !important
+  font-weight: 500 !important
+  color: #64748B !important
+  border-color: #E2E8F0 !important
+
+.d-btn-save
+  border-radius: 8px !important
+  height: 38px !important
+  font-size: 13px !important
+  font-weight: 600 !important
+  display: inline-flex !important
+  align-items: center !important
+  gap: 6px !important
+
+  mat-icon
+    font-size: 17px
+    width: 17px
+    height: 17px
