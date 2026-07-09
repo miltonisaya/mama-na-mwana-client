@@ -6,12 +6,11 @@ import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {DefaultModule} from './layouts/default/default.module';
 import {RouterModule} from '@angular/router';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import {RolesService} from './components/roles/roles.service';
 import {LoginComponent} from './components/login/login.component';
 import {MatCardModule} from '@angular/material/card';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {FlexModule} from '@angular/flex-layout';
 import {AngularMaterialModule} from './material.module';
 import {ReactiveFormsModule} from '@angular/forms';
 import {AuthInterceptor} from './interceptors/auth-interceptor.service';
@@ -46,61 +45,54 @@ import {LoginDialogComponent} from "./components/login-dialog/login-dialog.compo
 import { DatasetsComponent } from './components/datasets/datasets.component';
 import {DatasetsService} from "./components/datasets/datasets.service";
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    NotifierComponent,
-    LoginDialogComponent,
-    DatasetsComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    RouterModule,
-    HttpClientModule,
-    DefaultModule,
-    MatCardModule,
-    MatFormFieldModule,
-    FlexModule,
-    AngularMaterialModule,
-    ReactiveFormsModule,
-    RolesModule,
-    LoginModule,
-    UsersModule,
-    FlowsModule,
-    DataElementModule,
-    ContactsModule,
-    OrganisationUnitModule,
-    ProgramModule,
-    MenuModule,
-    PasswordResetModule,
-    AuthorityModule,
-    DashboardModule,
-    ReportModule,
-  ],
-  providers: [
-    RolesService,
-    UsersService,
-    FlowService,
-    DataElementService,
-    FlowKeyService,
-    ContactsService,
-    TransactionsService,
-    OrganisationUnitService,
-    ProgramService,
-    AuthorityService,
-    MenuService,
-    ReportService,
-    DatasetsService,
-    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
-    AuthGuard
-  ],
-  exports: [],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        LoginComponent,
+        NotifierComponent,
+        LoginDialogComponent,
+        DatasetsComponent
+    ],
+    exports: [],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        RouterModule,
+        DefaultModule,
+        MatCardModule,
+        MatFormFieldModule,
+        AngularMaterialModule,
+        ReactiveFormsModule,
+        RolesModule,
+        LoginModule,
+        UsersModule,
+        FlowsModule,
+        DataElementModule,
+        ContactsModule,
+        OrganisationUnitModule,
+        ProgramModule,
+        MenuModule,
+        PasswordResetModule,
+        AuthorityModule,
+        DashboardModule,
+        ReportModule], providers: [
+        RolesService,
+        UsersService,
+        FlowService,
+        DataElementService,
+        FlowKeyService,
+        ContactsService,
+        TransactionsService,
+        OrganisationUnitService,
+        ProgramService,
+        AuthorityService,
+        MenuService,
+        ReportService,
+        DatasetsService,
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
+        AuthGuard,
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule {
 }
