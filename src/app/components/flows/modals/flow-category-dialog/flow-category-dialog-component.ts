@@ -35,8 +35,8 @@ export class FlowCategoryDialogComponent implements OnInit {
     this.filteredOptions = this.dataElement.valueChanges
       .pipe(
         startWith(''),
-        map(value => typeof value === 'string' ? value : value.name),
-        map(name => name ? this._filter(name) : this.dataElements)
+        map(value => (value == null || typeof value === 'string') ? value : value.name),
+        map(name => name ? this._filter(name) : (this.dataElements ?? []))
       );
   }
 
@@ -89,11 +89,13 @@ export class FlowCategoryDialogComponent implements OnInit {
   }
 
   displayFn(dataElement: any): string {
+    if (!dataElement) return '';
     this.selectedDataElementYes = dataElement.id;
-    return dataElement && dataElement.name ? dataElement.name : '';
+    return dataElement.name ?? '';
   }
 
   private _filter(name: string): any {
+    if (!this.dataElements) return [];
     const filterValue = name.toLowerCase();
     return this.dataElements.filter(option => option.name.toLowerCase().includes(filterValue));
   }
