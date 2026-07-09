@@ -27,7 +27,6 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatMenuModule} from '@angular/material/menu';
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatNativeDateModule} from "@angular/material/core";
@@ -60,7 +59,6 @@ import {MatNativeDateModule} from "@angular/material/core";
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    FlexLayoutModule,
     MatMenuModule,
     MatProgressBarModule,
     ReactiveFormsModule,
@@ -85,7 +83,6 @@ import {MatNativeDateModule} from "@angular/material/core";
     MatTooltipModule,
     MatTableModule,
     MatPaginatorModule,
-    FlexLayoutModule,
     MatMenuModule,
     MatProgressBarModule,
     ReactiveFormsModule,
