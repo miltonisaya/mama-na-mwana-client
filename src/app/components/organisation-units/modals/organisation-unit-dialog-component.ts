@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {MatDialogRef} from '@angular/material/dialog';
 import {NotifierService} from '../../notifications/notifier.service';
 import {OrganisationUnitService} from '../organisation-unit.service';
-import {FormControl, Validators} from "@angular/forms";
+import {FormControl} from "@angular/forms";
 import {map, startWith} from "rxjs/operators";
 
 @Component({
@@ -12,9 +12,8 @@ import {map, startWith} from "rxjs/operators";
 })
 
 export class OrganisationUnitDialogComponent implements OnInit {
-  myControl = new FormControl([Validators.required]);
-  councils: any;
-  selectedCouncil: any;
+  myControl = new FormControl('');
+  councils: any[] = [];
   filteredOptions: any;
 
   constructor(
@@ -25,35 +24,51 @@ export class OrganisationUnitDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getCouncils();
-
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
         startWith(''),
-        map(value => typeof value === 'string' ? value : value.name),
-        map(name => name ? this._filter(name) : this.councils)
+        map(value => typeof value === 'string' ? value : (value?.name ?? '')),
+        map(name => name ? this._filter(name) : this.councils.slice())
       );
+
+    this.getCouncils();
   }
 
-  displayFn(council: any): string {
-    this.selectedCouncil = council.id;
+  displayFn = (council: any): string => {
     return council && council.name ? council.name : '';
   }
 
   getCouncils() {
-    let params = {
-      pageSize: 1000
-    };
-    return this.organisationUnitService.getCouncils(params).subscribe((response: any) => {
-      this.councils = response.data;
+    const params = {pageSize: 1000};
+    const parentId = this.organisationUnitService.form.get('parentId').value;
+
+    this.organisationUnitService.getCouncils(params).subscribe((response: any) => {
+      this.councils = response.data || [];
+
+      if (parentId) {
+        const match = this.councils.find((c: any) => c.id === parentId);
+        if (match) {
+          this.myControl.setValue(match);
+        } else {
+          // Parent not in the standard list (e.g., region or deep-level council) — fetch directly
+          this.organisationUnitService.getById(parentId).subscribe((res: any) => {
+            const parent = res.data;
+            if (parent) {
+              this.myControl.setValue({id: parent.id, name: parent.name, code: parent.code});
+            }
+          });
+        }
+      }
     }, error => {
       this.notifierService.showNotification(error.error.error, 'OK', 'error');
-      console.log(error);
     });
   }
 
   submitForm(data) {
-    this.organisationUnitService.form.patchValue({parentId: this.myControl.value.id})
+    const councilValue = this.myControl.value;
+    if (councilValue && typeof councilValue === 'object' && councilValue.id) {
+      this.organisationUnitService.form.patchValue({parentId: councilValue.id});
+    }
     console.log('Is valid =>', this.organisationUnitService.form.valid);
 
     if (this.organisationUnitService.form.valid) {
