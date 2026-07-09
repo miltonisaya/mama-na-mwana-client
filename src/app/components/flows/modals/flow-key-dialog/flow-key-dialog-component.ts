@@ -3,7 +3,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {NotifierService} from '../../../notifications/notifier.service';
 import {FlowKeyService} from '../../flowkey.service';
 import {DataElementService} from '../../../data-elements/dataElement.service';
-import {FormControl} from '@angular/forms';
+import {UntypedFormControl} from '@angular/forms';
 import {map, startWith} from 'rxjs/operators';
 import {FlowService} from "../../flow.service";
 
@@ -19,7 +19,7 @@ export class FlowKeyDialogComponent implements OnInit {
   selectedDataElement: any;
   autoFilter: any;
 
-  myControl = new FormControl();
+  myControl = new UntypedFormControl();
 
   constructor(
     public flowKeyService: FlowKeyService,
