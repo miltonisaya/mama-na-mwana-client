@@ -1,19 +1,25 @@
-<section class="possible-true-values" fxLayout="column" fxLayoutAlign="center center">
-  <mat-dialog-content class="mat-typography">
-    <h1 class="dialog-header" mat-dialog-title>
-      Possible True Values
-    </h1>
-    <div class="dialog-content" fxLayout="column" fxLayoutGap="10px">
-      <form [formGroup]="possibleValuesForm" (ngSubmit)="savePossibleTrueValues()">
-        <mat-form-field appearance="fill">
-          <mat-label>Possible True/Yes values should be specified here to determine whether the values sent are true of false</mat-label>
-          <input matInput type="text" id="possibleTrueValues" formControlName="possibleTrueValues">
-        </mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="end" fxLayoutGap="10px">
-          <button mat-raised-button color="primary" type="submit">SAVE</button>
-          <button mat-dialog-close mat-raised-button type="button">CANCEL</button>
-        </div>
-      </form>
+<div class="mnm-dialog">
+  <div class="mnm-dialog-head">
+    <mat-icon class="mnm-dialog-icon">rule</mat-icon>
+    <div>
+      <h2 mat-dialog-title>Possible True Values</h2>
+      <p class="mnm-dialog-subtitle">Specify values that should be treated as true/yes</p>
     </div>
-  </mat-dialog-content>
-</section>
+  </div>
+
+  <form [formGroup]="possibleValuesForm" (ngSubmit)="savePossibleTrueValues()">
+    <mat-dialog-content class="mnm-dialog-body">
+      <mat-form-field appearance="outline" class="mnm-field">
+        <mat-label>True/Yes values (comma-separated)</mat-label>
+        <mat-icon matPrefix>check_circle</mat-icon>
+        <input matInput type="text" id="possibleTrueValues" formControlName="possibleTrueValues">
+        <mat-hint>e.g. YES,1,NDIYO,NDIO</mat-hint>
+      </mat-form-field>
+    </mat-dialog-content>
+
+    <mat-dialog-actions class="mnm-dialog-foot">
+      <button mat-button mat-dialog-close type="button">Cancel</button>
+      <button mat-raised-button color="primary" type="submit">Save</button>
+    </mat-dialog-actions>
+  </form>
+</div>
