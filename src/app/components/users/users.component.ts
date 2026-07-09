@@ -51,6 +51,7 @@ export class UsersComponent implements OnInit {
     return this.UsersService.getUsers(this.params).subscribe((response: any) => {
       this.users = response.data;
       this.dataSource = new MatTableDataSource<User>(this.users.content);
+      this.dataSource.paginator = this.paginator;
     }, error => {
       this.NotifierService.showNotification(error.message, 'OK', 'error');
       console.log(error);
@@ -58,6 +59,7 @@ export class UsersComponent implements OnInit {
   }
 
   applyFilter(event: Event) {
+    if (!this.dataSource) return;
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
