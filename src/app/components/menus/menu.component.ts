@@ -50,6 +50,7 @@ export class MenuComponent implements OnInit {
     return this.MenuService.getMenus(this.params).subscribe((response: any) => {
       this.menus = response.data;
       this.dataSource = new MatTableDataSource<Menu>(this.menus.content);
+      this.dataSource.paginator = this.paginator;
     }, error => {
       this.notifierService.showNotification(error.message, 'OK', 'error');
       console.log(error);
@@ -58,6 +59,7 @@ export class MenuComponent implements OnInit {
 
 
   applyFilter(event: Event) {
+    if (!this.dataSource) return;
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
