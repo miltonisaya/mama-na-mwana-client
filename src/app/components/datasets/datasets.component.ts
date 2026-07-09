@@ -52,8 +52,10 @@ export class DatasetsComponent implements OnInit {
     });
   }
 
-  applyFilter($event: KeyboardEvent) {
-    console.log('Event =>', $event);
+  applyFilter(event: KeyboardEvent) {
+    if (!this.dataSource) return;
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   openMappingDialog(id) {
