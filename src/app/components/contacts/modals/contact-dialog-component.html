@@ -1,34 +1,39 @@
-<section class="login-form-container"
-         fxFlexFill
-         fxLayout="row"
-         fxLayout.xs="column"
-         fxLayoutAlign="center center">
-  <form #formDirective="ngForm"
-        (ngSubmit)="submitForm(contactService.form)" [formGroup]="contactService.form"
-        class="form">
-    <h1 class="dialog-header" mat-dialog-title>
-      Edit Contact Facility Code
-    </h1>
-    <mat-divider></mat-divider>
-    <mat-dialog-content>
-      <div class="dialog-content" fxLayout="column" fxLayoutGap="5px">
-        <mat-form-field>
-          <input autocomplete="off"
-                 formControlName="facilityCode"
-                 matInput
-                 maxlength="8"
-                 placeholder="Enter Facility Code" required>
-        </mat-form-field>
-      </div>
-      <!-- <pre>{{ form | json }}</pre> -->
-    </mat-dialog-content>
-    <mat-dialog-actions fxLayout="row" fxLayoutAlign="end stretch">
-      <div class="button">
-        <button mat-dialog-close mat-raised-button type="button">CANCEL</button>
-        <button color="primary" mat-raised-button type="submit">
-          {{contactService.form.controls['id'].value ? "UPDATE" : "CREATE"}}
-        </button>
-      </div>
-    </mat-dialog-actions>
-  </form>
-</section>
+<div class="dialog-header">
+  <div class="header-icon">
+    <mat-icon>edit</mat-icon>
+  </div>
+  <h2 mat-dialog-title>Edit Contact</h2>
+  <p class="dialog-subtitle">Update the facility code for this contact</p>
+</div>
+
+<mat-divider></mat-divider>
+
+<form #formDirective="ngForm"
+      (ngSubmit)="submitForm(contactService.form)"
+      [formGroup]="contactService.form">
+
+  <mat-dialog-content class="dialog-content">
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Facility Code</mat-label>
+      <mat-icon matPrefix>local_hospital</mat-icon>
+      <input autocomplete="off"
+             formControlName="facilityCode"
+             matInput
+             maxlength="8"
+             placeholder="Enter facility code"
+             required>
+      <mat-hint>Maximum 8 characters</mat-hint>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" class="dialog-actions">
+    <button mat-button mat-dialog-close type="button" class="cancel-btn">
+      Cancel
+    </button>
+    <button color="primary" mat-raised-button type="submit" class="save-btn">
+      <mat-icon>save</mat-icon>
+      {{contactService.form.controls['id'].value ? "Update" : "Save"}}
+    </button>
+  </mat-dialog-actions>
+
+</form>
