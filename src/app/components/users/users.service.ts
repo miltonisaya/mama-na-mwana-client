@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {Observable, of} from 'rxjs';
 import {catchError, map, tap} from 'rxjs/operators';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 
 export const BASE_URL: string = environment.baseURL;
 export const RESOURCE_URL: string = 'api/v1/users';
@@ -11,13 +11,13 @@ export const RESOURCE_URL: string = 'api/v1/users';
 @Injectable()
 
 export class UsersService {
-  form: FormGroup = new FormGroup({
-    id: new FormControl(''),
-    name: new FormControl('', [Validators.required]),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    phone: new FormControl('', [Validators.required]),
-    username: new FormControl('', [Validators.required]),
-    roles: new FormControl([]),
+  form: UntypedFormGroup = new UntypedFormGroup({
+    id: new UntypedFormControl(''),
+    name: new UntypedFormControl('', [Validators.required]),
+    email: new UntypedFormControl('', [Validators.required, Validators.email]),
+    phone: new UntypedFormControl('', [Validators.required]),
+    username: new UntypedFormControl('', [Validators.required]),
+    roles: new UntypedFormControl([]),
   });
   private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
 
