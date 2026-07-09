@@ -1,41 +1,133 @@
-<section class="dialog-container">
-  <h1 class="dialog-header" fxLayout="row" fxLayoutAlign="center center" mat-dialog-title>
-    Map DHIS2 Data Element
-  </h1>
-  <mat-divider></mat-divider>
-  <mat-dialog-content class="dialog-content">
-    <p-pickList
-      [source]="fetchedList"
-      [sourceStyle]="{'height':'260px'}"
-      [target]="selectedDataElementsList"
-      [targetStyle]="{'height':'260px'}"
-      [dragdrop]="true"
-      filterBy="name"
-      sourceFilterPlaceholder="Search by name"
-      sourceHeader="Available"
-      targetFilterPlaceholder="Search by name"
-      targetHeader="Selected"
-    >
-      <ng-template let-item pTemplate="item">
-        <div class="picklist-item">
-          <span>{{ item.name }}</span>
+<div class="mnm-dialog" style="min-width: 700px;">
+  <div class="mnm-dialog-head">
+    <mat-icon class="mnm-dialog-icon">compare_arrows</mat-icon>
+    <div>
+      <h2 mat-dialog-title>Map DHIS2 Data Elements</h2>
+      <p class="mnm-dialog-subtitle">Select data elements to assign to this program</p>
+    </div>
+  </div>
+
+  <mat-dialog-content class="mnm-dialog-body" style="max-height: 500px;">
+    <mat-progress-bar *ngIf="loading" mode="indeterminate" style="margin-bottom: 12px;"></mat-progress-bar>
+
+    <div class="mnm-transfer">
+      <!-- Available panel -->
+      <div class="mnm-panel">
+        <div class="mnm-panel-head">
+          <div class="mnm-panel-title">
+            <mat-checkbox color="primary"
+              [checked]="isAllAvailableSelected()"
+              [indeterminate]="isSomeAvailableSelected()"
+              (change)="toggleAllAvailable()"
+            ></mat-checkbox>
+            <mat-icon>dataset</mat-icon>
+            Available
+          </div>
+          <span class="mnm-count">{{filteredAvailable.length}}</span>
         </div>
-      </ng-template>
-    </p-pickList>
+
+        <div class="mnm-search">
+          <mat-icon>search</mat-icon>
+          <input [(ngModel)]="availableSearch" placeholder="Search…" type="text">
+          <button *ngIf="availableSearch" mat-icon-button (click)="availableSearch = ''">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+
+        <div class="mnm-list">
+          <div *ngIf="!filteredAvailable.length && !loading" class="mnm-empty">
+            <mat-icon>inventory_2</mat-icon>
+            <span>No elements available</span>
+          </div>
+          <div *ngFor="let item of filteredAvailable"
+            class="mnm-item"
+            [class.item-sel]="availableSelection.has(item.id)"
+            (click)="toggleAvailable(item.id)"
+          >
+            <mat-checkbox color="primary"
+              [checked]="availableSelection.has(item.id)"
+              (click)="$event.stopPropagation()"
+              (change)="toggleAvailable(item.id)"
+            ></mat-checkbox>
+            <div class="mnm-item-info">
+              <mat-icon class="item-icon">data_object</mat-icon>
+              <span class="item-name">{{item.name}}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mnm-panel-foot" *ngIf="availableSelection.size">
+          {{availableSelection.size}} selected
+        </div>
+      </div>
+
+      <!-- Transfer buttons -->
+      <div class="mnm-arrows">
+        <button mat-fab color="primary" (click)="assign()" [disabled]="!availableSelection.size" matTooltip="Assign selected">
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+        <button mat-fab color="warn" (click)="unassign()" [disabled]="!assignedSelection.size" matTooltip="Remove selected">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+      </div>
+
+      <!-- Assigned panel -->
+      <div class="mnm-panel mnm-panel-assigned">
+        <div class="mnm-panel-head mnm-panel-head-assigned">
+          <div class="mnm-panel-title assigned">
+            <mat-checkbox color="primary"
+              [checked]="isAllAssignedSelected()"
+              [indeterminate]="isSomeAssignedSelected()"
+              (change)="toggleAllAssigned()"
+            ></mat-checkbox>
+            <mat-icon>check_circle</mat-icon>
+            Assigned
+          </div>
+          <span class="mnm-count assigned">{{filteredAssigned.length}}</span>
+        </div>
+
+        <div class="mnm-search">
+          <mat-icon>search</mat-icon>
+          <input [(ngModel)]="assignedSearch" placeholder="Search…" type="text">
+          <button *ngIf="assignedSearch" mat-icon-button (click)="assignedSearch = ''">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+
+        <div class="mnm-list">
+          <div *ngIf="!filteredAssigned.length && !loading" class="mnm-empty">
+            <mat-icon>checklist</mat-icon>
+            <span>No elements assigned yet</span>
+          </div>
+          <div *ngFor="let item of filteredAssigned"
+            class="mnm-item assigned"
+            [class.item-sel]="assignedSelection.has(item.id)"
+            (click)="toggleAssigned(item.id)"
+          >
+            <mat-checkbox color="primary"
+              [checked]="assignedSelection.has(item.id)"
+              (click)="$event.stopPropagation()"
+              (change)="toggleAssigned(item.id)"
+            ></mat-checkbox>
+            <div class="mnm-item-info">
+              <mat-icon class="item-icon item-icon-assigned">check_circle</mat-icon>
+              <span class="item-name">{{item.name}}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mnm-panel-foot assigned" *ngIf="assignedSelection.size">
+          {{assignedSelection.size}} selected
+        </div>
+      </div>
+    </div>
   </mat-dialog-content>
 
-  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end none">
-    <div class="button">
-      <button mat-dialog-close mat-raised-button type="button">CANCEL</button>
-      <button
-        (click)="saveData()"
-        color="primary"
-        mat-raised-button
-        type="submit"
-      >
-        SAVE
-      </button>
-    </div>
+  <mat-dialog-actions class="mnm-dialog-foot">
+    <button mat-button mat-dialog-close type="button">Cancel</button>
+    <button mat-raised-button color="primary" (click)="saveData()" [disabled]="saving || loading">
+      <mat-icon *ngIf="saving">hourglass_empty</mat-icon>
+      {{saving ? "Saving…" : "Save"}}
+    </button>
   </mat-dialog-actions>
-</section>
-
+</div>
