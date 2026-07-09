@@ -30,13 +30,13 @@
       </mat-form-field>
     </div>
 
-    <mat-form-field *ngIf="flowKeys.length" appearance="outline" class="filter-field">
+    <mat-form-field *ngIf="dataSource" appearance="outline" class="filter-field">
       <mat-label>Search flow keys</mat-label>
       <mat-icon matPrefix>search</mat-icon>
       <input #input (keyup)="applyFilter($event)" autocomplete="off" matInput placeholder="Type to filter...">
     </mat-form-field>
 
-    <div *ngIf="flowKeys.length" class="table-container">
+    <div *ngIf="dataSource" class="table-container">
       <table mat-table [dataSource]="dataSource">
 
     <!-- SNo Column -->
