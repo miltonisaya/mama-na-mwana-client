@@ -7,6 +7,7 @@ import {AngularMaterialModule} from '../../material.module';
 import {MatDialogModule} from '@angular/material/dialog';
 import {PasswordResetComponent} from "./password-reset.component";
 import {MatCardModule} from "@angular/material/card";
+import {MatDividerModule} from "@angular/material/divider";
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import {MatCardModule} from "@angular/material/card";
     FormsModule,
     SharedModule,
     MatDialogModule,
-    MatCardModule
+    MatCardModule,
+    MatDividerModule
   ],
   declarations: [
     PasswordResetComponent
