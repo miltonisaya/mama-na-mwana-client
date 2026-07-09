@@ -21,6 +21,7 @@ export class AuthorityComponent implements OnInit {
   pageSize = 10;
   pageNo = 0;
   pageSizeOptions: number[] = [10, 25, 100, 1000];
+  syncing = false;
   @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -99,6 +100,18 @@ export class AuthorityComponent implements OnInit {
         this.notifierService.showNotification(error.error.error, 'OK', 'error');
       });
     this.dialog.closeAll();
+  }
+
+  syncPermissions() {
+    this.syncing = true;
+    this.AuthorityService.syncPermissions().subscribe((response: any) => {
+      this.syncing = false;
+      this.notifierService.showNotification(response.message || 'Permissions synced successfully', 'OK', 'success');
+      this.getAuthorities();
+    }, error => {
+      this.syncing = false;
+      this.notifierService.showNotification(error?.error?.message || 'Sync failed', 'OK', 'error');
+    });
   }
 
   pageChanged(e: any) {
