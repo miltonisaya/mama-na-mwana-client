@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {MatDialogRef} from '@angular/material/dialog';
 import {NotifierService} from '../../notifications/notifier.service';
 import {OrganisationUnitService} from '../organisation-unit.service';
-import {FormControl} from "@angular/forms";
+import {UntypedFormControl} from "@angular/forms";
 import {map, startWith} from "rxjs/operators";
 
 @Component({
@@ -12,7 +12,7 @@ import {map, startWith} from "rxjs/operators";
 })
 
 export class OrganisationUnitDialogComponent implements OnInit {
-  myControl = new FormControl('');
+  myControl = new UntypedFormControl('');
   councils: any[] = [];
   filteredOptions: any;
 
