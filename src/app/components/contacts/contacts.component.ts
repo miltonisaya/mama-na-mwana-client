@@ -49,12 +49,14 @@ export class ContactsComponent implements OnInit {
     return this.ContactsService.getContacts(this.params).subscribe((response: any) => {
       this.contacts = response.data;
       this.dataSource = new MatTableDataSource<DataElement>(this.contacts.content);
+      this.dataSource.paginator = this.paginator;
     }, error => {
       this.NotifierService.showNotification(error.error.error, 'OK', 'error');
     });
   }
 
   applyFilter(event: Event) {
+    if (!this.dataSource) return;
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
