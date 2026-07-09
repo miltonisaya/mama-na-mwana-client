@@ -150,7 +150,8 @@ export class FlowComponent implements OnInit {
     }
   }
 
-  applyFilter(any: KeyboardEvent): void {
+  applyFilter(event: KeyboardEvent): void {
+    if (!this.dataSource) return;
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
