@@ -55,7 +55,6 @@
               "extractLicenses": false,
               "statsJson": false,
               "vendorChunk": true,
-              "showCircularDependencies": false,
               "buildOptimizer": false,
               "budgets": [
                 {
@@ -75,18 +74,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "mnm-client:build"
+            "buildTarget": "mnm-client:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "mnm-client:build:production"
+              "buildTarget": "mnm-client:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "mnm-client:build"
+            "buildTarget": "mnm-client:build"
           }
         },
         "test": {
@@ -134,6 +133,5 @@
         }
       }
     }
-  },
-  "defaultProject": "mnm-client"
+  }
 }
