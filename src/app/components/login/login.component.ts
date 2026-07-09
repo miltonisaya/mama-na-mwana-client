@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../auth/auth.service';
 import {Router} from '@angular/router';
 import {NotifierService} from '../notifications/notifier.service';
@@ -10,7 +10,7 @@ import {NotifierService} from '../notifications/notifier.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
   response;
 
   constructor(
@@ -25,9 +25,9 @@ export class LoginComponent implements OnInit {
   }
 
   initForm() {
-    this.formGroup = new FormGroup({
-      username: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required])
+    this.formGroup = new UntypedFormGroup({
+      username: new UntypedFormControl('', [Validators.required]),
+      password: new UntypedFormControl('', [Validators.required])
     });
   }
 
