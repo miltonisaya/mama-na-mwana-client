@@ -50,8 +50,7 @@ export class UsersComponent implements OnInit {
 
     return this.UsersService.getUsers(this.params).subscribe((response: any) => {
       this.users = response.data;
-      this.dataSource = new MatTableDataSource<User>(this.users.content);
-      this.dataSource.paginator = this.paginator;
+      this.dataSource = new MatTableDataSource<User>(this.users?.content ?? []);
     }, error => {
       this.NotifierService.showNotification(error.message, 'OK', 'error');
       console.log(error);
