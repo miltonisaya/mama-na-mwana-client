@@ -49,8 +49,7 @@ export class MenuComponent implements OnInit {
 
     return this.MenuService.getMenus(this.params).subscribe((response: any) => {
       this.menus = response.data;
-      this.dataSource = new MatTableDataSource<Menu>(this.menus.content);
-      this.dataSource.paginator = this.paginator;
+      this.dataSource = new MatTableDataSource<Menu>(this.menus?.content ?? []);
     }, error => {
       this.notifierService.showNotification(error.message, 'OK', 'error');
       console.log(error);
