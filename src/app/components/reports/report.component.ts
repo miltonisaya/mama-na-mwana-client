@@ -41,8 +41,9 @@ export class ReportComponent implements OnInit {
   }
 
   checkIsAdmin() {
-    let mnmUser = JSON.parse(localStorage.getItem("MNM_USER"));
-    if (mnmUser.isSuperAdministrator) {
+    const raw = localStorage.getItem("MNM_USER");
+    const mnmUser = raw ? JSON.parse(raw) : null;
+    if (mnmUser?.isSuperAdministrator) {
       this.isSuperAdministrator = true;
     }
   }
