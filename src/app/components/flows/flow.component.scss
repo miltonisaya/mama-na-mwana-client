@@ -1,265 +1,351 @@
-// Page Header
+// ─── Page header ────────────────────────────────────────────────────────────
 .page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
   margin-bottom: 24px;
+
+  .page-header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
 
   .page-title {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     margin: 0;
-    font-size: 24px;
-    font-weight: 600;
-    color: var(--text-primary, #1f2937);
+    font-size: 22px;
+    font-weight: 700;
+    color: #111827;
 
     mat-icon {
-      font-size: 28px;
-      width: 28px;
-      height: 28px;
-      color: var(--primary-color, #1976d2);
+      font-size: 26px;
+      width: 26px;
+      height: 26px;
+      color: #1976d2;
     }
   }
 
   .page-subtitle {
-    margin: 8px 0 0 0;
-    color: var(--text-secondary, #6b7280);
-    font-size: 14px;
+    margin: 0;
+    color: #6b7280;
+    font-size: 13px;
   }
 
   .sync-btn {
-    border-radius: 24px !important;
-    padding: 0 24px !important;
-    height: 44px;
+    border-radius: 20px;
+    padding: 0 20px;
+    height: 40px;
     font-weight: 600;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 
-    mat-icon {
-      margin-right: 8px;
-    }
+    mat-icon { font-size: 18px; width: 18px; height: 18px; }
   }
 }
 
-// Table Card
+// ─── Card ────────────────────────────────────────────────────────────────────
 .table-card {
-  border-radius: 16px !important;
-  padding: 8px;
+  border-radius: 14px !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,.08) !important;
+  padding: 4px;
 }
 
-// Flow Selector
-.flow-selector {
-  margin-bottom: 16px;
+// ─── Toolbar row (flow selector + search) ────────────────────────────────────
+.toolbar-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+
+  .flow-select-field { flex: 0 0 320px; }
+  .search-field      { flex: 1 1 200px; }
 }
 
-// Flow select field - uses global filter-field styles from styles.scss
+// ─── Empty state ─────────────────────────────────────────────────────────────
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 56px 16px;
+  color: #9ca3af;
 
-// Filter Field - uses global styles from styles.scss
+  mat-icon {
+    font-size: 52px;
+    width: 52px;
+    height: 52px;
+    margin-bottom: 12px;
+    color: #d1d5db;
+  }
 
-// Table Container
+  p { margin: 0; font-size: 14px; }
+}
+
+// ─── Table container ─────────────────────────────────────────────────────────
 .table-container {
-  border-radius: 12px;
+  border-radius: 10px;
   overflow: hidden;
-  border: 1px solid var(--border-color, #e5e7eb);
+  border: 1px solid #e5e7eb;
+
+  table { width: 100%; }
 }
 
-// Table Styles
-table {
-  width: 100%;
+// ─── Header row ──────────────────────────────────────────────────────────────
+.mat-mdc-header-row {
+  background: #f9fafb;
 
-  .mat-header-row {
-    background: #f9fafb;
-
-    .mat-header-cell {
-      color: var(--text-secondary, #6b7280);
-      font-weight: 600;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      border-bottom: 1px solid var(--border-color, #e5e7eb);
-    }
-  }
-
-  .mat-row {
-    transition: background-color 0.2s ease;
-
-    &:hover {
-      background-color: rgba(25, 118, 210, 0.04);
-    }
-
-    .mat-cell {
-      color: var(--text-primary, #1f2937);
-      font-size: 14px;
-      border-bottom: 1px solid var(--border-color, #e5e7eb);
-    }
-  }
-
-  .no-data {
-    text-align: center;
-    padding: 48px 16px;
-    color: var(--text-secondary, #6b7280);
-    font-size: 16px;
-
-    mat-icon {
-      display: block;
-      margin: 0 auto 12px;
-      font-size: 48px;
-      width: 48px;
-      height: 48px;
-      color: #d1d5db;
-    }
+  .mat-mdc-header-cell {
+    color: #6b7280;
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 12px 16px;
   }
 }
 
-/* Default styling for the unordered list */
-div ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+// ─── Data rows ───────────────────────────────────────────────────────────────
+.data-row {
+  transition: background 0.15s ease;
+
+  &:hover { background: #f0f7ff; }
+
+  .mat-mdc-cell {
+    font-size: 13.5px;
+    color: #374151;
+    border-bottom: 1px solid #f3f4f6;
+    padding: 12px 16px;
+    vertical-align: top;
+  }
 }
 
-/* If there are more than 10 list items, create two columns */
-div ul.more-than-10 {
-  column-count: 2;
-}
+// ─── Column widths ───────────────────────────────────────────────────────────
+.col-sno    { width: 48px; text-align: center; color: #9ca3af; font-size: 12px; }
+.col-actions { width: 64px; text-align: center; }
 
-/* Limit each column to 10 elements */
-div ul.more-than-10 li {
-  break-inside: avoid-column;
-  page-break-inside: avoid;
-  break-after: auto;
-}
-
-.link-data-element {
-  line-height: 1.5;
-  color: var(--primary-color, #1976d2);
+// ─── Key name button ─────────────────────────────────────────────────────────
+.key-name-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
   cursor: pointer;
-  transition: all 0.2s ease;
   padding: 4px 8px;
-  border-radius: 4px;
+  border-radius: 6px;
+  color: #1976d2;
+  font-size: 13.5px;
+  font-weight: 600;
+  transition: background 0.15s ease;
 
   &:hover {
-    text-decoration: underline;
-    background-color: rgba(25, 118, 210, 0.08);
+    background: rgba(25, 118, 210, 0.08);
+
+    .edit-icon { opacity: 1; }
+  }
+
+  .key-icon {
+    font-size: 15px;
+    width: 15px;
+    height: 15px;
+    color: #60a5fa;
+    flex-shrink: 0;
+  }
+
+  .edit-icon {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+    color: #93c5fd;
+    opacity: 0;
+    transition: opacity 0.15s ease;
   }
 }
 
-// Table column widths
-.mat-column-sno {
-  width: 5%;
+// ─── Category block ──────────────────────────────────────────────────────────
+.category-block {
+  padding: 8px 0;
+  border-bottom: 1px dashed #e5e7eb;
+
+  &--last, &:last-child { border-bottom: none; }
 }
 
-.mat-cell.mat-column-sno {
-  text-align: center;
+.category-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 6px;
 }
 
-.mat-header-cell.mat-column-sno {
-  text-align: center;
-}
-
-.mat-column-keyName {
-  width: 20%;
-}
-
-.mat-column-dataElement {
-  width: 25%;
-
-  div {
-    color: var(--primary-color, #1976d2);
-    font-weight: 500;
-  }
-}
-
-.mat-cell.mat-column-dataElement {
-  overflow-wrap: break-word;
-}
-
-.mat-column-categories {
-  width: 30%;
-  white-space: normal;
-}
-
-.mat-cell.mat-column-categories {
-  overflow-wrap: break-word;
-
-  ul {
-    li {
-      padding: 4px 0;
-    }
-  }
-}
-
-.mat-column-possibleValues {
-  width: 15%;
-
-  span[style*="teal"] {
-    color: var(--primary-color, #1976d2) !important;
-    font-weight: 500;
-  }
-}
-
-.mat-cell.mat-column-possibleValues {
-  overflow-wrap: break-word;
-}
-
-.mat-column-actions {
-  width: 5%;
-}
-
-.mat-cell.mat-column-actions {
-  text-align: center;
-}
-
-.mat-header-cell.mat-column-actions {
-  text-align: center;
-}
-
-// Action buttons
-.mat-icon-button {
-  transition: all 0.2s ease;
+.category-name-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 3px 8px 3px 4px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+  background: #f3f4f6;
+  transition: background 0.15s ease, color 0.15s ease;
 
   &:hover {
-    transform: scale(1.1);
+    background: #dbeafe;
+    color: #1d4ed8;
+
+    .cat-icon { color: #1d4ed8; }
+  }
+
+  .cat-icon {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+    color: #9ca3af;
+    transition: color 0.15s ease;
   }
 }
 
-// Dialog styles
+.add-value-btn {
+  width: 28px !important;
+  height: 28px !important;
+  line-height: 28px !important;
+  color: #9ca3af;
+  transition: color 0.15s ease;
+
+  &:hover { color: #1976d2; }
+
+  mat-icon { font-size: 18px; width: 18px; height: 18px; }
+}
+
+// ─── Value chips ─────────────────────────────────────────────────────────────
+.value-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 4px;
+  padding-left: 4px;
+}
+
+.value-chip {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 12px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  background: #d1fae5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.no-values-hint {
+  font-size: 11.5px;
+  color: #d1d5db;
+  font-style: italic;
+  padding-left: 4px;
+}
+
+.no-content {
+  color: #d1d5db;
+  font-size: 18px;
+  text-align: center;
+}
+
+// ─── Data element badges ─────────────────────────────────────────────────────
+.de-entry {
+  padding: 4px 0;
+
+  &:not(:last-child) { border-bottom: 1px dashed #f3f4f6; }
+}
+
+.de-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px 3px 6px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+
+  mat-icon { font-size: 14px; width: 14px; height: 14px; flex-shrink: 0; }
+
+  &--mapped {
+    background: #f0fdf4;
+    color: #15803d;
+    border: 1px solid #bbf7d0;
+
+    mat-icon { color: #22c55e; }
+  }
+
+  &--unmapped {
+    background: #fffbeb;
+    color: #b45309;
+    border: 1px solid #fde68a;
+
+    mat-icon { color: #f59e0b; }
+  }
+
+  &--direct {
+    background: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
+
+    mat-icon { color: #3b82f6; }
+  }
+}
+
+// ─── No-data row ─────────────────────────────────────────────────────────────
+.no-data-row {
+  text-align: center;
+  padding: 48px 16px !important;
+  color: #9ca3af;
+  font-size: 14px;
+
+  mat-icon {
+    display: block;
+    margin: 0 auto 10px;
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+    color: #d1d5db;
+  }
+}
+
+// ─── Reset button ────────────────────────────────────────────────────────────
+.reset-btn {
+  color: #9ca3af;
+  transition: color 0.15s ease;
+
+  &:hover { color: #ef4444; }
+}
+
+// ─── Dialog ──────────────────────────────────────────────────────────────────
 .dialog-header {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 24px 24px 0 24px;
+  padding: 24px 24px 0;
 
-  mat-icon {
-    font-size: 32px;
-    width: 32px;
-    height: 32px;
-    color: var(--primary-color, #1976d2);
-  }
+  mat-icon { font-size: 28px; width: 28px; height: 28px; }
 
-  h2 {
-    margin: 0;
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--text-primary, #1f2937);
-  }
+  h2 { margin: 0; font-size: 18px; font-weight: 600; color: #111827; }
 }
 
 ::ng-deep {
-  mat-dialog-content {
-    padding: 16px 24px !important;
-
-    p {
-      margin: 0;
-      color: var(--text-secondary, #6b7280);
-      font-size: 14px;
-      line-height: 1.6;
-    }
-  }
+  mat-dialog-content { padding: 16px 24px !important; }
 
   mat-dialog-actions {
-    padding: 16px 24px 24px 24px !important;
-    gap: 12px;
+    padding: 12px 24px 24px !important;
+    gap: 8px;
 
-    button {
-      border-radius: 8px !important;
-      min-width: 100px;
-    }
+    button { border-radius: 8px !important; min-width: 88px; }
   }
 }
