@@ -280,7 +280,9 @@
 
 // ─── Detail (expanded) row ───────────────────────────────────────────────────
 .detail-row {
-  .mat-mdc-cell { padding: 0; border-bottom: none; }
+  height: 0;
+
+  .mat-mdc-cell { padding: 0 !important; border-bottom: none; overflow: hidden; }
 }
 
 .detail-cell { padding: 0 !important; }
@@ -331,17 +333,6 @@
 // ─── Column widths ───────────────────────────────────────────────────────────
 .col-sno    { width: 48px; text-align: center; color: #9ca3af; font-size: 12px; }
 .col-actions { width: 96px; }
-
-// ─── Transaction ID ───────────────────────────────────────────────────────────
-.trx-id {
-  font-family: 'Roboto Mono', monospace;
-  font-size: 12px;
-  color: #374151;
-  background: #f3f4f6;
-  padding: 2px 6px;
-  border-radius: 4px;
-  letter-spacing: 0.3px;
-}
 
 // ─── Date cell ───────────────────────────────────────────────────────────────
 .date-cell {
