@@ -4,7 +4,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { TransactionsService } from '../transactions/transactions.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { NotifierService } from '../notifications/notifier.service';
-import { DataElement } from "../data-elements/dataElement";
 import { ContactsService } from "../contacts/contacts.service";
 import { MatDialog } from "@angular/material/dialog";
 import { OrganisationUnitService } from "../organisation-units/organisation-unit.service";
@@ -21,7 +20,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   barChart = [];
   pieIsReady: boolean = false;
   params: object = {};
-  dataSource;
+  dataSource = new MatTableDataSource<any>([]);
   transactions: any;
   displayedColumns: string[] = ['sno', 'dateProcessed', 'status', 'retries', 'actions'];
   expandedTrx: any = null;
@@ -83,7 +82,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
     return this.transactionService.getAll(this.params).subscribe((response: any) => {
       this.transactions = response.data;
-      this.dataSource = new MatTableDataSource<DataElement>(this.transactions.content ?? []);
+      this.dataSource.data = this.transactions?.content ?? [];
     }, error => {
       this.notifierService.showNotification(error.error.error, 'OK', 'error');
     });
