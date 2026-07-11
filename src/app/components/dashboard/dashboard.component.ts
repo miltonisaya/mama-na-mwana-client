@@ -23,7 +23,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   params: object = {};
   dataSource;
   transactions: any;
-  displayedColumns: string[] = ["sno", 'dateProcessed', 'payload', 'response', 'isSent', 'actions'];
+  displayedColumns: string[] = ['sno', 'trxId', 'dateProcessed', 'status', 'retries', 'actions'];
+  expandedTrx: any = null;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   pageSize = 5;
@@ -121,12 +122,13 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.getAllTransactions();
   }
 
-  parseToJson(payload: any) {
-    if (payload !== null && payload !== undefined) {
-      return JSON.parse(payload);
-    } else {
-      return {};
-    }
+  prettyJson(str: string): string {
+    if (!str) return '—';
+    try { return JSON.stringify(JSON.parse(str), null, 2); } catch { return str; }
+  }
+
+  isAbandoned(trx: any): boolean {
+    return !trx.isSent && (trx.numberOfRetries ?? 0) >= 4;
   }
 
   private populatePieChartMonthly() {
