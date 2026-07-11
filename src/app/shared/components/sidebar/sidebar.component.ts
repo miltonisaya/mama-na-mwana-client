@@ -18,8 +18,8 @@ export class SidebarComponent implements OnInit {
   }
 
   getUserDetails() {
-    this.user = JSON.parse(localStorage.getItem("MNM_USER"));
-    this.roles = this.user.roles;
-    this.menus = this.user.menus;
+    this.user = JSON.parse(localStorage.getItem("MNM_USER") || 'null') ?? {};
+    this.roles = this.user.roles ?? [];
+    this.menus = this.user.menus ?? [];
   }
 }
