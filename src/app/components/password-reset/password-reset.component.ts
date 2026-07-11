@@ -53,8 +53,9 @@ export class PasswordResetComponent implements OnInit {
   }
 
   findUserDetailsById() {
-    let user = JSON.parse(localStorage.getItem("MNM_USER"));
-    this.userId = user.id;
+    const raw = localStorage.getItem("MNM_USER");
+    const user = raw ? JSON.parse(raw) : null;
+    this.userId = user?.id;
     let params = {
       "id": this.userId
     };
