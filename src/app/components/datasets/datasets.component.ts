@@ -1,12 +1,6 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatTableDataSource} from "@angular/material/table";
-import {MatPaginator} from "@angular/material/paginator";
-import {MatSort} from "@angular/material/sort";
-import {NotifierService} from "../notifications/notifier.service";
-import {MatDialog} from "@angular/material/dialog";
-import {Dataset, DatasetsService} from "./datasets.service";
-import {MatSelectChange} from "@angular/material/select";
-import {DataElement} from "../data-elements/dataElement";
+import {Component, OnInit} from '@angular/core';
+import {NotifierService} from '../notifications/notifier.service';
+import {Dataset, DatasetsService} from './datasets.service';
 
 @Component({
   selector: 'app-datasets',
@@ -14,60 +8,50 @@ import {DataElement} from "../data-elements/dataElement";
   styleUrls: ['./datasets.component.scss']
 })
 export class DatasetsComponent implements OnInit {
-  displayedColumns: string[] = ["sno", 'name', 'code', 'dhis2uid', 'actions'];
-  programs: any = [];
-  dataSource: MatTableDataSource<DataElement>;
-  pageSize: any;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-  datasets: Dataset[];
-  error: any;
-  selectedDataSetId: any;
-  dataElements: DataElement[];
+  datasets: Dataset[] = [];
+  selectedDataSetId: any = null;
 
   constructor(
     private datasetsService: DatasetsService,
-    private notifierService: NotifierService,
-    private dialog: MatDialog
-  ) {
-  }
+    private notifierService: NotifierService
+  ) {}
 
   ngOnInit(): void {
     this.fetchDatasets();
   }
 
   fetchDatasets(): void {
-    this.datasetsService.getAllDatasets().subscribe(response => {
-      this.datasets = response.data.content;
-    }, error => {
-      this.error = error;
+    this.datasetsService.getAllDatasets().subscribe({
+      next: (response: any) => {
+        console.log('datasets response:', response);
+        // try both paginated and flat array shapes
+        this.datasets = response?.data?.content
+          ?? response?.data
+          ?? response?.content
+          ?? response
+          ?? [];
+      },
+      error: (err) => {
+        console.error('datasets error:', err);
+        this.notifierService.showNotification(err?.error?.error ?? err?.message ?? 'Failed to load datasets', 'OK', 'error');
+      }
     });
   }
 
-  syncDatasets() {
-    this.datasetsService.syncDatasets().subscribe(res => {
-      console.log('Sync Response =>', res.data.content);
-    }, err => {
-      this.error = err.message;
+  syncDatasets(): void {
+    this.datasetsService.syncDatasets().subscribe({
+      next: (response: any) => {
+        this.notifierService.showNotification(response?.message ?? 'Sync complete', 'OK', 'success');
+        this.fetchDatasets();
+      },
+      error: (err) => {
+        this.notifierService.showNotification(err?.error?.error ?? err?.message ?? 'Sync failed', 'OK', 'error');
+      }
     });
   }
 
-  applyFilter(event: KeyboardEvent) {
-    if (!this.dataSource) return;
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
-
-  openMappingDialog(id) {
-    console.log(id);
-  }
-
-  getDataElementsByDataset($event: MatSelectChange) {
-    this.datasetsService.findByDataset(this.selectedDataSetId).subscribe(response => {
-      this.dataElements = response.data.data;
-      this.dataSource = new MatTableDataSource<DataElement>(response.data.content);
-    }, error => {
-      console.log(error);
-    })
+  onDatasetSelected(event: Event): void {
+    const value = (event.target as HTMLSelectElement).value;
+    this.selectedDataSetId = value || null;
   }
 }
