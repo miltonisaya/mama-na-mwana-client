@@ -49,8 +49,7 @@ export class RolesComponent implements OnInit {
 
     return this.RoleService.getRoles().subscribe((response: any) => {
       this.roles = response.data;
-      this.dataSource = new MatTableDataSource<Role>(this.roles.content);
-      this.dataSource.paginator = this.paginator;
+      this.dataSource = new MatTableDataSource<Role>(this.roles?.content ?? []);
     }, error => {
       this.notifierService.showNotification(error.error.error, 'OK', 'error');
     });
