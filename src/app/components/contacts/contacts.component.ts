@@ -48,7 +48,7 @@ export class ContactsComponent implements OnInit {
 
     return this.ContactsService.getContacts(this.params).subscribe((response: any) => {
       this.contacts = response.data;
-      this.dataSource = new MatTableDataSource<DataElement>(this.contacts.content ?? []);
+      this.dataSource = new MatTableDataSource<DataElement>(this.contacts?.content ?? []);
     }, error => {
       this.NotifierService.showNotification(error.error.error, 'OK', 'error');
     });
