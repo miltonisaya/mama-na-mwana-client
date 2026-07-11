@@ -22,6 +22,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   params: object = {};
   dataSource = new MatTableDataSource<any>([]);
   transactions: any;
+  totalElements = 0;
   displayedColumns: string[] = ['sno', 'dateProcessed', 'status', 'retries', 'actions'];
   expandedTrx: any = null;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -75,16 +76,17 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   getAllTransactions() {
-    this.params = {
-      "pageNo": this.pageNo,
-      "pageSize": this.pageSize
-    }
+    this.params = { pageNo: this.pageNo, pageSize: this.pageSize };
 
-    return this.transactionService.getAll(this.params).subscribe((response: any) => {
-      this.transactions = response.data;
-      this.dataSource.data = this.transactions?.content ?? [];
-    }, error => {
-      this.notifierService.showNotification(error.error.error, 'OK', 'error');
+    this.transactionService.getAll(this.params).subscribe({
+      next: (response: any) => {
+        const page = response.data;
+        this.totalElements = page?.totalElements ?? 0;
+        this.dataSource.data = page?.content ?? [];
+      },
+      error: (err) => {
+        this.notifierService.showNotification(err?.error?.error ?? 'Failed to load transactions', 'OK', 'error');
+      }
     });
   }
 
@@ -116,6 +118,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   pageChanged(e: any) {
+    this.expandedTrx = null;
     this.pageSize = e.pageSize;
     this.pageNo = e.pageIndex;
     this.getAllTransactions();
