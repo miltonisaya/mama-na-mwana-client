@@ -44,9 +44,8 @@ export class DataElementComponent implements OnInit {
 
     return this.DataElementService.getDataElements(this.params).subscribe((response: any) => {
       this.dataElements = response.data;
-      this.dataSource = new MatTableDataSource<DataElement>(this.dataElements.content);
+      this.dataSource = new MatTableDataSource<DataElement>(this.dataElements?.content ?? []);
       this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
     }, error => {
       this.notifierService.showNotification(error.error.error, 'OK', 'error');
     });
