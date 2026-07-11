@@ -76,14 +76,6 @@
           </td>
         </ng-container>
 
-        <!-- Transaction ID -->
-        <ng-container matColumnDef="trxId">
-          <th mat-header-cell *matHeaderCellDef>Transaction ID</th>
-          <td mat-cell *matCellDef="let row">
-            <code class="trx-id">{{ row.trxId ?? '—' }}</code>
-          </td>
-        </ng-container>
-
         <!-- Date Processed -->
         <ng-container matColumnDef="dateProcessed">
           <th mat-header-cell *matHeaderCellDef>Date Processed</th>
@@ -140,7 +132,7 @@
 
         <!-- Expanded detail row -->
         <ng-container matColumnDef="expandedDetail">
-          <td mat-cell *matCellDef="let row" colspan="6" class="detail-cell">
+          <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length" class="detail-cell">
             <div *ngIf="expandedTrx === row" class="detail-panel">
               <div class="detail-pane">
                 <div class="detail-pane-header">
