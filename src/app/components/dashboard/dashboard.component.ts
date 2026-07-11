@@ -23,7 +23,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   params: object = {};
   dataSource;
   transactions: any;
-  displayedColumns: string[] = ['sno', 'trxId', 'dateProcessed', 'status', 'retries', 'actions'];
+  displayedColumns: string[] = ['sno', 'dateProcessed', 'status', 'retries', 'actions'];
   expandedTrx: any = null;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
