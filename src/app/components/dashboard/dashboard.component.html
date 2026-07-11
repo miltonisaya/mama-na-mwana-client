@@ -53,54 +53,132 @@
 </div>
 
 <div *ngIf="isSuperAdministrator" class="transaction-section">
+
   <div class="section-header">
-    <h3>
+    <div class="section-title">
       <mat-icon>receipt_long</mat-icon>
-      Transaction Logs
-    </h3>
+      <h3>Transaction Logs</h3>
+    </div>
+    <span *ngIf="transactions?.totalElements" class="total-pill">
+      {{ transactions.totalElements | number }} total
+    </span>
   </div>
 
   <mat-card class="transaction-card">
-    <div class="transaction-list">
-      <div *ngFor="let trx of transactions?.content" class="transaction-item">
-        <div class="transaction-details">
-          <div class="transaction-row">
-            <span class="transaction-label">
-              <mat-icon>schedule</mat-icon>
-              Date Processed:
+    <div class="table-wrapper">
+      <table mat-table [dataSource]="dataSource">
+
+        <!-- # -->
+        <ng-container matColumnDef="sno">
+          <th mat-header-cell *matHeaderCellDef class="col-sno">#</th>
+          <td mat-cell *matCellDef="let row; let i = index" class="col-sno">
+            {{ pageNo * pageSize + i + 1 }}
+          </td>
+        </ng-container>
+
+        <!-- Transaction ID -->
+        <ng-container matColumnDef="trxId">
+          <th mat-header-cell *matHeaderCellDef>Transaction ID</th>
+          <td mat-cell *matCellDef="let row">
+            <code class="trx-id">{{ row.trxId ?? '—' }}</code>
+          </td>
+        </ng-container>
+
+        <!-- Date Processed -->
+        <ng-container matColumnDef="dateProcessed">
+          <th mat-header-cell *matHeaderCellDef>Date Processed</th>
+          <td mat-cell *matCellDef="let row">
+            <span class="date-cell">{{ row.dateProcessed ?? '—' }}</span>
+          </td>
+        </ng-container>
+
+        <!-- Status -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let row">
+            <span *ngIf="row.isSent" class="status-badge status--sent">
+              <mat-icon>check_circle</mat-icon> Sent
             </span>
-            <span class="transaction-value">{{trx.dateProcessed}}</span>
-          </div>
-          <div class="transaction-row payload-row">
-            <span class="transaction-label">
-              <mat-icon>code</mat-icon>
-              Payload:
+            <span *ngIf="!row.isSent && !isAbandoned(row)" class="status-badge status--pending">
+              <mat-icon>schedule</mat-icon> Pending
             </span>
-            <span class="transaction-value payload">{{trx.payload}}</span>
-          </div>
-          <div class="transaction-row">
-            <span class="transaction-label">
-              <mat-icon>cloud_done</mat-icon>
-              DHIS2 Response:
+            <span *ngIf="isAbandoned(row)" class="status-badge status--failed">
+              <mat-icon>error_outline</mat-icon> Failed
             </span>
-            <span class="transaction-value">{{trx.dhisResponse}}</span>
-          </div>
-        </div>
-        <div class="transaction-status">
-          <span *ngIf="trx.isSent" class="status-badge status-success">
-            <mat-icon>check_circle</mat-icon>
-            Sent
-          </span>
-          <span *ngIf="trx.isSent == false" class="status-badge status-pending">
-            <mat-icon>pending</mat-icon>
-            Not Sent
-          </span>
-          <button *ngIf="trx.isSent==false" (click)="resend(trx)" mat-raised-button color="primary" class="resend-btn">
-            <mat-icon>replay</mat-icon>
-            Resend
-          </button>
-        </div>
-      </div>
+          </td>
+        </ng-container>
+
+        <!-- Retries -->
+        <ng-container matColumnDef="retries">
+          <th mat-header-cell *matHeaderCellDef>Retries</th>
+          <td mat-cell *matCellDef="let row">
+            <span class="retry-pill"
+                  [class.retry-pill--warn]="(row.numberOfRetries ?? 0) >= 2 && (row.numberOfRetries ?? 0) < 4"
+                  [class.retry-pill--max]="(row.numberOfRetries ?? 0) >= 4">
+              {{ row.numberOfRetries ?? 0 }}&thinsp;/&thinsp;4
+            </span>
+          </td>
+        </ng-container>
+
+        <!-- Actions -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef class="col-actions">Actions</th>
+          <td mat-cell *matCellDef="let row" class="col-actions">
+            <button mat-icon-button class="expand-btn"
+                    [matTooltip]="expandedTrx === row ? 'Collapse' : 'View payload'"
+                    (click)="$event.stopPropagation(); expandedTrx = expandedTrx === row ? null : row">
+              <mat-icon>{{ expandedTrx === row ? 'expand_less' : 'data_object' }}</mat-icon>
+            </button>
+            <button *ngIf="!row.isSent && !isAbandoned(row)"
+                    mat-icon-button class="retry-btn"
+                    matTooltip="Retry sending to DHIS2"
+                    (click)="$event.stopPropagation(); resend(row)">
+              <mat-icon>replay</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <!-- Expanded detail row -->
+        <ng-container matColumnDef="expandedDetail">
+          <td mat-cell *matCellDef="let row" colspan="6" class="detail-cell">
+            <div *ngIf="expandedTrx === row" class="detail-panel">
+              <div class="detail-pane">
+                <div class="detail-pane-header">
+                  <mat-icon>code</mat-icon>
+                  <span>DHIS2 Payload</span>
+                </div>
+                <pre class="json-block">{{ prettyJson(row.payload) }}</pre>
+              </div>
+              <div *ngIf="row.dhisResponse" class="detail-pane">
+                <div class="detail-pane-header">
+                  <mat-icon>cloud_done</mat-icon>
+                  <span>DHIS2 Response</span>
+                </div>
+                <pre class="json-block">{{ prettyJson(row.dhisResponse) }}</pre>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row
+            *matRowDef="let row; columns: displayedColumns;"
+            class="trx-row"
+            [class.trx-row--sent]="row.isSent"
+            [class.trx-row--failed]="isAbandoned(row)"
+            [class.trx-row--expanded]="expandedTrx === row"
+            (click)="expandedTrx = expandedTrx === row ? null : row">
+        </tr>
+        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell no-data-row" colspan="6">
+            <mat-icon>inbox</mat-icon>
+            <span>No transactions found</span>
+          </td>
+        </tr>
+
+      </table>
     </div>
   </mat-card>
 
@@ -111,4 +189,5 @@
     [pageSize]="pageSize"
     class="transaction-paginator"
   ></mat-paginator>
+
 </div>
