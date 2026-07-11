@@ -1,219 +1,161 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import {NotifierService} from '../notifications/notifier.service';
-import {FlowService} from './flow.service';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
-import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import {MatDialog} from '@angular/material/dialog';
+import {FlowService} from './flow.service';
+import {NotifierService} from '../notifications/notifier.service';
 import {FlowKeyDialogComponent} from './modals/flow-key-dialog/flow-key-dialog-component';
-import {FlowCategoryDialogComponent} from "./modals/flow-category-dialog/flow-category-dialog-component";
-import {Subscription} from "rxjs";
-import {PossibleTrueValuesComponent} from "./modals/possible-true-values-dialog/possible-true-values-component";
+import {FlowCategoryDialogComponent} from './modals/flow-category-dialog/flow-category-dialog-component';
+import {PossibleTrueValuesComponent} from './modals/possible-true-values-dialog/possible-true-values-component';
 
 @Component({
-  selector: 'app-users',
+  selector: 'app-flows',
   templateUrl: './flow.component.html',
   styleUrls: ['./flow.component.scss']
 })
-
 export class FlowComponent implements OnInit {
-  flows: any = [];
-  elementId: any;
+  flows: any[] = [];
   selectedFlowId: any = null;
-  flowKeys: any = [];
+  filterText = '';
+
+  displayedColumns: string[] = ['sno', 'keyName', 'categories', 'dataElement', 'actions'];
+  dataSource = new MatTableDataSource<any>([]);
+
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('resetDialog') resetDialog: TemplateRef<any>;
-  displayedColumns: string[] = ["sno", 'keyName', 'categories','possibleValues', 'dataElement', 'actions'];
-  dataSource: MatTableDataSource<any>;
-  input: any;
+
+  private keyToReset: any = null;
 
   constructor(
     private flowService: FlowService,
     private notifierService: NotifierService,
     private dialog: MatDialog
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.getFlows();
   }
 
-  /**
-   * This method returns flows
-   */
-  getFlows() {
-    let params = {
-      pageSize: 1000
-    };
-    return this.flowService.getFlows(params).subscribe((response: any) => {
-      this.flows = response.data.content;
-    }, error => {
-      this.notifierService.showNotification(error.error.error, 'OK', 'error');
-    });
-  }
-
-  syncFlows(): Subscription {
-    return this.flowService.syncFlows().subscribe((response: any) => {
-      this.getFlows();
-      if (response.status == '200') {
-        this.notifierService.showNotification(response.message, 'OK', 'success');
+  getFlows(): void {
+    this.flowService.getFlows({pageSize: 1000}).subscribe({
+      next: (response: any) => {
+        this.flows = response?.data?.content ?? [];
+      },
+      error: (err) => {
+        this.notifierService.showNotification(err?.error?.error ?? 'Failed to load flows', 'OK', 'error');
       }
-    }, error => {
-      this.notifierService.showNotification(error.error.error, 'OK', 'error');
     });
   }
 
-  getKeys(event: any) {
-    let id = event.value;
-    return this.flowService.getKeysByFlowId(id).subscribe((response: any) => {
-      this.flowKeys = response.data ?? [];
-      this.dataSource = new MatTableDataSource<any>(this.flowKeys);
-      this.dataSource.sort = this.sort;
-    }, error => {
-      this.notifierService.showNotification(error.error.error, 'OK', 'error');
-    })
-  }
-
-  openMapDataElementDialog(data): void {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    if (data) {
-      const categoriesMappingData = {
-        id: data.id,
-        keyDescription: data.keyDescription,
-        keyName: data.keyName,
-        flowId: this.selectedFlowId,
-      };
-
-      this.dialog.open(FlowKeyDialogComponent, {data: categoriesMappingData})
-        .afterClosed().subscribe(() => {
-        /**
-         * Fetch the data using the flow id
-         */
-        return this.flowService.getKeysByFlowId(this.selectedFlowId).subscribe((response: any) => {
-          this.flowKeys = response.data ?? [];
-          this.dataSource = new MatTableDataSource<any>(this.flowKeys);
-          this.dataSource.sort = this.sort;
-        }, error => {
-          this.notifierService.showNotification(error.error.error, 'OK', 'error');
-        });
-      });
-    } else {
-      dialogConfig.data = {};
-      this.dialog.open(FlowKeyDialogComponent, dialogConfig)
-        .afterClosed().subscribe(() => {
-        /**
-         * Fetch the data using the flow id
-         */
-        return this.flowService.getKeysByFlowId(this.selectedFlowId).subscribe((response: any) => {
-          this.flowKeys = response.data ?? [];
-          this.dataSource = new MatTableDataSource<any>(this.flowKeys);
-          this.dataSource.sort = this.sort;
-        }, error => {
-          this.notifierService.showNotification(error.error.error, 'OK', 'error');
-        });
-      });
-    }
-  }
-
-  openMapCategoryDialog(data): void {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    if (data) {
-      const categoriesMappingData = {
-        id: data.id,
-        dataElementId: data.dataElementId,
-        flowId: this.selectedFlowId,
-        categoryName: data.name
-      };
-
-      this.dialog.open(FlowCategoryDialogComponent, {data: categoriesMappingData})
-        .afterClosed().subscribe(() => {
-        /**
-         * Fetch the data using the flow id
-         */
-        return this.flowService.getKeysByFlowId(this.selectedFlowId).subscribe((response: any) => {
-          this.flowKeys = response.data ?? [];
-          this.dataSource = new MatTableDataSource<any>(this.flowKeys);
-          this.dataSource.sort = this.sort;
-        }, error => {
-          this.notifierService.showNotification(error.error.error, 'OK', 'error');
-        });
-      });
-    } else {
-      dialogConfig.data = {};
-      this.dialog.open(FlowCategoryDialogComponent, dialogConfig)
-        .afterClosed().subscribe(() => {
+  syncFlows(): void {
+    this.flowService.syncFlows().subscribe({
+      next: (response: any) => {
+        this.notifierService.showNotification(response?.message ?? 'Sync complete', 'OK', 'success');
         this.getFlows();
-      });
+      },
+      error: (err) => {
+        this.notifierService.showNotification(err?.error?.error ?? 'Sync failed', 'OK', 'error');
+      }
+    });
+  }
+
+  onFlowSelected(event: Event): void {
+    const value = (event.target as HTMLSelectElement).value;
+    this.selectedFlowId = value || null;
+    if (this.selectedFlowId) {
+      this.loadKeys();
+    } else {
+      this.dataSource.data = [];
     }
   }
 
-  applyFilter(event: KeyboardEvent): void {
-    if (!this.dataSource) return;
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  applyFilter(event: Event): void {
+    this.filterText = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.dataSource.filter = this.filterText;
   }
 
-  openResetDialog(data): void {
-    this.elementId = data.id;
-    this.dialog.open(this.resetDialog)
-      .afterClosed().subscribe(() => {
-      this.dialog.closeAll();
-    });
+  getCategories(element: any): any[] {
+    return element?.categories ?? [];
   }
 
-  reset(): any {
-    this.flowService.resetMapping(this.elementId).subscribe(response => {
-      this.notifierService.showNotification(response.message, 'OK', 'success');
+  splitValues(possibleTrueValues: string): string[] {
+    if (!possibleTrueValues) return [];
+    return possibleTrueValues.split(',').map(v => v.trim()).filter(Boolean);
+  }
 
-      /**
-       * Fetch the data using the flow id
-       */
-      return this.flowService.getKeysByFlowId(this.selectedFlowId).subscribe((response: any) => {
-        this.flowKeys = response.data ?? [];
-        this.dataSource = new MatTableDataSource<any>(this.flowKeys);
-        this.dataSource.sort = this.sort;
-      }, error => {
-        this.notifierService.showNotification(error.error.error, 'OK', 'error');
-      });
-    }, error => {
-      this.notifierService.showNotification(error.error.error, 'OK', 'error');
-      console.log(error);
-    });
+  openMapDataElementDialog(element: any): void {
+    if (!element) return;
+    this.dialog.open(FlowKeyDialogComponent, {
+      disableClose: true,
+      autoFocus: true,
+      data: {
+        id: element.id,
+        keyDescription: element.keyDescription,
+        keyName: element.keyName,
+        flowId: this.selectedFlowId,
+      }
+    }).afterClosed().subscribe(() => this.loadKeys());
+  }
+
+  openMapCategoryDialog(category: any): void {
+    if (!category) return;
+    this.dialog.open(FlowCategoryDialogComponent, {
+      disableClose: true,
+      autoFocus: true,
+      data: {
+        id: category.id,
+        dataElementId: category.dataElementId,
+        flowId: this.selectedFlowId,
+        categoryName: category.name,
+      }
+    }).afterClosed().subscribe(() => this.loadKeys());
+  }
+
+  openSetPossibleValuesDialog(category: any): void {
+    if (!category) return;
+    this.dialog.open(PossibleTrueValuesComponent, {
+      disableClose: true,
+      autoFocus: true,
+      width: '500px',
+      data: {possibleTrueValues: category}
+    }).afterClosed().subscribe(() => this.loadKeys());
+  }
+
+  openResetDialog(element: any): void {
+    this.keyToReset = element;
+    this.dialog.open(this.resetDialog).afterClosed().subscribe(() => {});
+  }
+
+  confirmReset(): void {
+    if (!this.keyToReset) return;
+    const id = this.keyToReset.id;
     this.dialog.closeAll();
+    this.flowService.resetMapping(id).subscribe({
+      next: (response: any) => {
+        this.notifierService.showNotification(response?.message ?? 'Reset successful', 'OK', 'success');
+        this.loadKeys();
+      },
+      error: (err) => {
+        this.notifierService.showNotification(err?.error?.error ?? 'Reset failed', 'OK', 'error');
+      }
+    });
   }
 
-  openSetPossibleValuesDialog(data: any) {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = '500px';
-    if (data) {
-      const possibleTrueValues = {
-        possibleTrueValues: data
-      };
-
-      this.dialog.open(PossibleTrueValuesComponent, {data: possibleTrueValues})
-        .afterClosed().subscribe(() => {
-        /**
-         * Fetch the data using the flow id
-         */
-        return this.flowService.getKeysByFlowId(this.selectedFlowId).subscribe((response: any) => {
-          this.flowKeys = response.data ?? [];
-          this.dataSource = new MatTableDataSource<any>(this.flowKeys);
+  private loadKeys(): void {
+    if (!this.selectedFlowId) return;
+    this.flowService.getKeysByFlowId(this.selectedFlowId).subscribe({
+      next: (response: any) => {
+        this.dataSource.data = response?.data ?? [];
+        if (this.sort) {
           this.dataSource.sort = this.sort;
-        }, error => {
-          this.notifierService.showNotification(error.error.error, 'OK', 'error');
-        });
-      });
-    } else {
-      dialogConfig.data = {};
-      this.dialog.open(PossibleTrueValuesComponent, dialogConfig)
-        .afterClosed().subscribe(() => {
-        this.getFlows();
-      });
-    }
+        }
+        if (this.filterText) {
+          this.dataSource.filter = this.filterText;
+        }
+      },
+      error: (err) => {
+        this.notifierService.showNotification(err?.error?.error ?? 'Failed to load keys', 'OK', 'error');
+      }
+    });
   }
 }
