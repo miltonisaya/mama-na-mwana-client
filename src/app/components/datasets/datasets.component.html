@@ -6,86 +6,32 @@
     </h2>
     <p class="page-subtitle">View and manage DHIS2 datasets and their data elements</p>
   </div>
-  <div>
-    <button (click)="syncDatasets()" mat-raised-button color="primary" class="sync-btn">
-      <mat-icon>sync</mat-icon>
-      Sync Datasets
-    </button>
-  </div>
+  <button (click)="syncDatasets()" mat-raised-button color="primary" class="sync-btn">
+    <mat-icon>sync</mat-icon>
+    Sync Datasets
+  </button>
 </div>
 
 <mat-card class="table-card">
   <mat-card-content>
+
     <mat-form-field appearance="outline" class="filter-field">
       <mat-label>Select a dataset</mat-label>
-      <mat-icon matPrefix>folder_open</mat-icon>
-      <mat-select (selectionChange)="getDataElementsByDataset($event)" [(value)]="selectedDataSetId">
-        <mat-option *ngFor="let dataset of datasets" [value]="dataset.id">
+      <select matNativeControl (change)="onDatasetSelected($event)">
+        <option value="">— choose a dataset —</option>
+        <option *ngFor="let dataset of datasets" [value]="dataset.id">
           {{ dataset.displayName }}
-        </mat-option>
-      </mat-select>
+        </option>
+      </select>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" class="filter-field">
-      <mat-label>Search data elements</mat-label>
-      <mat-icon matPrefix>search</mat-icon>
-      <input #input (keyup)="applyFilter($event)" autocomplete="off" matInput placeholder="Type to filter...">
-    </mat-form-field>
+    <p *ngIf="!selectedDataSetId" style="color: #6b7280; padding: 8px 0;">
+      Select a dataset above to view its data elements.
+    </p>
 
-    <div *ngIf="dataSource" class="table-container">
-      <table mat-table [dataSource]="dataSource">
-        <!-- SNo Column -->
-        <ng-container matColumnDef="sno">
-          <th mat-header-cell *matHeaderCellDef>No</th>
-          <td mat-cell *matCellDef="let datasets; let i = index">{{ i + 1 }}</td>
-        </ng-container>
+    <p *ngIf="selectedDataSetId" style="color: #1976d2; padding: 8px 0;">
+      Dataset selected: {{ selectedDataSetId }}
+    </p>
 
-        <!-- Name Column -->
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef>Name</th>
-          <td mat-cell *matCellDef="let datasets">{{ datasets.displayName }}</td>
-        </ng-container>
-
-        <!-- Code Column -->
-        <ng-container matColumnDef="code">
-          <th mat-header-cell *matHeaderCellDef>Code</th>
-          <td mat-cell *matCellDef="let datasets">{{ datasets.code }}</td>
-        </ng-container>
-
-        <!-- DHIS2 UUID Column -->
-        <ng-container matColumnDef="dhis2uid">
-          <th mat-header-cell *matHeaderCellDef>DHIS2 UUID</th>
-          <td mat-cell *matCellDef="let datasets">{{ datasets.dhisUid }}</td>
-        </ng-container>
-
-        <!-- Action Column -->
-        <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef>Action</th>
-          <td mat-cell *matCellDef="let datasets">
-            <button
-              mat-icon-button
-              matTooltip="Map Data Element"
-              matTooltipPosition="left"
-              (click)="openMappingDialog(datasets.id)"
-            >
-              <mat-icon>sync_alt</mat-icon>
-            </button>
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-        <!-- Row shown when there is no matching data -->
-        <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell no-data" colspan="5">
-            <mat-icon>search_off</mat-icon>
-            No data matching the filter "{{ input.value }}"
-          </td>
-        </tr>
-      </table>
-    </div>
-
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
   </mat-card-content>
 </mat-card>
