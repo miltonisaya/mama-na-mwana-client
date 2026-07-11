@@ -37,8 +37,10 @@ export class AuthService {
   }
 
   getToken() {
-    let user = JSON.parse(localStorage.getItem("MNM_USER"));
-    return user.token;
+    const raw = localStorage.getItem("MNM_USER");
+    if (!raw) return null;
+    const user = JSON.parse(raw);
+    return user?.token ?? null;
   }
 
   signOut() {
