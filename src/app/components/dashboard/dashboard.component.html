@@ -176,9 +176,11 @@
 
   <mat-paginator
     (page)="pageChanged($event)"
-    [length]="transactions?.totalElements"
-    [pageSizeOptions]="pageSizeOptions"
+    [length]="totalElements"
+    [pageIndex]="pageNo"
     [pageSize]="pageSize"
+    [pageSizeOptions]="pageSizeOptions"
+    showFirstLastButtons
     class="transaction-paginator"
   ></mat-paginator>
 
