@@ -1,8 +1,5 @@
-import {CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-
-
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
@@ -28,14 +25,12 @@ import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatMenuModule} from '@angular/material/menu';
-import {ReactiveFormsModule} from "@angular/forms";
-import {MatNativeDateModule} from "@angular/material/core";
-
+import {ReactiveFormsModule} from '@angular/forms';
+import {MatNativeDateModule} from '@angular/material/core';
 
 @NgModule({
   imports: [
     CommonModule,
-    BrowserAnimationsModule,
     MatCheckboxModule,
     MatButtonModule,
     MatInputModule,
@@ -50,21 +45,19 @@ import {MatNativeDateModule} from "@angular/material/core";
     MatBadgeModule,
     MatToolbarModule,
     MatListModule,
+    MatGridListModule,
     MatCardModule,
     MatButtonToggleModule,
+    MatChipsModule,
     MatIconModule,
     MatProgressBarModule,
     MatDialogModule,
+    MatTooltipModule,
     MatSnackBarModule,
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    MatMenuModule,
-    MatProgressBarModule,
     ReactiveFormsModule,
-    MatTableModule,
-    MatSortModule,
-    MatPaginatorModule,
   ],
   exports: [
     MatButtonModule,
@@ -88,15 +81,16 @@ import {MatNativeDateModule} from "@angular/material/core";
     ReactiveFormsModule,
     MatDialogModule,
     MatNativeDateModule,
-    MatTableModule,
     MatSortModule,
-    MatPaginatorModule,
+    MatCheckboxModule,
+    MatAutocompleteModule,
+    MatSnackBarModule,
+    MatCardModule,
+    MatButtonToggleModule,
   ],
   providers: [
     MatDatepickerModule,
   ],
-  schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA]
 })
-
 export class AngularMaterialModule {
 }
