@@ -49,8 +49,7 @@ export class AuthorityComponent implements OnInit {
 
     return this.AuthorityService.getAuthorities(this.params).subscribe((response: any) => {
       this.authorities = response.data;
-      this.dataSource = new MatTableDataSource<Authority>(this.authorities.content);
-      this.dataSource.paginator = this.paginator;
+      this.dataSource = new MatTableDataSource<Authority>(this.authorities?.content ?? []);
     }, error => {
       this.notifierService.showNotification(error.error.error, 'OK', 'error');
     });
