@@ -1,150 +1,180 @@
-<!-- manage-flows.component.html -->
-
 <div class="page-header">
-  <div>
+  <div class="page-header-left">
     <h2 class="page-title">
       <mat-icon>sync_alt</mat-icon>
       Manage Flows
     </h2>
-    <p class="page-subtitle">Configure and map RapidPro flows to data elements</p>
+    <p class="page-subtitle">Configure and map RapidPro flows to DHIS2 data elements</p>
   </div>
-  <div>
-    <button (click)="syncFlows()" mat-raised-button color="primary" class="sync-btn">
-      <mat-icon>sync</mat-icon>
-      Sync Flows
-    </button>
-  </div>
+  <button (click)="syncFlows()" mat-raised-button color="primary" class="sync-btn">
+    <mat-icon>sync</mat-icon>
+    Sync Flows
+  </button>
 </div>
 
 <mat-card class="table-card">
   <mat-card-content>
-    <div class="flow-selector">
-      <mat-form-field appearance="outline" class="filter-field flow-select-field">
+
+    <!-- Flow selector + search on same row -->
+    <div class="toolbar-row">
+      <mat-form-field appearance="outline" class="flow-select-field">
         <mat-label>Select a flow</mat-label>
-        <mat-icon matPrefix>folder_open</mat-icon>
-        <mat-select (selectionChange)="getKeys($event)" [(value)]="selectedFlowId">
-          <mat-option *ngFor="let flow of flows" [value]="flow.id">
-            {{ flow.name }}
-          </mat-option>
-        </mat-select>
+        <select matNativeControl (change)="onFlowSelected($event)">
+          <option value="">— choose a flow —</option>
+          <option *ngFor="let flow of flows" [value]="flow.id">{{ flow.name }}</option>
+        </select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Search keys</mat-label>
+        <mat-icon matPrefix>search</mat-icon>
+        <input matInput autocomplete="off" placeholder="Type to filter…" (input)="applyFilter($event)">
       </mat-form-field>
     </div>
 
-    <mat-form-field *ngIf="dataSource" appearance="outline" class="filter-field">
-      <mat-label>Search flow keys</mat-label>
-      <mat-icon matPrefix>search</mat-icon>
-      <input #input (keyup)="applyFilter($event)" autocomplete="off" matInput placeholder="Type to filter...">
-    </mat-form-field>
+    <!-- Empty state: no flow chosen -->
+    <div *ngIf="!selectedFlowId" class="empty-state">
+      <mat-icon>account_tree</mat-icon>
+      <p>Select a flow above to view and configure its keys</p>
+    </div>
 
-    <div *ngIf="dataSource" class="table-container">
-      <table mat-table [dataSource]="dataSource">
+    <!-- Keys table -->
+    <div *ngIf="selectedFlowId" class="table-container">
+      <table mat-table [dataSource]="dataSource" matSort>
 
-    <!-- SNo Column -->
-    <ng-container matColumnDef="sno">
-      <th mat-header-cell *matHeaderCellDef> No</th>
-      <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
-    </ng-container>
+        <!-- # -->
+        <ng-container matColumnDef="sno">
+          <th mat-header-cell *matHeaderCellDef class="col-sno">#</th>
+          <td mat-cell *matCellDef="let element; let i = index" class="col-sno">{{ i + 1 }}</td>
+        </ng-container>
 
-    <!-- Name Column -->
-    <ng-container matColumnDef="keyName">
-      <th mat-header-cell *matHeaderCellDef> Name</th>
-      <td mat-cell *matCellDef="let element">
-        <div class="link-data-element" (click)="openMapDataElementDialog(element)"
-             matTooltip="Click to map data element">
-          {{ element.keyName }}
-        </div>
-      </td>
-    </ng-container>
+        <!-- Key Name -->
+        <ng-container matColumnDef="keyName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Key Name</th>
+          <td mat-cell *matCellDef="let element">
+            <button class="key-name-btn" (click)="openMapDataElementDialog(element)"
+                    matTooltip="Click to map a data element">
+              <mat-icon class="key-icon">vpn_key</mat-icon>
+              <span>{{ element.keyName }}</span>
+              <mat-icon class="edit-icon">edit</mat-icon>
+            </button>
+          </td>
+        </ng-container>
 
-    <!-- Data Element Column -->
-    <ng-container matColumnDef="dataElement">
-      <th mat-header-cell *matHeaderCellDef> Data Element</th>
-      <td mat-cell *matCellDef="let element">
-        <div *ngFor="let category of element.categories">
-          <span *ngIf="category.dataElement">
-            {{ "(" + category.dataElement.code + ") - " + category.dataElement.name }}
-          </span>
-        </div>
-        <div *ngIf="element.dataElement" style="color: teal">
-          {{ "(" + element.dataElement.code + ") - " + element.dataElement.name }}
-        </div>
-      </td>
-    </ng-container>
+        <!-- Categories & Possible Values (merged) -->
+        <ng-container matColumnDef="categories">
+          <th mat-header-cell *matHeaderCellDef>Categories &amp; Possible Values</th>
+          <td mat-cell *matCellDef="let element">
 
-    <!-- Categories Column -->
-    <ng-container matColumnDef="categories">
-      <th mat-header-cell *matHeaderCellDef> Categories</th>
-      <td mat-cell *matCellDef="let element">
-        <div *ngIf="element.categories.length">
-          <ul>
-            <li *ngFor="let category of element.categories">
-              <div class="link-data-element" (click)="openMapCategoryDialog(category)"
-                   matTooltip="Click to map data element">
-                {{ category.name }}
+            <div *ngIf="getCategories(element).length === 0" class="no-content">—</div>
+
+            <div *ngFor="let category of getCategories(element); let last = last"
+                 class="category-block"
+                 [class.category-block--last]="last">
+
+              <!-- Category name row -->
+              <div class="category-header">
+                <button class="category-name-btn" (click)="openMapCategoryDialog(category)"
+                        matTooltip="Click to map data element">
+                  <mat-icon class="cat-icon">label</mat-icon>
+                  <span>{{ category.name }}</span>
+                </button>
+                <button mat-icon-button class="add-value-btn"
+                        matTooltip="Set possible values"
+                        matTooltipPosition="right"
+                        (click)="openSetPossibleValuesDialog(category)">
+                  <mat-icon>add_circle_outline</mat-icon>
+                </button>
               </div>
-              <!-- other content -->
-            </li>
-          </ul>
-        </div>
-      </td>
-    </ng-container>
 
-    <!-- Possible Values Column -->
-    <ng-container matColumnDef="possibleValues">
-      <th mat-header-cell *matHeaderCellDef> Possible Values</th>
-      <td mat-cell *matCellDef="let element">
-        <div *ngIf="element.categories.length">
-          <ul>
-            <li *ngFor="let category of element.categories">
-              <span style="color: teal;">
-                {{ category.possibleTrueValues }}
+              <!-- Possible values as chips -->
+              <div class="value-chips" *ngIf="splitValues(category.possibleTrueValues).length > 0">
+                <span *ngFor="let val of splitValues(category.possibleTrueValues)"
+                      class="value-chip">{{ val }}</span>
+              </div>
+              <span *ngIf="!category.possibleTrueValues" class="no-values-hint">
+                No values set
               </span>
-              <span (click)="openSetPossibleValuesDialog(category)">
-                <mat-icon>add</mat-icon>
+
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Data Element -->
+        <ng-container matColumnDef="dataElement">
+          <th mat-header-cell *matHeaderCellDef>Data Element</th>
+          <td mat-cell *matCellDef="let element">
+
+            <!-- Per-category data elements -->
+            <div *ngFor="let category of getCategories(element)" class="de-entry">
+              <ng-container *ngIf="category?.dataElement; else catUnmapped">
+                <span class="de-badge de-badge--mapped">
+                  <mat-icon>check_circle</mat-icon>
+                  {{ category.dataElement.code }} · {{ category.dataElement.name }}
+                </span>
+              </ng-container>
+              <ng-template #catUnmapped>
+                <span class="de-badge de-badge--unmapped">
+                  <mat-icon>radio_button_unchecked</mat-icon>
+                  Not mapped
+                </span>
+              </ng-template>
+            </div>
+
+            <!-- Direct key data element -->
+            <div *ngIf="element?.dataElement" class="de-entry">
+              <span class="de-badge de-badge--direct">
+                <mat-icon>bolt</mat-icon>
+                {{ element.dataElement.code }} · {{ element.dataElement.name }}
               </span>
-            </li>
-          </ul>
-        </div>
-      </td>
-    </ng-container>
+            </div>
 
-    <!-- Actions Column -->
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef> Action</th>
-      <td mat-cell *matCellDef="let element">
-        <button mat-icon-button matTooltip="Reset Mapping" matTooltipPosition="left" (click)="openResetDialog(element)">
-          <mat-icon>undo</mat-icon>
-        </button>
-      </td>
-    </ng-container>
+            <div *ngIf="getCategories(element).length === 0 && !element?.dataElement"
+                 class="no-content">—</div>
 
-        <!-- Header and Row Declarations -->
+          </td>
+        </ng-container>
+
+        <!-- Actions -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef class="col-actions">Action</th>
+          <td mat-cell *matCellDef="let element" class="col-actions">
+            <button mat-icon-button class="reset-btn"
+                    matTooltip="Reset mapping"
+                    matTooltipPosition="left"
+                    (click)="openResetDialog(element)">
+              <mat-icon>undo</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="data-row"></tr>
 
-        <!-- No Data Row -->
         <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell no-data" colspan="6">
+          <td class="mat-cell no-data-row" colspan="5">
             <mat-icon>search_off</mat-icon>
-            No data matching the filter "{{ input.value }}"
+            <span>No keys match <strong>"{{ filterText }}"</strong></span>
           </td>
         </tr>
+
       </table>
     </div>
+
   </mat-card-content>
 </mat-card>
 
-<!-- Reset Dialog Template -->
+<!-- Reset confirmation dialog -->
 <ng-template #resetDialog>
   <div class="dialog-header">
-    <mat-icon color="warn">refresh</mat-icon>
+    <mat-icon color="warn">restart_alt</mat-icon>
     <h2>Reset Mapping</h2>
   </div>
   <mat-dialog-content>
-    <p>Are you sure you want to reset this mapping? This action cannot be undone.</p>
+    <p>Are you sure you want to reset this mapping? This cannot be undone.</p>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-raised-button color="warn" (click)="reset()">Reset</button>
+    <button mat-raised-button color="warn" (click)="confirmReset()">Reset</button>
   </mat-dialog-actions>
 </ng-template>
