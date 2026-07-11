@@ -66,8 +66,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   //Get the user info from local storage
   checkIsAdmin() {
-    let mnmUser = JSON.parse(localStorage.getItem("MNM_USER"));
-    if (mnmUser.isSuperAdministrator) {
+    const raw = localStorage.getItem("MNM_USER");
+    const mnmUser = raw ? JSON.parse(raw) : null;
+    if (mnmUser?.isSuperAdministrator) {
       this.isSuperAdministrator = true;
       this.getAllTransactions();
     }
@@ -81,7 +82,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
     return this.transactionService.getAll(this.params).subscribe((response: any) => {
       this.transactions = response.data;
-      this.dataSource = new MatTableDataSource<DataElement>(this.transactions.content);
+      this.dataSource = new MatTableDataSource<DataElement>(this.transactions.content ?? []);
     }, error => {
       this.notifierService.showNotification(error.error.error, 'OK', 'error');
     });
@@ -147,7 +148,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       let result = response.data;
       let finalResult = [];
 
-      result.forEach((x) => {
+      (result ?? []).forEach((x) => {
         var entries = Object.entries(x);
         finalResult.push(entries[0]);
       });
