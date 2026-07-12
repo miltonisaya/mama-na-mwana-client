@@ -1,8 +1,5 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import {MatTableDataSource} from '@angular/material/table';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
 import {UsersService} from './users.service';
 import {NotifierService} from '../notifications/notifier.service';
 import {User} from './User';
@@ -20,15 +17,11 @@ export class UsersComponent implements OnInit {
   userId: string;
   dataSource: MatTableDataSource<User>;
   @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
   pageSize = 10;
   pageNo = 0;
   pageSizeOptions: number[] = [10, 25, 100, 1000];
-  private params: { pageNo: number; pageSize: number };
 
   constructor(
-    private http: HttpClient,
     private UsersService: UsersService,
     private NotifierService: NotifierService,
     private DialogService: MatDialog,
@@ -39,21 +32,13 @@ export class UsersComponent implements OnInit {
     this.getUsers();
   }
 
-  /**
-   * This method returns users
-   */
   getUsers() {
-    this.params = {
-      "pageNo": this.pageNo,
-      "pageSize": this.pageSize
-    }
-
-    return this.UsersService.getUsers(this.params).subscribe((response: any) => {
+    const params = { pageNo: this.pageNo, pageSize: this.pageSize };
+    return this.UsersService.getUsers(params).subscribe((response: any) => {
       this.users = response.data;
       this.dataSource = new MatTableDataSource<User>(this.users?.content ?? []);
     }, error => {
       this.NotifierService.showNotification(error.message, 'OK', 'error');
-      console.log(error);
     });
   }
 
@@ -64,7 +49,6 @@ export class UsersComponent implements OnInit {
   }
 
   openDialog(data?): void {
-    console.log(data);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
@@ -109,9 +93,20 @@ export class UsersComponent implements OnInit {
     this.DialogService.closeAll();
   }
 
-  pageChanged(e: any) {
-    this.pageSize = e.pageSize;
-    this.pageNo = e.pageIndex;
+  get totalElements(): number { return this.users?.totalElements ?? 0; }
+
+  pageRangeEnd(): number {
+    return Math.min((this.pageNo + 1) * this.pageSize, this.totalElements);
+  }
+
+  firstPage() { this.pageNo = 0; this.getUsers(); }
+  prevPage()  { this.pageNo--; this.getUsers(); }
+  nextPage()  { this.pageNo++; this.getUsers(); }
+  lastPage()  { this.pageNo = Math.ceil(this.totalElements / this.pageSize) - 1; this.getUsers(); }
+
+  pageSizeChanged(e: any) {
+    this.pageSize = +e.target.value;
+    this.pageNo = 0;
     this.getUsers();
   }
 }

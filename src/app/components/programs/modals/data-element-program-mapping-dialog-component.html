@@ -15,11 +15,10 @@
       <div class="mnm-panel">
         <div class="mnm-panel-head">
           <div class="mnm-panel-title">
-            <mat-checkbox color="primary"
+            <input type="checkbox" class="mnm-checkbox"
               [checked]="isAllAvailableSelected()"
               [indeterminate]="isSomeAvailableSelected()"
-              (change)="toggleAllAvailable()"
-            ></mat-checkbox>
+              (change)="toggleAllAvailable()">
             <mat-icon>dataset</mat-icon>
             Available
           </div>
@@ -44,11 +43,10 @@
             [class.item-sel]="availableSelection.has(item.id)"
             (click)="toggleAvailable(item.id)"
           >
-            <mat-checkbox color="primary"
+            <input type="checkbox" class="mnm-checkbox"
               [checked]="availableSelection.has(item.id)"
               (click)="$event.stopPropagation()"
-              (change)="toggleAvailable(item.id)"
-            ></mat-checkbox>
+              (change)="toggleAvailable(item.id)">
             <div class="mnm-item-info">
               <mat-icon class="item-icon">data_object</mat-icon>
               <span class="item-name">{{item.name}}</span>
@@ -63,10 +61,16 @@
 
       <!-- Transfer buttons -->
       <div class="mnm-arrows">
-        <button mat-fab color="primary" (click)="assign()" [disabled]="!availableSelection.size" matTooltip="Assign selected">
+        <button mat-fab color="primary"
+          (click)="availableSelection.size && assign()"
+          [class.btn--loading]="!availableSelection.size"
+          matTooltip="Assign selected">
           <mat-icon>arrow_forward</mat-icon>
         </button>
-        <button mat-fab color="warn" (click)="unassign()" [disabled]="!assignedSelection.size" matTooltip="Remove selected">
+        <button mat-fab color="warn"
+          (click)="assignedSelection.size && unassign()"
+          [class.btn--loading]="!assignedSelection.size"
+          matTooltip="Remove selected">
           <mat-icon>arrow_back</mat-icon>
         </button>
       </div>
@@ -75,11 +79,10 @@
       <div class="mnm-panel mnm-panel-assigned">
         <div class="mnm-panel-head mnm-panel-head-assigned">
           <div class="mnm-panel-title assigned">
-            <mat-checkbox color="primary"
+            <input type="checkbox" class="mnm-checkbox"
               [checked]="isAllAssignedSelected()"
               [indeterminate]="isSomeAssignedSelected()"
-              (change)="toggleAllAssigned()"
-            ></mat-checkbox>
+              (change)="toggleAllAssigned()">
             <mat-icon>check_circle</mat-icon>
             Assigned
           </div>
@@ -104,11 +107,10 @@
             [class.item-sel]="assignedSelection.has(item.id)"
             (click)="toggleAssigned(item.id)"
           >
-            <mat-checkbox color="primary"
+            <input type="checkbox" class="mnm-checkbox"
               [checked]="assignedSelection.has(item.id)"
               (click)="$event.stopPropagation()"
-              (change)="toggleAssigned(item.id)"
-            ></mat-checkbox>
+              (change)="toggleAssigned(item.id)">
             <div class="mnm-item-info">
               <mat-icon class="item-icon item-icon-assigned">check_circle</mat-icon>
               <span class="item-name">{{item.name}}</span>
@@ -125,7 +127,9 @@
 
   <mat-dialog-actions class="mnm-dialog-foot">
     <button mat-button mat-dialog-close type="button">Cancel</button>
-    <button mat-raised-button color="primary" (click)="saveData()" [disabled]="saving || loading">
+    <button mat-raised-button color="primary"
+      (click)="!saving && !loading && saveData()"
+      [class.btn--loading]="saving || loading">
       <mat-icon *ngIf="saving">hourglass_empty</mat-icon>
       {{saving ? "Saving…" : "Save"}}
     </button>

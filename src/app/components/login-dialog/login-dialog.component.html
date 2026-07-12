@@ -29,7 +29,8 @@
       </mat-error>
     </mat-form-field>
 
-    <button mat-raised-button color="primary" type="submit" class="submit-btn" [disabled]="formGroup.invalid">
+    <button mat-raised-button color="primary" type="submit" class="submit-btn"
+            [class.btn--loading]="formGroup.invalid">
       Sign In
     </button>
   </form>

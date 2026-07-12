@@ -7,9 +7,10 @@
     <p class="page-subtitle">View and manage RapidPro contacts</p>
   </div>
   <div>
-    <button (click)="syncContacts()" mat-raised-button color="primary" class="sync-btn">
+    <button (click)="!syncing && syncContacts()" mat-raised-button color="primary" class="sync-btn"
+            [class.btn--loading]="syncing">
       <mat-icon>sync</mat-icon>
-      Sync Contacts
+      {{ syncing ? 'Syncing...' : 'Sync Contacts' }}
     </button>
   </div>
 </div>
@@ -60,12 +61,13 @@
           <td *matCellDef="let contacts" mat-cell>{{contacts.age}}</td>
         </ng-container>
 
-        <!-- Action Column -->
+        <!-- Actions Column -->
         <ng-container matColumnDef="actions">
-          <th *matHeaderCellDef mat-header-cell>Action</th>
+          <th *matHeaderCellDef mat-header-cell>Actions</th>
           <td *matCellDef="let contacts" mat-cell>
-            <button mat-icon-button matTooltip="Edit" matTooltipPosition="left">
-              <mat-icon (click)="openDialog(contacts)">edit</mat-icon>
+            <button mat-icon-button matTooltip="Edit" matTooltipPosition="left"
+                    (click)="openDialog(contacts)" aria-label="Edit contact">
+              <mat-icon>edit</mat-icon>
             </button>
           </td>
         </ng-container>
@@ -83,11 +85,38 @@
       </table>
     </div>
 
-    <mat-paginator
-      (page)="pageChanged($event)"
-      [length]="contacts?.totalElements"
-      [pageSizeOptions]="pageSizeOptions"
-      [pageSize]="pageSize"
-    ></mat-paginator>
+    <div class="pagination-bar">
+      <div class="pagination-size">
+        <span class="pagination-label">Rows per page:</span>
+        <select class="pagination-select" (change)="pageSizeChanged($event)">
+          <option *ngFor="let s of pageSizeOptions" [value]="s" [selected]="s === pageSize">{{ s }}</option>
+        </select>
+      </div>
+      <span class="pagination-range">
+        {{ totalElements === 0 ? '0' : pageNo * pageSize + 1 }}–{{ pageRangeEnd() }} of {{ totalElements | number }}
+      </span>
+      <div class="pagination-nav">
+        <button type="button" class="pag-nav-btn" title="First page" aria-label="First page"
+                [class.pag-nav-btn--disabled]="pageNo === 0"
+                (click)="pageNo > 0 && firstPage()">
+          <mat-icon aria-hidden="true">first_page</mat-icon>
+        </button>
+        <button type="button" class="pag-nav-btn" title="Previous page" aria-label="Previous page"
+                [class.pag-nav-btn--disabled]="pageNo === 0"
+                (click)="pageNo > 0 && prevPage()">
+          <mat-icon aria-hidden="true">chevron_left</mat-icon>
+        </button>
+        <button type="button" class="pag-nav-btn" title="Next page" aria-label="Next page"
+                [class.pag-nav-btn--disabled]="pageRangeEnd() >= totalElements"
+                (click)="pageRangeEnd() < totalElements && nextPage()">
+          <mat-icon aria-hidden="true">chevron_right</mat-icon>
+        </button>
+        <button type="button" class="pag-nav-btn" title="Last page" aria-label="Last page"
+                [class.pag-nav-btn--disabled]="pageRangeEnd() >= totalElements"
+                (click)="pageRangeEnd() < totalElements && lastPage()">
+          <mat-icon aria-hidden="true">last_page</mat-icon>
+        </button>
+      </div>
+    </div>
   </mat-card-content>
 </mat-card>

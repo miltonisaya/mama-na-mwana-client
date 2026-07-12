@@ -3,7 +3,6 @@ import { HttpClient } from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
-import {UntypedFormControl, UntypedFormGroup, Validators} from "@angular/forms";
 
 export const BASE_URL: string = environment.baseURL;
 export const RESOURCE_URL: string = 'api/v1/contacts';
@@ -12,58 +11,35 @@ export const RESOURCE_URL: string = 'api/v1/contacts';
   providedIn: 'root'
 })
 export class DashboardService {
-  registrationsForm: UntypedFormGroup = new UntypedFormGroup({
-    startDate: new UntypedFormControl('', [Validators.required]),
-    endDate: new UntypedFormControl('', [Validators.required])
-  });
   private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
 
-  constructor(
-    private http: HttpClient
-  ) {
+  constructor(private http: HttpClient) {}
+
+  getMonthlyRegistrations(params?: any): Observable<any> {
+    return this.http.get<any>(this.API_ENDPOINT + "/registrations-by-months", {params}).pipe(map(this.extractData));
   }
 
-  /**
-   * Get all monthly registrations
-   * @param param
-   */
-  getMonthlyRegistrations(param?): Observable<any> {
-    return this.http.get<any>(this.API_ENDPOINT+"/registrations-by-months", {params: param}).pipe(
-      map(this.extractData));
+  getRegistrationsByCouncil(params?: any): Observable<any> {
+    return this.http.get<any>(this.API_ENDPOINT + "/registrations-by-council", {params}).pipe(map(this.extractData));
   }
 
-  /**
-   * Get all registrations by council
-   * @param param
-   */
-  getRegistrationsByCouncil(param?): Observable<any> {
-    return this.http.get<any>(this.API_ENDPOINT+"/registrations-by-council", {params: param}).pipe(
-      map(this.extractData));
+  getNumberOfAllContacts(params?: any): Observable<any> {
+    return this.http.get<any>(this.API_ENDPOINT + "/number-of-registrations", {params}).pipe(map(this.extractData));
   }
 
-  getNumberOfAllContacts(): Observable<any> {
-    return this.http.get<any>(this.API_ENDPOINT+"/number-of-registrations", {}).pipe(
-      map(this.extractData));
+  getNumberOfRegistrationsInBarChart(params?: any): Observable<any> {
+    return this.http.get<any>(this.API_ENDPOINT + "/registrations-bar-chart", {params}).pipe(map(this.extractData));
   }
 
-  getNumberOfRegistrationsInBarChart() {
-    return this.http.get<any>(this.API_ENDPOINT+"/registrations-bar-chart", {}).pipe(
-      map(this.extractData));
-  }
-  getNumberOfTodayContacts() {
-    return this.http.get<any>(this.API_ENDPOINT+"/registered-today", {}).pipe(
-      map(this.extractData));
+  getNumberOfTodayContacts(): Observable<any> {
+    return this.http.get<any>(this.API_ENDPOINT + "/registered-today", {}).pipe(map(this.extractData));
   }
 
-  /**
-   * helper function to extract data since
-   * we are not using a type checker in the request
-   * @returns Observable
-   *
-   * @param res
-   */
+  getContactsBySex(params?: any): Observable<any> {
+    return this.http.get<any>(this.API_ENDPOINT + "/stats/by-sex", {params}).pipe(map(this.extractData));
+  }
+
   private extractData(res: Response) {
-    const body = res;
-    return body || {};
+    return res || {};
   }
 }

@@ -24,9 +24,10 @@
       <mat-form-field appearance="outline" class="mnm-field">
         <mat-label>Parent Report</mat-label>
         <mat-icon matPrefix>account_tree</mat-icon>
-        <mat-select [compareWith]="ReportService.compareObjects" formControlName="parentId">
-          <mat-option *ngFor="let report of reports" [value]="report.id">{{report.name}}</mat-option>
-        </mat-select>
+        <select matNativeControl formControlName="parentId">
+          <option value="">— None —</option>
+          <option *ngFor="let report of reports" [value]="report.id">{{report.name}}</option>
+        </select>
       </mat-form-field>
     </mat-dialog-content>
 

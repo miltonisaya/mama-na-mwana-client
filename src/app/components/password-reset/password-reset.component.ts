@@ -12,15 +12,21 @@ import {AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidatorFn, Vali
 export class PasswordResetComponent implements OnInit {
   userId: string;
   user;
+  saving = false;
+  hideOldPassword = true;
+  hidePassword = true;
+  hideConfirmPassword = true;
+  private matchValidatorAdded = false;
+
   profileForm = this.fb.group({
-    name: ['', Validators.required, Validators.minLength(3)],
-    email: ['', Validators.required, Validators.email],
+    name: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
     phone: ['', Validators.required],
-    username: ['', Validators.required, Validators.minLength(3)],
+    username: ['', Validators.required],
     password: ['', Validators.required],
     confirmPassword: ['', Validators.required],
     oldPassword: ['', Validators.required],
-    id: ['', Validators.required],
+    id: [''],
   });
 
   constructor(
@@ -28,22 +34,25 @@ export class PasswordResetComponent implements OnInit {
     private http: HttpClient,
     private notifierService: NotifierService,
     private userService: UsersService
-  ) {
-  }
+  ) {}
 
   validateForm() {
-    this.profileForm.addValidators(
-      this.matchValidator(this.profileForm.get('password'), this.profileForm.get('confirmPassword'))
-    );
+    if (!this.matchValidatorAdded) {
+      this.profileForm.addValidators(
+        this.matchValidator(
+          this.profileForm.get('password'),
+          this.profileForm.get('confirmPassword')
+        )
+      );
+      this.matchValidatorAdded = true;
+    }
+    this.profileForm.updateValueAndValidity();
   }
 
-  matchValidator(
-    control: AbstractControl,
-    controlTwo: AbstractControl
-  ): ValidatorFn {
+  matchValidator(control: AbstractControl, controlTwo: AbstractControl): ValidatorFn {
     return () => {
       if (control.value !== controlTwo.value)
-        return {match_error: 'The passwords do not match'};
+        return {match_error: 'Passwords do not match'};
       return null;
     };
   }
@@ -56,16 +65,13 @@ export class PasswordResetComponent implements OnInit {
     const raw = localStorage.getItem("MNM_USER");
     const user = raw ? JSON.parse(raw) : null;
     this.userId = user?.id;
-    let params = {
-      "id": this.userId
-    };
 
-    this.userService.findById(params).subscribe((response) => {
+    this.userService.findById({id: this.userId}).subscribe((response) => {
       this.user = response.data;
       this.updateFormValues();
     }, (error) => {
       this.notifierService.showNotification(error.error.error, 'OK', 'error');
-    })
+    });
   }
 
   updateFormValues() {
@@ -79,11 +85,24 @@ export class PasswordResetComponent implements OnInit {
   }
 
   submitForm(profileForm: UntypedFormGroup) {
-    this.userService.resetPassword(profileForm)
-      .subscribe(response => {
+    if (profileForm.invalid) {
+      profileForm.markAllAsTouched();
+      return;
+    }
+    this.saving = true;
+    this.userService.resetPassword(profileForm).subscribe(
+      response => {
+        this.saving = false;
         this.notifierService.showNotification(response.message, 'OK', 'success');
-      }, error => {
+        profileForm.patchValue({password: '', confirmPassword: '', oldPassword: ''});
+        profileForm.get('password')?.markAsUntouched();
+        profileForm.get('confirmPassword')?.markAsUntouched();
+        profileForm.get('oldPassword')?.markAsUntouched();
+      },
+      error => {
+        this.saving = false;
         this.notifierService.showNotification(error.error.error, 'OK', 'error');
-      });
-  };
+      }
+    );
+  }
 }

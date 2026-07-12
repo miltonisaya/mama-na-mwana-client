@@ -4,8 +4,6 @@ import {RolesService} from './roles.service';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {RolesDialogComponent} from './modals/roles-dialog-component';
 import {Role} from './role';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
 import {NotifierService} from '../notifications/notifier.service';
 import {RoleAuthorityMappingDialogComponent} from "./modals/role-authority-mapping-dialog-component";
 
@@ -20,12 +18,9 @@ export class RolesComponent implements OnInit {
   roleId: string;
   dataSource: MatTableDataSource<Role>;
   @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
   pageSize = 10;
   pageNo = 0;
   pageSizeOptions: number[] = [10, 25, 100, 1000];
-  private params: { pageNo: number; pageSize: number };
 
   constructor(
     private RoleService: RolesService,
@@ -38,15 +33,7 @@ export class RolesComponent implements OnInit {
     this.getRoles();
   }
 
-  /**
-   * This method returns roles
-   */
   getRoles() {
-    this.params = {
-      "pageNo": this.pageNo,
-      "pageSize": this.pageSize
-    };
-
     return this.RoleService.getRoles().subscribe((response: any) => {
       this.roles = response.data;
       this.dataSource = new MatTableDataSource<Role>(this.roles?.content ?? []);
@@ -116,10 +103,20 @@ export class RolesComponent implements OnInit {
     });
   }
 
-  pageChanged(e: any) {
-    console.log(e);
-    this.pageSize = e.pageSize;
-    this.pageNo = e.pageIndex;
+  get totalElements(): number { return this.roles?.totalElements ?? 0; }
+
+  pageRangeEnd(): number {
+    return Math.min((this.pageNo + 1) * this.pageSize, this.totalElements);
+  }
+
+  firstPage() { this.pageNo = 0; this.getRoles(); }
+  prevPage()  { this.pageNo--; this.getRoles(); }
+  nextPage()  { this.pageNo++; this.getRoles(); }
+  lastPage()  { this.pageNo = Math.ceil(this.totalElements / this.pageSize) - 1; this.getRoles(); }
+
+  pageSizeChanged(e: any) {
+    this.pageSize = +e.target.value;
+    this.pageNo = 0;
     this.getRoles();
   }
 }

@@ -57,9 +57,14 @@ ul {
 .toolbar-spacer { flex: 1; }
 .toolbar-icons {
   display: flex;
-  flex-direction: row;
-  gap: 20px;
   align-items: center;
+
+  ul {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+  }
 }
 
 // Right side icons

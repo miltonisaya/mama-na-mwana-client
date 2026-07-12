@@ -502,4 +502,20 @@ h1, h2, h3, h4, h5, h6 {
       mat-icon { font-size: 18px; width: 18px; height: 18px; }
     }
   }
+
+  .mnm-checkbox {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: var(--primary-color, #1976d2);
+    flex-shrink: 0;
+  }
+}
+
+// ─── Global utility: visually-disabled button state ───────────────────────────
+// Used when [disabled] on Material buttons crashes AM18 (null.disabled).
+// Apply with [class.btn--loading]="condition" on the button element.
+.btn--loading {
+  opacity: 0.65 !important;
+  pointer-events: none !important;
 }

@@ -4,8 +4,6 @@ import {MenuService} from './menu.service';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {MenuDialogComponent} from './modals/menu-dialog-component';
 import {Menu} from './menu';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
 import {NotifierService} from '../notifications/notifier.service';
 
 @Component({
@@ -20,12 +18,9 @@ export class MenuComponent implements OnInit {
   menuId: string;
   dataSource: MatTableDataSource<Menu>;
   @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
   pageSize = 10;
   pageNo = 0;
   pageSizeOptions: number[] = [10, 25, 100, 1000];
-  private params: { pageNo: number; pageSize: number };
 
   constructor(
     private MenuService: MenuService,
@@ -38,21 +33,13 @@ export class MenuComponent implements OnInit {
     this.getMenus();
   }
 
-  /**
-   * This method returns menus
-   */
   getMenus() {
-    this.params = {
-      "pageNo": this.pageNo,
-      "pageSize": this.pageSize
-    }
-
-    return this.MenuService.getMenus(this.params).subscribe((response: any) => {
+    const params = { pageNo: this.pageNo, pageSize: this.pageSize };
+    return this.MenuService.getMenus(params).subscribe((response: any) => {
       this.menus = response.data;
       this.dataSource = new MatTableDataSource<Menu>(this.menus?.content ?? []);
     }, error => {
       this.notifierService.showNotification(error.message, 'OK', 'error');
-      console.log(error);
     });
   }
 
@@ -109,9 +96,20 @@ export class MenuComponent implements OnInit {
     this.dialog.closeAll();
   }
 
-  pageChanged(e: any) {
-    this.pageSize = e.pageSize;
-    this.pageNo = e.pageIndex;
+  get totalElements(): number { return this.menus?.totalElements ?? 0; }
+
+  pageRangeEnd(): number {
+    return Math.min((this.pageNo + 1) * this.pageSize, this.totalElements);
+  }
+
+  firstPage() { this.pageNo = 0; this.getMenus(); }
+  prevPage()  { this.pageNo--; this.getMenus(); }
+  nextPage()  { this.pageNo++; this.getMenus(); }
+  lastPage()  { this.pageNo = Math.ceil(this.totalElements / this.pageSize) - 1; this.getMenus(); }
+
+  pageSizeChanged(e: any) {
+    this.pageSize = +e.target.value;
+    this.pageNo = 0;
     this.getMenus();
   }
 }

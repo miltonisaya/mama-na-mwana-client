@@ -31,6 +31,11 @@
     height: 44px;
     font-weight: 600;
 
+    &.btn--loading {
+      opacity: 0.65;
+      pointer-events: none;
+    }
+
     mat-icon {
       margin-right: 8px;
     }
@@ -42,8 +47,6 @@
   border-radius: 16px !important;
   padding: 8px;
 }
-
-// Filter Field - uses global styles from styles.scss
 
 // Table Container
 .table-container {
@@ -100,9 +103,91 @@ table {
   }
 }
 
-// Paginator
-.mat-paginator {
-  background: transparent;
+// ─── Custom pagination bar ────────────────────────────────────────────────────
+.pagination-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 24px;
+  padding: 8px 16px;
   border-top: 1px solid var(--border-color, #e5e7eb);
-  margin-top: -1px;
+
+  .pagination-size {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .pagination-label {
+    font-size: 13px;
+    color: var(--text-secondary, #6b7280);
+  }
+
+  .pagination-select {
+    font-size: 13px;
+    color: var(--text-primary, #374151);
+    background: transparent;
+    border: 1px solid var(--border-color, #e5e7eb);
+    border-radius: 6px;
+    padding: 3px 6px;
+    cursor: pointer;
+    outline: none;
+
+    &:focus { border-color: var(--primary-color, #1976d2); }
+  }
+
+  .pagination-range {
+    font-size: 13px;
+    color: var(--text-secondary, #6b7280);
+    white-space: nowrap;
+  }
+
+  .pagination-nav {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+}
+
+.pag-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--text-secondary, #6b7280);
+  transition: color 0.15s ease, background-color 0.15s ease;
+  padding: 0;
+
+  mat-icon { font-size: 20px; width: 20px; height: 20px; }
+
+  &:hover { color: var(--primary-color, #1976d2); background-color: rgba(25, 118, 210, 0.06); }
+
+  &:focus-visible {
+    outline: 2px solid var(--primary-color, #1976d2);
+    outline-offset: 2px;
+    color: var(--primary-color, #1976d2);
+    background-color: rgba(25, 118, 210, 0.06);
+  }
+
+  &.pag-nav-btn--disabled {
+    opacity: 0.35;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) { transition: none; }
+}
+
+@media (max-width: 600px) {
+  .pagination-bar {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    padding: 10px 12px;
+  }
 }

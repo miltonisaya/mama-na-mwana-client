@@ -1,7 +1,5 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
 import {ContactsService} from './contacts.service';
 import {NotifierService} from '../notifications/notifier.service';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
@@ -18,13 +16,11 @@ export class ContactsComponent implements OnInit {
   contacts: any = [];
   userId: string;
   @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
   pageSize = 10;
   pageNo = 0;
   pageSizeOptions: number[] = [10, 25, 100, 1000];
+  syncing = false;
   dataSource;
-  private params: { pageNo: number; pageSize: number };
 
   constructor(
     private ContactsService: ContactsService,
@@ -37,16 +33,9 @@ export class ContactsComponent implements OnInit {
     this.getContacts();
   }
 
-  /**
-   * This method returns users
-   */
   getContacts() {
-    this.params = {
-      "pageNo": this.pageNo,
-      "pageSize": this.pageSize
-    }
-
-    return this.ContactsService.getContacts(this.params).subscribe((response: any) => {
+    const params = { pageNo: this.pageNo, pageSize: this.pageSize };
+    return this.ContactsService.getContacts(params).subscribe((response: any) => {
       this.contacts = response.data;
       this.dataSource = new MatTableDataSource<DataElement>(this.contacts?.content ?? []);
     }, error => {
@@ -96,9 +85,20 @@ export class ContactsComponent implements OnInit {
       });
   }
 
-  pageChanged(e: any) {
-    this.pageSize = e.pageSize;
-    this.pageNo = e.pageIndex;
+  get totalElements(): number { return this.contacts?.totalElements ?? 0; }
+
+  pageRangeEnd(): number {
+    return Math.min((this.pageNo + 1) * this.pageSize, this.totalElements);
+  }
+
+  firstPage() { this.pageNo = 0; this.getContacts(); }
+  prevPage()  { this.pageNo--; this.getContacts(); }
+  nextPage()  { this.pageNo++; this.getContacts(); }
+  lastPage()  { this.pageNo = Math.ceil(this.totalElements / this.pageSize) - 1; this.getContacts(); }
+
+  pageSizeChanged(e: any) {
+    this.pageSize = +e.target.value;
+    this.pageNo = 0;
     this.getContacts();
   }
 
@@ -126,12 +126,13 @@ export class ContactsComponent implements OnInit {
   }
 
   syncContacts() {
+    this.syncing = true;
     this.ContactsService.syncContacts().subscribe((response: any) => {
+      this.syncing = false;
       this.getContacts();
-      if (response.status == '200') {
-        this.NotifierService.showNotification(response.message, 'OK', 'success');
-      }
+      this.NotifierService.showNotification(response.message, 'OK', 'success');
     }, error => {
+      this.syncing = false;
       this.NotifierService.showNotification(error.error.error, 'OK', 'error');
     });
   }

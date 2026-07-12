@@ -41,17 +41,19 @@
         <mat-form-field appearance="outline" class="mnm-field">
           <mat-label>Parent Menu</mat-label>
           <mat-icon matPrefix>account_tree</mat-icon>
-          <mat-select formControlName="parentId">
-            <mat-option *ngFor="let menu of parentMenus" [value]="menu.id">{{menu.name}}</mat-option>
-          </mat-select>
+          <select matNativeControl formControlName="parentId">
+            <option value="">— None —</option>
+            <option *ngFor="let menu of parentMenus" [value]="menu.id">{{menu.name}}</option>
+          </select>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="mnm-field">
           <mat-label>Role</mat-label>
           <mat-icon matPrefix>admin_panel_settings</mat-icon>
-          <mat-select [compareWith]="MenuService.compareObjects" formControlName="roleId" required>
-            <mat-option *ngFor="let role of roles" [value]="role.id">{{role.name}}</mat-option>
-          </mat-select>
+          <select matNativeControl formControlName="roleId" required>
+            <option value="">— Select Role —</option>
+            <option *ngFor="let role of roles" [value]="role.id">{{role.name}}</option>
+          </select>
         </mat-form-field>
       </div>
     </mat-dialog-content>

@@ -1,27 +1,61 @@
 <div class="dashboard-header">
   <div>
     <h2 class="page-title">Dashboard</h2>
-    <p class="page-subtitle">Overview of system statistics and activities</p>
+    <p class="page-subtitle">Pipeline health and contact registration overview</p>
   </div>
 </div>
 
-<div class="stats-cards">
-  <mat-card *ngIf="numberOfRegisteredContactsIsReady === true" class="stat-card stat-card-primary">
+<!-- Filter bar -->
+<div class="filter-bar">
+  <div class="filter-presets">
+    <button *ngFor="let p of presets"
+            type="button"
+            class="preset-btn"
+            [class.preset-btn--active]="activePreset === p.id"
+            (click)="setPreset(p.id)">
+      {{ p.label }}
+    </button>
+  </div>
+
+  <div class="filter-divider"></div>
+
+  <div class="filter-custom">
+    <label class="filter-custom-label">From</label>
+    <input type="date" class="date-input" [(ngModel)]="customStartDate">
+    <label class="filter-custom-label">To</label>
+    <input type="date" class="date-input" [(ngModel)]="customEndDate">
+    <button type="button" class="apply-btn" (click)="applyCustomFilter()">Apply</button>
+    <button *ngIf="activePreset !== 'all'" type="button" class="clear-btn" (click)="clearCustomFilter()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div *ngIf="activePreset !== 'all'" class="filter-active-label">
+    <mat-icon>filter_list</mat-icon>
+    <span>{{ filterLabel }}</span>
+  </div>
+</div>
+
+<!-- Stats grid — 2 cards for all users, 3 more for super admin -->
+<div class="stats-grid">
+
+  <mat-card *ngIf="numberOfRegisteredContactsIsReady" class="stat-card stat-card-primary">
     <div class="stat-card-content">
       <div class="stat-icon">
         <mat-icon>people</mat-icon>
       </div>
       <div class="stat-info">
-        <span class="stat-label">Total Registered Contacts</span>
+        <span class="stat-label">Total Contacts</span>
         <span class="stat-value">{{numberOfRegisteredContacts | number}}</span>
         <span class="stat-trend">
-          <mat-icon>trending_up</mat-icon>
-          All time registrations
+          <mat-icon>history</mat-icon>
+          {{ activePreset === 'all' ? 'All-time registrations' : filterLabel }}
         </span>
       </div>
     </div>
   </mat-card>
-  <mat-card *ngIf="numberOfRegisteredContactsTodayIsReady === true" class="stat-card stat-card-success">
+
+  <mat-card *ngIf="numberOfRegisteredContactsTodayIsReady" class="stat-card stat-card-success">
     <div class="stat-card-content">
       <div class="stat-icon">
         <mat-icon>person_add</mat-icon>
@@ -31,27 +65,107 @@
         <span class="stat-value">{{numberOfRegisteredContactsToday | number}}</span>
         <span class="stat-trend">
           <mat-icon>today</mat-icon>
-          Today's registrations
+          New registrations today
         </span>
       </div>
     </div>
   </mat-card>
+
+  <ng-container *ngIf="isSuperAdministrator">
+    <mat-card *ngIf="sentIsReady" class="stat-card stat-card-sent">
+      <div class="stat-card-content">
+        <div class="stat-icon">
+          <mat-icon>cloud_done</mat-icon>
+        </div>
+        <div class="stat-info">
+          <span class="stat-label">Sent to DHIS2</span>
+          <span class="stat-value">{{sentCount | number}}</span>
+          <span class="stat-trend">
+            <mat-icon>check_circle_outline</mat-icon>
+            Delivered successfully
+          </span>
+        </div>
+      </div>
+    </mat-card>
+
+    <mat-card *ngIf="pendingIsReady" class="stat-card stat-card-warning">
+      <div class="stat-card-content">
+        <div class="stat-icon">
+          <mat-icon>pending_actions</mat-icon>
+        </div>
+        <div class="stat-info">
+          <span class="stat-label">Pending Delivery</span>
+          <span class="stat-value">{{pendingCount | number}}</span>
+          <span class="stat-trend">
+            <mat-icon>hourglass_empty</mat-icon>
+            Awaiting DHIS2 dispatch
+          </span>
+        </div>
+      </div>
+    </mat-card>
+
+    <mat-card *ngIf="failedIsReady" class="stat-card" [class.stat-card-danger]="failedIsAlert" [class.stat-card-neutral]="!failedIsAlert">
+      <div class="stat-card-content">
+        <div class="stat-icon">
+          <mat-icon>{{failedIsAlert ? 'error' : 'check_circle'}}</mat-icon>
+        </div>
+        <div class="stat-info">
+          <span class="stat-label">Abandoned</span>
+          <span class="stat-value">{{failedCount | number}}</span>
+          <span class="stat-trend">
+            <mat-icon>{{failedIsAlert ? 'warning_amber' : 'verified'}}</mat-icon>
+            {{failedIsAlert ? 'Require manual reset' : 'No failed transactions'}}
+          </span>
+        </div>
+      </div>
+      <span class="stat-card-note">All-time</span>
+    </mat-card>
+  </ng-container>
+
 </div>
 
-<div class="chart-section">
-  <mat-card class="chart-card" *ngIf="bigChartsIsReady === true">
+<!-- Charts stacked vertically -->
+<div class="charts-row">
+
+  <mat-card class="chart-card" *ngIf="bigChartsIsReady">
     <mat-card-header>
       <mat-card-title>
         <mat-icon>bar_chart</mat-icon>
-        Registrations by Council
+        Monthly Registrations
       </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <app-widget-bar [data]="bigChart" [title]="titleCouncils"></app-widget-bar>
+      <app-widget-bar [data]="bigChart" [title]="titleMonthly"></app-widget-bar>
     </mat-card-content>
   </mat-card>
+
+  <mat-card class="chart-card" *ngIf="registrationByCouncilIsReady">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>bar_chart</mat-icon>
+        Client Registrations by Council
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <app-widget-bar [data]="registrationsByCouncilData" [title]="titleCouncilsBar"></app-widget-bar>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="chart-card" *ngIf="contactsBySexIsReady && contactsBySexData.length > 0">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>people_outline</mat-icon>
+        Contacts by Sex
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <app-widget-pie [data]="contactsBySexData" title="Contacts by Sex"></app-widget-pie>
+    </mat-card-content>
+  </mat-card>
+
 </div>
 
+<!-- Transaction logs — super admin only -->
 <div *ngIf="isSuperAdministrator" class="transaction-section">
 
   <div class="section-header">
@@ -59,14 +173,17 @@
       <mat-icon>receipt_long</mat-icon>
       <h3>Transaction Logs</h3>
     </div>
-    <span *ngIf="transactions?.totalElements" class="total-pill">
-      {{ transactions.totalElements | number }} total
+    <span *ngIf="totalElements > 0" class="total-pill">
+      {{ totalElements | number }} total
     </span>
   </div>
 
   <mat-card class="transaction-card">
     <div class="table-wrapper">
-      <table mat-table [dataSource]="dataSource">
+      <div class="table-loading-bar" *ngIf="isLoading" role="progressbar" aria-label="Loading transactions">
+        <div class="table-loading-bar__fill"></div>
+      </div>
+      <table mat-table [dataSource]="dataSource" aria-label="Transaction logs">
 
         <!-- # -->
         <ng-container matColumnDef="sno">
@@ -116,43 +233,21 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef class="col-actions">Actions</th>
           <td mat-cell *matCellDef="let row" class="col-actions">
-            <button mat-icon-button class="expand-btn"
-                    [matTooltip]="expandedTrx === row ? 'Collapse' : 'View payload'"
+            <button type="button" class="icon-btn expand-btn"
+                    [title]="expandedTrx === row ? 'Collapse' : 'View payload'"
                     (click)="$event.stopPropagation(); expandedTrx = expandedTrx === row ? null : row">
               <mat-icon>{{ expandedTrx === row ? 'expand_less' : 'data_object' }}</mat-icon>
             </button>
             <button *ngIf="!row.isSent && !isAbandoned(row)"
-                    mat-icon-button class="retry-btn"
-                    matTooltip="Retry sending to DHIS2"
+                    type="button" class="icon-btn retry-btn"
+                    title="Retry sending to DHIS2"
                     (click)="$event.stopPropagation(); resend(row)">
               <mat-icon>replay</mat-icon>
             </button>
           </td>
         </ng-container>
 
-        <!-- Expanded detail row -->
-        <ng-container matColumnDef="expandedDetail">
-          <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length" class="detail-cell">
-            <div *ngIf="expandedTrx === row" class="detail-panel">
-              <div class="detail-pane">
-                <div class="detail-pane-header">
-                  <mat-icon>code</mat-icon>
-                  <span>DHIS2 Payload</span>
-                </div>
-                <pre class="json-block">{{ prettyJson(row.payload) }}</pre>
-              </div>
-              <div *ngIf="row.dhisResponse" class="detail-pane">
-                <div class="detail-pane-header">
-                  <mat-icon>cloud_done</mat-icon>
-                  <span>DHIS2 Response</span>
-                </div>
-                <pre class="json-block">{{ prettyJson(row.dhisResponse) }}</pre>
-              </div>
-            </div>
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row
             *matRowDef="let row; columns: displayedColumns;"
             class="trx-row"
@@ -161,10 +256,9 @@
             [class.trx-row--expanded]="expandedTrx === row"
             (click)="expandedTrx = expandedTrx === row ? null : row">
         </tr>
-        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
 
         <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell no-data-row" colspan="6">
+          <td class="mat-cell no-data-row" colspan="5">
             <mat-icon>inbox</mat-icon>
             <span>No transactions found</span>
           </td>
@@ -174,14 +268,69 @@
     </div>
   </mat-card>
 
-  <mat-paginator
-    (page)="pageChanged($event)"
-    [length]="totalElements"
-    [pageIndex]="pageNo"
-    [pageSize]="pageSize"
-    [pageSizeOptions]="pageSizeOptions"
-    showFirstLastButtons
-    class="transaction-paginator"
-  ></mat-paginator>
+  <div *ngIf="expandedTrx" class="payload-panel">
+    <div class="payload-panel-header">
+      <div class="payload-panel-title">
+        <mat-icon>data_object</mat-icon>
+        <span>Transaction Detail</span>
+        <span class="payload-date">{{ expandedTrx.dateProcessed ?? '' }}</span>
+      </div>
+      <button type="button" class="icon-btn" title="Close" (click)="expandedTrx = null">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div class="payload-panel-body">
+      <div class="detail-pane">
+        <div class="detail-pane-header">
+          <mat-icon>code</mat-icon>
+          <span>Payload sent to DHIS2</span>
+        </div>
+        <pre class="json-block">{{ prettyJson(expandedTrx.payload) }}</pre>
+      </div>
+      <div *ngIf="expandedTrx.dhisResponse" class="detail-pane">
+        <div class="detail-pane-header">
+          <mat-icon>cloud_done</mat-icon>
+          <span>Response from DHIS2</span>
+        </div>
+        <pre class="json-block">{{ prettyJson(expandedTrx.dhisResponse) }}</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="pagination-bar">
+    <div class="pagination-size">
+      <span class="pagination-label">Rows per page:</span>
+      <select class="pagination-select" (change)="pageSizeChanged($event)">
+        <option *ngFor="let s of pageSizeOptions" [value]="s" [selected]="s === pageSize">{{ s }}</option>
+      </select>
+    </div>
+
+    <span class="pagination-range">
+      {{ totalElements === 0 ? '0' : pageNo * pageSize + 1 }}–{{ pageRangeEnd() }} of {{ totalElements | number }}
+    </span>
+
+    <div class="pagination-nav">
+      <button type="button" class="pag-nav-btn" title="First page" aria-label="First page"
+              [class.pag-nav-btn--disabled]="pageNo === 0"
+              (click)="pageNo > 0 && firstPage()">
+        <mat-icon aria-hidden="true">first_page</mat-icon>
+      </button>
+      <button type="button" class="pag-nav-btn" title="Previous page" aria-label="Previous page"
+              [class.pag-nav-btn--disabled]="pageNo === 0"
+              (click)="pageNo > 0 && prevPage()">
+        <mat-icon aria-hidden="true">chevron_left</mat-icon>
+      </button>
+      <button type="button" class="pag-nav-btn" title="Next page" aria-label="Next page"
+              [class.pag-nav-btn--disabled]="pageRangeEnd() >= totalElements"
+              (click)="pageRangeEnd() < totalElements && nextPage()">
+        <mat-icon aria-hidden="true">chevron_right</mat-icon>
+      </button>
+      <button type="button" class="pag-nav-btn" title="Last page" aria-label="Last page"
+              [class.pag-nav-btn--disabled]="pageRangeEnd() >= totalElements"
+              (click)="pageRangeEnd() < totalElements && lastPage()">
+        <mat-icon aria-hidden="true">last_page</mat-icon>
+      </button>
+    </div>
+  </div>
 
 </div>

@@ -38,9 +38,10 @@
       <mat-form-field appearance="outline" class="mnm-field">
         <mat-label>Role</mat-label>
         <mat-icon matPrefix>admin_panel_settings</mat-icon>
-        <mat-select [compareWith]="UserService.compareObjects" formControlName="roles" multiple required>
-          <mat-option *ngFor="let role of roles" [value]="role">{{role.name}}</mat-option>
-        </mat-select>
+        <select matNativeControl formControlName="roles" multiple required
+                [compareWith]="UserService.compareObjects">
+          <option *ngFor="let role of roles" [ngValue]="role">{{role.name}}</option>
+        </select>
       </mat-form-field>
     </mat-dialog-content>
 

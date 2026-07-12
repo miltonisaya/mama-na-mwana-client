@@ -10,7 +10,7 @@ import {RolesComponent} from '../../components/roles/roles.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatDialogModule} from '@angular/material/dialog';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatCardModule} from '@angular/material/card';
 import {DashboardService} from '../../components/dashboard/dashboard.service';
 import {DataElementComponent} from '../../components/data-elements/dataElement.component';
@@ -43,6 +43,7 @@ import {MenuComponent} from "../../components/menus/menu.component";
     MatProgressBarModule,
     MatDialogModule,
     ReactiveFormsModule,
+    FormsModule,
     MatCardModule,
     MatTreeModule,
     MatTabsModule

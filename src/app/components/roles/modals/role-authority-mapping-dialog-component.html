@@ -66,13 +66,11 @@
 
       <!-- Group row -->
       <div class="d-group-header" (click)="toggleGroup(group.resource)">
-        <mat-checkbox
-          color="primary"
+        <input type="checkbox" class="d-checkbox"
           [checked]="isGroupAllChecked(group)"
           [indeterminate]="isGroupIndeterminate(group)"
           (click)="$event.stopPropagation()"
           (change)="toggleGroupAll(group, $event)">
-        </mat-checkbox>
         <mat-icon class="d-group-folder">
           {{ expandedGroups.has(group.resource) ? 'folder_open' : 'folder' }}
         </mat-icon>
@@ -92,12 +90,10 @@
           class="d-perm-item"
           [class.is-checked]="checkedIds.has(auth.id)"
           (click)="togglePermission(auth.id)">
-          <mat-checkbox
-            color="primary"
+          <input type="checkbox" class="d-checkbox"
             [checked]="checkedIds.has(auth.id)"
             (click)="$event.stopPropagation()"
             (change)="togglePermission(auth.id)">
-          </mat-checkbox>
           <div class="d-perm-info">
             <span class="d-perm-name">{{ auth.name }}</span>
             <span class="d-perm-method">{{ getMethodLabel(auth.description) }}</span>
@@ -129,8 +125,8 @@
     mat-flat-button
     color="primary"
     class="d-btn-save"
-    [disabled]="saving"
-    (click)="saveData()">
+    [class.btn--loading]="saving"
+    (click)="!saving && saveData()">
     <mat-icon>save</mat-icon>
     {{ saving ? 'Saving…' : 'Save Changes' }}
   </button>

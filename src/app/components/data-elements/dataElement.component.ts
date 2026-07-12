@@ -1,7 +1,5 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
 import {NotifierService} from '../notifications/notifier.service';
 import {DataElement} from './dataElement';
 import {DataElementService} from './dataElement.service';
@@ -15,8 +13,7 @@ export class DataElementComponent implements OnInit {
   displayedColumns: string[] = ["sno", 'name', 'code', 'dataType', 'dhis2uid'];
   dataElements: any = [];
   dataSource: MatTableDataSource<DataElement>;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  syncing = false;
 
   pageSize = 10;
   pageNo = 0;
@@ -33,9 +30,6 @@ export class DataElementComponent implements OnInit {
     this.getDataElements();
   }
 
-  /**
-   * This method returns data elements
-   */
   getDataElements() {
     this.params = {
       "pageNo": this.pageNo,
@@ -45,7 +39,6 @@ export class DataElementComponent implements OnInit {
     return this.DataElementService.getDataElements(this.params).subscribe((response: any) => {
       this.dataElements = response.data;
       this.dataSource = new MatTableDataSource<DataElement>(this.dataElements?.content ?? []);
-      this.dataSource.sort = this.sort;
     }, error => {
       this.notifierService.showNotification(error.error.error, 'OK', 'error');
     });
@@ -58,21 +51,31 @@ export class DataElementComponent implements OnInit {
   }
 
   syncDataElements() {
+    this.syncing = true;
     return this.DataElementService.syncDataElements().subscribe((response: any) => {
+      this.syncing = false;
       this.getDataElements();
-      if (response.status == '200') {
-        this.notifierService.showNotification(response.message, 'OK', 'success');
-      }
+      this.notifierService.showNotification(response.message || 'Data elements synced', 'OK', 'success');
     }, error => {
-      // console.log("The error===>",error.message);
+      this.syncing = false;
       this.notifierService.showNotification(error.error.error, 'OK', 'error');
     });
   }
 
-  pageChanged(e: any) {
-    console.log(e);
-    this.pageSize = e.pageSize;
-    this.pageNo = e.pageIndex;
+  get totalElements(): number { return this.dataElements?.totalElements ?? 0; }
+
+  pageRangeEnd(): number {
+    return Math.min((this.pageNo + 1) * this.pageSize, this.totalElements);
+  }
+
+  firstPage() { this.pageNo = 0; this.getDataElements(); }
+  prevPage()  { this.pageNo--; this.getDataElements(); }
+  nextPage()  { this.pageNo++; this.getDataElements(); }
+  lastPage()  { this.pageNo = Math.ceil(this.totalElements / this.pageSize) - 1; this.getDataElements(); }
+
+  pageSizeChanged(e: any) {
+    this.pageSize = +e.target.value;
+    this.pageNo = 0;
     this.getDataElements();
   }
 }

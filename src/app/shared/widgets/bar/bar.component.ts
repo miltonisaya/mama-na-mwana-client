@@ -11,6 +11,7 @@ export class BarComponent implements OnInit, OnDestroy, AfterViewInit {
   chartOptions: any = {};
   HighCharts = Highcharts;
   @Input() data = [];
+  @Input() title = 'Registrations';
 
   private resizeObserver: ResizeObserver | null = null;
   private chartRef: Highcharts.Chart | null = null;
@@ -63,11 +64,14 @@ export class BarComponent implements OnInit, OnDestroy, AfterViewInit {
         spacingLeft: 10,
         spacingRight: 10
       },
+      credits: {
+        enabled: false
+      },
       title: {
-        text: 'Registration of clients by Councils'
+        text: ''
       },
       subtitle: {
-        text: 'Source: RapidPro'
+        text: ''
       },
       xAxis: {
         type: 'category',
@@ -82,17 +86,17 @@ export class BarComponent implements OnInit, OnDestroy, AfterViewInit {
       yAxis: {
         min: 0,
         title: {
-          text: 'Number of registered mothers'
+          text: 'Registered clients'
         }
       },
       legend: {
         enabled: true
       },
       tooltip: {
-        pointFormat: 'Registration of clients by Councils'
+        pointFormat: '<b>{point.y}</b> registered clients'
       },
       series: [{
-        name: 'Councils',
+        name: this.title,
         data: this.data,
         dataLabels: {
           enabled: true,
@@ -101,7 +105,7 @@ export class BarComponent implements OnInit, OnDestroy, AfterViewInit {
           overflow: 'none',
           color: '#FFFFFF',
           align: 'top',
-          format: '{point.y:.1f}', // one decimal
+          format: '{point.y:.0f}',
           y: 10, // 10 pixels down from the top
           style: {
             fontSize: '10px',

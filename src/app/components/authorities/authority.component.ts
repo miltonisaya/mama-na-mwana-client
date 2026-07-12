@@ -4,8 +4,6 @@ import {AuthorityService} from './authority.service';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {AuthorityDialogComponent} from './modals/authority-dialog-component';
 import {Authority} from './authority';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
 import {NotifierService} from '../notifications/notifier.service';
 
 @Component({
@@ -23,8 +21,6 @@ export class AuthorityComponent implements OnInit {
   pageSizeOptions: number[] = [10, 25, 100, 1000];
   syncing = false;
   @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
   private params: { pageNo: number; pageSize: number };
 
   constructor(
@@ -38,9 +34,6 @@ export class AuthorityComponent implements OnInit {
     this.getAuthorities();
   }
 
-  /**
-   * This method returns authorities
-   */
   getAuthorities() {
     this.params = {
       "pageNo": this.pageNo,
@@ -115,10 +108,20 @@ export class AuthorityComponent implements OnInit {
     });
   }
 
-  pageChanged(e: any) {
-    console.log(e);
-    this.pageSize = e.pageSize;
-    this.pageNo = e.pageIndex;
+  get totalElements(): number { return this.authorities?.totalElements ?? 0; }
+
+  pageRangeEnd(): number {
+    return Math.min((this.pageNo + 1) * this.pageSize, this.totalElements);
+  }
+
+  firstPage() { this.pageNo = 0; this.getAuthorities(); }
+  prevPage()  { this.pageNo--; this.getAuthorities(); }
+  nextPage()  { this.pageNo++; this.getAuthorities(); }
+  lastPage()  { this.pageNo = Math.ceil(this.totalElements / this.pageSize) - 1; this.getAuthorities(); }
+
+  pageSizeChanged(e: any) {
+    this.pageSize = +e.target.value;
+    this.pageNo = 0;
     this.getAuthorities();
   }
 }
