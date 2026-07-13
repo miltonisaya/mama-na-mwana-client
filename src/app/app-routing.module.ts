@@ -4,7 +4,7 @@ import {DashboardComponent} from './components/dashboard/dashboard.component';
 import {DefaultComponent} from './layouts/default/default.component';
 import {UsersComponent} from './components/users/users.component';
 import {RolesComponent} from './components/roles/roles.component';
-import {LoginComponent} from './components/login/login.component';
+import {LOGIN_ROUTES} from './components/login/login.routes';
 import {FlowComponent} from './components/flows/flow.component';
 import {DataElementComponent} from './components/data-elements/dataElement.component';
 import {ContactsComponent} from './components/contacts/contacts.component';
@@ -110,7 +110,7 @@ const routes: Routes = [
       { path: 'manage-reports', component: ReportComponent },
     ],
   },
-  { path: 'login', component: LoginComponent },
+  ...LOGIN_ROUTES,
 ];
 
 @NgModule({
