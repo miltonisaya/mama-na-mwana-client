@@ -1,8 +1,7 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {AuthorityService} from './authority.service';
-import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
-import {AuthorityDialogComponent} from './modals/authority-dialog-component';
+import {MatDialog} from '@angular/material/dialog';
 import {Authority} from './authority';
 import {NotifierService} from '../notifications/notifier.service';
 
@@ -52,30 +51,6 @@ export class AuthorityComponent implements OnInit {
     if (!this.dataSource) return;
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
-
-  openDialog(data?): void {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    if (data) {
-      const authorityData = {
-        id: data.id,
-        name: data.name,
-        description: data.description
-      };
-      this.AuthorityService.populateForm(authorityData);
-      this.dialog.open(AuthorityDialogComponent, dialogConfig)
-        .afterClosed().subscribe(() => {
-        this.getAuthorities();
-      });
-    } else {
-      dialogConfig.data = {};
-      this.dialog.open(AuthorityDialogComponent, dialogConfig)
-        .afterClosed().subscribe(() => {
-        this.getAuthorities();
-      });
-    }
   }
 
   openDeleteDialog(id) {
