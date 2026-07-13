@@ -63,30 +63,23 @@ export class ReportComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.hasBackdrop = false;
+    dialogConfig.width = '480px';
 
     if (data) {
-      const roleData = {
+      this.ReportService.populateForm({
         id: data.id,
         name: data.name,
         url: data.url,
         parentId: data.parentId
-      };
-
-      this.ReportService.populateForm(roleData);
-      this.dialog.open(ReportDialogComponent, dialogConfig)
-        .afterClosed().subscribe(() => {
-        this.getTree();
-        // this.isDataValueLoaded = false;
       });
     } else {
-      dialogConfig.data = {};
-      this.dialog.open(ReportDialogComponent, dialogConfig)
-        .afterClosed().subscribe(() => {
-        // this.isDataValueLoaded = false;
-        this.getTree();
-      });
+      this.ReportService.initializeFormGroup();
     }
+
+    this.dialog.open(ReportDialogComponent, dialogConfig)
+      .afterClosed().subscribe(() => {
+      this.getTree();
+    });
   }
 
   openDeleteDialog() {
@@ -119,17 +112,11 @@ export class ReportComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.hasBackdrop = false;
+    dialogConfig.width = '520px';
+    dialogConfig.data = { selectedNode: this.selectedNode };
 
-    //add params to config
-    dialogConfig.data = {
-      selectedNode: this.selectedNode
-    };
-    console.log("Params added to config ->",this.selectedNode);
-
-    const dialogRef = this.dialog.open(ReportParamsDialog, {data: dialogConfig});
-
-    dialogRef.afterClosed().subscribe(() => {
+    this.dialog.open(ReportParamsDialog, dialogConfig)
+      .afterClosed().subscribe(() => {
       this.getTree();
     });
   }
