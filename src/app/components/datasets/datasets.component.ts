@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {NotifierService} from '../notifications/notifier.service';
 import {Dataset, DatasetsService} from './datasets.service';
+import {userCan} from '../../helpers/user-can';
 
 @Component({
   selector: 'app-datasets',
@@ -8,6 +9,8 @@ import {Dataset, DatasetsService} from './datasets.service';
   styleUrls: ['./datasets.component.scss']
 })
 export class DatasetsComponent implements OnInit {
+  // Exposed so the template can call userCan('AUTHORITY_NAME') directly.
+  readonly userCan = userCan;
   datasets: Dataset[] = [];
   selectedDataSetId: any = null;
 
