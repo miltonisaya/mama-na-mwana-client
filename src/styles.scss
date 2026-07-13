@@ -57,15 +57,20 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 // ─── Snackbar ────────────────────────────────────────────────────────────────
-.error.mat-snack-bar-container {
-  background-color: var(--error-red);
-  color: white;
-  border-radius: 10px;
-}
-.success.mat-snack-bar-container {
-  background-color: var(--success-green);
-  color: white;
-  border-radius: 10px;
+// Angular Material 18 uses MDC: the panel class lands on .mat-mdc-snack-bar-container
+// and the visible surface is .mdc-snackbar__surface. Reset both so the
+// NotifierComponent owns its own background, shadow, and border-radius.
+.error.mat-mdc-snack-bar-container,
+.success.mat-mdc-snack-bar-container {
+  .mdc-snackbar__surface {
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    min-width: 0 !important;
+  }
+  .mat-mdc-snack-bar-label {
+    padding: 0 !important;
+  }
 }
 
 // ─── Cards ────────────────────────────────────────────────────────────────────
