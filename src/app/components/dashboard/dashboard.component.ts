@@ -6,6 +6,7 @@ import { NotifierService } from '../notifications/notifier.service';
 import { ContactsService } from "../contacts/contacts.service";
 import { MatDialog } from "@angular/material/dialog";
 import { OrganisationUnitService } from "../organisation-units/organisation-unit.service";
+import { userCan } from '../../helpers/user-can';
 
 @Component({
   selector: 'app-dashboard',
@@ -30,7 +31,8 @@ export class DashboardComponent implements OnInit {
   bigChartsIsReady = false;
   numberOfRegisteredContactsToday: any;
   numberOfRegisteredContactsTodayIsReady = false;
-  isSuperAdministrator = false;
+  // Exposed so the template can call userCan('AUTHORITY_NAME') directly.
+  readonly userCan = userCan;
   isLoading = false;
   sentCount = 0;
   pendingCount = 0;
@@ -66,15 +68,8 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.checkIsAdmin();
     this.getTotalNumberOfRegisteredContactsToday();
     this.refreshAll();
-  }
-
-  checkIsAdmin() {
-    const raw = localStorage.getItem("MNM_USER");
-    const mnmUser = raw ? JSON.parse(raw) : null;
-    this.isSuperAdministrator = !!mnmUser?.isSuperAdministrator;
   }
 
   // ── Filter ────────────────────────────────────────────────────────────────
@@ -148,7 +143,7 @@ export class DashboardComponent implements OnInit {
     this.populatePieChartByCouncil(params);
     this.loadContactsBySex(params);
     this.getTotalNumberOfRegisteredContacts(params);
-    if (this.isSuperAdministrator) {
+    if (this.userCan('OUTBOX_INDEX')) {
       this.pageNo = 0;
       this.expandedTrx = null;
       this.getAllTransactions(params);
