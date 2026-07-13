@@ -42,6 +42,12 @@
       </mat-list-item>
 
     </ng-container>
+
+    <div *ngIf="!menus?.length" class="sidebar-empty">
+      <mat-icon>menu_open</mat-icon>
+      <p>No menu items are available for your account yet.</p>
+      <p class="sidebar-empty-hint">Contact an administrator if you believe this is incorrect.</p>
+    </div>
   </mat-nav-list>
 </nav>
 
