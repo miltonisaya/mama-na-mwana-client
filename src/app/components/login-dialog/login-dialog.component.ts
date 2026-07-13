@@ -1,56 +1,60 @@
-import {Component, OnInit} from '@angular/core';
-import {AuthService} from "../auth/auth.service";
-import {NotifierService} from "../notifications/notifier.service";
-import {UntypedFormControl, UntypedFormGroup, Validators} from "@angular/forms";
-import {Router} from "@angular/router";
-import {MatDialog} from "@angular/material/dialog";
+import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { AuthService } from '../auth/auth.service';
+import { NotifierService } from '../notifications/notifier.service';
+import { LoginFormControls, createLoginForm } from '../login/login.form';
 
 @Component({
   selector: 'app-login-dialog',
   templateUrl: './login-dialog.component.html',
-  styleUrls: ['./login-dialog.component.scss']
+  styleUrls: ['./login-dialog.component.scss'],
 })
 export class LoginDialogComponent implements OnInit {
-  formGroup: UntypedFormGroup;
-  hidePassword = true;
+  form!: FormGroup<LoginFormControls>;
+  showPassword = false;
+  isLoading = false;
 
   constructor(
-    public authService: AuthService,
-    public notifierService: NotifierService,
-    public router: Router,
-    public dialog: MatDialog
-  ) {
-  }
+    private authService: AuthService,
+    private notifier: NotifierService,
+    private router: Router,
+    private dialog: MatDialog,
+  ) {}
 
   ngOnInit(): void {
-    this.initForm();
+    this.form = createLoginForm();
   }
 
-  initForm() {
-    this.formGroup = new UntypedFormGroup({
-      username: new UntypedFormControl('', [Validators.required]),
-      password: new UntypedFormControl('', [Validators.required])
-    });
-  }
-
-  loginProcess() {
-    if (this.formGroup.invalid) {
-      this.formGroup.markAllAsTouched();
+  onSubmit(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
       return;
     }
 
-    this.authService.login(this.formGroup.value)
-      .subscribe(response => {
-        if (response.data.user) {
-          this.notifierService.showNotification(response.message, 'OK', 'success');
-          let currentRoute = JSON.parse(localStorage.getItem("CURRENT_ROUTE"));
-          this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
-            this.router.navigate([`${currentRoute}`])
-          });
-          this.dialog.closeAll();
-        }
-      }, error => {
-        this.notifierService.showNotification(error.error.error, 'OK', 'error');
-      });
+    this.isLoading = true;
+
+    this.authService.login(this.form.getRawValue()).subscribe({
+      next: response => {
+        this.notifier.showNotification(response.message, 'OK', 'success');
+        this.dialog.closeAll();
+        const savedRoute = localStorage.getItem('CURRENT_ROUTE');
+        const target = savedRoute ? JSON.parse(savedRoute) : '/dashboard';
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          this.router.navigate([target]);
+        });
+      },
+      error: err => {
+        // AuthService uses HttpBackend (bypasses interceptors), so errors are
+        // handled here rather than by the global ErrorInterceptor.
+        const message = err.error?.error || err.error?.message || 'Login failed. Please try again.';
+        this.notifier.showNotification(message, 'OK', 'error');
+        this.isLoading = false;
+      },
+      complete: () => {
+        this.isLoading = false;
+      },
+    });
   }
 }
