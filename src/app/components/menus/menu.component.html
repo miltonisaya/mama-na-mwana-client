@@ -7,7 +7,7 @@
     <p class="page-subtitle">Create and manage navigation menu items</p>
   </div>
   <div>
-    <button (click)="openDialog()" mat-raised-button color="primary" class="add-btn">
+    <button *ngIf="userCan('MENU_CREATE')" (click)="openDialog()" mat-raised-button color="primary" class="add-btn">
       <mat-icon>add</mat-icon>
       Add New Menu
     </button>
@@ -22,12 +22,12 @@
       <input #input (keyup)="applyFilter($event)" autocomplete="off" matInput placeholder="Type to filter...">
     </mat-form-field>
 
-    <div *ngIf="dataSource" class="table-container">
-      <table [dataSource]="dataSource" mat-table>
+    <div class="table-container">
+      <table [dataSource]="visibleRows" mat-table>
     <!-- SNo Column -->
     <ng-container matColumnDef="sno">
       <th *matHeaderCellDef mat-header-cell> No</th>
-      <td *matCellDef="let menus; let i = index" mat-cell>{{i + 1}}</td>
+      <td *matCellDef="let menus; let i = index" mat-cell>{{pageNo * pageSize + i + 1}}</td>
     </ng-container>
 
     <!-- Name Column -->
@@ -39,25 +39,35 @@
     <!-- Icon Column -->
     <ng-container matColumnDef="icon">
       <th *matHeaderCellDef mat-header-cell> Icon</th>
-      <td *matCellDef="let menus" mat-cell> {{menus.icon}} </td>
+      <td *matCellDef="let menus" mat-cell class="icon-cell">
+        <mat-icon class="menu-icon-glyph">{{menus.icon}}</mat-icon>
+        <span class="menu-icon-name">{{menus.icon}}</span>
+      </td>
     </ng-container>
 
     <!-- Url Column -->
     <ng-container matColumnDef="url">
       <th *matHeaderCellDef mat-header-cell> URL</th>
-      <td *matCellDef="let menus" mat-cell> {{menus.url}} </td>
+      <td *matCellDef="let menus" mat-cell>
+        <code *ngIf="menus.url; else emptyCell" class="url-value">{{menus.url}}</code>
+      </td>
     </ng-container>
 
     <!-- Parent Column -->
     <ng-container matColumnDef="parent">
       <th *matHeaderCellDef mat-header-cell> Parent</th>
-      <td *matCellDef="let menus" mat-cell>{{menus.parentName}} </td>
+      <td *matCellDef="let menus" mat-cell>
+        <span *ngIf="menus.parentName; else emptyCell">{{menus.parentName}}</span>
+      </td>
     </ng-container>
 
-    <!-- Report Column -->
-    <ng-container matColumnDef="role">
-      <th *matHeaderCellDef mat-header-cell> Report</th>
-      <td *matCellDef="let menus" mat-cell> {{menus.roleName}} </td>
+    <!-- Authority Column -->
+    <ng-container matColumnDef="authority">
+      <th *matHeaderCellDef mat-header-cell> Required Authority</th>
+      <td *matCellDef="let menus" mat-cell>
+        <code *ngIf="menus.authorityName; else visibleToAll" class="authority-value">{{menus.authorityName}}</code>
+        <ng-template #visibleToAll><span class="visible-to-all">Everyone</span></ng-template>
+      </td>
     </ng-container>
 
     <!-- Sort Order Column -->
@@ -70,11 +80,11 @@
     <ng-container matColumnDef="actions">
       <th *matHeaderCellDef mat-header-cell>Actions</th>
       <td *matCellDef="let menus" mat-cell>
-        <button mat-icon-button matTooltip="Edit" matTooltipPosition="left"
+        <button *ngIf="userCan('MENU_UPDATE')" mat-icon-button matTooltip="Edit" matTooltipPosition="left"
                 (click)="openDialog(menus)" aria-label="Edit menu">
           <mat-icon>edit</mat-icon>
         </button>
-        <button (click)="openDeleteDialog(menus.id)" color="warn" mat-icon-button matTooltip="Delete"
+        <button *ngIf="userCan('MENU_DELETE')" (click)="openDeleteDialog(menus.id)" color="warn" mat-icon-button matTooltip="Delete"
                 matTooltipPosition="right" aria-label="Delete menu">
           <mat-icon>delete</mat-icon>
         </button>
@@ -129,6 +139,10 @@
     </div>
   </mat-card-content>
 </mat-card>
+
+<!-- Shared placeholder for optional fields (no parent, no URL), so an empty cell always
+     reads as "intentionally none" rather than a loading glitch. -->
+<ng-template #emptyCell><span class="empty-value">—</span></ng-template>
 
 <!--delete dialog template-->
 <ng-template #deleteDialog>
