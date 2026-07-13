@@ -1,58 +1,62 @@
-// Login container - clean gradient background
+// ─── Page layout ────────────────────────────────────────────────────────────
 .login-container {
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   background: linear-gradient(135deg, #1976d2 0%, #0d47a1 100%);
+  padding: 20px;
   position: relative;
   overflow: hidden;
-  padding: 20px;
 
-  // Subtle pattern overlay
+  // Subtle cross pattern
   &::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
     pointer-events: none;
   }
 }
 
-// Login card
+// ─── Card ────────────────────────────────────────────────────────────────────
 .login-card {
   width: 100%;
   max-width: 400px;
   padding: 48px 40px;
-  text-align: center;
-  background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  background: #fff;
+  border-radius: 16px !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3) !important;
+  border: none !important;
   position: relative;
   z-index: 1;
 }
 
-// Login header section
+mat-card-content {
+  padding: 0 !important;
+  margin-top: 32px;
+}
+
+// ─── Header ──────────────────────────────────────────────────────────────────
 .login-header {
   text-align: center;
-  margin-bottom: 8px;
 
   img {
-    height: 80px;
-    width: 80px;
+    height: 76px;
+    width: 76px;
     border-radius: 16px;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   h2 {
     color: #1f2937;
     font-weight: 700;
     font-size: 1.5rem;
-    margin: 0 0 8px 0;
+    margin: 0 0 6px;
     line-height: 1.3;
   }
 
@@ -63,145 +67,66 @@
   }
 }
 
-// Card content
-mat-card-content {
-  padding: 0 !important;
-  margin-top: 32px;
-}
-
-// Form styling
+// ─── Form ────────────────────────────────────────────────────────────────────
 form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 8px;
 }
 
-// Form fields
-::ng-deep {
-  .mat-form-field {
-    width: 100%;
+mat-form-field {
+  width: 100%;
+}
 
-    &.mat-form-field-appearance-fill {
-      .mat-form-field-flex {
-        background-color: #f9fafb;
-        border-radius: 10px;
-        padding: 8px 16px 0 16px;
-        border: 1px solid #e5e7eb;
-        transition: all 0.2s ease;
+// ─── Submit button ───────────────────────────────────────────────────────────
+.submit-btn {
+  width: 100%;
+  height: 48px;
+  margin-top: 8px;
+  border-radius: 10px !important;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  background: linear-gradient(135deg, #1976d2 0%, #0d47a1 100%) !important;
+  box-shadow: 0 4px 14px rgba(25, 118, 210, 0.4) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+  text-transform: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 
-        &:hover {
-          border-color: #d1d5db;
-          background-color: #f3f4f6;
-        }
-      }
+  &:not(:disabled):hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(25, 118, 210, 0.5) !important;
+  }
 
-      &.mat-focused .mat-form-field-flex {
-        background-color: #ffffff;
-        border-color: #1976d2;
-        box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
-      }
-
-      .mat-form-field-underline {
-        display: none;
-      }
-
-      .mat-form-field-subscript-wrapper {
-        padding: 8px 4px 0;
-      }
-
-      .mat-form-field-infix {
-        padding: 8px 0 12px;
-        border-top: 0;
-      }
-
-      .mat-form-field-label-wrapper {
-        top: -8px;
-      }
-    }
-
-    .mat-form-field-label {
-      color: #6b7280;
-      font-weight: 500;
-    }
-
-    .mat-input-element {
-      color: #1f2937;
-      font-size: 15px;
-
-      &::placeholder {
-        color: #9ca3af;
-      }
-    }
-
-    .mat-icon {
-      color: #9ca3af;
-      transition: color 0.2s ease;
-    }
-
-    &.mat-focused .mat-icon {
-      color: #1976d2;
-    }
+  &:disabled {
+    background: #e5e7eb !important;
+    box-shadow: none !important;
+    color: #9ca3af !important;
   }
 }
 
-// Submit button
-.login-card {
-  .mat-raised-button {
-    width: 100%;
-    height: 48px;
-    font-size: 15px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    margin-top: 8px;
-    border-radius: 10px !important;
-    background: linear-gradient(135deg, #1976d2 0%, #0d47a1 100%);
-    box-shadow: 0 4px 14px rgba(25, 118, 210, 0.4);
-    transition: all 0.3s ease;
-    text-transform: none;
-
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(25, 118, 210, 0.5);
-    }
-
-    &:active {
-      transform: translateY(0);
-      box-shadow: 0 2px 8px rgba(25, 118, 210, 0.4);
-    }
-  }
+.spin-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  animation: spin 0.8s linear infinite;
 }
 
-// Footer links (optional)
-.login-footer {
-  margin-top: 24px;
-  padding-top: 24px;
-  border-top: 1px solid #e5e7eb;
-
-  a {
-    color: #1976d2;
-    font-size: 0.875rem;
-    text-decoration: none;
-    font-weight: 500;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 
-// Responsive design
+@media (prefers-reduced-motion: reduce) {
+  .spin-icon { animation: none; }
+}
+
+// ─── Responsive ──────────────────────────────────────────────────────────────
 @media (max-width: 480px) {
   .login-card {
     padding: 32px 24px;
-    border-radius: 12px;
-
-    img {
-      height: 64px;
-      width: 64px;
-    }
-
-    h2 {
-      font-size: 1.25rem;
-    }
   }
 }
