@@ -47,7 +47,7 @@
     <ng-container matColumnDef="actions">
       <th *matHeaderCellDef mat-header-cell>Actions</th>
       <td *matCellDef="let authorities" mat-cell>
-        <button (click)="openDeleteDialog(authorities.id)" color="warn" mat-icon-button matTooltip="Delete"
+        <button *ngIf="userCan('AUTHORITY_DELETE')" (click)="openDeleteDialog(authorities.id)" color="warn" mat-icon-button matTooltip="Delete"
                 matTooltipPosition="right" aria-label="Delete authority">
           <mat-icon>delete</mat-icon>
         </button>
