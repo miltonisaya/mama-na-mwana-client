@@ -8,13 +8,14 @@ import {DefaultModule} from './layouts/default/default.module';
 import {RouterModule} from '@angular/router';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import {RolesService} from './components/roles/roles.service';
-import {LoginComponent} from './components/login/login.component';
 import {MatCardModule} from '@angular/material/card';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {AngularMaterialModule} from './material.module';
 import {ReactiveFormsModule} from '@angular/forms';
 import {AuthInterceptor} from './interceptors/auth-interceptor.service';
 import {LoadingInterceptor} from './interceptors/loading.interceptor';
+import {ErrorInterceptor} from './interceptors/error.interceptor';
+import {LoginDialogModule} from './components/login-dialog/login-dialog.module';
 import {RolesModule} from './components/roles/role.module';
 import {NotifierComponent} from './components/notifications/notifier/notifier.component';
 import {LoginModule} from './components/login/login.module';
@@ -41,20 +42,20 @@ import {MenuService} from './components/menus/menu.service';
 import {DashboardModule} from "./components/dashboard/dashboard.module";
 import {ReportModule} from "./components/reports/report.module";
 import {ReportService} from "./components/reports/report.service";
-import {LoginDialogComponent} from "./components/login-dialog/login-dialog.component";
 import { DatasetsComponent } from './components/datasets/datasets.component';
 import {DatasetsService} from "./components/datasets/datasets.service";
 
-@NgModule({ declarations: [
+@NgModule({
+    declarations: [
         AppComponent,
-        LoginComponent,
         NotifierComponent,
-        LoginDialogComponent,
-        DatasetsComponent
+        DatasetsComponent,
     ],
     exports: [],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    bootstrap: [AppComponent], imports: [BrowserModule,
+    bootstrap: [AppComponent],
+    imports: [
+        BrowserModule,
         AppRoutingModule,
         BrowserAnimationsModule,
         RouterModule,
@@ -65,6 +66,7 @@ import {DatasetsService} from "./components/datasets/datasets.service";
         ReactiveFormsModule,
         RolesModule,
         LoginModule,
+        LoginDialogModule,
         UsersModule,
         FlowsModule,
         DataElementModule,
@@ -75,7 +77,9 @@ import {DatasetsService} from "./components/datasets/datasets.service";
         PasswordResetModule,
         AuthorityModule,
         DashboardModule,
-        ReportModule], providers: [
+        ReportModule,
+    ],
+    providers: [
         RolesService,
         UsersService,
         FlowService,
@@ -91,6 +95,7 @@ import {DatasetsService} from "./components/datasets/datasets.service";
         DatasetsService,
         { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         AuthGuard,
         provideHttpClient(withInterceptorsFromDi())
     ] })
