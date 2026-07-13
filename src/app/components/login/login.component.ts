@@ -1,45 +1,53 @@
-import {Component, OnInit} from '@angular/core';
-import {UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
-import {AuthService} from '../auth/auth.service';
-import {Router} from '@angular/router';
-import {NotifierService} from '../notifications/notifier.service';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
+import { NotifierService } from '../notifications/notifier.service';
+import { LoginFormControls, createLoginForm } from './login.form';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  formGroup: UntypedFormGroup;
-  response;
+  form!: FormGroup<LoginFormControls>;
+  showPassword = false;
+  isLoading = false;
 
   constructor(
     private authService: AuthService,
     private router: Router,
-    private notifierService: NotifierService
-  ) {
-  }
+    private notifier: NotifierService,
+  ) {}
 
   ngOnInit(): void {
-    this.initForm();
+    this.form = createLoginForm();
   }
 
-  initForm() {
-    this.formGroup = new UntypedFormGroup({
-      username: new UntypedFormControl('', [Validators.required]),
-      password: new UntypedFormControl('', [Validators.required])
+  onSubmit(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
+    this.isLoading = true;
+
+    this.authService.login(this.form.getRawValue()).subscribe({
+      next: response => {
+        this.notifier.showNotification(response.message, 'OK', 'success');
+        this.router.navigate(['/dashboard']);
+      },
+      error: err => {
+        // AuthService uses HttpBackend (bypasses interceptors), so errors are
+        // handled here rather than by the global ErrorInterceptor.
+        const message = err.error?.error || err.error?.message || 'Login failed. Please try again.';
+        this.notifier.showNotification(message, 'OK', 'error');
+        this.isLoading = false;
+      },
+      complete: () => {
+        this.isLoading = false;
+      },
     });
-  }
-
-  loginProcess() {
-    this.authService.login(this.formGroup.value)
-      .subscribe(response => {
-        if (response.data.user) {
-          this.notifierService.showNotification(response.message, 'OK', 'success');
-          this.router.navigate(['/dashboard']);
-        }
-      }, error => {
-        this.notifierService.showNotification(error.error.error, 'OK', 'error');
-      });
   }
 }
