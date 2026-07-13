@@ -40,8 +40,8 @@ export class AuthService {
   }
 
   private persistSession(response: AuthResponse): void {
-    const { token, user, menus, isSuperAdmin } = response.data;
-    const profile: UserProfile = { ...user, token, menus, isSuperAdministrator: isSuperAdmin };
+    const { token, user, menus, authorities } = response.data;
+    const profile: UserProfile = { ...user, token, menus, authorities: authorities ?? [] };
     localStorage.setItem(this.storageKey, JSON.stringify(profile));
   }
 
