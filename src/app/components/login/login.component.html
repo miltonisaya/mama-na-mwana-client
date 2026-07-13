@@ -1,26 +1,68 @@
 <div class="login-container">
   <mat-card class="login-card">
+
     <div class="login-header">
       <img src="assets/coa.png" alt="Coat of Arms">
-      <h2>Mama na Mwana</h2>
+      <h2>AfyaYetu</h2>
       <p class="subtitle">Integration Services Portal</p>
     </div>
+
     <mat-card-content>
-      <form (ngSubmit)="loginProcess()" [formGroup]="formGroup">
-        <mat-form-field appearance="fill">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+
+        <!-- Username -->
+        <mat-form-field appearance="outline">
           <mat-label>Username</mat-label>
-          <input autocomplete="off" formControlName="username" matInput placeholder="Enter your username">
-          <mat-icon matSuffix>person_outline</mat-icon>
+          <mat-icon matPrefix>person_outline</mat-icon>
+          <input
+            matInput
+            formControlName="username"
+            placeholder="Enter your username"
+            autocomplete="username"
+            aria-required="true">
+          <mat-error *ngIf="form.controls.username.hasError('required')">
+            Username is required
+          </mat-error>
         </mat-form-field>
-        <mat-form-field appearance="fill">
+
+        <!-- Password -->
+        <mat-form-field appearance="outline">
           <mat-label>Password</mat-label>
-          <input autocomplete="off" formControlName="password" matInput placeholder="Enter your password" type="password">
-          <mat-icon matSuffix>lock_outline</mat-icon>
+          <mat-icon matPrefix>lock_outline</mat-icon>
+          <input
+            matInput
+            formControlName="password"
+            [type]="showPassword ? 'text' : 'password'"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+            aria-required="true">
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'"
+            (click)="showPassword = !showPassword"
+            tabindex="-1">
+            <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-error *ngIf="form.controls.password.hasError('required')">
+            Password is required
+          </mat-error>
         </mat-form-field>
-        <button color="primary" mat-raised-button type="submit">
-          Sign In
+
+        <!-- Submit -->
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          class="submit-btn"
+          [disabled]="isLoading">
+          <mat-icon *ngIf="isLoading" class="spin-icon">sync</mat-icon>
+          {{ isLoading ? 'Signing in…' : 'Sign In' }}
         </button>
+
       </form>
     </mat-card-content>
+
   </mat-card>
 </div>
