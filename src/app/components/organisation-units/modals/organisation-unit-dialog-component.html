@@ -39,8 +39,7 @@
 
     <mat-dialog-actions class="mnm-dialog-foot">
       <button mat-button mat-dialog-close type="button">Cancel</button>
-      <button mat-raised-button color="primary" type="submit"
-        (click)="submitForm(organisationUnitService.form.value)">
+      <button mat-raised-button color="primary" type="submit">
         {{organisationUnitService.form.controls['id'].value ? "Update" : "Create"}}
       </button>
     </mat-dialog-actions>
