@@ -71,7 +71,7 @@
     </div>
   </mat-card>
 
-  <ng-container *ngIf="isSuperAdministrator">
+  <ng-container *ngIf="userCan('OUTBOX_INDEX')">
     <mat-card *ngIf="sentIsReady" class="stat-card stat-card-sent">
       <div class="stat-card-content">
         <div class="stat-icon">
@@ -165,8 +165,8 @@
 
 </div>
 
-<!-- Transaction logs — super admin only -->
-<div *ngIf="isSuperAdministrator" class="transaction-section">
+<!-- Transaction logs — requires OUTBOX_INDEX authority -->
+<div *ngIf="userCan('OUTBOX_INDEX')" class="transaction-section">
 
   <div class="section-header">
     <div class="section-title">
