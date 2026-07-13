@@ -45,8 +45,30 @@
     <mat-form-field appearance="outline" class="filter-field">
       <mat-label>Search organisation units</mat-label>
       <mat-icon matPrefix>search</mat-icon>
-      <input #input (keyup)="applyFilter($event)" autocomplete="off" matInput placeholder="Type to filter..."/>
+      <input
+        [value]="searchQuery"
+        (keyup)="applyFilter($event)"
+        autocomplete="off"
+        matInput
+        placeholder="Search by name, code or other names across the whole hierarchy..."
+      />
+      <button
+        *ngIf="searchQuery"
+        mat-icon-button
+        matSuffix
+        type="button"
+        aria-label="Clear search"
+        (click)="clearSearch()"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
     </mat-form-field>
+
+    <mat-progress-bar *ngIf="isSearching" mode="indeterminate" class="search-progress"></mat-progress-bar>
+
+    <p *ngIf="isSearchMode && !isSearching && noResultsFound" class="no-results">
+      No organisation units match "{{ searchQuery }}".
+    </p>
 
     <div class="tree-container">
   <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="ou-tree">
@@ -55,6 +77,7 @@
       *matTreeNodeDef="let node"
       (click)="onNodeClick(node)"
       [class.selected]="node === selectedNode"
+      [class.match-highlight]="node.matched"
       matTreeNodePadding
     >
       {{ node.name }} ({{ node.code }}) - {{ node.otherNames || 'N/A' }}
@@ -72,7 +95,11 @@
             {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
           </mat-icon>
         </button>
-        <span (click)="onNodeClick(node)" [class.selected]="node === selectedNode">
+        <span
+          (click)="onNodeClick(node)"
+          [class.selected]="node === selectedNode"
+          [class.match-highlight]="node.matched"
+        >
           {{ node.name }} ({{ node.code }}) - {{ node.otherNames || 'N/A' }}
         </span>
       </div>
