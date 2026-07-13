@@ -1,43 +1,73 @@
 <div class="login-dialog">
-  <!-- Header -->
+
   <div class="dialog-header">
-    <img src="assets/coa.png" alt="Logo" class="logo">
+    <img src="assets/coa.png" alt="Coat of Arms" class="logo">
     <h2>Session Expired</h2>
     <p class="subtitle">Please sign in again to continue</p>
   </div>
 
-  <!-- Form -->
-  <form [formGroup]="formGroup" (ngSubmit)="loginProcess()" class="login-form">
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>Username</mat-label>
-      <mat-icon matPrefix>person_outline</mat-icon>
-      <input matInput formControlName="username" placeholder="Enter your username" autocomplete="off">
-      <mat-error *ngIf="formGroup.get('username')?.hasError('required')">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate class="login-form">
+
+    <!-- Username -->
+    <div class="ld-group">
+      <label class="ld-label">Username</label>
+      <div class="ld-wrap">
+        <mat-icon class="ld-icon">person_outline</mat-icon>
+        <input
+          class="ld-input"
+          formControlName="username"
+          type="text"
+          placeholder="Enter your username"
+          autocomplete="username"
+          aria-required="true">
+      </div>
+      <span class="ld-error" *ngIf="form.controls.username.touched && form.controls.username.hasError('required')">
         Username is required
-      </mat-error>
-    </mat-form-field>
+      </span>
+    </div>
 
-    <mat-form-field appearance="outline" class="form-field">
-      <mat-label>Password</mat-label>
-      <mat-icon matPrefix>lock_outline</mat-icon>
-      <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'" placeholder="Enter your password" autocomplete="off">
-      <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword" tabindex="-1">
-        <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
-      </button>
-      <mat-error *ngIf="formGroup.get('password')?.hasError('required')">
+    <!-- Password -->
+    <div class="ld-group">
+      <label class="ld-label">Password</label>
+      <div class="ld-wrap">
+        <mat-icon class="ld-icon">lock_outline</mat-icon>
+        <input
+          class="ld-input"
+          formControlName="password"
+          [type]="showPassword ? 'text' : 'password'"
+          placeholder="Enter your password"
+          autocomplete="current-password"
+          aria-required="true">
+        <button
+          type="button"
+          class="ld-toggle"
+          (click)="showPassword = !showPassword"
+          tabindex="-1"
+          [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'">
+          <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+      </div>
+      <span class="ld-error" *ngIf="form.controls.password.touched && form.controls.password.hasError('required')">
         Password is required
-      </mat-error>
-    </mat-form-field>
+      </span>
+    </div>
 
-    <button mat-raised-button color="primary" type="submit" class="submit-btn"
-            [class.btn--loading]="formGroup.invalid">
-      Sign In
+    <!-- Submit -->
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      class="submit-btn"
+      [disabled]="isLoading">
+      <mat-icon *ngIf="isLoading" class="spin-icon">sync</mat-icon>
+      {{ isLoading ? 'Signing in…' : 'Sign In' }}
     </button>
+
   </form>
 
-  <!-- Footer -->
   <div class="dialog-footer">
     <mat-icon>verified_user</mat-icon>
     <span>Secure authentication</span>
   </div>
+
 </div>
