@@ -3,6 +3,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {NotifierService} from '../notifications/notifier.service';
 import {DataElement} from './dataElement';
 import {DataElementService} from './dataElement.service';
+import {userCan} from '../../helpers/user-can';
 
 @Component({
   selector: 'app-data-elements',
@@ -10,6 +11,8 @@ import {DataElementService} from './dataElement.service';
   styleUrls: ['./dataElement.component.scss']
 })
 export class DataElementComponent implements OnInit {
+  // Exposed so the template can call userCan('AUTHORITY_NAME') directly.
+  readonly userCan = userCan;
   displayedColumns: string[] = ["sno", 'name', 'code', 'dataType', 'dhis2uid'];
   dataElements: any = [];
   dataSource: MatTableDataSource<DataElement>;
