@@ -6,6 +6,7 @@ import {RolesDialogComponent} from './modals/roles-dialog-component';
 import {Role} from './role';
 import {NotifierService} from '../notifications/notifier.service';
 import {RoleAuthorityMappingDialogComponent} from "./modals/role-authority-mapping-dialog-component";
+import {userCan} from '../../helpers/user-can';
 
 @Component({
   selector: 'app-users',
@@ -13,7 +14,9 @@ import {RoleAuthorityMappingDialogComponent} from "./modals/role-authority-mappi
   styleUrls: ['./roles.component.scss']
 })
 export class RolesComponent implements OnInit {
-  displayedColumns: string[] = ["sno", 'name', 'description', 'isSuperAdministrator', 'actions'];
+  // Exposed so the template can call userCan('AUTHORITY_NAME') directly.
+  readonly userCan = userCan;
+  displayedColumns: string[] = ["sno", 'name', 'description', 'actions'];
   roles: any = [];
   roleId: string;
   dataSource: MatTableDataSource<Role>;
@@ -56,7 +59,6 @@ export class RolesComponent implements OnInit {
       const roleData = {
         id: data.id,
         name: data.name,
-        isSuperAdministrator: data.isSuperAdministrator,
         description: data.description
       };
       this.RoleService.populateForm(roleData);
