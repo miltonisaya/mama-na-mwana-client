@@ -1,56 +1,71 @@
-<section class="login-form-container">
-  <h1 class="dialog-header" mat-dialog-title>
-    {{"Report Parameters"}}
-  </h1>
-  <br>
-  <mat-divider></mat-divider>
+<div class="mnm-dialog params-dialog">
 
-  <mat-dialog-content>
-    <div *ngIf="data.isNational == false" class="dialog-content">
-      <div>
-        <mat-form-field appearance="fill" class="dialog-content">
-          <mat-label>Search for council</mat-label>
-          <input [formControl]="myControl" [matAutocomplete]="auto" matInput type="text">
-          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-              {{option.name}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
+  <!-- Header -->
+  <div class="mnm-dialog-head">
+    <mat-icon class="mnm-dialog-icon">tune</mat-icon>
+    <div>
+      <h2 mat-dialog-title>Generate Report</h2>
+      <p class="mnm-dialog-subtitle">{{ data?.title ?? 'Report Parameters' }}</p>
+    </div>
+  </div>
+
+  <mat-dialog-content class="mnm-dialog-body">
+
+    <!-- Council filter (regional reports only) -->
+    <div *ngIf="data?.isNational === false">
+      <p class="params-section-label">
+        <mat-icon>location_on</mat-icon>
+        Location Filter
+      </p>
+      <div class="pf-group">
+        <label class="pf-label">Council</label>
+        <div class="pf-wrap">
+          <mat-icon class="pf-icon">location_city</mat-icon>
+          <select class="pf-input pf-select" [formControl]="myControl">
+            <option value="">— All councils —</option>
+            <option *ngFor="let council of councils" [value]="council.code">{{ council.name }}</option>
+          </select>
+        </div>
       </div>
     </div>
 
-    <div class="dialog-date-row">
-      <mat-form-field>
-        <mat-label>Select a start date</mat-label>
-        <input [formControl]="startDate" [matDatepicker]="startDatePicker" matInput>
-        <mat-datepicker-toggle [for]="startDatePicker" matSuffix></mat-datepicker-toggle>
-        <mat-datepicker #startDatePicker></mat-datepicker>
-      </mat-form-field>
+    <!-- Date range -->
+    <p class="params-section-label" style="margin-top: 16px;">
+      <mat-icon>date_range</mat-icon>
+      Report Period
+    </p>
+    <div class="date-range-row">
+      <div class="pf-group">
+        <label class="pf-label">Start Date</label>
+        <div class="pf-wrap">
+          <mat-icon class="pf-icon">event</mat-icon>
+          <input type="date" [formControl]="startDate" class="pf-input">
+        </div>
+        <span class="pf-error" *ngIf="startDate.touched && startDate.hasError('required')">Required</span>
+      </div>
 
-      <mat-form-field>
-        <mat-label>Select an end date</mat-label>
-        <input [formControl]="endDate" [matDatepicker]="endDatePicker" matInput>
-        <mat-datepicker-toggle [for]="endDatePicker" matSuffix></mat-datepicker-toggle>
-        <mat-datepicker #endDatePicker></mat-datepicker>
-      </mat-form-field>
+      <div class="date-range-arrow">
+        <mat-icon>arrow_forward</mat-icon>
+      </div>
+
+      <div class="pf-group">
+        <label class="pf-label">End Date</label>
+        <div class="pf-wrap">
+          <mat-icon class="pf-icon">event</mat-icon>
+          <input type="date" [formControl]="endDate" class="pf-input">
+        </div>
+        <span class="pf-error" *ngIf="endDate.touched && endDate.hasError('required')">Required</span>
+      </div>
     </div>
+
   </mat-dialog-content>
 
-  <mat-dialog-actions align="end">
-    <div class="button">
-      <button mat-dialog-close mat-raised-button type="button">CANCEL</button>
-      <button
-        (click)="generateReport(data)"
-        color="primary"
-        mat-raised-button
-        type="submit"
-      >
-        {{"GENERATE REPORT"}}
-      </button>
-    </div>
+  <mat-dialog-actions class="mnm-dialog-foot">
+    <button mat-button mat-dialog-close type="button">Cancel</button>
+    <button mat-raised-button color="primary" type="button" (click)="generateReport(data)">
+      <mat-icon>download</mat-icon>
+      Generate Report
+    </button>
   </mat-dialog-actions>
-</section>
 
-<!--<pre>{{startDate.value | json}}</pre>-->
-<!--<pre>{{endDate.value | json}}</pre>-->
+</div>
