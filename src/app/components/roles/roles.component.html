@@ -7,7 +7,7 @@
     <p class="page-subtitle">Create and manage user roles and their permissions</p>
   </div>
   <div>
-    <button (click)="openDialog()" mat-raised-button color="primary" class="add-btn">
+    <button *ngIf="userCan('ROLE_CREATE')" (click)="openDialog()" mat-raised-button color="primary" class="add-btn">
       <mat-icon>add</mat-icon>
       Add New Role
     </button>
@@ -42,28 +42,19 @@
       <td *matCellDef="let roles" mat-cell> {{roles.description}} </td>
     </ng-container>
 
-    <!-- Description Column -->
-    <ng-container matColumnDef="isSuperAdministrator">
-      <th *matHeaderCellDef mat-header-cell>Is Super Administrator</th>
-      <td *matCellDef="let roles" mat-cell>
-        <mat-icon *ngIf="roles.isSuperAdministrator" color="primary">check_circle</mat-icon>
-        <mat-icon *ngIf="!roles.isSuperAdministrator" color="warn">cancel_presentation</mat-icon>
-      </td>
-    </ng-container>
-
     <!-- Actions Column -->
     <ng-container matColumnDef="actions">
       <th *matHeaderCellDef mat-header-cell>Actions</th>
       <td *matCellDef="let roles" mat-cell>
-        <button mat-icon-button matTooltip="Edit" matTooltipPosition="left"
+        <button *ngIf="userCan('ROLE_UPDATE')" mat-icon-button matTooltip="Edit" matTooltipPosition="left"
                 (click)="openDialog(roles)" aria-label="Edit role">
           <mat-icon>edit</mat-icon>
         </button>
-        <button (click)="openDeleteDialog(roles.id)" color="warn" mat-icon-button matTooltip="Delete"
+        <button *ngIf="userCan('ROLE_DELETE')" (click)="openDeleteDialog(roles.id)" color="warn" mat-icon-button matTooltip="Delete"
                 matTooltipPosition="right" aria-label="Delete role">
           <mat-icon>delete</mat-icon>
         </button>
-        <button mat-icon-button matTooltip="Assign Permissions" matTooltipPosition="left"
+        <button *ngIf="userCan('ROLE_ROLE_AUTHORITIES')" mat-icon-button matTooltip="Assign Permissions" matTooltipPosition="left"
                 (click)="openMappingDialog(roles)" aria-label="Assign permissions">
           <mat-icon>sync_alt</mat-icon>
         </button>
