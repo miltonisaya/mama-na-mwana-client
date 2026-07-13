@@ -20,6 +20,32 @@
   &::-webkit-scrollbar-thumb  { background: #d1d5db; border-radius: 2px; }
 }
 
+// ─── Empty state (no menus visible for this user's authorities) ──────────────
+.sidebar-empty {
+  padding: 32px 20px;
+  text-align: center;
+  color: var(--text-secondary, #6b7280);
+
+  mat-icon {
+    font-size: 28px;
+    width: 28px;
+    height: 28px;
+    margin-bottom: 8px;
+    color: #d1d5db;
+  }
+
+  p {
+    margin: 0 0 4px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .sidebar-empty-hint {
+    font-size: 12px;
+    opacity: 0.8;
+  }
+}
+
 // ─── Nav list ─────────────────────────────────────────────────────────────────
 ::ng-deep {
   ul, li {
