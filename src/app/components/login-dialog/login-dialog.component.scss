@@ -1,213 +1,159 @@
-// Override global dialog styles for login-dialog
 :host {
   display: block;
 }
 
-// Login dialog container - use !important to override global styles
+// ─── Dialog shell ────────────────────────────────────────────────────────────
 .login-dialog {
-  padding: 32px !important;
-  width: 360px !important;
-  max-width: 360px !important;
-  min-width: unset !important;
-  box-sizing: border-box !important;
-  overflow: hidden !important;
-
-  // Reset any inherited styles
-  * {
-    box-sizing: border-box;
-  }
+  padding: 32px;
+  width: 360px;
+  box-sizing: border-box;
 }
 
-// Dialog header - override global .dialog-header styles
-.login-dialog .dialog-header {
-  text-align: center !important;
-  margin-bottom: 24px !important;
-  padding: 0 !important;
-  background: transparent !important;
-  border-bottom: none !important;
-  display: block !important;
+// ─── Header ──────────────────────────────────────────────────────────────────
+.dialog-header {
+  text-align: center;
+  margin-bottom: 24px;
 
   .logo {
-    width: 64px !important;
-    height: 64px !important;
-    border-radius: 12px !important;
-    margin-bottom: 16px !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    margin-bottom: 14px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   h2 {
-    color: #1f2937 !important;
-    font-size: 1.25rem !important;
-    font-weight: 700 !important;
-    margin: 0 0 8px 0 !important;
-    padding: 0 !important;
-    background: transparent !important;
-    border-bottom: none !important;
-    display: block !important;
+    color: #1f2937;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0 0 6px;
   }
 
   .subtitle {
-    color: #6b7280 !important;
-    font-size: 0.813rem !important;
-    margin: 0 !important;
-    line-height: 1.5 !important;
+    color: #6b7280;
+    font-size: 0.8125rem;
+    margin: 0;
+    line-height: 1.5;
   }
 }
 
-// Login form - override global form styles
-.login-dialog .login-form {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 4px !important;
-  width: 100% !important;
-  min-width: unset !important;
-  max-width: 100% !important;
-  padding: 0 !important;
+// ─── Form ────────────────────────────────────────────────────────────────────
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-// Form field styling
-.login-dialog .form-field {
-  width: 100% !important;
-  margin-bottom: 4px !important;
+// ─── Plain-field system (replaces mat-form-field to avoid AM18 null bug) ─────
+.ld-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-// Override global mat-form-field styles within login-dialog
-::ng-deep .login-dialog {
-  .mat-form-field {
-    width: 100% !important;
-    margin-bottom: 4px !important;
-  }
+.ld-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
 
-  .mat-form-field-wrapper {
-    padding-bottom: 16px !important;
-  }
+.ld-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 0 10px;
+  background: #fff;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 
-  .mat-form-field-appearance-outline {
-    .mat-form-field-outline {
-      color: #e5e7eb !important;
-    }
-
-    .mat-form-field-outline-thick {
-      color: #1976d2 !important;
-    }
-
-    &:hover .mat-form-field-outline {
-      color: #d1d5db !important;
-    }
-
-    &.mat-focused .mat-form-field-outline {
-      color: #1976d2 !important;
-    }
-
-    .mat-form-field-outline-start {
-      border-radius: 10px 0 0 10px !important;
-    }
-
-    .mat-form-field-outline-end {
-      border-radius: 0 10px 10px 0 !important;
-    }
-
-    .mat-form-field-prefix {
-      margin-right: 8px !important;
-
-      .mat-icon {
-        color: #9ca3af !important;
-        font-size: 20px !important;
-        width: 20px !important;
-        height: 20px !important;
-      }
-    }
-
-    .mat-form-field-suffix {
-      .mat-icon-button {
-        width: 32px !important;
-        height: 32px !important;
-        line-height: 32px !important;
-
-        .mat-icon {
-          color: #9ca3af !important;
-          font-size: 18px !important;
-          width: 18px !important;
-          height: 18px !important;
-        }
-      }
-    }
-
-    &.mat-focused {
-      .mat-form-field-prefix .mat-icon {
-        color: #1976d2 !important;
-      }
-    }
-
-    .mat-form-field-flex {
-      padding: 0 12px !important;
-    }
-
-    .mat-form-field-infix {
-      padding: 10px 0 !important;
-      border-top: 0 !important;
-    }
-
-    .mat-form-field-label {
-      color: #6b7280 !important;
-    }
-
-    &.mat-focused .mat-form-field-label {
-      color: #1976d2 !important;
-    }
-
-    .mat-input-element {
-      color: #1f2937 !important;
-      font-size: 14px !important;
-
-      &::placeholder {
-        color: #9ca3af !important;
-      }
-    }
-
-    // Error state
-    &.mat-form-field-invalid {
-      .mat-form-field-outline {
-        color: #ef4444 !important;
-      }
-
-      .mat-form-field-label {
-        color: #ef4444 !important;
-      }
-
-      .mat-form-field-prefix .mat-icon {
-        color: #ef4444 !important;
-      }
-    }
-
-    .mat-error {
-      font-size: 11px !important;
-    }
+  &:focus-within {
+    border-color: #1976d2;
+    box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.12);
   }
 }
 
-// Submit button - override global button styles
-.login-dialog .submit-btn {
-  width: 100% !important;
-  height: 44px !important;
-  min-width: unset !important;
-  margin-top: 12px !important;
+.ld-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+.ld-input {
+  flex: 1;
+  min-width: 0;
+  height: 42px;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  color: #111827;
+  font-family: inherit;
+
+  &::placeholder {
+    color: #9ca3af;
+  }
+}
+
+.ld-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  color: #6b7280;
+  flex-shrink: 0;
+  transition: color 0.15s ease;
+
+  &:hover {
+    color: #374151;
+  }
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.ld-error {
+  font-size: 11px;
+  color: #ef4444;
+  margin: 0;
+}
+
+// ─── Submit button ───────────────────────────────────────────────────────────
+.submit-btn {
+  width: 100%;
+  height: 44px;
+  margin-top: 12px;
   border-radius: 10px !important;
-  font-size: 15px !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.3px !important;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
   background: linear-gradient(135deg, #1976d2 0%, #0d47a1 100%) !important;
   box-shadow: 0 4px 14px rgba(25, 118, 210, 0.4) !important;
-  transition: all 0.3s ease !important;
-  text-transform: none !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+  text-transform: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 
-  &:hover:not(:disabled) {
-    transform: translateY(-2px) !important;
+  &:not(:disabled):hover {
+    transform: translateY(-1px);
     box-shadow: 0 6px 20px rgba(25, 118, 210, 0.5) !important;
-  }
-
-  &:active:not(:disabled) {
-    transform: translateY(0) !important;
   }
 
   &:disabled {
@@ -217,33 +163,49 @@
   }
 }
 
-// Dialog footer
-.login-dialog .dialog-footer {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 6px !important;
-  margin-top: 20px !important;
-  padding-top: 16px !important;
-  border-top: 1px solid #f3f4f6 !important;
+.spin-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spin-icon { animation: none; }
+}
+
+// ─── Footer ──────────────────────────────────────────────────────────────────
+.dialog-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #f3f4f6;
 
   mat-icon {
-    font-size: 14px !important;
-    width: 14px !important;
-    height: 14px !important;
-    color: #10b981 !important;
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+    color: #10b981;
   }
 
   span {
-    font-size: 0.7rem !important;
-    color: #6b7280 !important;
-    font-weight: 500 !important;
+    font-size: 0.7rem;
+    color: #6b7280;
+    font-weight: 500;
   }
 }
 
-// Dialog container override - be very specific
+// ─── Dialog container ────────────────────────────────────────────────────────
 ::ng-deep .cdk-overlay-pane:has(.login-dialog) {
-  .mat-dialog-container {
+  .mat-mdc-dialog-container {
     border-radius: 16px !important;
     padding: 0 !important;
     overflow: hidden !important;
