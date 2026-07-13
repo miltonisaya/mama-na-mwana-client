@@ -80,7 +80,8 @@ export class OrganisationUnitDialogComponent implements OnInit {
           });
       } else {
         this.organisationUnitService.createOrganisationUnit(this.organisationUnitService.form.value)
-          .subscribe(data => {
+          .subscribe(response => {
+            this.notifierService.showNotification(response.message, 'OK', 'success');
             this.onClose();
           }, error => {
             this.notifierService.showNotification(error.error.error, 'OK', 'error');
