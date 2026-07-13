@@ -3,7 +3,6 @@ import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {SharedModule} from 'src/app/shared/shared.module';
 import {AngularMaterialModule} from '../../material.module';
-import {AuthorityDialogComponent} from './modals/authority-dialog-component';
 import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
@@ -16,7 +15,6 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatDialogModule
   ],
   declarations: [
-    AuthorityDialogComponent
   ]
 })
 export class AuthorityModule {
