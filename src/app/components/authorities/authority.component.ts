@@ -4,6 +4,7 @@ import {AuthorityService} from './authority.service';
 import {MatDialog} from '@angular/material/dialog';
 import {Authority} from './authority';
 import {NotifierService} from '../notifications/notifier.service';
+import {userCan} from '../../helpers/user-can';
 
 @Component({
   selector: 'app-authorities',
@@ -11,6 +12,8 @@ import {NotifierService} from '../notifications/notifier.service';
   styleUrls: ['./authority.component.scss']
 })
 export class AuthorityComponent implements OnInit {
+  // Exposed so the template can call userCan('AUTHORITY_NAME') directly.
+  readonly userCan = userCan;
   displayedColumns: string[] = ["sno", 'name', 'description', 'actions'];
   authorities: any = [];
   authorityId: string;
