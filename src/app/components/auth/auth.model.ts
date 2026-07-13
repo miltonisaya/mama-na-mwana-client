@@ -18,7 +18,10 @@ export interface UserProfile {
   phone?: string;
   token: string;
   menus: MenuItem[];
-  isSuperAdministrator: boolean;
+  // Authority names the user holds via their role(s) — the same permission model
+  // that gates API access and menu visibility on the backend; used here to gate
+  // UI elements (buttons, sections) instead of a coarse super-admin flag.
+  authorities: string[];
 }
 
 export interface AuthResponse {
@@ -26,8 +29,8 @@ export interface AuthResponse {
   message: string;
   data: {
     token: string;
-    user: Omit<UserProfile, 'token' | 'menus' | 'isSuperAdministrator'>;
+    user: Omit<UserProfile, 'token' | 'menus' | 'authorities'>;
     menus: MenuItem[];
-    isSuperAdmin: boolean;
+    authorities: string[];
   };
 }
