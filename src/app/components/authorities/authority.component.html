@@ -12,10 +12,6 @@
       <mat-icon>sync</mat-icon>
       {{ syncing ? 'Syncing...' : 'Sync Permissions' }}
     </button>
-    <button (click)="openDialog()" mat-raised-button color="primary" class="add-btn">
-      <mat-icon>add</mat-icon>
-      Add New Authority
-    </button>
   </div>
 </div>
 
@@ -51,10 +47,6 @@
     <ng-container matColumnDef="actions">
       <th *matHeaderCellDef mat-header-cell>Actions</th>
       <td *matCellDef="let authorities" mat-cell>
-        <button (click)="openDialog(authorities)" mat-icon-button matTooltip="Edit" matTooltipPosition="left"
-                aria-label="Edit authority">
-          <mat-icon>edit</mat-icon>
-        </button>
         <button (click)="openDeleteDialog(authorities.id)" color="warn" mat-icon-button matTooltip="Delete"
                 matTooltipPosition="right" aria-label="Delete authority">
           <mat-icon>delete</mat-icon>
