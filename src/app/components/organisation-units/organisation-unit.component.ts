@@ -9,6 +9,7 @@ import {NestedTreeControl} from '@angular/cdk/tree';
 import {MatTreeNestedDataSource} from '@angular/material/tree';
 import {Subject} from 'rxjs';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {userCan} from '../../helpers/user-can';
 
 interface OuNode {
   id: string;
@@ -50,7 +51,8 @@ export class OrganisationUnitComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort) sort: MatSort;
 
   organisationUnitId: string;
-  isSuperAdministrator: boolean = false;
+  // Exposed so the template can call userCan('AUTHORITY_NAME') directly.
+  readonly userCan = userCan;
 
   searchQuery = '';
   isSearching = false;
@@ -68,7 +70,6 @@ export class OrganisationUnitComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getRootOrganisationUnits();
-    this.checkIsAdmin();
 
     this.searchTerm$
       .pipe(
@@ -97,11 +98,6 @@ export class OrganisationUnitComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.searchTerm$.complete();
-  }
-
-  checkIsAdmin() {
-    const mnmUser = JSON.parse(localStorage.getItem('MNM_USER') || '{}');
-    this.isSuperAdministrator = !!mnmUser.isSuperAdministrator;
   }
 
   getRootOrganisationUnits() {
