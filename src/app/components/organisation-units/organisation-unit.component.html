@@ -8,7 +8,7 @@
   </div>
   <div class="btn-group">
     <button
-      *ngIf="isSuperAdministrator"
+      *ngIf="userCan('ORGANISATION_UNIT_CREATE')"
       (click)="openDialog()"
       mat-raised-button
       color="primary"
@@ -18,7 +18,7 @@
       Add
     </button>
     <button
-      *ngIf="selectedNode && isSuperAdministrator"
+      *ngIf="selectedNode && userCan('ORGANISATION_UNIT_UPDATE')"
       (click)="openDialog(selectedNode)"
       mat-raised-button
       color="primary"
@@ -28,7 +28,7 @@
       Edit
     </button>
     <button
-      *ngIf="selectedNode && isSuperAdministrator"
+      *ngIf="selectedNode && userCan('ORGANISATION_UNIT_DELETE')"
       (click)="openDeleteDialog(selectedNode.id)"
       mat-raised-button
       color="warn"
