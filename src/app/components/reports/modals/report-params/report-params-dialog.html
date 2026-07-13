@@ -1,51 +1,87 @@
-<div class="mnm-dialog">
+<div class="mnm-dialog params-dialog">
+
+  <!-- Header -->
   <div class="mnm-dialog-head">
     <mat-icon class="mnm-dialog-icon">tune</mat-icon>
     <div>
-      <h2 mat-dialog-title>Report Parameters</h2>
-      <p class="mnm-dialog-subtitle">{{selectedNode.name}}</p>
+      <h2 mat-dialog-title>Generate Report</h2>
+      <p class="mnm-dialog-subtitle">{{ selectedNode?.name }}</p>
     </div>
   </div>
 
   <mat-dialog-content class="mnm-dialog-body">
-    <ng-container *ngFor="let param of params">
-      <ng-container [ngSwitch]="param.name">
-        <ng-container *ngSwitchCase="'start_date' || 'end_date'">
-          <div class="mnm-row">
-            <mat-form-field appearance="outline" class="mnm-field">
-              <mat-label>Start Date</mat-label>
-              <mat-icon matPrefix>event</mat-icon>
-              <input matInput [formControl]="startDate" [matDatepicker]="startDatePicker">
-              <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
-              <mat-datepicker #startDatePicker></mat-datepicker>
-            </mat-form-field>
 
-            <mat-form-field appearance="outline" class="mnm-field">
-              <mat-label>End Date</mat-label>
-              <mat-icon matPrefix>event</mat-icon>
-              <input matInput [formControl]="endDate" [matDatepicker]="endDatePicker">
-              <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
-              <mat-datepicker #endDatePicker></mat-datepicker>
-            </mat-form-field>
+    <!-- Loading -->
+    <div *ngIf="isLoading" class="params-loading">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      <p class="params-loading-label">Loading report parameters…</p>
+    </div>
+
+    <!-- No params -->
+    <div *ngIf="!isLoading && params.length === 0" class="params-empty">
+      <mat-icon>check_circle_outline</mat-icon>
+      <p>No parameters required. Click <strong>Generate</strong> to download.</p>
+    </div>
+
+    <!-- Date range -->
+    <div [hidden]="isLoading || !hasDateParams">
+      <p class="params-section-label">
+        <mat-icon>date_range</mat-icon>
+        Report Period
+      </p>
+      <div class="date-range-row">
+        <div class="pf-group">
+          <label class="pf-label">Start Date</label>
+          <div class="pf-wrap">
+            <mat-icon class="pf-icon">event</mat-icon>
+            <input type="date" [formControl]="startDate" class="pf-input">
           </div>
-        </ng-container>
+          <span class="pf-error" *ngIf="startDate.touched && startDate.hasError('required')">Start date is required</span>
+        </div>
 
-        <mat-form-field *ngSwitchCase="'organisationUnitId'" appearance="outline" class="mnm-field">
-          <mat-label>Search for council</mat-label>
-          <mat-icon matPrefix>search</mat-icon>
-          <input matInput type="text" [formControl]="myControl" [matAutocomplete]="auto">
-          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">{{option.name}}</mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-      </ng-container>
-    </ng-container>
+        <div class="date-range-arrow">
+          <mat-icon>arrow_forward</mat-icon>
+        </div>
+
+        <div class="pf-group">
+          <label class="pf-label">End Date</label>
+          <div class="pf-wrap">
+            <mat-icon class="pf-icon">event</mat-icon>
+            <input type="date" [formControl]="endDate" class="pf-input">
+          </div>
+          <span class="pf-error" *ngIf="endDate.touched && endDate.hasError('required')">End date is required</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Organisation unit -->
+    <div [hidden]="isLoading || !hasOrgUnitParam">
+      <p class="params-section-label">
+        <mat-icon>location_on</mat-icon>
+        Location Filter
+      </p>
+      <div class="pf-group">
+        <label class="pf-label">Council</label>
+        <div class="pf-wrap">
+          <mat-icon class="pf-icon">location_city</mat-icon>
+          <select class="pf-input pf-select" [formControl]="myControl">
+            <option value="">— All councils —</option>
+            <option *ngFor="let council of councils" [value]="council.code">{{ council.name }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
   </mat-dialog-content>
 
   <mat-dialog-actions class="mnm-dialog-foot">
     <button mat-button mat-dialog-close type="button">Cancel</button>
-    <button mat-raised-button color="primary" type="button" (click)="generateReport()">
+    <button mat-raised-button color="primary" type="button"
+            [disabled]="isLoading"
+            (click)="generateReport()">
+      <mat-icon>download</mat-icon>
       Generate Report
     </button>
   </mat-dialog-actions>
+
 </div>
