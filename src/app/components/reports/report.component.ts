@@ -6,6 +6,7 @@ import {NotifierService} from '../notifications/notifier.service';
 import {NestedTreeControl} from "@angular/cdk/tree";
 import {MatTreeNestedDataSource} from "@angular/material/tree";
 import {ReportParamsDialog} from "./modals/report-params/report-params-dialog";
+import {userCan} from '../../helpers/user-can';
 
 interface ReportNode {
   name: string;
@@ -22,7 +23,8 @@ interface ReportNode {
 export class ReportComponent implements OnInit {
   reportId: string;
   selectedNode: any;
-  isSuperAdministrator: boolean;
+  // Exposed so the template can call userCan('AUTHORITY_NAME') directly.
+  readonly userCan = userCan;
   @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
 
   treeControl = new NestedTreeControl<ReportNode>(node => node.children);
@@ -37,15 +39,6 @@ export class ReportComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTree();
-    this.checkIsAdmin();
-  }
-
-  checkIsAdmin() {
-    const raw = localStorage.getItem("MNM_USER");
-    const mnmUser = raw ? JSON.parse(raw) : null;
-    if (mnmUser?.isSuperAdministrator) {
-      this.isSuperAdministrator = true;
-    }
   }
 
   /**
