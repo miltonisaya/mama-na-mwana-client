@@ -6,7 +6,7 @@
     </h2>
     <p class="page-subtitle">Configure and map RapidPro flows to DHIS2 data elements</p>
   </div>
-  <button (click)="syncFlows()" mat-raised-button color="primary" class="sync-btn">
+  <button *ngIf="userCan('FLOW_SYNC_RAPID_PRO_FLOWS')" (click)="syncFlows()" mat-raised-button color="primary" class="sync-btn">
     <mat-icon>sync</mat-icon>
     Sync Flows
   </button>
@@ -52,12 +52,19 @@
         <ng-container matColumnDef="keyName">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Key Name</th>
           <td mat-cell *matCellDef="let element">
-            <button class="key-name-btn" (click)="openMapDataElementDialog(element)"
+            <button *ngIf="userCan('KEY_MAP_DATA_ELEMENT_WITH_RAPID_PRO_FLOW_KEY'); else keyNameReadOnly"
+                    class="key-name-btn" (click)="openMapDataElementDialog(element)"
                     matTooltip="Click to map a data element">
               <mat-icon class="key-icon">vpn_key</mat-icon>
               <span>{{ element.keyName }}</span>
               <mat-icon class="edit-icon">edit</mat-icon>
             </button>
+            <ng-template #keyNameReadOnly>
+              <span class="key-name-btn key-name-btn--readonly">
+                <mat-icon class="key-icon">vpn_key</mat-icon>
+                <span>{{ element.keyName }}</span>
+              </span>
+            </ng-template>
           </td>
         </ng-container>
 
@@ -74,12 +81,19 @@
 
               <!-- Category name row -->
               <div class="category-header">
-                <button class="category-name-btn" (click)="openMapCategoryDialog(category)"
+                <button *ngIf="userCan('FLOW_UPDATE'); else categoryNameReadOnly"
+                        class="category-name-btn" (click)="openMapCategoryDialog(category)"
                         matTooltip="Click to map data element">
                   <mat-icon class="cat-icon">label</mat-icon>
                   <span>{{ category.name }}</span>
                 </button>
-                <button mat-icon-button class="add-value-btn"
+                <ng-template #categoryNameReadOnly>
+                  <span class="category-name-btn category-name-btn--readonly">
+                    <mat-icon class="cat-icon">label</mat-icon>
+                    <span>{{ category.name }}</span>
+                  </span>
+                </ng-template>
+                <button *ngIf="userCan('CATEGORY_CREATE')" mat-icon-button class="add-value-btn"
                         matTooltip="Set possible values"
                         matTooltipPosition="right"
                         (click)="openSetPossibleValuesDialog(category)">
@@ -139,7 +153,7 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef class="col-actions">Action</th>
           <td mat-cell *matCellDef="let element" class="col-actions">
-            <button mat-icon-button class="reset-btn"
+            <button *ngIf="userCan('KEY_UNSET_MAPPING')" mat-icon-button class="reset-btn"
                     matTooltip="Reset mapping"
                     matTooltipPosition="left"
                     (click)="openResetDialog(element)">
