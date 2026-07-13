@@ -7,7 +7,7 @@
     <p class="page-subtitle">Create and manage system user accounts</p>
   </div>
   <div>
-    <button (click)="openDialog()" mat-raised-button color="primary" class="add-btn">
+    <button *ngIf="userCan('USER_SAVE_USER')" (click)="openDialog()" mat-raised-button color="primary" class="add-btn">
       <mat-icon>add</mat-icon>
       Add New User
     </button>
@@ -66,11 +66,11 @@
     <ng-container matColumnDef="actions">
       <th *matHeaderCellDef mat-header-cell>Actions</th>
       <td *matCellDef="let users" mat-cell>
-        <button mat-icon-button matTooltip="Edit" matTooltipPosition="left"
+        <button *ngIf="userCan('USER_UPDATE')" mat-icon-button matTooltip="Edit" matTooltipPosition="left"
                 (click)="openDialog(users)" aria-label="Edit user">
           <mat-icon>edit</mat-icon>
         </button>
-        <button (click)="openDeleteDialog(users.id)" color="warn" mat-icon-button matTooltip="Delete"
+        <button *ngIf="userCan('USER_DELETE')" (click)="openDeleteDialog(users.id)" color="warn" mat-icon-button matTooltip="Delete"
                 matTooltipPosition="right" aria-label="Delete user">
           <mat-icon>delete</mat-icon>
         </button>
