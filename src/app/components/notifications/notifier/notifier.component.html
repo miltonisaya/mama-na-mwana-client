@@ -1,9 +1,18 @@
-<div>
-  {{data.type | uppercase}}
-</div>
-<div class="content-style">
-  {{data.message}}
-</div>
-<div style="text-align: right">
-  <button (click)="snakBarRef.dismiss()" mat-flat-button>{{data.buttonText}}</button>
+<div class="toast"
+     [class.toast--error]="data.type === 'error'"
+     [class.toast--success]="data.type === 'success'">
+
+  <div class="toast-icon-wrap">
+    <mat-icon>{{ data.type === 'error' ? 'error_outline' : 'check_circle_outline' }}</mat-icon>
+  </div>
+
+  <div class="toast-body">
+    <p class="toast-title">{{ data.type === 'error' ? 'Error' : 'Success' }}</p>
+    <p class="toast-message">{{ data.message }}</p>
+  </div>
+
+  <button class="toast-close" type="button" (click)="snakBarRef.dismiss()" aria-label="Dismiss notification">
+    <mat-icon>close</mat-icon>
+  </button>
+
 </div>
