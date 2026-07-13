@@ -1,7 +1,94 @@
-.content-style {
-  boarder: 1px solid white;
-  boarder-radius: 4px;
-  //padding: 5px;
-  //margin-top: 5px;
-  //margin-bottom: 5px;
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  min-width: 300px;
+  max-width: 420px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.22), 0 1px 4px rgba(0, 0, 0, 0.1);
+  animation: toast-slide-in 0.22s cubic-bezier(0.22, 1, 0.36, 1) both;
+
+  &.toast--error   { background: #ef4444; color: #fff; }
+  &.toast--success { background: #10b981; color: #fff; }
+}
+
+@keyframes toast-slide-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)   scale(1);    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast { animation: none; }
+}
+
+// ── Icon ────────────────────────────────────────────────────────────────────
+.toast-icon-wrap {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding-top: 1px;
+
+  mat-icon {
+    font-size: 22px;
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    opacity: 0.9;
+  }
+}
+
+// ── Body ────────────────────────────────────────────────────────────────────
+.toast-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.toast-title {
+  margin: 0 0 3px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  opacity: 0.8;
+  line-height: 1.2;
+}
+
+.toast-message {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+// ── Dismiss ─────────────────────────────────────────────────────────────────
+.toast-close {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+  margin-top: -1px;
+  transition: background 0.15s ease;
+
+  mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+  }
+
+  &:hover        { background: rgba(255, 255, 255, 0.32); }
+  &:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.6);
+    outline-offset: 2px;
+  }
 }
