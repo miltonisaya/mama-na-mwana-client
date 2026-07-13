@@ -1,8 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {UntypedFormControl, Validators} from '@angular/forms';
-import {map, startWith} from "rxjs/operators";
-import {DatePipe} from "@angular/common";
 import {NotifierService} from "../../../notifications/notifier.service";
 import {OrganisationUnitService} from "../../../organisation-units/organisation-unit.service";
 import {ReportService} from "../../report.service";
@@ -10,117 +8,79 @@ import {ReportService} from "../../report.service";
 @Component({
   selector: 'app-report-params-dialog',
   templateUrl: 'report-params-dialog.html',
-  styleUrls: ['report-params-dialog.sass'],
-  providers: [DatePipe]
+  styleUrls: ['report-params-dialog.sass']
 })
-
 export class ReportParamsDialog implements OnInit {
-  myControl = new UntypedFormControl([Validators.required]);
-  startDate = new UntypedFormControl([Validators.required]);
-  endDate = new UntypedFormControl([Validators.required]);
-  councils: any;
-  filteredOptions: any;
-  selectedCouncil: any;
-  formattedStartDate: any;
-  formattedEndDate: any;
-  params: any;
+  myControl = new UntypedFormControl('');
+  startDate = new UntypedFormControl('', [Validators.required]);
+  endDate = new UntypedFormControl('', [Validators.required]);
+  councils: any[] = [];
+  params: any[] = [];
   selectedNode: any;
+  isLoading = true;
+  hasDateParams = false;
+  hasOrgUnitParam = false;
 
   constructor(
-    private DatePipe: DatePipe,
     private NotifierService: NotifierService,
     private OrganisationUnitService: OrganisationUnitService,
     private ReportService: ReportService,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     this.getCouncils();
-    this.filteredOptions = this.myControl.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => (value == null || typeof value === 'string') ? value : value.name),
-        map(name => name ? this._filter(name) : (this.councils ?? []))
-      );
-
     this.getReportParams();
   }
 
   getReportParams() {
-    this.selectedNode = this.data.data.selectedNode;
-    console.log("selectedNode ->", this.selectedNode);
+    this.selectedNode = this.data.selectedNode;
+    this.isLoading = true;
     return this.ReportService.getParams(this.selectedNode.url).subscribe((response: any) => {
-      this.params = response.data;
+      this.params = response.data ?? [];
+      this.hasDateParams = this.params.some((p: any) => p.name === 'start_date' || p.name === 'end_date');
+      this.hasOrgUnitParam = this.params.some((p: any) => p.name === 'organisationUnitId');
+      this.isLoading = false;
     }, error => {
-      this.NotifierService.showNotification(error.error.error, 'OK', 'error');
-    })
+      this.NotifierService.showNotification(error.error?.error ?? 'Failed to load report parameters', 'OK', 'error');
+      this.isLoading = false;
+    });
   }
 
   getCouncils() {
-    let params = {
-      pageSize: 1000
-    };
-    return this.OrganisationUnitService.getCouncils(params).subscribe((response: any) => {
+    return this.OrganisationUnitService.getCouncils({pageSize: 1000}).subscribe((response: any) => {
       this.councils = response.data;
     }, error => {
-      this.NotifierService.showNotification(error.error.error, 'OK', 'error');
+      this.NotifierService.showNotification(error.error?.error ?? 'Failed to load councils', 'OK', 'error');
     });
-  }
-
-  displayFn(council: any): string {
-    if (!council) return '';
-    this.selectedCouncil = council.id;
-    return council.name ?? '';
-  }
-
-  formatSelectedDates() {
-    this.formattedStartDate = this.DatePipe.transform(this.startDate.value, 'yyyy-MM-dd');
-    this.formattedEndDate = this.DatePipe.transform(this.endDate.value, 'yyyy-MM-dd');
   }
 
   generateReport() {
-    //Format the date
-    let params = {
-      'format': 'pdf',
-      'name': this.data.data.selectedNode.url,
-      params: {}
+    const reportParams: Record<string, any> = {};
+
+    if (this.hasDateParams) {
+      reportParams['start_date'] = this.startDate.value;
+      reportParams['end_date'] = this.endDate.value;
+    }
+
+    if (this.hasOrgUnitParam && this.myControl.value) {
+      reportParams['organisationUnitId'] = this.myControl.value;
+    }
+
+    const params = {
+      format: 'pdf',
+      name: this.selectedNode.url,
+      params: reportParams
     };
 
-    if (this.params.length != 0) {
-      this.formatSelectedDates();
-      params.params = {
-        'start_date': this.formattedStartDate,
-        'end_date': this.formattedEndDate
-      };
-    }
-    console.log("Params for the request", params);
-
-    if (this.myControl.value !== null && this.myControl.value !== undefined) {
-      params['params']['organisationUnitId'] = this.myControl.value.code;
-    }
-
     return this.ReportService.generateReport(params).subscribe((response: any) => {
-      const string = JSON.stringify(response);
-      const result = JSON.parse(string);
-      let base64String = result.data;
-
-      const source = `data:application/pdf;base64,${base64String}`;
-      const link = document.createElement("a");
-      link.href = source;
-      link.download = params['name'] + ".pdf";
+      const base64String = JSON.parse(JSON.stringify(response)).data;
+      const link = document.createElement('a');
+      link.href = `data:application/pdf;base64,${base64String}`;
+      link.download = params.name + '.pdf';
       link.click();
     }, error => {
-      this.NotifierService.showNotification(error.error.error, 'OK', 'error');
+      this.NotifierService.showNotification(error.error?.error ?? 'Failed to generate report', 'OK', 'error');
     });
   }
-
-  private _filter(name: string): any {
-    if (!this.councils) return [];
-    const filterValue = name.toLowerCase();
-    return this.councils.filter(option => option.name.toLowerCase().includes(filterValue));
-  }
 }
-
-
-
