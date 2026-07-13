@@ -5,6 +5,7 @@ import {NotifierService} from '../notifications/notifier.service';
 import {User} from './User';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {UserDialogComponent} from './modals/user-dialog-component';
+import {userCan} from '../../helpers/user-can';
 
 @Component({
   selector: 'app-users',
@@ -12,6 +13,8 @@ import {UserDialogComponent} from './modals/user-dialog-component';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
+  // Exposed so the template can call userCan('AUTHORITY_NAME') directly.
+  readonly userCan = userCan;
   displayedColumns: string[] = ["sno", 'name', 'username', 'email', 'roles', 'actions'];
   users: any = [];
   userId: string;
