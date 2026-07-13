@@ -39,6 +39,14 @@ export class OrganisationUnitService {
       .pipe(map(this.extractData));
   }
 
+  // Search organisation units by name/code/otherNames across the whole hierarchy.
+  // Each match comes back with its ancestor chain (via nested `parent`) so the tree can be rebuilt around it.
+  searchTree(query: string): Observable<any> {
+    return this.http
+      .get<any>(`${this.API_ENDPOINT}/search-tree`, {params: {query}})
+      .pipe(map(this.extractData));
+  }
+
   // Existing method (renamed for clarity, kept for backward compatibility if needed)
   getOrganisationUnits(param?: any): Observable<any> {
     return this.http
