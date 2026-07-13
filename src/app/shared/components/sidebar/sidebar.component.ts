@@ -1,25 +1,40 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../../components/auth/auth.service';
+import { UserProfile } from '../../../components/auth/auth.model';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss']
+  styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit {
-  user;
-  roles;
-  menus;
+  user: Partial<UserProfile> = {};
+  menus: any[] = [];
 
-  constructor() {
-  }
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.getUserDetails();
+    this.loadUser();
   }
 
-  getUserDetails() {
-    this.user = JSON.parse(localStorage.getItem("MNM_USER") || 'null') ?? {};
-    this.roles = this.user.roles ?? [];
-    this.menus = this.user.menus ?? [];
+  get userInitials(): string {
+    const name = this.user?.name ?? '';
+    return name
+      .split(' ')
+      .filter(Boolean)
+      .slice(0, 2)
+      .map(w => w[0].toUpperCase())
+      .join('');
+  }
+
+  signOut(): void {
+    this.authService.signOut();
+  }
+
+  private loadUser(): void {
+    const raw = localStorage.getItem('MNM_USER');
+    const parsed: UserProfile | null = raw ? JSON.parse(raw) : null;
+    this.user = parsed ?? {};
+    this.menus = parsed?.menus ?? [];
   }
 }
