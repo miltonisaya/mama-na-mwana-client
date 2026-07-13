@@ -7,7 +7,7 @@
     <p class="page-subtitle">View and manage DHIS2 programs</p>
   </div>
   <div>
-    <button (click)="!syncing && syncPrograms()" mat-raised-button color="primary" class="sync-btn"
+    <button *ngIf="userCan('PROGRAM_SYNC_DATA_ELEMENTS')" (click)="!syncing && syncPrograms()" mat-raised-button color="primary" class="sync-btn"
             [class.btn--loading]="syncing">
       <mat-icon>sync</mat-icon>
       {{ syncing ? 'Syncing...' : 'Sync Programs' }}
@@ -53,7 +53,7 @@
         <ng-container matColumnDef="actions">
           <th *matHeaderCellDef mat-header-cell>Actions</th>
           <td *matCellDef="let programs" mat-cell>
-            <button mat-icon-button matTooltip="Map Data Element" matTooltipPosition="left"
+            <button *ngIf="userCan('PROGRAM_CREATE')" mat-icon-button matTooltip="Map Data Element" matTooltipPosition="left"
                     (click)="openMappingDialog(programs.id)" aria-label="Map data elements">
               <mat-icon>sync_alt</mat-icon>
             </button>
