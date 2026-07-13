@@ -167,6 +167,15 @@
   }
 }
 
+// Read-only variant shown when the user lacks the authority to edit the mapping —
+// keeps the name visible without implying it's clickable.
+.key-name-btn--readonly {
+  cursor: default;
+  color: #374151;
+
+  &:hover { background: none; }
+}
+
 // ─── Category block ──────────────────────────────────────────────────────────
 .category-block {
   padding: 8px 0;
@@ -211,6 +220,14 @@
     color: #9ca3af;
     transition: color 0.15s ease;
   }
+}
+
+// Read-only variant shown when the user lacks the authority to edit the mapping —
+// keeps the name visible without implying it's clickable.
+.category-name-btn--readonly {
+  cursor: default;
+
+  &:hover { background: #f3f4f6; color: #374151; }
 }
 
 .add-value-btn {
