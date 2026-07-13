@@ -3,19 +3,25 @@ import { HttpClient } from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {catchError, map, tap} from 'rxjs/operators';
-import {UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
+import {AbstractControl, UntypedFormControl, UntypedFormGroup, ValidationErrors, Validators} from '@angular/forms';
+import {isValidMaterialIcon} from '../../shared/material-icons';
 
 export const BASE_URL: string = environment.baseURL;
 export const RESOURCE_URL: string = 'api/v1/menus';
+
+function materialIconValidator(control: AbstractControl): ValidationErrors | null {
+  return !control.value || isValidMaterialIcon(control.value) ? null : {invalidIcon: true};
+}
 
 @Injectable()
 export class MenuService {
   form: UntypedFormGroup = new UntypedFormGroup({
     id: new UntypedFormControl(''),
     name: new UntypedFormControl('', [Validators.required]),
-    icon: new UntypedFormControl('', [Validators.required]),
+    icon: new UntypedFormControl('', [Validators.required, materialIconValidator]),
     url: new UntypedFormControl(''),
-    roleId: new UntypedFormControl('', [Validators.required]),
+    // Optional: no authority means the menu is visible to any authenticated user.
+    authorityId: new UntypedFormControl(''),
     sortOrder: new UntypedFormControl('', [Validators.required]),
     parentId: new UntypedFormControl('')
   });
@@ -55,7 +61,7 @@ export class MenuService {
       icon: '',
       parentId: '',
       url: '',
-      roleId: '',
+      authorityId: '',
       sortOrder: ''
     });
   }
