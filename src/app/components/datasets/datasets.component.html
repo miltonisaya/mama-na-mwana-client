@@ -6,7 +6,7 @@
     </h2>
     <p class="page-subtitle">View and manage DHIS2 datasets and their data elements</p>
   </div>
-  <button (click)="syncDatasets()" mat-raised-button color="primary" class="sync-btn">
+  <button *ngIf="userCan('DATA_SET_SYNC_DATA_SETS')" (click)="syncDatasets()" mat-raised-button color="primary" class="sync-btn">
     <mat-icon>sync</mat-icon>
     Sync Datasets
   </button>
