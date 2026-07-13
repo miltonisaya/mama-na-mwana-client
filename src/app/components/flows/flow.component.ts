@@ -7,6 +7,7 @@ import {NotifierService} from '../notifications/notifier.service';
 import {FlowKeyDialogComponent} from './modals/flow-key-dialog/flow-key-dialog-component';
 import {FlowCategoryDialogComponent} from './modals/flow-category-dialog/flow-category-dialog-component';
 import {PossibleTrueValuesComponent} from './modals/possible-true-values-dialog/possible-true-values-component';
+import {userCan} from '../../helpers/user-can';
 
 @Component({
   selector: 'app-flows',
@@ -14,6 +15,8 @@ import {PossibleTrueValuesComponent} from './modals/possible-true-values-dialog/
   styleUrls: ['./flow.component.scss']
 })
 export class FlowComponent implements OnInit {
+  // Exposed so the template can call userCan('AUTHORITY_NAME') directly.
+  readonly userCan = userCan;
   flows: any[] = [];
   selectedFlowId: any = null;
   filterText = '';
