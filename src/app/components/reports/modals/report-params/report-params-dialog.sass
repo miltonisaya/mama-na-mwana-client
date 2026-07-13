@@ -1,1 +1,130 @@
-// Styles handled by .mnm-dialog in styles.scss
+// ── Plain-field wrapper ──────────────────────────────────────────────────────
+.pf-group
+  display: flex
+  flex-direction: column
+  gap: 4px
+  flex: 1
+  min-width: 0
+
+.pf-label
+  font-size: 11px
+  font-weight: 600
+  color: var(--text-secondary, #6b7280)
+  text-transform: uppercase
+  letter-spacing: 0.5px
+  margin: 0
+
+.pf-wrap
+  display: flex
+  align-items: center
+  gap: 8px
+  border: 1px solid var(--border-color, #d1d5db)
+  border-radius: 6px
+  padding: 0 10px
+  background: var(--surface, #fff)
+  transition: border-color 0.15s ease, box-shadow 0.15s ease
+
+  &:focus-within
+    border-color: var(--primary, #3b82f6)
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12)
+
+  .pf-icon
+    font-size: 18px
+    width: 18px
+    height: 18px
+    color: var(--text-secondary, #6b7280)
+    flex-shrink: 0
+
+.pf-input
+  flex: 1
+  min-width: 0
+  height: 40px
+  border: none
+  outline: none
+  background: transparent
+  font-size: 14px
+  color: var(--text-primary, #111827)
+  font-family: inherit
+
+  &::placeholder
+    color: var(--text-secondary, #9ca3af)
+
+.pf-select
+  cursor: pointer
+  appearance: none
+  -webkit-appearance: none
+  padding-right: 4px
+
+.pf-error
+  font-size: 11px
+  color: var(--error, #ef4444)
+  margin: 0
+
+// ── Date-range row ───────────────────────────────────────────────────────────
+.date-range-row
+  display: flex
+  align-items: flex-start
+  gap: 8px
+
+.date-range-arrow
+  display: flex
+  align-items: center
+  padding-top: 26px
+  color: var(--text-secondary, #6b7280)
+  flex-shrink: 0
+
+  mat-icon
+    font-size: 20px
+    width: 20px
+    height: 20px
+
+// ── Section labels ───────────────────────────────────────────────────────────
+.params-section-label
+  display: flex
+  align-items: center
+  gap: 6px
+  font-size: 12px
+  font-weight: 600
+  color: var(--text-secondary, #6b7280)
+  text-transform: uppercase
+  letter-spacing: 0.5px
+  margin: 0 0 10px 0
+
+  mat-icon
+    font-size: 16px
+    width: 16px
+    height: 16px
+
+// ── Loading state ────────────────────────────────────────────────────────────
+.params-loading
+  padding: 8px 0 24px
+
+  .params-loading-label
+    margin: 14px 0 0 0
+    font-size: 13px
+    color: var(--text-secondary, #6b7280)
+    text-align: center
+
+// ── No-params state ──────────────────────────────────────────────────────────
+.params-empty
+  display: flex
+  flex-direction: column
+  align-items: center
+  gap: 10px
+  padding: 24px 0 8px
+  text-align: center
+  color: var(--text-secondary, #6b7280)
+
+  mat-icon
+    font-size: 40px
+    width: 40px
+    height: 40px
+    color: var(--success-green, #10b981)
+
+  p
+    margin: 0
+    font-size: 14px
+    line-height: 1.5
+
+    strong
+      color: var(--text-primary, #1f2937)
