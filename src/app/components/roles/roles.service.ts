@@ -14,7 +14,6 @@ export class RolesService {
     id: new UntypedFormControl(''),
     name: new UntypedFormControl('', [Validators.required]),
     description: new UntypedFormControl('', [Validators.required]),
-    isSuperAdministrator: new UntypedFormControl(false),
   });
   private API_ENDPOINT = `${BASE_URL}/${RESOURCE_URL}`;
 
@@ -50,7 +49,6 @@ export class RolesService {
       id: '',
       name: '',
       description: '',
-      isSuperAdministrator: false
     });
   }
 
