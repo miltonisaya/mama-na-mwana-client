@@ -48,6 +48,24 @@
 
 // Filter Field - uses global styles from styles.scss
 
+.search-progress {
+  margin-bottom: 8px;
+  border-radius: 4px;
+}
+
+.no-results {
+  margin: 4px 0 12px 4px;
+  color: var(--text-secondary, #6b7280);
+  font-size: 14px;
+  font-style: italic;
+}
+
+.match-highlight {
+  background-color: rgba(255, 213, 79, 0.35);
+  border-radius: 6px;
+  font-weight: 600;
+}
+
 // Tree Container
 .tree-container {
   border-radius: 12px;
