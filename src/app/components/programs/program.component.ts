@@ -5,6 +5,7 @@ import {Program} from './program';
 import {ProgramService} from './program.service';
 import {MatDialog} from "@angular/material/dialog";
 import {DataElementProgramMappingDialogComponent} from "./modals/data-element-program-mapping-dialog-component";
+import {userCan} from '../../helpers/user-can';
 
 @Component({
   selector: 'app-programs',
@@ -12,6 +13,8 @@ import {DataElementProgramMappingDialogComponent} from "./modals/data-element-pr
   styleUrls: ['./program.component.scss']
 })
 export class ProgramComponent implements OnInit {
+  // Exposed so the template can call userCan('AUTHORITY_NAME') directly.
+  readonly userCan = userCan;
   displayedColumns: string[] = ["sno", 'name', 'code', 'dhis2uid', 'actions'];
   programs: any = [];
   dataSource: MatTableDataSource<Program>;
