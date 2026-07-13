@@ -1,51 +1,57 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpBackend, HttpClient } from '@angular/common/http';
-import {environment} from '../../../environments/environment';
-import {tap} from 'rxjs/operators';
-import {NotifierService} from '../notifications/notifier.service';
-import {Router} from '@angular/router';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
+import { NotifierService } from '../notifications/notifier.service';
+import { AuthResponse, LoginCredentials, UserProfile } from './auth.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
-  url = environment.baseURL + "/api/v1/authenticate";
-  currentUserValue: any;
+  private readonly loginUrl = `${environment.baseURL}/api/v1/authenticate`;
+  private readonly storageKey = 'MNM_USER';
+
+  // HttpBackend bypasses interceptors so no auth token is attached to the login request
+  private readonly http: HttpClient;
 
   constructor(
-    private http: HttpClient,
-    private notifierService: NotifierService,
+    handler: HttpBackend,
+    private notifier: NotifierService,
     private router: Router,
-    handler: HttpBackend
   ) {
     this.http = new HttpClient(handler);
-
   }
 
-  login(data: any) {
-    return this.http.post<any>(this.url, data).pipe(
-      tap(response => {
-        const token = response.data.token;
-        const currentUser = response.data.user;
-        this.currentUserValue = currentUser;
-        currentUser.token = token;
-        currentUser.menus = response.data.menus;
-        currentUser.isSuperAdministrator = response.data.isSuperAdmin;
-        localStorage.setItem("MNM_USER", JSON.stringify(currentUser));
-      }),
+  login(credentials: LoginCredentials): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(this.loginUrl, credentials).pipe(
+      tap(response => this.persistSession(response)),
     );
   }
 
-  getToken() {
-    const raw = localStorage.getItem("MNM_USER");
-    if (!raw) return null;
-    const user = JSON.parse(raw);
-    return user?.token ?? null;
+  getToken(): string | null {
+    return this.getStoredUser()?.token ?? null;
   }
 
-  signOut() {
-    localStorage.removeItem('MNM_USER');
-    this.notifierService.showNotification('Logged out successfully', 'OK', 'success');
-    this.router.navigate(["/login"]);
+  signOut(): void {
+    localStorage.removeItem(this.storageKey);
+    this.notifier.showNotification('Logged out successfully', 'OK', 'success');
+    this.router.navigate(['/login']);
+  }
+
+  private persistSession(response: AuthResponse): void {
+    const { token, user, menus, isSuperAdmin } = response.data;
+    const profile: UserProfile = { ...user, token, menus, isSuperAdministrator: isSuperAdmin };
+    localStorage.setItem(this.storageKey, JSON.stringify(profile));
+  }
+
+  private getStoredUser(): UserProfile | null {
+    const raw = localStorage.getItem(this.storageKey);
+    if (!raw) return null;
+    try {
+      return JSON.parse(raw) as UserProfile;
+    } catch {
+      return null;
+    }
   }
 }
