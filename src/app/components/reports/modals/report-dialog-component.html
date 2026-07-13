@@ -9,26 +9,39 @@
 
   <form #formDirective="ngForm" [formGroup]="ReportService.form" (ngSubmit)="submitForm(ReportService.form)">
     <mat-dialog-content class="mnm-dialog-body">
-      <mat-form-field appearance="outline" class="mnm-field">
-        <mat-label>Name</mat-label>
-        <mat-icon matPrefix>label</mat-icon>
-        <input matInput autocomplete="off" formControlName="name" required>
-      </mat-form-field>
 
-      <mat-form-field appearance="outline" class="mnm-field">
-        <mat-label>URL</mat-label>
-        <mat-icon matPrefix>link</mat-icon>
-        <input matInput autocomplete="off" formControlName="url" required>
-      </mat-form-field>
+      <!-- Name -->
+      <div class="rd-group">
+        <label class="rd-label">Name</label>
+        <div class="rd-wrap">
+          <mat-icon class="rd-icon">label</mat-icon>
+          <input class="rd-input" formControlName="name" type="text" autocomplete="off"
+                 placeholder="Report name" required>
+        </div>
+      </div>
 
-      <mat-form-field appearance="outline" class="mnm-field">
-        <mat-label>Parent Report</mat-label>
-        <mat-icon matPrefix>account_tree</mat-icon>
-        <select matNativeControl formControlName="parentId">
-          <option value="">— None —</option>
-          <option *ngFor="let report of reports" [value]="report.id">{{report.name}}</option>
-        </select>
-      </mat-form-field>
+      <!-- URL -->
+      <div class="rd-group">
+        <label class="rd-label">URL</label>
+        <div class="rd-wrap">
+          <mat-icon class="rd-icon">link</mat-icon>
+          <input class="rd-input" formControlName="url" type="text" autocomplete="off"
+                 placeholder="Report URL" required>
+        </div>
+      </div>
+
+      <!-- Parent Report -->
+      <div class="rd-group">
+        <label class="rd-label">Parent Report</label>
+        <div class="rd-wrap">
+          <mat-icon class="rd-icon">account_tree</mat-icon>
+          <select class="rd-input rd-select" formControlName="parentId">
+            <option value="">— None —</option>
+            <option *ngFor="let report of reports" [value]="report.id">{{report.name}}</option>
+          </select>
+        </div>
+      </div>
+
     </mat-dialog-content>
 
     <mat-dialog-actions class="mnm-dialog-foot">
