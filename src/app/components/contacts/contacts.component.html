@@ -7,7 +7,7 @@
     <p class="page-subtitle">View and manage RapidPro contacts</p>
   </div>
   <div>
-    <button (click)="!syncing && syncContacts()" mat-raised-button color="primary" class="sync-btn"
+    <button *ngIf="userCan('CONTACT_SYNC')" (click)="!syncing && syncContacts()" mat-raised-button color="primary" class="sync-btn"
             [class.btn--loading]="syncing">
       <mat-icon>sync</mat-icon>
       {{ syncing ? 'Syncing...' : 'Sync Contacts' }}
@@ -65,7 +65,7 @@
         <ng-container matColumnDef="actions">
           <th *matHeaderCellDef mat-header-cell>Actions</th>
           <td *matCellDef="let contacts" mat-cell>
-            <button mat-icon-button matTooltip="Edit" matTooltipPosition="left"
+            <button *ngIf="userCan('CONTACT_UPDATE')" mat-icon-button matTooltip="Edit" matTooltipPosition="left"
                     (click)="openDialog(contacts)" aria-label="Edit contact">
               <mat-icon>edit</mat-icon>
             </button>
