@@ -1,1 +1,54 @@
-// Styles handled by .mnm-dialog in styles.scss
+// ── Plain-field system (rd-*) ─────────────────────────────────────────────────
+.rd-group
+  display: flex
+  flex-direction: column
+  gap: 4px
+  margin-bottom: 16px
+
+.rd-label
+  font-size: 11px
+  font-weight: 600
+  color: #6b7280
+  text-transform: uppercase
+  letter-spacing: 0.5px
+  margin: 0
+
+.rd-wrap
+  display: flex
+  align-items: center
+  gap: 8px
+  border: 1px solid #d1d5db
+  border-radius: 8px
+  padding: 0 10px
+  background: #fff
+  transition: border-color 0.15s ease, box-shadow 0.15s ease
+
+  &:focus-within
+    border-color: #1976d2
+    box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.12)
+
+  .rd-icon
+    font-size: 18px
+    width: 18px
+    height: 18px
+    color: #6b7280
+    flex-shrink: 0
+
+.rd-input
+  flex: 1
+  min-width: 0
+  height: 42px
+  border: none
+  outline: none
+  background: transparent
+  font-size: 14px
+  color: #111827
+  font-family: inherit
+
+  &::placeholder
+    color: #9ca3af
+
+.rd-select
+  cursor: pointer
+  appearance: none
+  -webkit-appearance: none
