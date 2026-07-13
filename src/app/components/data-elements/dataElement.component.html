@@ -7,7 +7,7 @@
     <p class="page-subtitle">View and synchronize DHIS2 data elements</p>
   </div>
   <div>
-    <button (click)="!syncing && syncDataElements()" mat-raised-button color="primary" class="sync-btn"
+    <button *ngIf="userCan('DATA_ELEMENT_SYNC_DATA_ELEMENTS')" (click)="!syncing && syncDataElements()" mat-raised-button color="primary" class="sync-btn"
             [class.btn--loading]="syncing">
       <mat-icon>sync</mat-icon>
       {{ syncing ? 'Syncing...' : 'Sync Data Elements' }}
