@@ -42,6 +42,8 @@ export class DashboardComponent implements OnInit {
   failedIsReady = false;
   contactsBySexData: any[] = [];
   contactsBySexIsReady = false;
+  contactsByAgeGroupData: any[] = [];
+  contactsByAgeGroupIsReady = false;
 
   // Filter state
   filterStartDate: string | null = null;
@@ -142,6 +144,7 @@ export class DashboardComponent implements OnInit {
     this.populateBigChartMonthly(params);
     this.populatePieChartByCouncil(params);
     this.loadContactsBySex(params);
+    this.loadContactsByAgeGroup(params);
     this.getTotalNumberOfRegisteredContacts(params);
     if (this.userCan('OUTBOX_INDEX')) {
       this.pageNo = 0;
@@ -189,6 +192,14 @@ export class DashboardComponent implements OnInit {
     this.dashboardService.getContactsBySex(params).subscribe({
       next: (res: any) => { this.contactsBySexData = res.data ?? []; this.contactsBySexIsReady = true; },
       error: () => { this.contactsBySexIsReady = true; }
+    });
+  }
+
+  loadContactsByAgeGroup(params?: any) {
+    this.contactsByAgeGroupIsReady = false;
+    this.dashboardService.getContactsByAgeGroup(params).subscribe({
+      next: (res: any) => { this.contactsByAgeGroupData = res.data ?? []; this.contactsByAgeGroupIsReady = true; },
+      error: () => { this.contactsByAgeGroupIsReady = true; }
     });
   }
 
