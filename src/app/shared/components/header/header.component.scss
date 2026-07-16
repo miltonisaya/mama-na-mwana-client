@@ -9,9 +9,12 @@ ul {
 
 .loader-container {
   position: fixed;
-  width: 100%;
+  inset: 0;
   z-index: 99;
-  top: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.6);
 }
 
 :host {
@@ -118,15 +121,7 @@ ul {
   }
 }
 
-// Progress bar enhancement
-::ng-deep .mat-progress-bar {
-  height: 3px !important;
-
-  .mat-progress-bar-buffer {
-    background-color: rgba(25, 118, 210, 0.1);
-  }
-
-  .mat-progress-bar-fill::after {
-    background: var(--primary-color, #1976d2);
-  }
+// Progress spinner enhancement
+::ng-deep .loader-container .mat-mdc-progress-spinner circle {
+  stroke: var(--primary-color, #1976d2);
 }
