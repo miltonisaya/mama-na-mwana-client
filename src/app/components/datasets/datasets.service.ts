@@ -100,7 +100,7 @@ export class DatasetsService {
         `Server-side error: ${error.status} - ${error.message}`
       );
     }
-    return throwError(() => new Error('Something went wrong; please try again later.'));
+    return throwError(new Error('Something went wrong; please try again later.'));
   }
 
   findByDataset(selectedDataSetId: string): Observable<any> {
