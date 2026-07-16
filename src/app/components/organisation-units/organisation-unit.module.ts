@@ -1,11 +1,11 @@
-import {NgModule} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {RouterModule} from '@angular/router';
 import {SharedModule} from 'src/app/shared/shared.module';
 import {AngularMaterialModule} from '../../material.module';
-import {MatDialogModule} from '@angular/material/dialog';
 import {OrganisationUnitDialogComponent} from './modals/organisation-unit-dialog-component';
-import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {OrganisationUnitComponent} from './organisation-unit.component';
 
 @NgModule({
   imports: [
@@ -14,12 +14,15 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
     ReactiveFormsModule,
     FormsModule,
     SharedModule,
-    MatDialogModule,
-    MatAutocompleteModule
+    RouterModule.forChild([
+      {path: '', component: OrganisationUnitComponent}
+    ])
   ],
   declarations: [
+    OrganisationUnitComponent,
     OrganisationUnitDialogComponent
-  ]
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class OrganisationUnitModule {
 }
