@@ -14,7 +14,7 @@ export class ErrorInterceptor implements HttpInterceptor {
       catchError(err => {
         // 401 is handled by AuthInterceptor (shows login dialog) — skip toast
         if (err.status === 401) {
-          return throwError(() => err);
+          return throwError(err);
         }
 
         const message =
@@ -24,7 +24,7 @@ export class ErrorInterceptor implements HttpInterceptor {
           (err.status ? `Request failed (${err.status})` : 'An unexpected error occurred');
 
         this.notifier.showNotification(message, 'OK', 'error');
-        return throwError(() => err);
+        return throwError(err);
       })
     );
   }
