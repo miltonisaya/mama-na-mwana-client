@@ -1,6 +1,6 @@
 # CLAUDE.md — mama-na-mwana-client
 
-Angular 13 admin portal for the Mama na Mwana health integration middleware. Provides dashboards, contact management, flow/data-element configuration, and transaction monitoring for operators who support the Tanzania RapidPro → DHIS2 pipeline.
+Angular 18 admin portal for the Mama na Mwana health integration middleware. Provides dashboards, contact management, flow/data-element configuration, and transaction monitoring for operators who support the Tanzania RapidPro → DHIS2 pipeline.
 
 ## Build and run
 
@@ -12,7 +12,7 @@ npm test           # Jest unit tests (if configured)
 ng serve --port 4200
 ```
 
-Node 16+ required. Angular CLI 13.3.x.
+Node 18.19+ / 20.11+ / 22+ required (per `@angular/cli`'s engines field). Angular CLI 18.2.x.
 
 Backend runs on **port 8081** (`src/environments/environment.ts` → `baseURL: "http://localhost:8081"`).
 
@@ -20,14 +20,13 @@ Backend runs on **port 8081** (`src/environments/environment.ts` → `baseURL: "
 
 | Layer | Library |
 |---|---|
-| Framework | Angular 13.3.2 |
-| Component lib (primary) | Angular Material 13.3.9 |
-| Component lib (secondary) | PrimeNG 13.3.2 (pick-lists, tables in some dialogs) |
+| Framework | Angular 18.2.14 |
+| Component lib | Angular Material 18.2.14 (MDC-based) |
 | Charts | Highcharts 9.3.3 (via shared widget components) |
 | HTTP | Angular `HttpClient` + `HttpInterceptor` |
 | State | Component-local (no NgRx, no service-level BehaviorSubjects) |
 | Auth | JWT stored in `localStorage['MNM_USER']` |
-| Layout | Angular Flex Layout (`fxLayout`) — deprecated in Angular 15+, still in use here |
+| Layout | Plain CSS Flexbox/Grid in component `.scss` files (Angular Flex Layout has been fully removed — no `fxLayout` usage or `@angular/flex-layout` dependency remain) |
 
 ## Project structure
 
@@ -44,7 +43,7 @@ src/app/
     programs/          # DHIS2 program config
     datasets/          # Dataset management
     users/             # User CRUD
-    roles/             # Role & authority assignment (PrimeNG pick-list)
+    roles/             # Role & authority assignment (custom checkbox-group UI)
     authorities/       # Authority list
     transactions/      # Outbox monitoring & retry
     reports/           # Jasper report launcher
@@ -55,7 +54,7 @@ src/app/
     notifications/     # NotifierService (MatSnackBar wrapper)
     loader/            # Global loading indicator
   helpers/
-    auth.guard.ts      # Checks localStorage['MNM_USER'] exists (no token expiry check)
+    auth.guard.ts      # Checks localStorage['MNM_USER'] exists and rejects an expired JWT
   interceptors/
     auth-interceptor.service.ts  # Adds Bearer token; 401 opens LoginDialogComponent
   layouts/
@@ -70,9 +69,8 @@ src/app/
 
 1. `POST /api/v1/authenticate` → response contains `{ data: { token, user, menus, isSuperAdmin } }`
 2. `AuthService.login()` merges token + menus into the user object and saves to `localStorage['MNM_USER']`
-3. `AuthGuard` only checks that the key exists — it does **not** validate expiry
+3. `AuthGuard` checks that the key exists and decodes the JWT payload to reject an expired token (`isTokenExpired()` in `auth.guard.ts`)
 4. `AuthInterceptorService` reads the token on every request; on 401 it opens `LoginDialogComponent` instead of redirecting to `/login`
-5. The `console.log("Current User =>", currentUser)` line in `auth.service.ts:34` logs the JWT token to the browser console — remove before production
 
 ## API integration pattern
 
@@ -99,26 +97,6 @@ Responses are wrapped in `CustomApiResponse` from the backend:
 ```
 Services usually call `.pipe(map(this.extractData))` which returns `res` directly — callers access `.data`, `.content`, `.totalElements` on the result.
 
-## Known bugs and compatibility issues
-
-### Critical: `TransactionsService.resetTrx()` uses GET but backend is POST
-`src/app/components/transactions/transactions.service.ts:56`
-```typescript
-// BUG: backend OutboxResource.resetFailedTransaction is @PostMapping
-return this.http.get<any>(this.RESET_TRANSACTION_API_END_POINT + "/" + param.id, httpOptions)
-// FIX:
-return this.http.post<any>(this.RESET_TRANSACTION_API_END_POINT + "/" + param.id, null, httpOptions)
-```
-
-### Minor: sensitive data logged to console
-`src/app/components/auth/auth.service.ts:34` — `console.log("Current User =>", currentUser)` logs the JWT token. Remove for production.
-
-### AuthGuard does not check token expiry
-`src/app/helpers/auth.guard.ts` — only checks `localStorage.getItem('MNM_USER') !== null`. A user with an expired token will appear authenticated until the first API call triggers a 401 dialog.
-
-### fxLayout (Angular Flex Layout) is deprecated
-All templates use `fxLayout`, `fxFlex`, `fxLayoutAlign` directives from `@angular/flex-layout`. These work in Angular 13 but the library is deprecated and unmaintained. Replace with CSS Grid/Flexbox if upgrading beyond Angular 14.
-
 ## Backend compatibility notes
 
 These backend types changed in recent migrations — display code should handle them:
@@ -134,14 +112,13 @@ If date fields display as arrays `[2024,3,15]` instead of formatted strings, add
 
 ## Routing
 
-All 14 routes live under `DefaultComponent` behind `AuthGuard`. The `login` route is public. There is no lazy loading — all modules are eagerly loaded.
+All 13 feature routes live under `DefaultComponent` behind `AuthGuard`. The `login` route is public. Every feature route is lazy-loaded via `loadChildren` in `app-routing.module.ts`; only the shell (`DefaultModule`), `LoginModule`, and `LoginDialogModule` (opened programmatically from the auth interceptor on a 401, not routed) are eager.
 
 ## Styles
 
 - Global styles: `src/styles.scss`
 - Component styles: each component has its own `.scss` file (ViewEncapsulation.Emulated)
 - Theme: Angular Material Indigo-Pink (`@angular/material/prebuilt-themes/indigo-pink.css`)
-- PrimeNG theme: nova (`primeng/resources/themes/nova/theme.css`)
 - CSS variables used for theming (`--primary-color`, `--text-primary`, etc.) — defined inline in component scss files, not a single root `:root {}` block
 
 ## Security notes
