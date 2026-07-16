@@ -1,15 +1,12 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {RouterModule} from '@angular/router';
 import {SharedModule} from 'src/app/shared/shared.module';
 import {AngularMaterialModule} from '../../material.module';
 import {ReportDialogComponent} from './modals/report-dialog-component';
-import {PickListModule} from "primeng/picklist";
-import {MatCheckboxModule} from "@angular/material/checkbox";
 import {ReportComponent} from "./report.component";
-import {MatTreeModule} from "@angular/material/tree";
 import {ReportParamsDialog} from "./modals/report-params/report-params-dialog";
-import {MatCardModule} from "@angular/material/card";
 
 @NgModule({
   imports: [
@@ -18,10 +15,9 @@ import {MatCardModule} from "@angular/material/card";
     ReactiveFormsModule,
     FormsModule,
     SharedModule,
-    PickListModule,
-    MatCheckboxModule,
-    MatTreeModule,
-    MatCardModule
+    RouterModule.forChild([
+      {path: '', component: ReportComponent}
+    ])
   ],
   declarations: [
     ReportDialogComponent,
