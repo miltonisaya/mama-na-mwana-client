@@ -48,6 +48,7 @@ export class AiAssistantComponent implements AfterViewChecked {
 
   close(): void {
     this.isOpen = false;
+    this.isExpanded = false;
   }
 
   toggleExpand(): void {
