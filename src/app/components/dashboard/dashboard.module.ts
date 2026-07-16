@@ -7,6 +7,7 @@ import {AngularMaterialModule} from '../../material.module';
 import {ReportParamsDialog} from "./modals/report-params-dialog";
 import {DashboardComponent} from "./dashboard.component";
 import {DashboardService} from './dashboard.service';
+import {AiAssistantComponent} from './ai-assistant/ai-assistant.component';
 
 @NgModule({
     imports: [
@@ -21,7 +22,8 @@ import {DashboardService} from './dashboard.service';
     ],
     declarations: [
         DashboardComponent,
-        ReportParamsDialog
+        ReportParamsDialog,
+        AiAssistantComponent
     ],
     providers: [
         DashboardService
