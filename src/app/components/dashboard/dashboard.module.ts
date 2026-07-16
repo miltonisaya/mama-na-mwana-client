@@ -1,12 +1,13 @@
-import {NgModule} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {RouterModule} from '@angular/router';
 import {SharedModule} from 'src/app/shared/shared.module';
 import {AngularMaterialModule} from '../../material.module';
-import {MatDialogModule} from '@angular/material/dialog';
-import {PickListModule} from "primeng/picklist";
 import {ReportParamsDialog} from "./modals/report-params-dialog";
 import {DashboardComponent} from "./dashboard.component";
+import {DashboardService} from './dashboard.service';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -14,13 +15,18 @@ import {DashboardComponent} from "./dashboard.component";
         ReactiveFormsModule,
         FormsModule,
         SharedModule,
-        MatDialogModule,
-        PickListModule,
+        RouterModule.forChild([
+            {path: '', component: DashboardComponent}
+        ])
     ],
     declarations: [
+        DashboardComponent,
         ReportParamsDialog
     ],
-    providers: []
+    providers: [
+        DashboardService
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class DashboardModule {
 }
