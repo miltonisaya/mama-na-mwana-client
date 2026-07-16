@@ -1,12 +1,11 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {RouterModule} from '@angular/router';
 import {SharedModule} from 'src/app/shared/shared.module';
 import {AngularMaterialModule} from '../../material.module';
-import {MatDialogModule} from '@angular/material/dialog';
 import {ContactsComponent} from './contacts.component';
 import {ContactDialogComponent} from "./modals/contact-dialog-component";
-import {MatCardModule} from "@angular/material/card";
 
 @NgModule({
   imports: [
@@ -15,8 +14,9 @@ import {MatCardModule} from "@angular/material/card";
     ReactiveFormsModule,
     FormsModule,
     SharedModule,
-    MatDialogModule,
-    MatCardModule
+    RouterModule.forChild([
+      {path: '', component: ContactsComponent}
+    ])
   ],
   declarations: [
     ContactsComponent,
