@@ -1,0 +1,104 @@
+<button
+  type="button"
+  class="ai-fab"
+  [class.ai-fab--open]="isOpen"
+  (click)="toggle()"
+  [attr.aria-label]="isOpen ? 'Close reporting assistant' : 'Open reporting assistant'"
+  [attr.aria-expanded]="isOpen">
+  <mat-icon>{{ isOpen ? 'close' : 'auto_awesome' }}</mat-icon>
+</button>
+
+<div class="ai-panel" [class.ai-panel--expanded]="isExpanded" *ngIf="isOpen" role="dialog" aria-label="Reporting assistant">
+
+  <div class="ai-panel-header">
+    <div class="ai-panel-header-icon">
+      <mat-icon>auto_awesome</mat-icon>
+    </div>
+    <div class="ai-panel-header-text">
+      <span class="ai-panel-title">Reporting Assistant</span>
+      <span class="ai-panel-subtitle">Ask about your dashboard data</span>
+    </div>
+    <div class="ai-panel-header-actions">
+      <button
+        type="button"
+        class="ai-expand-btn"
+        (click)="toggleExpand()"
+        [attr.aria-label]="isExpanded ? 'Collapse assistant panel' : 'Expand assistant panel'"
+        [attr.aria-pressed]="isExpanded">
+        <mat-icon>{{ isExpanded ? 'close_fullscreen' : 'open_in_full' }}</mat-icon>
+      </button>
+      <button type="button" class="ai-close-btn" (click)="close()" aria-label="Close reporting assistant">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="ai-panel-messages" #messagesEl aria-live="polite">
+
+    <div class="ai-empty-state" *ngIf="messages.length === 0">
+      <mat-icon>auto_awesome</mat-icon>
+      <p class="ai-empty-title">Ask a question about your data</p>
+      <p class="ai-empty-hint">
+        I can report on contacts, transactions, facilities, programs and flows.
+        I never modify data or access user accounts.
+      </p>
+      <div class="ai-example-chips">
+        <button type="button" class="ai-example-chip" *ngFor="let example of examplePrompts" (click)="useExample(example)">
+          {{ example }}
+        </button>
+      </div>
+    </div>
+
+    <ng-container *ngFor="let message of messages">
+      <div class="ai-bubble-row" [ngClass]="'ai-bubble-row--' + message.role">
+        <div class="ai-bubble" [ngClass]="'ai-bubble--' + message.role">
+          <mat-icon *ngIf="message.role === 'error'" class="ai-bubble-error-icon">error_outline</mat-icon>
+          <p class="ai-bubble-text">{{ message.text }}</p>
+
+          <div class="ai-result-table" *ngIf="message.rows?.length">
+            <table>
+              <thead>
+                <tr>
+                  <th *ngFor="let col of message.columns">{{ col }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of message.rows">
+                  <td *ngFor="let col of message.columns">{{ row[col] ?? '—' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <div class="ai-bubble-row ai-bubble-row--assistant" *ngIf="isLoading">
+      <div class="ai-bubble ai-bubble--assistant ai-bubble--typing">
+        <span class="ai-typing-dot"></span>
+        <span class="ai-typing-dot"></span>
+        <span class="ai-typing-dot"></span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="ai-panel-input">
+    <input
+      type="text"
+      class="ai-input"
+      placeholder="Ask a question…"
+      [(ngModel)]="question"
+      [disabled]="isLoading"
+      (keyup.enter)="send()">
+    <button
+      type="button"
+      class="ai-send-btn"
+      [disabled]="!question.trim() || isLoading"
+      (click)="send()"
+      aria-label="Send question">
+      <mat-icon>send</mat-icon>
+    </button>
+  </div>
+
+</div>
