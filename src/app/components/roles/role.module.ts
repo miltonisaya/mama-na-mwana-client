@@ -1,13 +1,12 @@
-import {NgModule} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {RouterModule} from '@angular/router';
 import {SharedModule} from 'src/app/shared/shared.module';
 import {AngularMaterialModule} from '../../material.module';
 import {RolesDialogComponent} from './modals/roles-dialog-component';
 import {RoleAuthorityMappingDialogComponent} from "./modals/role-authority-mapping-dialog-component";
-import {MatCheckboxModule} from "@angular/material/checkbox";
-import {MatDividerModule} from "@angular/material/divider";
-import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {RolesComponent} from './roles.component';
 
 @NgModule({
   imports: [
@@ -16,14 +15,16 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
     ReactiveFormsModule,
     FormsModule,
     SharedModule,
-    MatCheckboxModule,
-    MatDividerModule,
-    MatProgressBarModule,
+    RouterModule.forChild([
+      {path: '', component: RolesComponent}
+    ])
   ],
   declarations: [
+    RolesComponent,
     RolesDialogComponent,
     RoleAuthorityMappingDialogComponent
-  ]
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class RolesModule {
 }
