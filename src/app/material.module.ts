@@ -27,6 +27,11 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatMenuModule} from '@angular/material/menu';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatNativeDateModule} from '@angular/material/core';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatTreeModule} from '@angular/material/tree';
+import {MatTabsModule} from '@angular/material/tabs';
 
 @NgModule({
   imports: [
@@ -58,6 +63,11 @@ import {MatNativeDateModule} from '@angular/material/core';
     MatSortModule,
     MatPaginatorModule,
     ReactiveFormsModule,
+    MatProgressSpinnerModule,
+    MatExpansionModule,
+    MatDividerModule,
+    MatTreeModule,
+    MatTabsModule,
   ],
   exports: [
     MatButtonModule,
@@ -87,6 +97,11 @@ import {MatNativeDateModule} from '@angular/material/core';
     MatSnackBarModule,
     MatCardModule,
     MatButtonToggleModule,
+    MatProgressSpinnerModule,
+    MatExpansionModule,
+    MatDividerModule,
+    MatTreeModule,
+    MatTabsModule,
   ],
   providers: [
     MatDatepickerModule,
