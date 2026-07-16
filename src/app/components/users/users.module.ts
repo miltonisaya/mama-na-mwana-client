@@ -1,10 +1,11 @@
-import {NgModule} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {RouterModule} from '@angular/router';
 import {SharedModule} from 'src/app/shared/shared.module';
 import {AngularMaterialModule} from '../../material.module';
-import {MatDialogModule} from '@angular/material/dialog';
 import {UserDialogComponent} from './modals/user-dialog-component';
+import {UsersComponent} from './users.component';
 
 @NgModule({
   imports: [
@@ -13,11 +14,15 @@ import {UserDialogComponent} from './modals/user-dialog-component';
     ReactiveFormsModule,
     FormsModule,
     SharedModule,
-    MatDialogModule
+    RouterModule.forChild([
+      {path: '', component: UsersComponent}
+    ])
   ],
   declarations: [
+    UsersComponent,
     UserDialogComponent
-  ]
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class UsersModule {
 }
