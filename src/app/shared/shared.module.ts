@@ -10,6 +10,8 @@ import {HighchartsChartModule} from 'highcharts-angular';
 import {CardComponent} from './widgets/card/card.component';
 import {PieComponent} from './widgets/pie/pie.component';
 import {BarComponent} from './widgets/bar/bar.component';
+import {FormsModule} from '@angular/forms';
+import {AiAssistantComponent} from './components/ai-assistant/ai-assistant.component';
 
 
 @NgModule({
@@ -20,13 +22,15 @@ import {BarComponent} from './widgets/bar/bar.component';
     AreaComponent,
     CardComponent,
     PieComponent,
-    BarComponent
+    BarComponent,
+    AiAssistantComponent
   ],
   imports: [
     CommonModule,
     AngularMaterialModule,
     RouterModule,
-    HighchartsChartModule
+    HighchartsChartModule,
+    FormsModule
   ],
   exports: [
     HeaderComponent,
@@ -35,7 +39,8 @@ import {BarComponent} from './widgets/bar/bar.component';
     AreaComponent,
     CardComponent,
     PieComponent,
-    BarComponent
+    BarComponent,
+    AiAssistantComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 
