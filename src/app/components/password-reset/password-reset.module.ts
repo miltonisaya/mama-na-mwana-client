@@ -1,12 +1,10 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {RouterModule} from '@angular/router';
 import {SharedModule} from 'src/app/shared/shared.module';
 import {AngularMaterialModule} from '../../material.module';
-import {MatDialogModule} from '@angular/material/dialog';
 import {PasswordResetComponent} from "./password-reset.component";
-import {MatCardModule} from "@angular/material/card";
-import {MatDividerModule} from "@angular/material/divider";
 
 @NgModule({
   imports: [
@@ -15,9 +13,9 @@ import {MatDividerModule} from "@angular/material/divider";
     ReactiveFormsModule,
     FormsModule,
     SharedModule,
-    MatDialogModule,
-    MatCardModule,
-    MatDividerModule
+    RouterModule.forChild([
+      {path: '', component: PasswordResetComponent}
+    ])
   ],
   declarations: [
     PasswordResetComponent
