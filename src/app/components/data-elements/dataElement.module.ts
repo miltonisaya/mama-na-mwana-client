@@ -1,9 +1,10 @@
-import {NgModule} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {RouterModule} from '@angular/router';
 import {SharedModule} from 'src/app/shared/shared.module';
 import {AngularMaterialModule} from '../../material.module';
-import {MatDialogModule} from '@angular/material/dialog';
+import {DataElementComponent} from './dataElement.component';
 
 @NgModule({
   imports: [
@@ -12,9 +13,14 @@ import {MatDialogModule} from '@angular/material/dialog';
     ReactiveFormsModule,
     FormsModule,
     SharedModule,
-    MatDialogModule
+    RouterModule.forChild([
+      {path: '', component: DataElementComponent}
+    ])
   ],
-  declarations: []
+  declarations: [
+    DataElementComponent
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class DataElementModule {
 }
