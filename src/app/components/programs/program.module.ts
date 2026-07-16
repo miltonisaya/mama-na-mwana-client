@@ -1,13 +1,11 @@
-import {NgModule} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {RouterModule} from '@angular/router';
 import {SharedModule} from 'src/app/shared/shared.module';
 import {AngularMaterialModule} from '../../material.module';
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatDividerModule} from '@angular/material/divider';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {DataElementProgramMappingDialogComponent} from "./modals/data-element-program-mapping-dialog-component";
+import {ProgramComponent} from './program.component';
 
 @NgModule({
     imports: [
@@ -16,15 +14,15 @@ import {DataElementProgramMappingDialogComponent} from "./modals/data-element-pr
         ReactiveFormsModule,
         FormsModule,
         SharedModule,
-        MatDialogModule,
-        MatCheckboxModule,
-        MatDividerModule,
-        MatProgressBarModule
+        RouterModule.forChild([
+            {path: '', component: ProgramComponent}
+        ])
     ],
     declarations: [
+        ProgramComponent,
         DataElementProgramMappingDialogComponent
     ],
-    providers: []
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class ProgramModule {
 }
