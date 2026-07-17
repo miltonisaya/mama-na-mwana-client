@@ -7,9 +7,10 @@ import { NotifierService } from '../notifications/notifier.service';
 import { LoginFormControls, createLoginForm } from '../login/login.form';
 
 @Component({
-  selector: 'app-login-dialog',
-  templateUrl: './login-dialog.component.html',
-  styleUrls: ['./login-dialog.component.scss'],
+    selector: 'app-login-dialog',
+    templateUrl: './login-dialog.component.html',
+    styleUrls: ['./login-dialog.component.scss'],
+    standalone: false
 })
 export class LoginDialogComponent implements OnInit {
   form!: FormGroup<LoginFormControls>;

@@ -3,9 +3,10 @@ import { AuthService } from '../../../components/auth/auth.service';
 import { UserProfile } from '../../../components/auth/auth.model';
 
 @Component({
-  selector: 'app-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss'],
+    selector: 'app-sidebar',
+    templateUrl: './sidebar.component.html',
+    styleUrls: ['./sidebar.component.scss'],
+    standalone: false
 })
 export class SidebarComponent implements OnInit {
   @Output() linkActivated = new EventEmitter<void>();

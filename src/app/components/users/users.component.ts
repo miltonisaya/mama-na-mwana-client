@@ -8,9 +8,10 @@ import {UserDialogComponent} from './modals/user-dialog-component';
 import {userCan} from '../../helpers/user-can';
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss']
+    selector: 'app-users',
+    templateUrl: './users.component.html',
+    styleUrls: ['./users.component.scss'],
+    standalone: false
 })
 export class UsersComponent implements OnInit {
   // Exposed so the template can call userCan('AUTHORITY_NAME') directly.

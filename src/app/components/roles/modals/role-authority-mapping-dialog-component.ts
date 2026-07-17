@@ -10,9 +10,10 @@ interface GroupEntry {
 }
 
 @Component({
-  selector: 'app-role-authority-dialog',
-  templateUrl: 'role-authority-mapping-dialog-component.html',
-  styleUrls: ['role-authority--mapping-dialog.component.sass']
+    selector: 'app-role-authority-dialog',
+    templateUrl: 'role-authority-mapping-dialog-component.html',
+    styleUrls: ['role-authority--mapping-dialog.component.sass'],
+    standalone: false
 })
 export class RoleAuthorityMappingDialogComponent implements OnInit {
   allAuthorities: any[] = [];

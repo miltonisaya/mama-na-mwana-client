@@ -6,9 +6,10 @@ import { NotifierService } from '../notifications/notifier.service';
 import { LoginFormControls, createLoginForm } from './login.form';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss'],
+    standalone: false
 })
 export class LoginComponent implements OnInit {
   form!: FormGroup<LoginFormControls>;

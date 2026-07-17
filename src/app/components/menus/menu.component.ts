@@ -16,9 +16,10 @@ import {userCan} from '../../helpers/user-can';
 const FETCH_ALL_PAGE_SIZE = 1000;
 
 @Component({
-  selector: 'app-menus',
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.scss']
+    selector: 'app-menus',
+    templateUrl: './menu.component.html',
+    styleUrls: ['./menu.component.scss'],
+    standalone: false
 })
 
 export class MenuComponent implements OnInit {

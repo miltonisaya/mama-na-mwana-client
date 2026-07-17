@@ -8,9 +8,10 @@ import {ContactDialogComponent} from "./modals/contact-dialog-component";
 import {userCan} from '../../helpers/user-can';
 
 @Component({
-  selector: 'app-contacts',
-  templateUrl: './contacts.component.html',
-  styleUrls: ['./contacts.component.scss']
+    selector: 'app-contacts',
+    templateUrl: './contacts.component.html',
+    styleUrls: ['./contacts.component.scss'],
+    standalone: false
 })
 export class ContactsComponent implements OnInit {
   // Exposed so the template can call userCan('AUTHORITY_NAME') directly.

@@ -6,9 +6,10 @@ import {ProgramService} from "../program.service";
 import {forkJoin} from "rxjs";
 
 @Component({
-  selector: 'app-flow-key-dialog',
-  templateUrl: 'data-element-program-mapping-dialog-component.html',
-  styleUrls: ['data-element-program-mapping-dialog.component.sass']
+    selector: 'app-flow-key-dialog',
+    templateUrl: 'data-element-program-mapping-dialog-component.html',
+    styleUrls: ['data-element-program-mapping-dialog.component.sass'],
+    standalone: false
 })
 export class DataElementProgramMappingDialogComponent implements OnInit {
   available: any[] = [];

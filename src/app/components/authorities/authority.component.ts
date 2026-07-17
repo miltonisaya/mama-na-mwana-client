@@ -7,9 +7,10 @@ import {NotifierService} from '../notifications/notifier.service';
 import {userCan} from '../../helpers/user-can';
 
 @Component({
-  selector: 'app-authorities',
-  templateUrl: './authority.component.html',
-  styleUrls: ['./authority.component.scss']
+    selector: 'app-authorities',
+    templateUrl: './authority.component.html',
+    styleUrls: ['./authority.component.scss'],
+    standalone: false
 })
 export class AuthorityComponent implements OnInit {
   // Exposed so the template can call userCan('AUTHORITY_NAME') directly.

@@ -6,9 +6,10 @@ import {DataElementService} from './dataElement.service';
 import {userCan} from '../../helpers/user-can';
 
 @Component({
-  selector: 'app-data-elements',
-  templateUrl: './dataElement.component.html',
-  styleUrls: ['./dataElement.component.scss']
+    selector: 'app-data-elements',
+    templateUrl: './dataElement.component.html',
+    styleUrls: ['./dataElement.component.scss'],
+    standalone: false
 })
 export class DataElementComponent implements OnInit {
   // Exposed so the template can call userCan('AUTHORITY_NAME') directly.

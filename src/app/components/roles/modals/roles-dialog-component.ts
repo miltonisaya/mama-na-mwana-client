@@ -4,9 +4,10 @@ import {MatDialogRef} from '@angular/material/dialog';
 import {NotifierService} from '../../notifications/notifier.service';
 
 @Component({
-  selector: 'app-role-dialog',
-  templateUrl: 'role-dialog-component.html',
-  styleUrls: ['role-dialog.component.sass']
+    selector: 'app-role-dialog',
+    templateUrl: 'role-dialog-component.html',
+    styleUrls: ['role-dialog.component.sass'],
+    standalone: false
 })
 
 export class RolesDialogComponent implements OnInit {

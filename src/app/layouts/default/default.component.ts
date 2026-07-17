@@ -3,9 +3,10 @@ import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {BreakpointObserver} from '@angular/cdk/layout';
 
 @Component({
-  selector: 'app-default',
-  templateUrl: './default.component.html',
-  styleUrls: ['./default.component.scss']
+    selector: 'app-default',
+    templateUrl: './default.component.html',
+    styleUrls: ['./default.component.scss'],
+    standalone: false
 })
 export class DefaultComponent implements OnInit {
 

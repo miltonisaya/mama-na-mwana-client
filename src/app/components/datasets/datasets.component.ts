@@ -4,9 +4,10 @@ import {Dataset, DatasetsService} from './datasets.service';
 import {userCan} from '../../helpers/user-can';
 
 @Component({
-  selector: 'app-datasets',
-  templateUrl: './datasets.component.html',
-  styleUrls: ['./datasets.component.scss']
+    selector: 'app-datasets',
+    templateUrl: './datasets.component.html',
+    styleUrls: ['./datasets.component.scss'],
+    standalone: false
 })
 export class DatasetsComponent implements OnInit {
   // Exposed so the template can call userCan('AUTHORITY_NAME') directly.

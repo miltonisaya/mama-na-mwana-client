@@ -3,9 +3,10 @@ import * as Highcharts from 'highcharts';
 import HC_exporting from 'highcharts/modules/exporting';
 
 @Component({
-  selector: 'app-widget-area',
-  templateUrl: './area.component.html',
-  styleUrls: ['./area.component.scss']
+    selector: 'app-widget-area',
+    templateUrl: './area.component.html',
+    styleUrls: ['./area.component.scss'],
+    standalone: false
 })
 export class AreaComponent implements OnInit {
   chartOptions = {};

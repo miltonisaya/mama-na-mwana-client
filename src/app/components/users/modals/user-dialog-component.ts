@@ -5,9 +5,10 @@ import {UsersService} from '../users.service';
 import {RolesService} from '../../roles/roles.service';
 
 @Component({
-  selector: 'app-user-dialog',
-  templateUrl: 'user-dialog-component.html',
-  styleUrls: ['user-dialog.component.sass']
+    selector: 'app-user-dialog',
+    templateUrl: 'user-dialog-component.html',
+    styleUrls: ['user-dialog.component.sass'],
+    standalone: false
 })
 
 export class UserDialogComponent implements OnInit {

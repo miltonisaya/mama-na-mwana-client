@@ -6,9 +6,10 @@ import {OrganisationUnitService} from "../../../organisation-units/organisation-
 import {ReportService} from "../../report.service";
 
 @Component({
-  selector: 'app-report-params-dialog',
-  templateUrl: 'report-params-dialog.html',
-  styleUrls: ['report-params-dialog.sass']
+    selector: 'app-report-params-dialog',
+    templateUrl: 'report-params-dialog.html',
+    styleUrls: ['report-params-dialog.sass'],
+    standalone: false
 })
 export class ReportParamsDialog implements OnInit {
   myControl = new UntypedFormControl('');

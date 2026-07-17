@@ -8,9 +8,10 @@ import {DataElementProgramMappingDialogComponent} from "./modals/data-element-pr
 import {userCan} from '../../helpers/user-can';
 
 @Component({
-  selector: 'app-programs',
-  templateUrl: './program.component.html',
-  styleUrls: ['./program.component.scss']
+    selector: 'app-programs',
+    templateUrl: './program.component.html',
+    styleUrls: ['./program.component.scss'],
+    standalone: false
 })
 export class ProgramComponent implements OnInit {
   // Exposed so the template can call userCan('AUTHORITY_NAME') directly.

@@ -4,9 +4,10 @@ import {NotifierService} from '../../notifications/notifier.service';
 import {ContactsService} from "../contacts.service";
 
 @Component({
-  selector: 'app-contact-dialog',
-  templateUrl: 'contact-dialog-component.html',
-  styleUrls: ['contact-dialog.component.sass']
+    selector: 'app-contact-dialog',
+    templateUrl: 'contact-dialog-component.html',
+    styleUrls: ['contact-dialog.component.sass'],
+    standalone: false
 })
 
 export class ContactDialogComponent implements OnInit {

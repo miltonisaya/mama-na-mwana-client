@@ -37,9 +37,10 @@ const MIN_SEARCH_LENGTH = 2;
 const SEARCH_DEBOUNCE_MS = 300;
 
 @Component({
-  selector: 'app-organisation-units',
-  templateUrl: './organisation-unit.component.html',
-  styleUrls: ['./organisation-unit.component.scss'],
+    selector: 'app-organisation-units',
+    templateUrl: './organisation-unit.component.html',
+    styleUrls: ['./organisation-unit.component.scss'],
+    standalone: false
 })
 export class OrganisationUnitComponent implements OnInit, OnDestroy {
   treeControl = new NestedTreeControl<OuNode>(node => node.children);

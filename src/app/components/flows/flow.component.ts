@@ -14,9 +14,10 @@ import {PossibleTrueValuesComponent} from './modals/possible-true-values-dialog/
 import {userCan} from '../../helpers/user-can';
 
 @Component({
-  selector: 'app-flows',
-  templateUrl: './flow.component.html',
-  styleUrls: ['./flow.component.scss']
+    selector: 'app-flows',
+    templateUrl: './flow.component.html',
+    styleUrls: ['./flow.component.scss'],
+    standalone: false
 })
 export class FlowComponent implements OnInit {
   // Exposed so the template can call userCan('AUTHORITY_NAME') directly.

@@ -7,9 +7,10 @@ import {NotifierService} from "../../../notifications/notifier.service";
 import {DataElementService} from "../../../data-elements/dataElement.service";
 
 @Component({
-  selector: 'app-flow-key-dialog',
-  templateUrl: 'flow-category-dialog-component.html',
-  styleUrls: ['flow-category-dialog.component.sass']
+    selector: 'app-flow-key-dialog',
+    templateUrl: 'flow-category-dialog-component.html',
+    styleUrls: ['flow-category-dialog.component.sass'],
+    standalone: false
 })
 
 export class FlowCategoryDialogComponent implements OnInit {

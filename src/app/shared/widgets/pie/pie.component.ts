@@ -3,9 +3,10 @@ import HC_exporting from 'highcharts/modules/exporting';
 import * as Highcharts from 'highcharts';
 
 @Component({
-  selector: 'app-widget-pie',
-  templateUrl: './pie.component.html',
-  styleUrls: ['./pie.component.scss']
+    selector: 'app-widget-pie',
+    templateUrl: './pie.component.html',
+    styleUrls: ['./pie.component.scss'],
+    standalone: false
 })
 export class PieComponent implements OnInit {
   chartOptions = {};

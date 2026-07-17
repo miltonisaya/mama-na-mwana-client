@@ -6,9 +6,10 @@ import {CategoryService} from "../../category.service";
 import {FlowService} from "../../flow.service";
 
 @Component({
-  selector: 'app-flow-key-dialog',
-  templateUrl: 'possible-true-values-component.html',
-  styleUrls: ['possible-true-values-dialog.component.sass']
+    selector: 'app-flow-key-dialog',
+    templateUrl: 'possible-true-values-component.html',
+    styleUrls: ['possible-true-values-dialog.component.sass'],
+    standalone: false
 })
 
 export class PossibleTrueValuesComponent implements OnInit {

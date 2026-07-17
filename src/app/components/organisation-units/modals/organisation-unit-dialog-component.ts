@@ -6,9 +6,10 @@ import {UntypedFormControl} from "@angular/forms";
 import {map, startWith} from "rxjs/operators";
 
 @Component({
-  selector: 'app-organisation-unit-dialog',
-  templateUrl: 'organisation-unit-dialog-component.html',
-  styleUrls: ['organisation-unit-dialog.component.sass']
+    selector: 'app-organisation-unit-dialog',
+    templateUrl: 'organisation-unit-dialog-component.html',
+    styleUrls: ['organisation-unit-dialog.component.sass'],
+    standalone: false
 })
 
 export class OrganisationUnitDialogComponent implements OnInit {

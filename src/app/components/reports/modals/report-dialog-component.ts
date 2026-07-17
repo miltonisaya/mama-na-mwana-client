@@ -4,9 +4,10 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {NotifierService} from '../../notifications/notifier.service';
 
 @Component({
-  selector: 'app-report-dialog',
-  templateUrl: 'report-dialog-component.html',
-  styleUrls: ['report-dialog.component.sass']
+    selector: 'app-report-dialog',
+    templateUrl: 'report-dialog-component.html',
+    styleUrls: ['report-dialog.component.sass'],
+    standalone: false
 })
 
 export class ReportDialogComponent implements OnInit {

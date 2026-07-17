@@ -9,9 +9,10 @@ import {RoleAuthorityMappingDialogComponent} from "./modals/role-authority-mappi
 import {userCan} from '../../helpers/user-can';
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './roles.component.html',
-  styleUrls: ['./roles.component.scss']
+    selector: 'app-users',
+    templateUrl: './roles.component.html',
+    styleUrls: ['./roles.component.scss'],
+    standalone: false
 })
 export class RolesComponent implements OnInit {
   // Exposed so the template can call userCan('AUTHORITY_NAME') directly.

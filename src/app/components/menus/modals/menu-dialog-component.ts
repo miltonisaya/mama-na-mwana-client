@@ -19,9 +19,10 @@ const NO_AUTHORITY_OPTION = {
 };
 
 @Component({
-  selector: 'app-menu-dialog',
-  templateUrl: 'menu-dialog-component.html',
-  styleUrls: ['menu-dialog.component.sass']
+    selector: 'app-menu-dialog',
+    templateUrl: 'menu-dialog-component.html',
+    styleUrls: ['menu-dialog.component.sass'],
+    standalone: false
 })
 
 export class MenuDialogComponent implements OnInit {

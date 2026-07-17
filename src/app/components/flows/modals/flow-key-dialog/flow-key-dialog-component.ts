@@ -8,9 +8,10 @@ import {map, startWith} from 'rxjs/operators';
 import {FlowService} from "../../flow.service";
 
 @Component({
-  selector: 'app-flow-key-dialog',
-  templateUrl: 'flow-key-dialog-component.html',
-  styleUrls: ['flow-key-dialog.component.sass']
+    selector: 'app-flow-key-dialog',
+    templateUrl: 'flow-key-dialog-component.html',
+    styleUrls: ['flow-key-dialog.component.sass'],
+    standalone: false
 })
 
 export class FlowKeyDialogComponent implements OnInit {

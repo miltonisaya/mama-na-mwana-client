@@ -9,9 +9,10 @@ interface ChatMessage {
 }
 
 @Component({
-  selector: 'app-ai-assistant',
-  templateUrl: './ai-assistant.component.html',
-  styleUrls: ['./ai-assistant.component.scss']
+    selector: 'app-ai-assistant',
+    templateUrl: './ai-assistant.component.html',
+    styleUrls: ['./ai-assistant.component.scss'],
+    standalone: false
 })
 export class AiAssistantComponent implements AfterViewChecked {
   @ViewChild('messagesEl') private messagesEl?: ElementRef<HTMLDivElement>;

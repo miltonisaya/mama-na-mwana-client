@@ -5,9 +5,10 @@ import {UsersService} from "../users/users.service";
 import {AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidatorFn, Validators} from "@angular/forms";
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './password-reset.component.html',
-  styleUrls: ['./password-reset.component.scss']
+    selector: 'app-users',
+    templateUrl: './password-reset.component.html',
+    styleUrls: ['./password-reset.component.scss'],
+    standalone: false
 })
 export class PasswordResetComponent implements OnInit {
   userId: string;

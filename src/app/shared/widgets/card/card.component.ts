@@ -3,9 +3,10 @@ import HC_exporting from 'highcharts/modules/exporting';
 import * as Highcharts from 'highcharts';
 
 @Component({
-  selector: 'app-widget-card',
-  templateUrl: './card.component.html',
-  styleUrls: ['./card.component.scss']
+    selector: 'app-widget-card',
+    templateUrl: './card.component.html',
+    styleUrls: ['./card.component.scss'],
+    standalone: false
 })
 export class CardComponent implements OnInit {
   @Input() label: string;
