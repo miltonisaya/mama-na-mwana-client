@@ -261,6 +261,23 @@
   text-overflow: ellipsis;
 }
 
+.user-role-badge {
+  align-self: flex-start;
+  margin: 2px 0;
+  padding: 1px 8px;
+  border-radius: 10px;
+  background: rgba(25, 118, 210, 0.1);
+  color: var(--primary-color, #1976d2);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  line-height: 1.5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
 .user-handle {
   font-size: 11.5px;
   color: #6b7280;
