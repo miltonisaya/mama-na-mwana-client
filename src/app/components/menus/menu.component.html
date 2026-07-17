@@ -40,8 +40,10 @@
     <ng-container matColumnDef="icon">
       <th *matHeaderCellDef mat-header-cell> Icon</th>
       <td *matCellDef="let menus" mat-cell class="icon-cell">
-        <mat-icon class="menu-icon-glyph">{{menus.icon}}</mat-icon>
-        <span class="menu-icon-name">{{menus.icon}}</span>
+        <span class="icon-cell-inner">
+          <mat-icon class="menu-icon-glyph">{{menus.icon}}</mat-icon>
+          <span class="menu-icon-name">{{menus.icon}}</span>
+        </span>
       </td>
     </ng-container>
 
