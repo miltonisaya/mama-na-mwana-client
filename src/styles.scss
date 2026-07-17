@@ -326,6 +326,11 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  // Without wrap, a title + action button forced onto one nowrap row have nowhere
+  // to shrink to on narrow screens — the button's own content (icon + label) ends
+  // up compressed instead. Letting the button drop to its own line fixes that.
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 // Button groups inside headers (replaces fxLayoutGap="8px")
