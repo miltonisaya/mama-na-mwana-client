@@ -1,8 +1,8 @@
 <app-header (toggleSideBarForMe)="sideBarToggler($event)"></app-header>
 
 <mat-drawer-container>
-  <mat-drawer [opened]="sidebarIsOpen" mode="side">
-    <app-sidebar></app-sidebar>
+  <mat-drawer [opened]="sidebarIsOpen" [mode]="sidebarMode">
+    <app-sidebar (linkActivated)="closeSidebarOnMobile()"></app-sidebar>
   </mat-drawer>
   <mat-drawer-content>
     <router-outlet></router-outlet>
