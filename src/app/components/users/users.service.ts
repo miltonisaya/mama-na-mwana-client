@@ -87,10 +87,6 @@ export class UsersService {
       );
   }
 
-  compareObjects(o1, o2) {
-    return o1 && o2 && o1.id === o2.id;
-  }
-
   resetPassword(data): Observable<any> {
     return this.http.put(this.API_ENDPOINT + "/change-password", data.value)
       .pipe(tap(_ => console.log(`changed password for user with id=${data.value.id}`)),
