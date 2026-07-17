@@ -19,10 +19,18 @@
     <div class="toolbar-row">
       <mat-form-field appearance="outline" class="flow-select-field">
         <mat-label>Select a flow</mat-label>
-        <select matNativeControl (change)="onFlowSelected($event)">
-          <option value="">— choose a flow —</option>
-          <option *ngFor="let flow of flows" [value]="flow.id">{{ flow.name }}</option>
-        </select>
+        <mat-icon matPrefix>search</mat-icon>
+        <input matInput type="text" autocomplete="off" placeholder="Search flows…"
+               [formControl]="flowControl" [matAutocomplete]="flowAuto">
+        <button *ngIf="flowControl.value" mat-icon-button matSuffix type="button"
+                aria-label="Clear selected flow" (click)="clearFlowSelection()">
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-autocomplete #flowAuto="matAutocomplete" [displayWith]="displayFlow"
+                           (optionSelected)="onFlowSelected($event)">
+          <mat-option *ngFor="let flow of filteredFlows | async" [value]="flow">{{ flow.name }}</mat-option>
+          <mat-option *ngIf="(filteredFlows | async)?.length === 0" disabled>No flows match</mat-option>
+        </mat-autocomplete>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="search-field">
