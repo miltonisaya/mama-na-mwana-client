@@ -62,6 +62,7 @@
     <div class="user-avatar" aria-hidden="true">{{ userInitials }}</div>
     <div class="user-meta">
       <span class="user-name">{{ user?.name | titlecase }}</span>
+      <span class="user-role-badge" *ngIf="roleNames">{{ roleNames | titlecase }}</span>
       <span class="user-handle">{{ user?.username }}</span>
     </div>
   </div>
