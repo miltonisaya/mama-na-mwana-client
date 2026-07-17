@@ -1,9 +1,9 @@
-<div class="mnm-dialog">
+<div class="mnm-dialog" style="min-width: 700px;">
   <div class="mnm-dialog-head">
     <mat-icon class="mnm-dialog-icon">person</mat-icon>
     <div>
       <h2 mat-dialog-title>{{UserService.form.controls['id'].value ? "Edit User" : "Create User"}}</h2>
-      <p class="mnm-dialog-subtitle">Manage user account details and role</p>
+      <p class="mnm-dialog-subtitle">Manage user account details and roles</p>
     </div>
   </div>
 
@@ -35,14 +35,125 @@
         <input matInput autocomplete="off" formControlName="username" required>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" class="mnm-field">
-        <mat-label>Role</mat-label>
-        <mat-icon matPrefix>admin_panel_settings</mat-icon>
-        <select matNativeControl formControlName="roles" multiple required
-                [compareWith]="UserService.compareObjects">
-          <option *ngFor="let role of roles" [ngValue]="role">{{role.name}}</option>
-        </select>
-      </mat-form-field>
+      <div class="mnm-transfer-label">
+        <mat-icon>admin_panel_settings</mat-icon>
+        Roles
+      </div>
+      <mat-progress-bar *ngIf="loading" mode="indeterminate" style="margin-bottom: 8px;"></mat-progress-bar>
+
+      <div class="mnm-transfer">
+        <!-- Available panel -->
+        <div class="mnm-panel">
+          <div class="mnm-panel-head">
+            <div class="mnm-panel-title">
+              <input type="checkbox" class="mnm-checkbox"
+                [checked]="isAllAvailableSelected()"
+                [indeterminate]="isSomeAvailableSelected()"
+                (change)="toggleAllAvailable()">
+              <mat-icon>admin_panel_settings</mat-icon>
+              Available
+            </div>
+            <span class="mnm-count">{{filteredAvailable.length}}</span>
+          </div>
+
+          <div class="mnm-search">
+            <mat-icon>search</mat-icon>
+            <input [(ngModel)]="availableSearch" [ngModelOptions]="{standalone: true}" placeholder="Search…" type="text">
+            <button *ngIf="availableSearch" mat-icon-button type="button" (click)="availableSearch = ''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+
+          <div class="mnm-list">
+            <div *ngIf="!filteredAvailable.length && !loading" class="mnm-empty">
+              <mat-icon>inventory_2</mat-icon>
+              <span>No roles available</span>
+            </div>
+            <div *ngFor="let item of filteredAvailable"
+              class="mnm-item"
+              [class.item-sel]="availableSelection.has(item.id)"
+              (click)="toggleAvailable(item.id)"
+            >
+              <input type="checkbox" class="mnm-checkbox"
+                [checked]="availableSelection.has(item.id)"
+                (click)="$event.stopPropagation()"
+                (change)="toggleAvailable(item.id)">
+              <div class="mnm-item-info">
+                <mat-icon class="item-icon">shield</mat-icon>
+                <span class="item-name">{{item.name}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mnm-panel-foot" *ngIf="availableSelection.size">
+            {{availableSelection.size}} selected
+          </div>
+        </div>
+
+        <!-- Transfer buttons -->
+        <div class="mnm-arrows">
+          <button mat-fab color="primary" type="button"
+            (click)="availableSelection.size && assign()"
+            [class.btn--loading]="!availableSelection.size"
+            matTooltip="Assign selected">
+            <mat-icon>arrow_forward</mat-icon>
+          </button>
+          <button mat-fab color="warn" type="button"
+            (click)="assignedSelection.size && unassign()"
+            [class.btn--loading]="!assignedSelection.size"
+            matTooltip="Remove selected">
+            <mat-icon>arrow_back</mat-icon>
+          </button>
+        </div>
+
+        <!-- Assigned panel -->
+        <div class="mnm-panel mnm-panel-assigned">
+          <div class="mnm-panel-head mnm-panel-head-assigned">
+            <div class="mnm-panel-title assigned">
+              <input type="checkbox" class="mnm-checkbox"
+                [checked]="isAllAssignedSelected()"
+                [indeterminate]="isSomeAssignedSelected()"
+                (change)="toggleAllAssigned()">
+              <mat-icon>check_circle</mat-icon>
+              Assigned
+            </div>
+            <span class="mnm-count assigned">{{filteredAssigned.length}}</span>
+          </div>
+
+          <div class="mnm-search">
+            <mat-icon>search</mat-icon>
+            <input [(ngModel)]="assignedSearch" [ngModelOptions]="{standalone: true}" placeholder="Search…" type="text">
+            <button *ngIf="assignedSearch" mat-icon-button type="button" (click)="assignedSearch = ''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+
+          <div class="mnm-list">
+            <div *ngIf="!filteredAssigned.length && !loading" class="mnm-empty">
+              <mat-icon>checklist</mat-icon>
+              <span>No roles assigned yet</span>
+            </div>
+            <div *ngFor="let item of filteredAssigned"
+              class="mnm-item assigned"
+              [class.item-sel]="assignedSelection.has(item.id)"
+              (click)="toggleAssigned(item.id)"
+            >
+              <input type="checkbox" class="mnm-checkbox"
+                [checked]="assignedSelection.has(item.id)"
+                (click)="$event.stopPropagation()"
+                (change)="toggleAssigned(item.id)">
+              <div class="mnm-item-info">
+                <mat-icon class="item-icon item-icon-assigned">check_circle</mat-icon>
+                <span class="item-name">{{item.name}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mnm-panel-foot assigned" *ngIf="assignedSelection.size">
+            {{assignedSelection.size}} selected
+          </div>
+        </div>
+      </div>
     </mat-dialog-content>
 
     <mat-dialog-actions class="mnm-dialog-foot">
