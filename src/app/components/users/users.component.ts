@@ -55,6 +55,9 @@ export class UsersComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
+    dialogConfig.width = '780px';
+    dialogConfig.maxWidth = '95vw';
+    dialogConfig.maxHeight = '90vh';
     if (data) {
       const userData = {
         id: data.id,
