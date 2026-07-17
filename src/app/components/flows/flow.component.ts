@@ -1,7 +1,11 @@
 import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {UntypedFormControl} from '@angular/forms';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatDialog} from '@angular/material/dialog';
+import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
 import {FlowService} from './flow.service';
 import {NotifierService} from '../notifications/notifier.service';
 import {FlowKeyDialogComponent} from './modals/flow-key-dialog/flow-key-dialog-component';
@@ -20,6 +24,9 @@ export class FlowComponent implements OnInit {
   flows: any[] = [];
   selectedFlowId: any = null;
   filterText = '';
+
+  flowControl = new UntypedFormControl();
+  filteredFlows!: Observable<any[]>;
 
   displayedColumns: string[] = ['sno', 'keyName', 'categories', 'dataElement', 'actions'];
   dataSource = new MatTableDataSource<any>([]);
@@ -43,6 +50,15 @@ export class FlowComponent implements OnInit {
     this.flowService.getFlows({pageSize: 1000}).subscribe({
       next: (response: any) => {
         this.flows = response?.data?.content ?? [];
+        // Set up the filter pipe only once flows have actually loaded — otherwise its
+        // initial startWith('') emission runs before this HTTP call resolves, sees an
+        // empty this.flows, and (since valueChanges only re-emits on new input) never
+        // shows anything until the user types, even though nothing was ever wrong.
+        this.filteredFlows = this.flowControl.valueChanges.pipe(
+          startWith(''),
+          map(value => (typeof value === 'string' ? value : value?.name)),
+          map(name => name ? this._filterFlows(name) : this.flows.slice())
+        );
       },
       error: (err) => {
         this.notifierService.showNotification(err?.error?.error ?? 'Failed to load flows', 'OK', 'error');
@@ -62,14 +78,29 @@ export class FlowComponent implements OnInit {
     });
   }
 
-  onFlowSelected(event: Event): void {
-    const value = (event.target as HTMLSelectElement).value;
-    this.selectedFlowId = value || null;
+  onFlowSelected(event: MatAutocompleteSelectedEvent): void {
+    const flow = event.option.value;
+    this.selectedFlowId = flow?.id ?? null;
     if (this.selectedFlowId) {
       this.loadKeys();
     } else {
       this.dataSource.data = [];
     }
+  }
+
+  clearFlowSelection(): void {
+    this.flowControl.setValue('');
+    this.selectedFlowId = null;
+    this.dataSource.data = [];
+  }
+
+  displayFlow(flow: any): string {
+    return flow?.name ?? '';
+  }
+
+  private _filterFlows(name: string): any[] {
+    const filterValue = name.toLowerCase();
+    return this.flows.filter(f => f.name.toLowerCase().includes(filterValue));
   }
 
   applyFilter(event: Event): void {
