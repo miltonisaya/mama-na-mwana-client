@@ -29,6 +29,14 @@ export class SidebarComponent implements OnInit {
       .join('');
   }
 
+  // Roles are stored ALL-CAPS (e.g. "SUPER ADMINISTRATOR"); joined for the rare
+  // case a user holds more than one.
+  get roleNames(): string | null {
+    const roles = this.user?.roles ?? [];
+    if (!roles.length) return null;
+    return roles.map(r => r.name).join(', ');
+  }
+
   signOut(): void {
     this.authService.signOut();
   }
