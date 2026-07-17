@@ -88,7 +88,9 @@
 // ─── Table container ─────────────────────────────────────────────────────────
 .table-container {
   border-radius: 10px;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
   border: 1px solid #e5e7eb;
 
   table { width: 100%; }
