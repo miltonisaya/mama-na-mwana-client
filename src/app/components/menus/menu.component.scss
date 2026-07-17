@@ -28,7 +28,7 @@
   .add-btn {
     border-radius: 24px !important;
     padding: 0 24px !important;
-    height: 44px;
+    min-height: 44px;
     font-weight: 600;
 
     mat-icon {
@@ -48,7 +48,9 @@
 // Table Container
 .table-container {
   border-radius: 12px;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
   border: 1px solid var(--border-color, #e5e7eb);
 }
 
@@ -86,10 +88,18 @@ table {
   }
 
   .icon-cell {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    white-space: nowrap;
+    // Deliberately NOT display:flex on the <td> itself — that overrides the
+    // browser's table-cell sizing model, so the cell stops stretching to match
+    // its row's height (it collapses to its content height instead) and its
+    // content ends up sitting near the top of the row rather than centered.
+    // The flex layout lives on an inner wrapper instead.
+
+    .icon-cell-inner {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
 
     .menu-icon-glyph {
       font-size: 20px;
