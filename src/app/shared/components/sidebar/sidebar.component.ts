@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AuthService } from '../../../components/auth/auth.service';
 import { UserProfile } from '../../../components/auth/auth.model';
 
@@ -8,6 +8,8 @@ import { UserProfile } from '../../../components/auth/auth.model';
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit {
+  @Output() linkActivated = new EventEmitter<void>();
+
   user: Partial<UserProfile> = {};
   menus: any[] = [];
 
