@@ -10,6 +10,12 @@ export interface MenuItem {
   icon?: string;
 }
 
+export interface UserRole {
+  id: string;
+  name: string;
+  description?: string;
+}
+
 export interface UserProfile {
   id: string;
   name: string;
@@ -22,6 +28,10 @@ export interface UserProfile {
   // that gates API access and menu visibility on the backend; used here to gate
   // UI elements (buttons, sections) instead of a coarse super-admin flag.
   authorities: string[];
+  // The role(s) assigned to this user (e.g. "SUPER ADMINISTRATOR", "FACILITATOR") —
+  // shown in the UI (sidebar, profile); distinct from `authorities`, which is the
+  // flattened permission set those roles grant.
+  roles?: UserRole[];
 }
 
 export interface AuthResponse {
