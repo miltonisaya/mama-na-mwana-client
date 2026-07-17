@@ -20,9 +20,11 @@
             placeholder="Enter your username"
             autocomplete="username"
             aria-required="true">
-          <mat-error *ngIf="form.controls.username.hasError('required')">
-            Username is required
-          </mat-error>
+          @if (form.controls.username.hasError('required')) {
+            <mat-error>
+              Username is required
+            </mat-error>
+          }
         </mat-form-field>
 
         <!-- Password -->
@@ -45,9 +47,11 @@
             tabindex="-1">
             <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
-          <mat-error *ngIf="form.controls.password.hasError('required')">
-            Password is required
-          </mat-error>
+          @if (form.controls.password.hasError('required')) {
+            <mat-error>
+              Password is required
+            </mat-error>
+          }
         </mat-form-field>
 
         <!-- Submit -->
@@ -57,7 +61,9 @@
           type="submit"
           class="submit-btn"
           [disabled]="isLoading">
-          <mat-icon *ngIf="isLoading" class="spin-icon">sync</mat-icon>
+          @if (isLoading) {
+            <mat-icon class="spin-icon">sync</mat-icon>
+          }
           {{ isLoading ? 'Signing in…' : 'Sign In' }}
         </button>
 

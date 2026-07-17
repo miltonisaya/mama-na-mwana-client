@@ -7,10 +7,12 @@
     <p class="page-subtitle">Create and manage navigation menu items</p>
   </div>
   <div>
-    <button *ngIf="userCan('MENU_CREATE')" (click)="openDialog()" mat-raised-button color="primary" class="add-btn">
-      <mat-icon>add</mat-icon>
-      Add New Menu
-    </button>
+    @if (userCan('MENU_CREATE')) {
+      <button (click)="openDialog()" mat-raised-button color="primary" class="add-btn">
+        <mat-icon>add</mat-icon>
+        Add New Menu
+      </button>
+    }
   </div>
 </div>
 
@@ -24,74 +26,90 @@
 
     <div class="table-container">
       <table [dataSource]="visibleRows" mat-table>
-    <!-- SNo Column -->
-    <ng-container matColumnDef="sno">
-      <th *matHeaderCellDef mat-header-cell> No</th>
-      <td *matCellDef="let menus; let i = index" mat-cell>{{pageNo * pageSize + i + 1}}</td>
-    </ng-container>
+        <!-- SNo Column -->
+        <ng-container matColumnDef="sno">
+          <th *matHeaderCellDef mat-header-cell> No</th>
+          <td *matCellDef="let menus; let i = index" mat-cell>{{pageNo * pageSize + i + 1}}</td>
+        </ng-container>
 
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <th *matHeaderCellDef mat-header-cell> Name</th>
-      <td *matCellDef="let menus" mat-cell> {{menus.name}} </td>
-    </ng-container>
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th *matHeaderCellDef mat-header-cell> Name</th>
+          <td *matCellDef="let menus" mat-cell> {{menus.name}} </td>
+        </ng-container>
 
-    <!-- Icon Column -->
-    <ng-container matColumnDef="icon">
-      <th *matHeaderCellDef mat-header-cell> Icon</th>
-      <td *matCellDef="let menus" mat-cell class="icon-cell">
-        <span class="icon-cell-inner">
-          <mat-icon class="menu-icon-glyph">{{menus.icon}}</mat-icon>
-          <span class="menu-icon-name">{{menus.icon}}</span>
-        </span>
-      </td>
-    </ng-container>
+        <!-- Icon Column -->
+        <ng-container matColumnDef="icon">
+          <th *matHeaderCellDef mat-header-cell> Icon</th>
+          <td *matCellDef="let menus" mat-cell class="icon-cell">
+            <span class="icon-cell-inner">
+              <mat-icon class="menu-icon-glyph">{{menus.icon}}</mat-icon>
+              <span class="menu-icon-name">{{menus.icon}}</span>
+            </span>
+          </td>
+        </ng-container>
 
-    <!-- Url Column -->
-    <ng-container matColumnDef="url">
-      <th *matHeaderCellDef mat-header-cell> URL</th>
-      <td *matCellDef="let menus" mat-cell>
-        <code *ngIf="menus.url; else emptyCell" class="url-value">{{menus.url}}</code>
-      </td>
-    </ng-container>
+        <!-- Url Column -->
+        <ng-container matColumnDef="url">
+          <th *matHeaderCellDef mat-header-cell> URL</th>
+          <td *matCellDef="let menus" mat-cell>
+            @if (menus.url) {
+              <code class="url-value">{{menus.url}}</code>
+            } @else {
+              <span class="empty-value">—</span>
+            }
+          </td>
+        </ng-container>
 
-    <!-- Parent Column -->
-    <ng-container matColumnDef="parent">
-      <th *matHeaderCellDef mat-header-cell> Parent</th>
-      <td *matCellDef="let menus" mat-cell>
-        <span *ngIf="menus.parentName; else emptyCell">{{menus.parentName}}</span>
-      </td>
-    </ng-container>
+        <!-- Parent Column -->
+        <ng-container matColumnDef="parent">
+          <th *matHeaderCellDef mat-header-cell> Parent</th>
+          <td *matCellDef="let menus" mat-cell>
+            @if (menus.parentName) {
+              <span>{{menus.parentName}}</span>
+            } @else {
+              <span class="empty-value">—</span>
+            }
+          </td>
+        </ng-container>
 
-    <!-- Authority Column -->
-    <ng-container matColumnDef="authority">
-      <th *matHeaderCellDef mat-header-cell> Required Authority</th>
-      <td *matCellDef="let menus" mat-cell>
-        <code *ngIf="menus.authorityName; else visibleToAll" class="authority-value">{{menus.authorityName}}</code>
-        <ng-template #visibleToAll><span class="visible-to-all">Everyone</span></ng-template>
-      </td>
-    </ng-container>
+        <!-- Authority Column -->
+        <ng-container matColumnDef="authority">
+          <th *matHeaderCellDef mat-header-cell> Required Authority</th>
+          <td *matCellDef="let menus" mat-cell>
+            @if (menus.authorityName) {
+              <code class="authority-value">{{menus.authorityName}}</code>
+            } @else {
+              <span class="visible-to-all">Everyone</span>
+            }
+            <ng-template #visibleToAll><span class="visible-to-all">Everyone</span></ng-template>
+          </td>
+        </ng-container>
 
-    <!-- Sort Order Column -->
-    <ng-container matColumnDef="sortOrder">
-      <th *matHeaderCellDef mat-header-cell> Sort Order</th>
-      <td *matCellDef="let menus" mat-cell> {{menus.sortOrder}} </td>
-    </ng-container>
+        <!-- Sort Order Column -->
+        <ng-container matColumnDef="sortOrder">
+          <th *matHeaderCellDef mat-header-cell> Sort Order</th>
+          <td *matCellDef="let menus" mat-cell> {{menus.sortOrder}} </td>
+        </ng-container>
 
-    <!-- Actions Column -->
-    <ng-container matColumnDef="actions">
-      <th *matHeaderCellDef mat-header-cell>Actions</th>
-      <td *matCellDef="let menus" mat-cell>
-        <button *ngIf="userCan('MENU_UPDATE')" mat-icon-button matTooltip="Edit" matTooltipPosition="left"
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th *matHeaderCellDef mat-header-cell>Actions</th>
+          <td *matCellDef="let menus" mat-cell>
+            @if (userCan('MENU_UPDATE')) {
+              <button mat-icon-button matTooltip="Edit" matTooltipPosition="left"
                 (click)="openDialog(menus)" aria-label="Edit menu">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button *ngIf="userCan('MENU_DELETE')" (click)="openDeleteDialog(menus.id)" color="warn" mat-icon-button matTooltip="Delete"
+                <mat-icon>edit</mat-icon>
+              </button>
+            }
+            @if (userCan('MENU_DELETE')) {
+              <button (click)="openDeleteDialog(menus.id)" color="warn" mat-icon-button matTooltip="Delete"
                 matTooltipPosition="right" aria-label="Delete menu">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </td>
-    </ng-container>
+                <mat-icon>delete</mat-icon>
+              </button>
+            }
+          </td>
+        </ng-container>
 
         <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
         <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
@@ -110,7 +128,9 @@
       <div class="pagination-size">
         <span class="pagination-label">Rows per page:</span>
         <select class="pagination-select" (change)="pageSizeChanged($event)">
-          <option *ngFor="let s of pageSizeOptions" [value]="s" [selected]="s === pageSize">{{ s }}</option>
+          @for (s of pageSizeOptions; track s) {
+            <option [value]="s" [selected]="s === pageSize">{{ s }}</option>
+          }
         </select>
       </div>
       <span class="pagination-range">
@@ -118,23 +138,23 @@
       </span>
       <div class="pagination-nav">
         <button type="button" class="pag-nav-btn" title="First page" aria-label="First page"
-                [class.pag-nav-btn--disabled]="pageNo === 0"
-                (click)="pageNo > 0 && firstPage()">
+          [class.pag-nav-btn--disabled]="pageNo === 0"
+          (click)="pageNo > 0 && firstPage()">
           <mat-icon aria-hidden="true">first_page</mat-icon>
         </button>
         <button type="button" class="pag-nav-btn" title="Previous page" aria-label="Previous page"
-                [class.pag-nav-btn--disabled]="pageNo === 0"
-                (click)="pageNo > 0 && prevPage()">
+          [class.pag-nav-btn--disabled]="pageNo === 0"
+          (click)="pageNo > 0 && prevPage()">
           <mat-icon aria-hidden="true">chevron_left</mat-icon>
         </button>
         <button type="button" class="pag-nav-btn" title="Next page" aria-label="Next page"
-                [class.pag-nav-btn--disabled]="pageRangeEnd() >= totalElements"
-                (click)="pageRangeEnd() < totalElements && nextPage()">
+          [class.pag-nav-btn--disabled]="pageRangeEnd() >= totalElements"
+          (click)="pageRangeEnd() < totalElements && nextPage()">
           <mat-icon aria-hidden="true">chevron_right</mat-icon>
         </button>
         <button type="button" class="pag-nav-btn" title="Last page" aria-label="Last page"
-                [class.pag-nav-btn--disabled]="pageRangeEnd() >= totalElements"
-                (click)="pageRangeEnd() < totalElements && lastPage()">
+          [class.pag-nav-btn--disabled]="pageRangeEnd() >= totalElements"
+          (click)="pageRangeEnd() < totalElements && lastPage()">
           <mat-icon aria-hidden="true">last_page</mat-icon>
         </button>
       </div>
@@ -143,7 +163,7 @@
 </mat-card>
 
 <!-- Shared placeholder for optional fields (no parent, no URL), so an empty cell always
-     reads as "intentionally none" rather than a loading glitch. -->
+reads as "intentionally none" rather than a loading glitch. -->
 <ng-template #emptyCell><span class="empty-value">—</span></ng-template>
 
 <!--delete dialog template-->

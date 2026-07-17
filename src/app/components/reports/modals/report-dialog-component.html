@@ -16,7 +16,7 @@
         <div class="rd-wrap">
           <mat-icon class="rd-icon">label</mat-icon>
           <input class="rd-input" formControlName="name" type="text" autocomplete="off"
-                 placeholder="Report name" required>
+            placeholder="Report name" required>
         </div>
       </div>
 
@@ -26,7 +26,7 @@
         <div class="rd-wrap">
           <mat-icon class="rd-icon">link</mat-icon>
           <input class="rd-input" formControlName="url" type="text" autocomplete="off"
-                 placeholder="Report URL" required>
+            placeholder="Report URL" required>
         </div>
       </div>
 
@@ -37,7 +37,9 @@
           <mat-icon class="rd-icon">account_tree</mat-icon>
           <select class="rd-input rd-select" formControlName="parentId">
             <option value="">— None —</option>
-            <option *ngFor="let report of reports" [value]="report.id">{{report.name}}</option>
+            @for (report of reports; track report) {
+              <option [value]="report.id">{{report.name}}</option>
+            }
           </select>
         </div>
       </div>

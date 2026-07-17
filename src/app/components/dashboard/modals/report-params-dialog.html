@@ -12,22 +12,26 @@
   <mat-dialog-content class="mnm-dialog-body">
 
     <!-- Council filter (regional reports only) -->
-    <div *ngIf="data?.isNational === false">
-      <p class="params-section-label">
-        <mat-icon>location_on</mat-icon>
-        Location Filter
-      </p>
-      <div class="pf-group">
-        <label class="pf-label">Council</label>
-        <div class="pf-wrap">
-          <mat-icon class="pf-icon">location_city</mat-icon>
-          <select class="pf-input pf-select" [formControl]="myControl">
-            <option value="">— All councils —</option>
-            <option *ngFor="let council of councils" [value]="council.code">{{ council.name }}</option>
-          </select>
+    @if (data?.isNational === false) {
+      <div>
+        <p class="params-section-label">
+          <mat-icon>location_on</mat-icon>
+          Location Filter
+        </p>
+        <div class="pf-group">
+          <label class="pf-label">Council</label>
+          <div class="pf-wrap">
+            <mat-icon class="pf-icon">location_city</mat-icon>
+            <select class="pf-input pf-select" [formControl]="myControl">
+              <option value="">— All councils —</option>
+              @for (council of councils; track council) {
+                <option [value]="council.code">{{ council.name }}</option>
+              }
+            </select>
+          </div>
         </div>
       </div>
-    </div>
+    }
 
     <!-- Date range -->
     <p class="params-section-label" style="margin-top: 16px;">
@@ -41,7 +45,9 @@
           <mat-icon class="pf-icon">event</mat-icon>
           <input type="date" [formControl]="startDate" class="pf-input">
         </div>
-        <span class="pf-error" *ngIf="startDate.touched && startDate.hasError('required')">Required</span>
+        @if (startDate.touched && startDate.hasError('required')) {
+          <span class="pf-error">Required</span>
+        }
       </div>
 
       <div class="date-range-arrow">
@@ -54,7 +60,9 @@
           <mat-icon class="pf-icon">event</mat-icon>
           <input type="date" [formControl]="endDate" class="pf-input">
         </div>
-        <span class="pf-error" *ngIf="endDate.touched && endDate.hasError('required')">Required</span>
+        @if (endDate.touched && endDate.hasError('required')) {
+          <span class="pf-error">Required</span>
+        }
       </div>
     </div>
 

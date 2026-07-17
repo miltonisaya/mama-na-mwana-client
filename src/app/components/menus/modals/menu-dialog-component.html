@@ -27,17 +27,23 @@
             placeholder="Search icons…"
             [matAutocomplete]="iconAuto">
           <mat-autocomplete #iconAuto="matAutocomplete" class="icon-autocomplete-panel">
-            <mat-option *ngFor="let icon of filteredIcons | async" [value]="icon">
-              <mat-icon class="icon-option-glyph">{{icon}}</mat-icon>
-              <span>{{icon}}</span>
-            </mat-option>
+            @for (icon of filteredIcons | async; track icon) {
+              <mat-option [value]="icon">
+                <mat-icon class="icon-option-glyph">{{icon}}</mat-icon>
+                <span>{{icon}}</span>
+              </mat-option>
+            }
           </mat-autocomplete>
-          <mat-error *ngIf="MenuService.form.get('icon').hasError('required')">
-            Icon is required
-          </mat-error>
-          <mat-error *ngIf="MenuService.form.get('icon').hasError('invalidIcon')">
-            Not a supported Material icon
-          </mat-error>
+          @if (MenuService.form.get('icon').hasError('required')) {
+            <mat-error>
+              Icon is required
+            </mat-error>
+          }
+          @if (MenuService.form.get('icon').hasError('invalidIcon')) {
+            <mat-error>
+              Not a supported Material icon
+            </mat-error>
+          }
         </mat-form-field>
       </div>
 
@@ -61,7 +67,9 @@
           <mat-icon matPrefix>account_tree</mat-icon>
           <select matNativeControl formControlName="parentId">
             <option value="">— None —</option>
-            <option *ngFor="let menu of parentMenus" [value]="menu.id">{{menu.name}}</option>
+            @for (menu of parentMenus; track menu) {
+              <option [value]="menu.id">{{menu.name}}</option>
+            }
           </select>
         </mat-form-field>
 
@@ -75,10 +83,14 @@
             [formControl]="authorityControl"
             [matAutocomplete]="authorityAuto">
           <mat-autocomplete #authorityAuto="matAutocomplete" [displayWith]="displayAuthority" class="authority-autocomplete-panel">
-            <mat-option *ngFor="let authority of filteredAuthorities | async" [value]="authority">
-              <span class="authority-option-description">{{ authority.description || authority.name }}</span>
-              <span class="authority-option-name" *ngIf="authority.id !== null">{{ authority.name }}</span>
-            </mat-option>
+            @for (authority of filteredAuthorities | async; track authority) {
+              <mat-option [value]="authority">
+                <span class="authority-option-description">{{ authority.description || authority.name }}</span>
+                @if (authority.id !== null) {
+                  <span class="authority-option-name">{{ authority.name }}</span>
+                }
+              </mat-option>
+            }
           </mat-autocomplete>
           <mat-hint>Who can see this menu item. Leave blank to show it to everyone.</mat-hint>
         </mat-form-field>

@@ -14,9 +14,11 @@
         <mat-icon matPrefix>search</mat-icon>
         <input matInput type="text" [formControl]="dataElement" [matAutocomplete]="yes">
         <mat-autocomplete #yes="matAutocomplete" [displayWith]="displayFn">
-          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-            {{ "(" + option.code + ") - " + option.name }}
-          </mat-option>
+          @for (option of filteredOptions | async; track option) {
+            <mat-option [value]="option">
+              {{ "(" + option.code + ") - " + option.name }}
+            </mat-option>
+          }
         </mat-autocomplete>
       </mat-form-field>
     </mat-dialog-content>

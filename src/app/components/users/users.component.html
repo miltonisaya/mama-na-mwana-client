@@ -7,10 +7,12 @@
     <p class="page-subtitle">Create and manage system user accounts</p>
   </div>
   <div>
-    <button *ngIf="userCan('USER_SAVE_USER')" (click)="openDialog()" mat-raised-button color="primary" class="add-btn">
-      <mat-icon>add</mat-icon>
-      Add New User
-    </button>
+    @if (userCan('USER_SAVE_USER')) {
+      <button (click)="openDialog()" mat-raised-button color="primary" class="add-btn">
+        <mat-icon>add</mat-icon>
+        Add New User
+      </button>
+    }
   </div>
 </div>
 
@@ -22,79 +24,80 @@
       <input #input (keyup)="applyFilter($event)" autocomplete="off" matInput placeholder="Type to filter...">
     </mat-form-field>
 
-    <div *ngIf="dataSource" class="table-container">
-      <table [dataSource]="dataSource" mat-table>
-    <!-- SNo Column -->
-    <ng-container matColumnDef="sno">
-      <th *matHeaderCellDef mat-header-cell> No</th>
-      <td *matCellDef="let users; let i = index" mat-cell>{{i + 1}}</td>
-    </ng-container>
-
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <th *matHeaderCellDef mat-header-cell> Name</th>
-      <td *matCellDef="let users" mat-cell> {{users.name}} </td>
-    </ng-container>
-
-    <!-- Username Column -->
-    <ng-container matColumnDef="username">
-      <th *matHeaderCellDef mat-header-cell>Username</th>
-      <td *matCellDef="let users" mat-cell> {{users.username}} </td>
-    </ng-container>
-
-    <!-- Email Column -->
-    <ng-container matColumnDef="email">
-      <th *matHeaderCellDef mat-header-cell>Email</th>
-      <td *matCellDef="let users" mat-cell> {{users.email}} </td>
-    </ng-container>
-
-    <!-- Email Column -->
-    <ng-container matColumnDef="roles">
-      <th *matHeaderCellDef mat-header-cell>Authority</th>
-      <td *matCellDef="let users" mat-cell>
-        <div>
-          <ng-container *ngFor="let item of users?.roles">
-            <div>
-              <span>{{item.name}}</span>
-            </div>
+    @if (dataSource) {
+      <div class="table-container">
+        <table [dataSource]="dataSource" mat-table>
+          <!-- SNo Column -->
+          <ng-container matColumnDef="sno">
+            <th *matHeaderCellDef mat-header-cell> No</th>
+            <td *matCellDef="let users; let i = index" mat-cell>{{i + 1}}</td>
           </ng-container>
-        </div>
-      </td>
-    </ng-container>
-
-    <!-- Actions Column -->
-    <ng-container matColumnDef="actions">
-      <th *matHeaderCellDef mat-header-cell>Actions</th>
-      <td *matCellDef="let users" mat-cell>
-        <button *ngIf="userCan('USER_UPDATE')" mat-icon-button matTooltip="Edit" matTooltipPosition="left"
-                (click)="openDialog(users)" aria-label="Edit user">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button *ngIf="userCan('USER_DELETE')" (click)="openDeleteDialog(users.id)" color="warn" mat-icon-button matTooltip="Delete"
-                matTooltipPosition="right" aria-label="Delete user">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </td>
-    </ng-container>
-
-        <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
-        <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
-
-        <!-- Row shown when there is no matching data. -->
-        <tr *matNoDataRow class="mat-row">
-          <td class="mat-cell no-data" colspan="6">
-            <mat-icon>search_off</mat-icon>
-            No data matching the filter "{{input.value}}"
-          </td>
-        </tr>
-      </table>
-    </div>
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <th *matHeaderCellDef mat-header-cell> Name</th>
+            <td *matCellDef="let users" mat-cell> {{users.name}} </td>
+          </ng-container>
+          <!-- Username Column -->
+          <ng-container matColumnDef="username">
+            <th *matHeaderCellDef mat-header-cell>Username</th>
+            <td *matCellDef="let users" mat-cell> {{users.username}} </td>
+          </ng-container>
+          <!-- Email Column -->
+          <ng-container matColumnDef="email">
+            <th *matHeaderCellDef mat-header-cell>Email</th>
+            <td *matCellDef="let users" mat-cell> {{users.email}} </td>
+          </ng-container>
+          <!-- Email Column -->
+          <ng-container matColumnDef="roles">
+            <th *matHeaderCellDef mat-header-cell>Authority</th>
+            <td *matCellDef="let users" mat-cell>
+              <div>
+                @for (item of users?.roles; track item) {
+                  <div>
+                    <span>{{item.name}}</span>
+                  </div>
+                }
+              </div>
+            </td>
+          </ng-container>
+          <!-- Actions Column -->
+          <ng-container matColumnDef="actions">
+            <th *matHeaderCellDef mat-header-cell>Actions</th>
+            <td *matCellDef="let users" mat-cell>
+              @if (userCan('USER_UPDATE')) {
+                <button mat-icon-button matTooltip="Edit" matTooltipPosition="left"
+                  (click)="openDialog(users)" aria-label="Edit user">
+                  <mat-icon>edit</mat-icon>
+                </button>
+              }
+              @if (userCan('USER_DELETE')) {
+                <button (click)="openDeleteDialog(users.id)" color="warn" mat-icon-button matTooltip="Delete"
+                  matTooltipPosition="right" aria-label="Delete user">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              }
+            </td>
+          </ng-container>
+          <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+          <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+          <!-- Row shown when there is no matching data. -->
+          <tr *matNoDataRow class="mat-row">
+            <td class="mat-cell no-data" colspan="6">
+              <mat-icon>search_off</mat-icon>
+              No data matching the filter "{{input.value}}"
+            </td>
+          </tr>
+        </table>
+      </div>
+    }
 
     <div class="pagination-bar">
       <div class="pagination-size">
         <span class="pagination-label">Rows per page:</span>
         <select class="pagination-select" (change)="pageSizeChanged($event)">
-          <option *ngFor="let s of pageSizeOptions" [value]="s" [selected]="s === pageSize">{{ s }}</option>
+          @for (s of pageSizeOptions; track s) {
+            <option [value]="s" [selected]="s === pageSize">{{ s }}</option>
+          }
         </select>
       </div>
       <span class="pagination-range">
@@ -102,23 +105,23 @@
       </span>
       <div class="pagination-nav">
         <button type="button" class="pag-nav-btn" title="First page" aria-label="First page"
-                [class.pag-nav-btn--disabled]="pageNo === 0"
-                (click)="pageNo > 0 && firstPage()">
+          [class.pag-nav-btn--disabled]="pageNo === 0"
+          (click)="pageNo > 0 && firstPage()">
           <mat-icon aria-hidden="true">first_page</mat-icon>
         </button>
         <button type="button" class="pag-nav-btn" title="Previous page" aria-label="Previous page"
-                [class.pag-nav-btn--disabled]="pageNo === 0"
-                (click)="pageNo > 0 && prevPage()">
+          [class.pag-nav-btn--disabled]="pageNo === 0"
+          (click)="pageNo > 0 && prevPage()">
           <mat-icon aria-hidden="true">chevron_left</mat-icon>
         </button>
         <button type="button" class="pag-nav-btn" title="Next page" aria-label="Next page"
-                [class.pag-nav-btn--disabled]="pageRangeEnd() >= totalElements"
-                (click)="pageRangeEnd() < totalElements && nextPage()">
+          [class.pag-nav-btn--disabled]="pageRangeEnd() >= totalElements"
+          (click)="pageRangeEnd() < totalElements && nextPage()">
           <mat-icon aria-hidden="true">chevron_right</mat-icon>
         </button>
         <button type="button" class="pag-nav-btn" title="Last page" aria-label="Last page"
-                [class.pag-nav-btn--disabled]="pageRangeEnd() >= totalElements"
-                (click)="pageRangeEnd() < totalElements && lastPage()">
+          [class.pag-nav-btn--disabled]="pageRangeEnd() >= totalElements"
+          (click)="pageRangeEnd() < totalElements && lastPage()">
           <mat-icon aria-hidden="true">last_page</mat-icon>
         </button>
       </div>

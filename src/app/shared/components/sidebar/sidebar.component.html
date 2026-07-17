@@ -1,55 +1,56 @@
 <!-- Navigation (scrollable, takes remaining height) -->
 <nav class="sidebar-nav">
   <mat-nav-list>
-    <ng-container *ngFor="let item of menus">
-
+    @for (item of menus; track item) {
       <!-- Group with children → collapsible accordion -->
-      <mat-accordion *ngIf="item.children?.length > 0" class="sidebar-group">
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              <span class="sidebar-item sidebar-item--parent">
-                <mat-icon class="sidebar-item__icon">{{ item.icon }}</mat-icon>
-                <span class="sidebar-item__label">{{ item.name }}</span>
-              </span>
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-
-          <ng-container *ngFor="let child of item.children">
-            <mat-list-item
-              class="sidebar-child-link"
-              [routerLink]="'/' + child.url"
-              routerLinkActive="sidebar-link--active"
-              (click)="linkActivated.emit()">
-              <span class="sidebar-item sidebar-item--child">
-                <mat-icon class="sidebar-item__icon">{{ child.icon }}</mat-icon>
-                <span class="sidebar-item__label">{{ child.name }}</span>
-              </span>
-            </mat-list-item>
-          </ng-container>
-        </mat-expansion-panel>
-      </mat-accordion>
-
+      @if (item.children?.length > 0) {
+        <mat-accordion class="sidebar-group">
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <span class="sidebar-item sidebar-item--parent">
+                  <mat-icon class="sidebar-item__icon">{{ item.icon }}</mat-icon>
+                  <span class="sidebar-item__label">{{ item.name }}</span>
+                </span>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            @for (child of item.children; track child) {
+              <mat-list-item
+                class="sidebar-child-link"
+                [routerLink]="'/' + child.url"
+                routerLinkActive="sidebar-link--active"
+                (click)="linkActivated.emit()">
+                <span class="sidebar-item sidebar-item--child">
+                  <mat-icon class="sidebar-item__icon">{{ child.icon }}</mat-icon>
+                  <span class="sidebar-item__label">{{ child.name }}</span>
+                </span>
+              </mat-list-item>
+            }
+          </mat-expansion-panel>
+        </mat-accordion>
+      }
       <!-- Top-level item with no children -->
-      <mat-list-item
-        *ngIf="!item.children?.length"
-        class="sidebar-parent-link"
-        [routerLink]="'/' + item.url"
-        routerLinkActive="sidebar-link--active"
-        (click)="linkActivated.emit()">
-        <span class="sidebar-item sidebar-item--parent">
-          <mat-icon class="sidebar-item__icon">{{ item.icon }}</mat-icon>
-          <span class="sidebar-item__label">{{ item.name }}</span>
-        </span>
-      </mat-list-item>
+      @if (!item.children?.length) {
+        <mat-list-item
+          class="sidebar-parent-link"
+          [routerLink]="'/' + item.url"
+          routerLinkActive="sidebar-link--active"
+          (click)="linkActivated.emit()">
+          <span class="sidebar-item sidebar-item--parent">
+            <mat-icon class="sidebar-item__icon">{{ item.icon }}</mat-icon>
+            <span class="sidebar-item__label">{{ item.name }}</span>
+          </span>
+        </mat-list-item>
+      }
+    }
 
-    </ng-container>
-
-    <div *ngIf="!menus?.length" class="sidebar-empty">
-      <mat-icon>menu_open</mat-icon>
-      <p>No menu items are available for your account yet.</p>
-      <p class="sidebar-empty-hint">Contact an administrator if you believe this is incorrect.</p>
-    </div>
+    @if (!menus?.length) {
+      <div class="sidebar-empty">
+        <mat-icon>menu_open</mat-icon>
+        <p>No menu items are available for your account yet.</p>
+        <p class="sidebar-empty-hint">Contact an administrator if you believe this is incorrect.</p>
+      </div>
+    }
   </mat-nav-list>
 </nav>
 
@@ -62,7 +63,9 @@
     <div class="user-avatar" aria-hidden="true">{{ userInitials }}</div>
     <div class="user-meta">
       <span class="user-name">{{ user?.name | titlecase }}</span>
-      <span class="user-role-badge" *ngIf="roleNames">{{ roleNames | titlecase }}</span>
+      @if (roleNames) {
+        <span class="user-role-badge">{{ roleNames | titlecase }}</span>
+      }
       <span class="user-handle">{{ user?.username }}</span>
     </div>
   </div>
@@ -70,15 +73,15 @@
   <!-- Actions -->
   <div class="footer-actions">
     <a class="footer-action"
-       routerLink="/profile"
-       routerLinkActive="footer-action--active"
-       (click)="linkActivated.emit()">
+      routerLink="/profile"
+      routerLinkActive="footer-action--active"
+      (click)="linkActivated.emit()">
       <mat-icon>manage_accounts</mat-icon>
       <span>My Profile</span>
     </a>
     <button class="footer-action footer-action--signout"
-            type="button"
-            (click)="signOut()">
+      type="button"
+      (click)="signOut()">
       <mat-icon>logout</mat-icon>
       <span>Sign Out</span>
     </button>

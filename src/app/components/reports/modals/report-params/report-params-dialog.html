@@ -12,16 +12,20 @@
   <mat-dialog-content class="mnm-dialog-body">
 
     <!-- Loading -->
-    <div *ngIf="isLoading" class="params-loading">
-      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-      <p class="params-loading-label">Loading report parameters…</p>
-    </div>
+    @if (isLoading) {
+      <div class="params-loading">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        <p class="params-loading-label">Loading report parameters…</p>
+      </div>
+    }
 
     <!-- No params -->
-    <div *ngIf="!isLoading && params.length === 0" class="params-empty">
-      <mat-icon>check_circle_outline</mat-icon>
-      <p>No parameters required. Click <strong>Generate</strong> to download.</p>
-    </div>
+    @if (!isLoading && params.length === 0) {
+      <div class="params-empty">
+        <mat-icon>check_circle_outline</mat-icon>
+        <p>No parameters required. Click <strong>Generate</strong> to download.</p>
+      </div>
+    }
 
     <!-- Date range -->
     <div [hidden]="isLoading || !hasDateParams">
@@ -36,7 +40,9 @@
             <mat-icon class="pf-icon">event</mat-icon>
             <input type="date" [formControl]="startDate" class="pf-input">
           </div>
-          <span class="pf-error" *ngIf="startDate.touched && startDate.hasError('required')">Start date is required</span>
+          @if (startDate.touched && startDate.hasError('required')) {
+            <span class="pf-error">Start date is required</span>
+          }
         </div>
 
         <div class="date-range-arrow">
@@ -49,7 +55,9 @@
             <mat-icon class="pf-icon">event</mat-icon>
             <input type="date" [formControl]="endDate" class="pf-input">
           </div>
-          <span class="pf-error" *ngIf="endDate.touched && endDate.hasError('required')">End date is required</span>
+          @if (endDate.touched && endDate.hasError('required')) {
+            <span class="pf-error">End date is required</span>
+          }
         </div>
       </div>
     </div>
@@ -66,7 +74,9 @@
           <mat-icon class="pf-icon">location_city</mat-icon>
           <select class="pf-input pf-select" [formControl]="myControl">
             <option value="">— All councils —</option>
-            <option *ngFor="let council of councils" [value]="council.code">{{ council.name }}</option>
+            @for (council of councils; track council) {
+              <option [value]="council.code">{{ council.name }}</option>
+            }
           </select>
         </div>
       </div>
@@ -77,8 +87,8 @@
   <mat-dialog-actions class="mnm-dialog-foot">
     <button mat-button mat-dialog-close type="button">Cancel</button>
     <button mat-raised-button color="primary" type="button"
-            [disabled]="isLoading"
-            (click)="generateReport()">
+      [disabled]="isLoading"
+      (click)="generateReport()">
       <mat-icon>download</mat-icon>
       Generate Report
     </button>

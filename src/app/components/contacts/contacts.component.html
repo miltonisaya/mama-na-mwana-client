@@ -7,11 +7,13 @@
     <p class="page-subtitle">View and manage RapidPro contacts</p>
   </div>
   <div>
-    <button *ngIf="userCan('CONTACT_SYNC')" (click)="!syncing && syncContacts()" mat-raised-button color="primary" class="sync-btn"
-            [class.btn--loading]="syncing">
-      <mat-icon>sync</mat-icon>
-      {{ syncing ? 'Syncing...' : 'Sync Contacts' }}
-    </button>
+    @if (userCan('CONTACT_SYNC')) {
+      <button (click)="!syncing && syncContacts()" mat-raised-button color="primary" class="sync-btn"
+        [class.btn--loading]="syncing">
+        <mat-icon>sync</mat-icon>
+        {{ syncing ? 'Syncing...' : 'Sync Contacts' }}
+      </button>
+    }
   </div>
 </div>
 
@@ -23,73 +25,71 @@
       <input #input (keyup)="applyFilter($event)" autocomplete="off" matInput placeholder="Type to filter...">
     </mat-form-field>
 
-    <div *ngIf="dataSource" class="table-container">
-      <table [dataSource]="dataSource" mat-table>
-        <!-- SNo Column -->
-        <ng-container matColumnDef="sno">
-          <th *matHeaderCellDef mat-header-cell>No</th>
-          <td *matCellDef="let contacts; let i = index" mat-cell>{{i + 1}}</td>
-        </ng-container>
-
-        <!-- Name Column -->
-        <ng-container matColumnDef="name">
-          <th *matHeaderCellDef mat-header-cell>Name</th>
-          <td *matCellDef="let contacts" mat-cell>{{contacts.name}}</td>
-        </ng-container>
-
-        <!-- Facility Column -->
-        <ng-container matColumnDef="facilityCode">
-          <th *matHeaderCellDef mat-header-cell>Facility Code</th>
-          <td *matCellDef="let contacts" mat-cell>{{contacts.facilityCode}}</td>
-        </ng-container>
-
-        <!-- URN Column -->
-        <ng-container matColumnDef="urn">
-          <th *matHeaderCellDef mat-header-cell>URN</th>
-          <td *matCellDef="let contacts" mat-cell>{{contacts.urn}}</td>
-        </ng-container>
-
-        <!-- Sex Column -->
-        <ng-container matColumnDef="sex">
-          <th *matHeaderCellDef mat-header-cell>Sex</th>
-          <td *matCellDef="let contacts" mat-cell>{{contacts.sex}}</td>
-        </ng-container>
-
-        <!-- Age Column -->
-        <ng-container matColumnDef="age">
-          <th *matHeaderCellDef mat-header-cell>Age</th>
-          <td *matCellDef="let contacts" mat-cell>{{contacts.age}}</td>
-        </ng-container>
-
-        <!-- Actions Column -->
-        <ng-container matColumnDef="actions">
-          <th *matHeaderCellDef mat-header-cell>Actions</th>
-          <td *matCellDef="let contacts" mat-cell>
-            <button *ngIf="userCan('CONTACT_UPDATE')" mat-icon-button matTooltip="Edit" matTooltipPosition="left"
-                    (click)="openDialog(contacts)" aria-label="Edit contact">
-              <mat-icon>edit</mat-icon>
-            </button>
-          </td>
-        </ng-container>
-
-        <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
-        <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
-
-        <!-- Row shown when there is no matching data. -->
-        <tr *matNoDataRow class="mat-row">
-          <td class="mat-cell no-data" colspan="7">
-            <mat-icon>search_off</mat-icon>
-            No data matching the filter "{{input.value}}"
-          </td>
-        </tr>
-      </table>
-    </div>
+    @if (dataSource) {
+      <div class="table-container">
+        <table [dataSource]="dataSource" mat-table>
+          <!-- SNo Column -->
+          <ng-container matColumnDef="sno">
+            <th *matHeaderCellDef mat-header-cell>No</th>
+            <td *matCellDef="let contacts; let i = index" mat-cell>{{i + 1}}</td>
+          </ng-container>
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <th *matHeaderCellDef mat-header-cell>Name</th>
+            <td *matCellDef="let contacts" mat-cell>{{contacts.name}}</td>
+          </ng-container>
+          <!-- Facility Column -->
+          <ng-container matColumnDef="facilityCode">
+            <th *matHeaderCellDef mat-header-cell>Facility Code</th>
+            <td *matCellDef="let contacts" mat-cell>{{contacts.facilityCode}}</td>
+          </ng-container>
+          <!-- URN Column -->
+          <ng-container matColumnDef="urn">
+            <th *matHeaderCellDef mat-header-cell>URN</th>
+            <td *matCellDef="let contacts" mat-cell>{{contacts.urn}}</td>
+          </ng-container>
+          <!-- Sex Column -->
+          <ng-container matColumnDef="sex">
+            <th *matHeaderCellDef mat-header-cell>Sex</th>
+            <td *matCellDef="let contacts" mat-cell>{{contacts.sex}}</td>
+          </ng-container>
+          <!-- Age Column -->
+          <ng-container matColumnDef="age">
+            <th *matHeaderCellDef mat-header-cell>Age</th>
+            <td *matCellDef="let contacts" mat-cell>{{contacts.age}}</td>
+          </ng-container>
+          <!-- Actions Column -->
+          <ng-container matColumnDef="actions">
+            <th *matHeaderCellDef mat-header-cell>Actions</th>
+            <td *matCellDef="let contacts" mat-cell>
+              @if (userCan('CONTACT_UPDATE')) {
+                <button mat-icon-button matTooltip="Edit" matTooltipPosition="left"
+                  (click)="openDialog(contacts)" aria-label="Edit contact">
+                  <mat-icon>edit</mat-icon>
+                </button>
+              }
+            </td>
+          </ng-container>
+          <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+          <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+          <!-- Row shown when there is no matching data. -->
+          <tr *matNoDataRow class="mat-row">
+            <td class="mat-cell no-data" colspan="7">
+              <mat-icon>search_off</mat-icon>
+              No data matching the filter "{{input.value}}"
+            </td>
+          </tr>
+        </table>
+      </div>
+    }
 
     <div class="pagination-bar">
       <div class="pagination-size">
         <span class="pagination-label">Rows per page:</span>
         <select class="pagination-select" (change)="pageSizeChanged($event)">
-          <option *ngFor="let s of pageSizeOptions" [value]="s" [selected]="s === pageSize">{{ s }}</option>
+          @for (s of pageSizeOptions; track s) {
+            <option [value]="s" [selected]="s === pageSize">{{ s }}</option>
+          }
         </select>
       </div>
       <span class="pagination-range">
@@ -97,23 +97,23 @@
       </span>
       <div class="pagination-nav">
         <button type="button" class="pag-nav-btn" title="First page" aria-label="First page"
-                [class.pag-nav-btn--disabled]="pageNo === 0"
-                (click)="pageNo > 0 && firstPage()">
+          [class.pag-nav-btn--disabled]="pageNo === 0"
+          (click)="pageNo > 0 && firstPage()">
           <mat-icon aria-hidden="true">first_page</mat-icon>
         </button>
         <button type="button" class="pag-nav-btn" title="Previous page" aria-label="Previous page"
-                [class.pag-nav-btn--disabled]="pageNo === 0"
-                (click)="pageNo > 0 && prevPage()">
+          [class.pag-nav-btn--disabled]="pageNo === 0"
+          (click)="pageNo > 0 && prevPage()">
           <mat-icon aria-hidden="true">chevron_left</mat-icon>
         </button>
         <button type="button" class="pag-nav-btn" title="Next page" aria-label="Next page"
-                [class.pag-nav-btn--disabled]="pageRangeEnd() >= totalElements"
-                (click)="pageRangeEnd() < totalElements && nextPage()">
+          [class.pag-nav-btn--disabled]="pageRangeEnd() >= totalElements"
+          (click)="pageRangeEnd() < totalElements && nextPage()">
           <mat-icon aria-hidden="true">chevron_right</mat-icon>
         </button>
         <button type="button" class="pag-nav-btn" title="Last page" aria-label="Last page"
-                [class.pag-nav-btn--disabled]="pageRangeEnd() >= totalElements"
-                (click)="pageRangeEnd() < totalElements && lastPage()">
+          [class.pag-nav-btn--disabled]="pageRangeEnd() >= totalElements"
+          (click)="pageRangeEnd() < totalElements && lastPage()">
           <mat-icon aria-hidden="true">last_page</mat-icon>
         </button>
       </div>

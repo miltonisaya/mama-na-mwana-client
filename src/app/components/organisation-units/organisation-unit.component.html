@@ -7,36 +7,39 @@
     <p class="page-subtitle">View and manage the organizational hierarchy</p>
   </div>
   <div class="btn-group">
-    <button
-      *ngIf="userCan('ORGANISATION_UNIT_CREATE')"
-      (click)="openDialog()"
-      mat-raised-button
-      color="primary"
-      class="action-btn"
-    >
-      <mat-icon>add</mat-icon>
-      Add
-    </button>
-    <button
-      *ngIf="selectedNode && userCan('ORGANISATION_UNIT_UPDATE')"
-      (click)="openDialog(selectedNode)"
-      mat-raised-button
-      color="primary"
-      class="action-btn"
-    >
-      <mat-icon>edit</mat-icon>
-      Edit
-    </button>
-    <button
-      *ngIf="selectedNode && userCan('ORGANISATION_UNIT_DELETE')"
-      (click)="openDeleteDialog(selectedNode.id)"
-      mat-raised-button
-      color="warn"
-      class="action-btn"
-    >
-      <mat-icon>delete</mat-icon>
-      Delete
-    </button>
+    @if (userCan('ORGANISATION_UNIT_CREATE')) {
+      <button
+        (click)="openDialog()"
+        mat-raised-button
+        color="primary"
+        class="action-btn"
+        >
+        <mat-icon>add</mat-icon>
+        Add
+      </button>
+    }
+    @if (selectedNode && userCan('ORGANISATION_UNIT_UPDATE')) {
+      <button
+        (click)="openDialog(selectedNode)"
+        mat-raised-button
+        color="primary"
+        class="action-btn"
+        >
+        <mat-icon>edit</mat-icon>
+        Edit
+      </button>
+    }
+    @if (selectedNode && userCan('ORGANISATION_UNIT_DELETE')) {
+      <button
+        (click)="openDeleteDialog(selectedNode.id)"
+        mat-raised-button
+        color="warn"
+        class="action-btn"
+        >
+        <mat-icon>delete</mat-icon>
+        Delete
+      </button>
+    }
   </div>
 </div>
 
@@ -51,68 +54,74 @@
         autocomplete="off"
         matInput
         placeholder="Search by name, code or other names across the whole hierarchy..."
-      />
-      <button
-        *ngIf="searchQuery"
-        mat-icon-button
-        matSuffix
-        type="button"
-        aria-label="Clear search"
-        (click)="clearSearch()"
-      >
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
-
-    <mat-progress-bar *ngIf="isSearching" mode="indeterminate" class="search-progress"></mat-progress-bar>
-
-    <p *ngIf="isSearchMode && !isSearching && noResultsFound" class="no-results">
-      No organisation units match "{{ searchQuery }}".
-    </p>
-
-    <div class="tree-container">
-  <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="ou-tree">
-    <!-- Leaf node -->
-    <mat-tree-node
-      *matTreeNodeDef="let node"
-      (click)="onNodeClick(node)"
-      [class.selected]="node === selectedNode"
-      [class.match-highlight]="node.matched"
-      matTreeNodePadding
-    >
-      {{ node.name }} ({{ node.code }}) - {{ node.otherNames || 'N/A' }}
-    </mat-tree-node>
-
-    <!-- Expandable node -->
-    <mat-nested-tree-node *matTreeNodeDef="let node; when: hasNestedChild">
-      <div class="mat-tree-node">
+        />
+      @if (searchQuery) {
         <button
           mat-icon-button
-          (click)="onNodeExpand(node)"
-          [attr.aria-label]="'Toggle ' + node.name"
-        >
-          <mat-icon class="mat-icon-rtl-mirror">
-            {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
-          </mat-icon>
+          matSuffix
+          type="button"
+          aria-label="Clear search"
+          (click)="clearSearch()"
+          >
+          <mat-icon>close</mat-icon>
         </button>
-        <span
+      }
+    </mat-form-field>
+
+    @if (isSearching) {
+      <mat-progress-bar mode="indeterminate" class="search-progress"></mat-progress-bar>
+    }
+
+    @if (isSearchMode && !isSearching && noResultsFound) {
+      <p class="no-results">
+        No organisation units match "{{ searchQuery }}".
+      </p>
+    }
+
+    <div class="tree-container">
+      <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="ou-tree">
+        <!-- Leaf node -->
+        <mat-tree-node
+          *matTreeNodeDef="let node"
           (click)="onNodeClick(node)"
           [class.selected]="node === selectedNode"
           [class.match-highlight]="node.matched"
-        >
+          matTreeNodePadding
+          >
           {{ node.name }} ({{ node.code }}) - {{ node.otherNames || 'N/A' }}
-        </span>
-      </div>
-      <div
-        *ngIf="treeControl.isExpanded(node)"
-        [class.ou-tree-invisible]="!treeControl.isExpanded(node)"
-        role="group"
-        data-debug="children-container"
-      >
-        <ng-container matTreeNodeOutlet></ng-container>
-      </div>
-      </mat-nested-tree-node>
-    </mat-tree>
+        </mat-tree-node>
+
+        <!-- Expandable node -->
+        <mat-nested-tree-node *matTreeNodeDef="let node; when: hasNestedChild">
+          <div class="mat-tree-node">
+            <button
+              mat-icon-button
+              (click)="onNodeExpand(node)"
+              [attr.aria-label]="'Toggle ' + node.name"
+              >
+              <mat-icon class="mat-icon-rtl-mirror">
+                {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
+              </mat-icon>
+            </button>
+            <span
+              (click)="onNodeClick(node)"
+              [class.selected]="node === selectedNode"
+              [class.match-highlight]="node.matched"
+              >
+              {{ node.name }} ({{ node.code }}) - {{ node.otherNames || 'N/A' }}
+            </span>
+          </div>
+          @if (treeControl.isExpanded(node)) {
+            <div
+              [class.ou-tree-invisible]="!treeControl.isExpanded(node)"
+              role="group"
+              data-debug="children-container"
+              >
+              <ng-container matTreeNodeOutlet></ng-container>
+            </div>
+          }
+        </mat-nested-tree-node>
+      </mat-tree>
     </div>
   </mat-card-content>
 </mat-card>

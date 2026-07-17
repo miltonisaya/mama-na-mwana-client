@@ -21,9 +21,11 @@
           autocomplete="username"
           aria-required="true">
       </div>
-      <span class="ld-error" *ngIf="form.controls.username.touched && form.controls.username.hasError('required')">
-        Username is required
-      </span>
+      @if (form.controls.username.touched && form.controls.username.hasError('required')) {
+        <span class="ld-error">
+          Username is required
+        </span>
+      }
     </div>
 
     <!-- Password -->
@@ -47,9 +49,11 @@
           <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
         </button>
       </div>
-      <span class="ld-error" *ngIf="form.controls.password.touched && form.controls.password.hasError('required')">
-        Password is required
-      </span>
+      @if (form.controls.password.touched && form.controls.password.hasError('required')) {
+        <span class="ld-error">
+          Password is required
+        </span>
+      }
     </div>
 
     <!-- Submit -->
@@ -59,7 +63,9 @@
       type="submit"
       class="submit-btn"
       [disabled]="isLoading">
-      <mat-icon *ngIf="isLoading" class="spin-icon">sync</mat-icon>
+      @if (isLoading) {
+        <mat-icon class="spin-icon">sync</mat-icon>
+      }
       {{ isLoading ? 'Signing in…' : 'Sign In' }}
     </button>
 

@@ -6,10 +6,12 @@
     </h2>
     <p class="page-subtitle">View and manage DHIS2 datasets and their data elements</p>
   </div>
-  <button *ngIf="userCan('DATA_SET_SYNC_DATA_SETS')" (click)="syncDatasets()" mat-raised-button color="primary" class="sync-btn">
-    <mat-icon>sync</mat-icon>
-    Sync Datasets
-  </button>
+  @if (userCan('DATA_SET_SYNC_DATA_SETS')) {
+    <button (click)="syncDatasets()" mat-raised-button color="primary" class="sync-btn">
+      <mat-icon>sync</mat-icon>
+      Sync Datasets
+    </button>
+  }
 </div>
 
 <mat-card class="table-card">
@@ -19,19 +21,25 @@
       <mat-label>Select a dataset</mat-label>
       <select matNativeControl (change)="onDatasetSelected($event)">
         <option value="">— choose a dataset —</option>
-        <option *ngFor="let dataset of datasets" [value]="dataset.id">
-          {{ dataset.displayName }}
-        </option>
+        @for (dataset of datasets; track dataset) {
+          <option [value]="dataset.id">
+            {{ dataset.displayName }}
+          </option>
+        }
       </select>
     </mat-form-field>
 
-    <p *ngIf="!selectedDataSetId" style="color: #6b7280; padding: 8px 0;">
-      Select a dataset above to view its data elements.
-    </p>
+    @if (!selectedDataSetId) {
+      <p style="color: #6b7280; padding: 8px 0;">
+        Select a dataset above to view its data elements.
+      </p>
+    }
 
-    <p *ngIf="selectedDataSetId" style="color: #1976d2; padding: 8px 0;">
-      Dataset selected: {{ selectedDataSetId }}
-    </p>
+    @if (selectedDataSetId) {
+      <p style="color: #1976d2; padding: 8px 0;">
+        Dataset selected: {{ selectedDataSetId }}
+      </p>
+    }
 
   </mat-card-content>
 </mat-card>

@@ -39,7 +39,9 @@
         <mat-icon>admin_panel_settings</mat-icon>
         Roles
       </div>
-      <mat-progress-bar *ngIf="loading" mode="indeterminate" style="margin-bottom: 8px;"></mat-progress-bar>
+      @if (loading) {
+        <mat-progress-bar mode="indeterminate" style="margin-bottom: 8px;"></mat-progress-bar>
+      }
 
       <div class="mnm-transfer">
         <!-- Available panel -->
@@ -59,35 +61,43 @@
           <div class="mnm-search">
             <mat-icon>search</mat-icon>
             <input [(ngModel)]="availableSearch" [ngModelOptions]="{standalone: true}" placeholder="Search…" type="text">
-            <button *ngIf="availableSearch" mat-icon-button type="button" (click)="availableSearch = ''">
-              <mat-icon>close</mat-icon>
-            </button>
+            @if (availableSearch) {
+              <button mat-icon-button type="button" (click)="availableSearch = ''">
+                <mat-icon>close</mat-icon>
+              </button>
+            }
           </div>
 
           <div class="mnm-list">
-            <div *ngIf="!filteredAvailable.length && !loading" class="mnm-empty">
-              <mat-icon>inventory_2</mat-icon>
-              <span>No roles available</span>
-            </div>
-            <div *ngFor="let item of filteredAvailable"
-              class="mnm-item"
-              [class.item-sel]="availableSelection.has(item.id)"
-              (click)="toggleAvailable(item.id)"
-            >
-              <input type="checkbox" class="mnm-checkbox"
-                [checked]="availableSelection.has(item.id)"
-                (click)="$event.stopPropagation()"
-                (change)="toggleAvailable(item.id)">
-              <div class="mnm-item-info">
-                <mat-icon class="item-icon">shield</mat-icon>
-                <span class="item-name">{{item.name}}</span>
+            @if (!filteredAvailable.length && !loading) {
+              <div class="mnm-empty">
+                <mat-icon>inventory_2</mat-icon>
+                <span>No roles available</span>
               </div>
-            </div>
+            }
+            @for (item of filteredAvailable; track item) {
+              <div
+                class="mnm-item"
+                [class.item-sel]="availableSelection.has(item.id)"
+                (click)="toggleAvailable(item.id)"
+                >
+                <input type="checkbox" class="mnm-checkbox"
+                  [checked]="availableSelection.has(item.id)"
+                  (click)="$event.stopPropagation()"
+                  (change)="toggleAvailable(item.id)">
+                <div class="mnm-item-info">
+                  <mat-icon class="item-icon">shield</mat-icon>
+                  <span class="item-name">{{item.name}}</span>
+                </div>
+              </div>
+            }
           </div>
 
-          <div class="mnm-panel-foot" *ngIf="availableSelection.size">
-            {{availableSelection.size}} selected
-          </div>
+          @if (availableSelection.size) {
+            <div class="mnm-panel-foot">
+              {{availableSelection.size}} selected
+            </div>
+          }
         </div>
 
         <!-- Transfer buttons -->
@@ -123,35 +133,43 @@
           <div class="mnm-search">
             <mat-icon>search</mat-icon>
             <input [(ngModel)]="assignedSearch" [ngModelOptions]="{standalone: true}" placeholder="Search…" type="text">
-            <button *ngIf="assignedSearch" mat-icon-button type="button" (click)="assignedSearch = ''">
-              <mat-icon>close</mat-icon>
-            </button>
+            @if (assignedSearch) {
+              <button mat-icon-button type="button" (click)="assignedSearch = ''">
+                <mat-icon>close</mat-icon>
+              </button>
+            }
           </div>
 
           <div class="mnm-list">
-            <div *ngIf="!filteredAssigned.length && !loading" class="mnm-empty">
-              <mat-icon>checklist</mat-icon>
-              <span>No roles assigned yet</span>
-            </div>
-            <div *ngFor="let item of filteredAssigned"
-              class="mnm-item assigned"
-              [class.item-sel]="assignedSelection.has(item.id)"
-              (click)="toggleAssigned(item.id)"
-            >
-              <input type="checkbox" class="mnm-checkbox"
-                [checked]="assignedSelection.has(item.id)"
-                (click)="$event.stopPropagation()"
-                (change)="toggleAssigned(item.id)">
-              <div class="mnm-item-info">
-                <mat-icon class="item-icon item-icon-assigned">check_circle</mat-icon>
-                <span class="item-name">{{item.name}}</span>
+            @if (!filteredAssigned.length && !loading) {
+              <div class="mnm-empty">
+                <mat-icon>checklist</mat-icon>
+                <span>No roles assigned yet</span>
               </div>
-            </div>
+            }
+            @for (item of filteredAssigned; track item) {
+              <div
+                class="mnm-item assigned"
+                [class.item-sel]="assignedSelection.has(item.id)"
+                (click)="toggleAssigned(item.id)"
+                >
+                <input type="checkbox" class="mnm-checkbox"
+                  [checked]="assignedSelection.has(item.id)"
+                  (click)="$event.stopPropagation()"
+                  (change)="toggleAssigned(item.id)">
+                <div class="mnm-item-info">
+                  <mat-icon class="item-icon item-icon-assigned">check_circle</mat-icon>
+                  <span class="item-name">{{item.name}}</span>
+                </div>
+              </div>
+            }
           </div>
 
-          <div class="mnm-panel-foot assigned" *ngIf="assignedSelection.size">
-            {{assignedSelection.size}} selected
-          </div>
+          @if (assignedSelection.size) {
+            <div class="mnm-panel-foot assigned">
+              {{assignedSelection.size}} selected
+            </div>
+          }
         </div>
       </div>
     </mat-dialog-content>

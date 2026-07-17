@@ -9,16 +9,18 @@
       <h2 class="d-title">Assign Permissions</h2>
       <span class="d-role-tag">{{ data.name }}</span>
     </div>
-    <div class="d-stats" *ngIf="!loading">
-      <span class="d-chip d-chip-green">
-        <mat-icon>check_circle</mat-icon>
-        {{ assignedCount }} assigned
-      </span>
-      <span class="d-chip d-chip-blue">
-        <mat-icon>vpn_key</mat-icon>
-        {{ allAuthorities.length }} total
-      </span>
-    </div>
+    @if (!loading) {
+      <div class="d-stats">
+        <span class="d-chip d-chip-green">
+          <mat-icon>check_circle</mat-icon>
+          {{ assignedCount }} assigned
+        </span>
+        <span class="d-chip d-chip-blue">
+          <mat-icon>vpn_key</mat-icon>
+          {{ allAuthorities.length }} total
+        </span>
+      </div>
+    }
   </div>
 
   <div class="d-search-row">
@@ -32,88 +34,96 @@
         autocomplete="off"
         (focus)="searchFocused = true"
         (blur)="searchFocused = false">
-      <button
-        *ngIf="search"
-        mat-icon-button
-        class="d-search-clear"
-        (click)="search = ''; searchFocused = false"
-        tabindex="-1">
-        <mat-icon>close</mat-icon>
-      </button>
+      @if (search) {
+        <button
+          mat-icon-button
+          class="d-search-clear"
+          (click)="search = ''; searchFocused = false"
+          tabindex="-1">
+          <mat-icon>close</mat-icon>
+        </button>
+      }
     </div>
   </div>
 
-  <mat-progress-bar
-    *ngIf="loading"
-    mode="indeterminate"
-    class="d-progress">
-  </mat-progress-bar>
+  @if (loading) {
+    <mat-progress-bar
+      mode="indeterminate"
+      class="d-progress">
+    </mat-progress-bar>
+  }
 
 </div>
 
 <!-- ====== SCROLLABLE GROUPS ====== -->
 <mat-dialog-content class="d-content">
 
-  <div *ngIf="loading" class="d-loading">
-    <span>Loading permissions…</span>
-  </div>
+  @if (loading) {
+    <div class="d-loading">
+      <span>Loading permissions…</span>
+    </div>
+  }
 
-  <div *ngIf="!loading" class="d-groups">
-
-    <div
-      *ngFor="let group of filteredGroups; trackBy: trackByResource"
-      class="d-group">
-
-      <!-- Group row -->
-      <div class="d-group-header" (click)="toggleGroup(group.resource)">
-        <input type="checkbox" class="d-checkbox"
-          [checked]="isGroupAllChecked(group)"
-          [indeterminate]="isGroupIndeterminate(group)"
-          (click)="$event.stopPropagation()"
-          (change)="toggleGroupAll(group, $event)">
-        <mat-icon class="d-group-folder">
-          {{ expandedGroups.has(group.resource) ? 'folder_open' : 'folder' }}
-        </mat-icon>
-        <span class="d-group-name">{{ group.resource }}</span>
-        <span class="d-group-count" [class.has-checked]="group.checkedCount > 0">
-          {{ group.checkedCount }}/{{ group.authorities.length }}
-        </span>
-        <mat-icon class="d-chevron">
-          {{ expandedGroups.has(group.resource) ? 'expand_less' : 'expand_more' }}
-        </mat-icon>
-      </div>
-
-      <!-- Permission rows -->
-      <div *ngIf="expandedGroups.has(group.resource)" class="d-perm-list">
+  @if (!loading) {
+    <div class="d-groups">
+      @for (group of filteredGroups; track trackByResource($index, group)) {
         <div
-          *ngFor="let auth of group.authorities; trackBy: trackByAuthId"
-          class="d-perm-item"
-          [class.is-checked]="checkedIds.has(auth.id)"
-          (click)="togglePermission(auth.id)">
-          <input type="checkbox" class="d-checkbox"
-            [checked]="checkedIds.has(auth.id)"
-            (click)="$event.stopPropagation()"
-            (change)="togglePermission(auth.id)">
-          <div class="d-perm-info">
-            <span class="d-perm-name">{{ auth.name }}</span>
-            <span class="d-perm-method">{{ getMethodLabel(auth.description) }}</span>
+          class="d-group">
+          <!-- Group row -->
+          <div class="d-group-header" (click)="toggleGroup(group.resource)">
+            <input type="checkbox" class="d-checkbox"
+              [checked]="isGroupAllChecked(group)"
+              [indeterminate]="isGroupIndeterminate(group)"
+              (click)="$event.stopPropagation()"
+              (change)="toggleGroupAll(group, $event)">
+            <mat-icon class="d-group-folder">
+              {{ expandedGroups.has(group.resource) ? 'folder_open' : 'folder' }}
+            </mat-icon>
+            <span class="d-group-name">{{ group.resource }}</span>
+            <span class="d-group-count" [class.has-checked]="group.checkedCount > 0">
+              {{ group.checkedCount }}/{{ group.authorities.length }}
+            </span>
+            <mat-icon class="d-chevron">
+              {{ expandedGroups.has(group.resource) ? 'expand_less' : 'expand_more' }}
+            </mat-icon>
           </div>
+          <!-- Permission rows -->
+          @if (expandedGroups.has(group.resource)) {
+            <div class="d-perm-list">
+              @for (auth of group.authorities; track trackByAuthId($index, auth)) {
+                <div
+                  class="d-perm-item"
+                  [class.is-checked]="checkedIds.has(auth.id)"
+                  (click)="togglePermission(auth.id)">
+                  <input type="checkbox" class="d-checkbox"
+                    [checked]="checkedIds.has(auth.id)"
+                    (click)="$event.stopPropagation()"
+                    (change)="togglePermission(auth.id)">
+                  <div class="d-perm-info">
+                    <span class="d-perm-name">{{ auth.name }}</span>
+                    <span class="d-perm-method">{{ getMethodLabel(auth.description) }}</span>
+                  </div>
+                </div>
+              }
+            </div>
+          }
         </div>
-      </div>
-
+      }
+      <!-- Empty states -->
+      @if (filteredGroups.length === 0 && search) {
+        <div class="d-empty">
+          <mat-icon>search_off</mat-icon>
+          <p>No permissions match <strong>"{{ search }}"</strong></p>
+        </div>
+      }
+      @if (filteredGroups.length === 0 && !search) {
+        <div class="d-empty">
+          <mat-icon>lock_open</mat-icon>
+          <p>No permissions available</p>
+        </div>
+      }
     </div>
-
-    <!-- Empty states -->
-    <div *ngIf="filteredGroups.length === 0 && search" class="d-empty">
-      <mat-icon>search_off</mat-icon>
-      <p>No permissions match <strong>"{{ search }}"</strong></p>
-    </div>
-    <div *ngIf="filteredGroups.length === 0 && !search" class="d-empty">
-      <mat-icon>lock_open</mat-icon>
-      <p>No permissions available</p>
-    </div>
-
-  </div>
+  }
 </mat-dialog-content>
 
 <!-- ====== ACTIONS ====== -->
