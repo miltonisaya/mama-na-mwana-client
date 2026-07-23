@@ -42,6 +42,25 @@
   }
 </div>
 
+<!-- AI-generated survey narrative — regenerated hourly, independent of the
+     date-range filter above (see DashboardNarrativeServiceImpl) -->
+@if (narrativeIsReady) {
+  <mat-card class="narrative-card">
+    <div class="narrative-header">
+      <mat-icon>auto_awesome</mat-icon>
+      <h3>Recent Insights</h3>
+      @if (narrativeGeneratedAt) {
+        <span class="narrative-timestamp">Updated {{ narrativeGeneratedAt | date: 'dd MMM, HH:mm' }}</span>
+      }
+    </div>
+    @if (narrativeText) {
+      <p class="narrative-text">{{ narrativeText }}</p>
+    } @else {
+      <p class="narrative-empty">No insights generated yet — this updates automatically once enough survey responses have come in.</p>
+    }
+  </mat-card>
+}
+
 <!-- Stats grid — 2 cards for all users, 3 more for super admin -->
 <div class="stats-grid">
 
