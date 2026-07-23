@@ -25,6 +25,8 @@ export class RolesComponent implements OnInit {
   pageSize = 10;
   pageNo = 0;
   pageSizeOptions: number[] = [10, 25, 100, 1000];
+  searchTerm = '';
+  private searchDebounce: ReturnType<typeof setTimeout>;
 
   constructor(
     private RoleService: RolesService,
@@ -38,7 +40,11 @@ export class RolesComponent implements OnInit {
   }
 
   getRoles() {
-    return this.RoleService.getRoles().subscribe((response: any) => {
+    const params: any = { pageNo: this.pageNo, pageSize: this.pageSize };
+    if (this.searchTerm) {
+      params.search = this.searchTerm;
+    }
+    return this.RoleService.getRoles(params).subscribe((response: any) => {
       this.roles = response.data;
       this.dataSource = new MatTableDataSource<Role>(this.roles?.content ?? []);
     }, error => {
@@ -47,9 +53,13 @@ export class RolesComponent implements OnInit {
   }
 
   applyFilter(event: Event) {
-    if (!this.dataSource) return;
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    const filterValue = (event.target as HTMLInputElement).value.trim();
+    clearTimeout(this.searchDebounce);
+    this.searchDebounce = setTimeout(() => {
+      this.searchTerm = filterValue;
+      this.pageNo = 0;
+      this.getRoles();
+    }, 300);
   }
 
   openDialog(data?): void {
