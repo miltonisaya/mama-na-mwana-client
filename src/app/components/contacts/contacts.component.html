@@ -51,7 +51,7 @@
           <!-- Sex Column -->
           <ng-container matColumnDef="sex">
             <th *matHeaderCellDef mat-header-cell>Sex</th>
-            <td *matCellDef="let contacts" mat-cell>{{contacts.sex}}</td>
+            <td *matCellDef="let contacts" mat-cell>{{ contacts.sex && contacts.sex !== 'null' ? contacts.sex : '—' }}</td>
           </ng-container>
           <!-- Age Column -->
           <ng-container matColumnDef="age">
