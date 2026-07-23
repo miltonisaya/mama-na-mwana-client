@@ -42,8 +42,8 @@
   }
 </div>
 
-<!-- AI-generated survey narrative — regenerated daily, independent of the
-     date-range filter above (see DashboardNarrativeServiceImpl) -->
+<!-- AI-generated survey narrative — regenerated daily, one per date-range
+     preset selected via the filter bar above (see DashboardNarrativeServiceImpl) -->
 @if (narrativeIsReady) {
   <mat-card class="narrative-card" [class.narrative-card--updated]="narrativeJustUpdated">
     <div class="narrative-icon">
@@ -60,7 +60,9 @@
           </span>
         }
       </div>
-      @if (narrativeText) {
+      @if (narrativeUnavailableForCustomRange) {
+        <p class="narrative-empty">Insights aren't generated for custom date ranges — choose one of the presets above to see them.</p>
+      } @else if (narrativeText) {
         <p class="narrative-text">{{ narrativeText }}</p>
       } @else {
         <p class="narrative-empty">No insights generated yet — this updates automatically once enough survey responses have come in.</p>
