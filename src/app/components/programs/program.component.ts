@@ -23,6 +23,8 @@ export class ProgramComponent implements OnInit {
   pageSize = 10;
   pageNo = 0;
   pageSizeOptions: number[] = [10, 25, 100, 1000];
+  searchTerm = '';
+  private searchDebounce: ReturnType<typeof setTimeout>;
 
   constructor(
     private ProgramService: ProgramService,
@@ -35,7 +37,11 @@ export class ProgramComponent implements OnInit {
   }
 
   getPrograms() {
-    return this.ProgramService.getDataElements().subscribe((response: any) => {
+    const params: any = { pageNo: this.pageNo, pageSize: this.pageSize };
+    if (this.searchTerm) {
+      params.search = this.searchTerm;
+    }
+    return this.ProgramService.getDataElements(params).subscribe((response: any) => {
       this.programs = response.data;
       this.dataSource = new MatTableDataSource<Program>(this.programs?.content ?? []);
     }, error => {
@@ -44,9 +50,13 @@ export class ProgramComponent implements OnInit {
   }
 
   applyFilter(event: Event) {
-    if (!this.dataSource) return;
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    const filterValue = (event.target as HTMLInputElement).value.trim();
+    clearTimeout(this.searchDebounce);
+    this.searchDebounce = setTimeout(() => {
+      this.searchTerm = filterValue;
+      this.pageNo = 0;
+      this.getPrograms();
+    }, 300);
   }
 
   syncPrograms() {
