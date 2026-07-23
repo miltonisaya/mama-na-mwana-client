@@ -207,11 +207,19 @@
         <mat-icon>receipt_long</mat-icon>
         <h3>Transaction Logs</h3>
       </div>
-      @if (totalElements > 0) {
-        <span class="total-pill">
-          {{ totalElements | number }} total
-        </span>
-      }
+      <div class="section-header-badges">
+        @if (newTransactionsCount > 0) {
+          <button type="button" class="new-transactions-pill" (click)="refreshTransactions()">
+            <mat-icon>refresh</mat-icon>
+            {{ newTransactionsCount }} new — refresh
+          </button>
+        }
+        @if (totalElements > 0) {
+          <span class="total-pill">
+            {{ totalElements | number }} total
+          </span>
+        }
+      </div>
     </div>
     <mat-card class="transaction-card">
       <div class="table-wrapper">
