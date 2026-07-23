@@ -75,6 +75,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   narrativeText: string | null = null;
   narrativeGeneratedAt: string | null = null;
   narrativeIsReady = false;
+  narrativeJustUpdated = false;
+  private narrativePulseTimeout: any;
 
   constructor(
     public dashboardService: DashboardService,
@@ -103,6 +105,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.dashboardSocketService.disconnect();
+    clearTimeout(this.narrativePulseTimeout);
   }
 
   // ── Live updates (WebSocket) ─────────────────────────────────────────────
@@ -183,8 +186,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   private onNarrativeUpdate(narrative: any): void {
+    const newGeneratedAt = narrative?.generatedAt ?? null;
+    const isFreshRegeneration = !!this.narrativeGeneratedAt && !!newGeneratedAt
+      && newGeneratedAt !== this.narrativeGeneratedAt;
+
     this.narrativeText = narrative?.narrative ?? null;
-    this.narrativeGeneratedAt = narrative?.generatedAt ?? null;
+    this.narrativeGeneratedAt = newGeneratedAt;
+
+    if (isFreshRegeneration) {
+      this.narrativeJustUpdated = true;
+      clearTimeout(this.narrativePulseTimeout);
+      this.narrativePulseTimeout = setTimeout(() => this.narrativeJustUpdated = false, 2400);
+    }
   }
 
   // ── Filter ────────────────────────────────────────────────────────────────
