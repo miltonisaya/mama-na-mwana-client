@@ -43,8 +43,11 @@
 </div>
 
 <!-- AI-generated survey narrative — regenerated daily, one per date-range
-     preset selected via the filter bar above (see DashboardNarrativeServiceImpl) -->
-@if (narrativeIsReady) {
+     preset selected via the filter bar above (see DashboardNarrativeServiceImpl).
+     Gated on CONTACT_GET_NARRATIVE, the authority auto-synced from
+     ContactResource.getNarrative() - the backend already enforces this on the
+     endpoint itself, this just avoids showing/fetching it for users without it. -->
+@if (userCan('CONTACT_GET_NARRATIVE') && narrativeIsReady) {
   <mat-card class="narrative-card" [class.narrative-card--updated]="narrativeJustUpdated">
     <div class="narrative-icon">
       <mat-icon>auto_awesome</mat-icon>
