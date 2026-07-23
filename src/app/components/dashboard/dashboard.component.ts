@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DashboardService } from './dashboard.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { TransactionsService } from '../transactions/transactions.service';
@@ -7,6 +7,13 @@ import { ContactsService } from "../contacts/contacts.service";
 import { MatDialog } from "@angular/material/dialog";
 import { OrganisationUnitService } from "../organisation-units/organisation-unit.service";
 import { userCan } from '../../helpers/user-can';
+import { DashboardSocketService } from './dashboard-socket.service';
+
+// Presets the backend can broadcast a live snapshot for (see
+// DashboardBroadcastServiceImpl) - "custom" ranges are inherently
+// unbroadcastable (infinite possible date combinations), so those stay on
+// the existing REST path only.
+const LIVE_PRESET_IDS = ['all', '7d', '30d', '3m', 'ytd'];
 
 @Component({
     selector: 'app-dashboard',
@@ -14,7 +21,7 @@ import { userCan } from '../../helpers/user-can';
     styleUrls: ['./dashboard.component.scss'],
     standalone: false
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   bigChart = [];
   registrationsByCouncilData: any[] = [];
   dataSource = new MatTableDataSource<any>([]);
@@ -61,18 +68,100 @@ export class DashboardComponent implements OnInit {
     { id: 'ytd',  label: 'This year' },
   ];
 
+  newTransactionsCount = 0;
+
   constructor(
     public dashboardService: DashboardService,
     private transactionService: TransactionsService,
     private notifierService: NotifierService,
     private contactsService: ContactsService,
     private organisationUnitService: OrganisationUnitService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private dashboardSocketService: DashboardSocketService
   ) {}
 
   ngOnInit(): void {
     this.getTotalNumberOfRegisteredContactsToday();
+    // Initial REST fetch for instant first paint - the socket (connected
+    // below) takes over keeping these same fields fresh every ~15s after
+    // that, so there's no blank/loading wait for the first broadcast tick.
     this.refreshAll();
+
+    this.dashboardSocketService.connect(() => {
+      this.dashboardSocketService.subscribeToPreset(this.activePreset === 'custom' ? 'all' : this.activePreset, snapshot => this.onDashboardSnapshot(snapshot));
+      this.dashboardSocketService.subscribeToOutboxChanges(event => this.onOutboxChange(event));
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.dashboardSocketService.disconnect();
+  }
+
+  // ── Live updates (WebSocket) ─────────────────────────────────────────────
+
+  // Mirrors exactly what refreshAll()'s REST callbacks assign - a broadcast
+  // for the currently-active preset just re-populates the same fields, so
+  // the charts/counts stay fresh without the user ever refreshing.
+  private onDashboardSnapshot(snapshot: any): void {
+    const finalResult: any[] = [];
+    (snapshot.monthlyRegistrations ?? []).forEach((x: any) => finalResult.push(Object.entries(x)[0]));
+    this.bigChart = finalResult;
+    this.bigChartsIsReady = true;
+
+    this.registrationsByCouncilData = snapshot.registrationsByCouncil ?? [];
+    this.registrationByCouncilIsReady = true;
+
+    this.contactsBySexData = snapshot.contactsBySex ?? [];
+    this.contactsBySexIsReady = true;
+
+    this.contactsByAgeGroupData = snapshot.contactsByAgeGroup ?? [];
+    this.contactsByAgeGroupIsReady = true;
+
+    this.numberOfRegisteredContacts = snapshot.numberOfRegisteredContacts;
+    this.numberOfRegisteredContactsIsReady = true;
+
+    this.numberOfRegisteredContactsToday = snapshot.numberOfRegisteredContactsToday;
+    this.numberOfRegisteredContactsTodayIsReady = true;
+
+    if (this.userCan('OUTBOX_INDEX')) {
+      this.sentCount = snapshot.sentCount ?? 0;
+      this.sentIsReady = true;
+      this.pendingCount = snapshot.pendingCount ?? 0;
+      this.pendingIsReady = true;
+      this.failedCount = snapshot.abandonedCount ?? 0;
+      this.failedIsReady = true;
+    }
+  }
+
+  // "UPDATED" (a row's status/retries/dhisResponse changed) is patched in
+  // place wherever it's currently displayed - this never reorders or
+  // resizes the page, so it's safe to apply regardless of which page or
+  // filter the user currently has open. "CREATED" (a brand new row) is
+  // deliberately NOT inserted into the table - that would reflow whatever
+  // page the user is looking at out from under them - it just surfaces a
+  // small "N new" indicator instead.
+  private onOutboxChange(event: any): void {
+    if (!this.dataSource || !this.userCan('OUTBOX_INDEX')) {
+      return;
+    }
+
+    if (event.eventType === 'UPDATED') {
+      const rows: any[] = this.dataSource.data;
+      const index = rows.findIndex(r => r.id === event.outbox.id);
+      if (index !== -1) {
+        const updated = [...rows];
+        updated[index] = event.outbox;
+        this.dataSource.data = updated;
+      }
+    } else if (event.eventType === 'CREATED') {
+      this.newTransactionsCount++;
+    }
+  }
+
+  refreshTransactions(): void {
+    this.newTransactionsCount = 0;
+    this.getAllTransactions(this.filterParams);
+    this.loadTransactionSummary(this.filterParams);
   }
 
   // ── Filter ────────────────────────────────────────────────────────────────
@@ -108,6 +197,12 @@ export class DashboardComponent implements OnInit {
     this.customStartDate = this.filterStartDate ?? '';
     this.customEndDate = this.filterEndDate ?? '';
     this.refreshAll();
+
+    if (LIVE_PRESET_IDS.includes(presetId)) {
+      this.dashboardSocketService.subscribeToPreset(presetId, snapshot => this.onDashboardSnapshot(snapshot));
+    } else {
+      this.dashboardSocketService.unsubscribeFromPreset();
+    }
   }
 
   applyCustomFilter() {
@@ -115,6 +210,10 @@ export class DashboardComponent implements OnInit {
     this.filterStartDate = this.customStartDate || null;
     this.filterEndDate = this.customEndDate || null;
     this.refreshAll();
+    // A custom range is one of infinitely many possible date combinations -
+    // there's no topic the backend could be broadcasting it on, so this view
+    // stays REST-only, same as before this feature existed.
+    this.dashboardSocketService.unsubscribeFromPreset();
   }
 
   clearCustomFilter() {
