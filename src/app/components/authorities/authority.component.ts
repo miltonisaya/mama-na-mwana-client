@@ -24,7 +24,9 @@ export class AuthorityComponent implements OnInit {
   pageSizeOptions: number[] = [10, 25, 100, 1000];
   syncing = false;
   @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
-  private params: { pageNo: number; pageSize: number };
+  searchTerm = '';
+  private searchDebounce: ReturnType<typeof setTimeout>;
+  private params: any;
 
   constructor(
     private AuthorityService: AuthorityService,
@@ -42,6 +44,9 @@ export class AuthorityComponent implements OnInit {
       "pageNo": this.pageNo,
       "pageSize": this.pageSize
     }
+    if (this.searchTerm) {
+      this.params.search = this.searchTerm;
+    }
 
     return this.AuthorityService.getAuthorities(this.params).subscribe((response: any) => {
       this.authorities = response.data;
@@ -52,9 +57,13 @@ export class AuthorityComponent implements OnInit {
   }
 
   applyFilter(event: Event) {
-    if (!this.dataSource) return;
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    const filterValue = (event.target as HTMLInputElement).value.trim();
+    clearTimeout(this.searchDebounce);
+    this.searchDebounce = setTimeout(() => {
+      this.searchTerm = filterValue;
+      this.pageNo = 0;
+      this.getAuthorities();
+    }, 300);
   }
 
   openDeleteDialog(id) {
