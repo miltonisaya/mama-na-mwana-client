@@ -153,16 +153,22 @@
 // it's AI-written analysis of what the surveys actually say (satisfaction,
 // complaints), the highest-value read on the page, sitting next to plain
 // white stat/filter cards it needs to visually out-rank at a glance.
+//
+// Violet, not the page's primary blue: blue already means "primary action /
+// selection" everywhere else on this dashboard (preset buttons, Total
+// Contacts card, chart icons), so reusing it here would read as "another
+// blue thing" rather than flagging this card as genuinely different -
+// AI-generated content, not a stat or a control.
 .narrative-card {
   display: flex;
   align-items: flex-start;
   gap: 16px;
   border-radius: 16px !important;
-  border: 1px solid rgba(25, 118, 210, 0.22);
-  background: linear-gradient(135deg, #f2f8ff 0%, #ffffff 65%);
+  border: 1px solid rgba(124, 58, 237, 0.22);
+  background: linear-gradient(135deg, #f6f3ff 0%, #ffffff 65%);
   padding: 20px 24px;
   margin-bottom: 24px;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 10px 24px -12px rgba(25, 118, 210, 0.35) !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 10px 24px -12px rgba(124, 58, 237, 0.35) !important;
 
   .narrative-icon {
     flex-shrink: 0;
@@ -172,9 +178,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(25, 118, 210, 0.12);
+    background: rgba(124, 58, 237, 0.12);
 
-    mat-icon { color: #1976d2; font-size: 24px; width: 24px; height: 24px; }
+    mat-icon { color: #7c3aed; font-size: 24px; width: 24px; height: 24px; }
   }
 
   .narrative-body {
@@ -203,9 +209,9 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    color: #1976d2;
-    background: rgba(25, 118, 210, 0.1);
-    border: 1px solid rgba(25, 118, 210, 0.3);
+    color: #6d28d9;
+    background: rgba(124, 58, 237, 0.1);
+    border: 1px solid rgba(124, 58, 237, 0.3);
     border-radius: 20px;
     padding: 2px 9px;
   }
@@ -248,15 +254,15 @@
 
 @keyframes narrative-pulse {
   0% {
-    box-shadow: 0 0 0 0 rgba(25, 118, 210, 0.4),
-      0 1px 2px rgba(15, 23, 42, 0.04), 0 10px 24px -12px rgba(25, 118, 210, 0.35);
+    box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.4),
+      0 1px 2px rgba(15, 23, 42, 0.04), 0 10px 24px -12px rgba(124, 58, 237, 0.35);
   }
   45% {
-    box-shadow: 0 0 0 5px rgba(25, 118, 210, 0),
-      0 1px 2px rgba(15, 23, 42, 0.04), 0 10px 24px -12px rgba(25, 118, 210, 0.35);
+    box-shadow: 0 0 0 5px rgba(124, 58, 237, 0),
+      0 1px 2px rgba(15, 23, 42, 0.04), 0 10px 24px -12px rgba(124, 58, 237, 0.35);
   }
   100% {
-    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 10px 24px -12px rgba(25, 118, 210, 0.35);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 10px 24px -12px rgba(124, 58, 237, 0.35);
   }
 }
 
