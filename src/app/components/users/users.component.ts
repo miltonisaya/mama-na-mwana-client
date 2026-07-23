@@ -24,6 +24,8 @@ export class UsersComponent implements OnInit {
   pageSize = 10;
   pageNo = 0;
   pageSizeOptions: number[] = [10, 25, 100, 1000];
+  searchTerm = '';
+  private searchDebounce: ReturnType<typeof setTimeout>;
 
   constructor(
     private UsersService: UsersService,
@@ -37,7 +39,10 @@ export class UsersComponent implements OnInit {
   }
 
   getUsers() {
-    const params = { pageNo: this.pageNo, pageSize: this.pageSize };
+    const params: any = { pageNo: this.pageNo, pageSize: this.pageSize };
+    if (this.searchTerm) {
+      params.search = this.searchTerm;
+    }
     return this.UsersService.getUsers(params).subscribe((response: any) => {
       this.users = response.data;
       this.dataSource = new MatTableDataSource<User>(this.users?.content ?? []);
@@ -47,9 +52,13 @@ export class UsersComponent implements OnInit {
   }
 
   applyFilter(event: Event) {
-    if (!this.dataSource) return;
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    const filterValue = (event.target as HTMLInputElement).value.trim();
+    clearTimeout(this.searchDebounce);
+    this.searchDebounce = setTimeout(() => {
+      this.searchTerm = filterValue;
+      this.pageNo = 0;
+      this.getUsers();
+    }, 300);
   }
 
   openDialog(data?): void {
