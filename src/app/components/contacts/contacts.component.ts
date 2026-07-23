@@ -16,7 +16,7 @@ import {userCan} from '../../helpers/user-can';
 export class ContactsComponent implements OnInit {
   // Exposed so the template can call userCan('AUTHORITY_NAME') directly.
   readonly userCan = userCan;
-  displayedColumns: string[] = ["sno", 'name', 'facilityCode', 'urn', 'sex', 'age', 'actions'];
+  displayedColumns: string[] = ["sno", 'name', 'facilityCode', 'urn', 'sex', 'age', 'registrationDate', 'actions'];
   contacts: any = [];
   userId: string;
   @ViewChild('deleteDialog') deleteDialog: TemplateRef<any>;
@@ -38,7 +38,7 @@ export class ContactsComponent implements OnInit {
   }
 
   getContacts() {
-    const params = { pageNo: this.pageNo, pageSize: this.pageSize };
+    const params = { pageNo: this.pageNo, pageSize: this.pageSize, sortBy: 'registrationDate', sortDirection: 'desc' };
     return this.ContactsService.getContacts(params).subscribe((response: any) => {
       this.contacts = response.data;
       this.dataSource = new MatTableDataSource<DataElement>(this.contacts?.content ?? []);
