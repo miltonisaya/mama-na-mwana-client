@@ -15,6 +15,7 @@ export class DashboardSocketService {
   private client: Client | null = null;
   private presetSubscription: StompSubscription | null = null;
   private outboxSubscription: StompSubscription | null = null;
+  private narrativeSubscription: StompSubscription | null = null;
 
   constructor(private authService: AuthService) {}
 
@@ -64,11 +65,25 @@ export class DashboardSocketService {
     });
   }
 
+  // The AI narrative is regenerated on a fixed schedule (hourly by default),
+  // independent of any date-range preset - one subscription for the whole
+  // session, not switched per filter like subscribeToPreset() is.
+  subscribeToNarrative(onMessage: (body: any) => void): void {
+    if (this.narrativeSubscription) {
+      return;
+    }
+    this.narrativeSubscription = this.client!.subscribe('/topic/dashboard-narrative', (message: IMessage) => {
+      onMessage(JSON.parse(message.body));
+    });
+  }
+
   disconnect(): void {
     this.presetSubscription?.unsubscribe();
     this.outboxSubscription?.unsubscribe();
+    this.narrativeSubscription?.unsubscribe();
     this.presetSubscription = null;
     this.outboxSubscription = null;
+    this.narrativeSubscription = null;
     this.client?.deactivate();
     this.client = null;
   }
