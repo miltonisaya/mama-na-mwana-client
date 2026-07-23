@@ -40,10 +40,21 @@ export class PieComponent implements OnInit {
         pie: {
           allowPointSelect: true,
           cursor: 'pointer',
+          showInLegend: true,
           dataLabels: {
             enabled: true,
             format: '<b>{point.name}</b>: {point.percentage:.1f} %'
           }
+        }
+      },
+      legend: {
+        enabled: true,
+        layout: 'horizontal',
+        align: 'center',
+        verticalAlign: 'bottom',
+        maxHeight: 100,
+        itemStyle: {
+          fontSize: '11px'
         }
       },
       exporting: {
