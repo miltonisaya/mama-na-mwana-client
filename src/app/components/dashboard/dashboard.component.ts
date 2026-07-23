@@ -70,6 +70,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   newTransactionsCount = 0;
 
+  // AI-generated survey narrative — regenerated hourly in the background
+  // (see DashboardNarrativeServiceImpl), not tied to the date-range preset.
+  narrativeText: string | null = null;
+  narrativeGeneratedAt: string | null = null;
+  narrativeIsReady = false;
+
   constructor(
     public dashboardService: DashboardService,
     private transactionService: TransactionsService,
@@ -86,10 +92,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     // below) takes over keeping these same fields fresh every ~15s after
     // that, so there's no blank/loading wait for the first broadcast tick.
     this.refreshAll();
+    this.loadNarrative();
 
     this.dashboardSocketService.connect(() => {
       this.dashboardSocketService.subscribeToPreset(this.activePreset === 'custom' ? 'all' : this.activePreset, snapshot => this.onDashboardSnapshot(snapshot));
       this.dashboardSocketService.subscribeToOutboxChanges(event => this.onOutboxChange(event));
+      this.dashboardSocketService.subscribeToNarrative(narrative => this.onNarrativeUpdate(narrative));
     });
   }
 
@@ -162,6 +170,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.newTransactionsCount = 0;
     this.getAllTransactions(this.filterParams);
     this.loadTransactionSummary(this.filterParams);
+  }
+
+  loadNarrative(): void {
+    this.dashboardService.getNarrative().subscribe({
+      next: (response: any) => {
+        this.onNarrativeUpdate(response.data);
+        this.narrativeIsReady = true;
+      },
+      error: () => { this.narrativeIsReady = true; }
+    });
+  }
+
+  private onNarrativeUpdate(narrative: any): void {
+    this.narrativeText = narrative?.narrative ?? null;
+    this.narrativeGeneratedAt = narrative?.generatedAt ?? null;
   }
 
   // ── Filter ────────────────────────────────────────────────────────────────
