@@ -22,7 +22,9 @@ export class DataElementComponent implements OnInit {
   pageSize = 10;
   pageNo = 0;
   pageSizeOptions: number[] = [10, 25, 100, 1000];
-  private params: { pageNo: number; pageSize: number };
+  searchTerm = '';
+  private searchDebounce: ReturnType<typeof setTimeout>;
+  private params: any;
 
   constructor(
     private DataElementService: DataElementService,
@@ -39,6 +41,9 @@ export class DataElementComponent implements OnInit {
       "pageNo": this.pageNo,
       "pageSize": this.pageSize
     }
+    if (this.searchTerm) {
+      this.params.search = this.searchTerm;
+    }
 
     return this.DataElementService.getDataElements(this.params).subscribe((response: any) => {
       this.dataElements = response.data;
@@ -49,9 +54,13 @@ export class DataElementComponent implements OnInit {
   }
 
   applyFilter(event: Event) {
-    if (!this.dataSource) return;
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    const filterValue = (event.target as HTMLInputElement).value.trim();
+    clearTimeout(this.searchDebounce);
+    this.searchDebounce = setTimeout(() => {
+      this.searchTerm = filterValue;
+      this.pageNo = 0;
+      this.getDataElements();
+    }, 300);
   }
 
   syncDataElements() {
