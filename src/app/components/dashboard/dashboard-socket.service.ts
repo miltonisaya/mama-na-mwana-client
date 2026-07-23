@@ -65,16 +65,19 @@ export class DashboardSocketService {
     });
   }
 
-  // The AI narrative is regenerated on a fixed schedule (hourly by default),
-  // independent of any date-range preset - one subscription for the whole
-  // session, not switched per filter like subscribeToPreset() is.
-  subscribeToNarrative(onMessage: (body: any) => void): void {
-    if (this.narrativeSubscription) {
-      return;
-    }
-    this.narrativeSubscription = this.client!.subscribe('/topic/dashboard-narrative', (message: IMessage) => {
+  // One AI narrative per date-range preset (see DashboardNarrativeServiceImpl),
+  // matching subscribeToPreset()'s "only one topic live at a time" behavior -
+  // switching presets unsubscribes from the previous narrative topic first.
+  subscribeToNarrative(preset: string, onMessage: (body: any) => void): void {
+    this.narrativeSubscription?.unsubscribe();
+    this.narrativeSubscription = this.client!.subscribe(`/topic/dashboard-narrative.${preset}`, (message: IMessage) => {
       onMessage(JSON.parse(message.body));
     });
+  }
+
+  unsubscribeFromNarrative(): void {
+    this.narrativeSubscription?.unsubscribe();
+    this.narrativeSubscription = null;
   }
 
   disconnect(): void {
