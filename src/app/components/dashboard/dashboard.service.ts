@@ -43,6 +43,10 @@ export class DashboardService {
     return this.http.get<any>(this.API_ENDPOINT + "/stats/by-age-group", {params}).pipe(map(this.extractData));
   }
 
+  getNarrative(): Observable<any> {
+    return this.http.get<any>(this.API_ENDPOINT + "/narrative").pipe(map(this.extractData));
+  }
+
   private extractData(res: Response) {
     return res || {};
   }
