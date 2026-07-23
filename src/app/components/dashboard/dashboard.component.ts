@@ -98,12 +98,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
     // below) takes over keeping these same fields fresh every ~15s after
     // that, so there's no blank/loading wait for the first broadcast tick.
     this.refreshAll();
-    this.loadNarrative(this.activePreset);
+    if (this.userCan('CONTACT_GET_NARRATIVE')) {
+      this.loadNarrative(this.activePreset);
+    }
 
     this.dashboardSocketService.connect(() => {
       this.dashboardSocketService.subscribeToPreset(this.activePreset === 'custom' ? 'all' : this.activePreset, snapshot => this.onDashboardSnapshot(snapshot));
       this.dashboardSocketService.subscribeToOutboxChanges(event => this.onOutboxChange(event));
-      if (this.activePreset !== 'custom') {
+      if (this.activePreset !== 'custom' && this.userCan('CONTACT_GET_NARRATIVE')) {
         this.dashboardSocketService.subscribeToNarrative(this.activePreset, narrative => this.onNarrativeUpdate(narrative, true));
       }
     });
@@ -243,11 +245,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.customStartDate = this.filterStartDate ?? '';
     this.customEndDate = this.filterEndDate ?? '';
     this.refreshAll();
-    this.loadNarrative(presetId);
+    const canViewNarrative = this.userCan('CONTACT_GET_NARRATIVE');
+    if (canViewNarrative) {
+      this.loadNarrative(presetId);
+    }
 
     if (LIVE_PRESET_IDS.includes(presetId)) {
       this.dashboardSocketService.subscribeToPreset(presetId, snapshot => this.onDashboardSnapshot(snapshot));
-      this.dashboardSocketService.subscribeToNarrative(presetId, narrative => this.onNarrativeUpdate(narrative, true));
+      if (canViewNarrative) {
+        this.dashboardSocketService.subscribeToNarrative(presetId, narrative => this.onNarrativeUpdate(narrative, true));
+      }
     } else {
       this.dashboardSocketService.unsubscribeFromPreset();
       this.dashboardSocketService.unsubscribeFromNarrative();
