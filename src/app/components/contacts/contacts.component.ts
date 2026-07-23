@@ -25,6 +25,8 @@ export class ContactsComponent implements OnInit {
   pageSizeOptions: number[] = [10, 25, 100, 1000];
   syncing = false;
   dataSource;
+  searchTerm = '';
+  private searchDebounce: ReturnType<typeof setTimeout>;
 
   constructor(
     private ContactsService: ContactsService,
@@ -38,7 +40,10 @@ export class ContactsComponent implements OnInit {
   }
 
   getContacts() {
-    const params = { pageNo: this.pageNo, pageSize: this.pageSize, sortBy: 'registrationDate', sortDirection: 'desc' };
+    const params: any = { pageNo: this.pageNo, pageSize: this.pageSize, sortBy: 'registrationDate', sortDirection: 'desc' };
+    if (this.searchTerm) {
+      params.search = this.searchTerm;
+    }
     return this.ContactsService.getContacts(params).subscribe((response: any) => {
       this.contacts = response.data;
       this.dataSource = new MatTableDataSource<DataElement>(this.contacts?.content ?? []);
@@ -48,9 +53,13 @@ export class ContactsComponent implements OnInit {
   }
 
   applyFilter(event: Event) {
-    if (!this.dataSource) return;
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    const filterValue = (event.target as HTMLInputElement).value.trim();
+    clearTimeout(this.searchDebounce);
+    this.searchDebounce = setTimeout(() => {
+      this.searchTerm = filterValue;
+      this.pageNo = 0;
+      this.getContacts();
+    }, 300);
   }
 
   openDeleteDialog(id) {
