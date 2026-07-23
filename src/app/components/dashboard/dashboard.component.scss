@@ -494,8 +494,15 @@
 }
 
 // ─── Transaction Section ─────────────────────────────────────────────────────
+// Last section on the page - every other section (.dashboard-header,
+// .stats-grid, .charts-row) closes with a 32px margin-bottom before the next
+// one starts. This one has nothing after it, so without its own matching
+// margin it only gets the shell's generic 24px content padding - less than
+// the page's own internal rhythm, which is why the bottom reads as tighter
+// than everywhere else.
 .transaction-section {
   margin-top: 16px;
+  margin-bottom: 32px;
 }
 
 .section-header {
