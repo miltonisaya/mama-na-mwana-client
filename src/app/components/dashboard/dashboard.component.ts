@@ -70,12 +70,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   newTransactionsCount = 0;
 
-  // AI-generated survey narrative — regenerated hourly in the background
-  // (see DashboardNarrativeServiceImpl), not tied to the date-range preset.
+  // AI-generated survey narrative — regenerated daily in the background
+  // (see DashboardNarrativeServiceImpl), one per date-range preset. A custom
+  // range has no dedicated narrative (same reasoning as the live stats
+  // broadcast: infinite possible date combinations), so the card shows a
+  // dedicated message instead of stale or mismatched insights.
   narrativeText: string | null = null;
   narrativeGeneratedAt: string | null = null;
   narrativeIsReady = false;
   narrativeJustUpdated = false;
+  narrativeUnavailableForCustomRange = false;
   private narrativePulseTimeout: any;
 
   constructor(
@@ -94,12 +98,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
     // below) takes over keeping these same fields fresh every ~15s after
     // that, so there's no blank/loading wait for the first broadcast tick.
     this.refreshAll();
-    this.loadNarrative();
+    this.loadNarrative(this.activePreset);
 
     this.dashboardSocketService.connect(() => {
       this.dashboardSocketService.subscribeToPreset(this.activePreset === 'custom' ? 'all' : this.activePreset, snapshot => this.onDashboardSnapshot(snapshot));
       this.dashboardSocketService.subscribeToOutboxChanges(event => this.onOutboxChange(event));
-      this.dashboardSocketService.subscribeToNarrative(narrative => this.onNarrativeUpdate(narrative));
+      if (this.activePreset !== 'custom') {
+        this.dashboardSocketService.subscribeToNarrative(this.activePreset, narrative => this.onNarrativeUpdate(narrative, true));
+      }
     });
   }
 
@@ -175,19 +181,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.loadTransactionSummary(this.filterParams);
   }
 
-  loadNarrative(): void {
-    this.dashboardService.getNarrative().subscribe({
+  loadNarrative(preset: string): void {
+    this.narrativeUnavailableForCustomRange = false;
+    this.dashboardService.getNarrative(preset).subscribe({
+      // isLiveUpdate: false - switching presets/first load intentionally
+      // replaces the narrative, that's not a surprise regeneration worth
+      // pulsing over.
       next: (response: any) => {
-        this.onNarrativeUpdate(response.data);
+        this.onNarrativeUpdate(response.data, false);
         this.narrativeIsReady = true;
       },
       error: () => { this.narrativeIsReady = true; }
     });
   }
 
-  private onNarrativeUpdate(narrative: any): void {
+  private onNarrativeUpdate(narrative: any, isLiveUpdate: boolean): void {
     const newGeneratedAt = narrative?.generatedAt ?? null;
-    const isFreshRegeneration = !!this.narrativeGeneratedAt && !!newGeneratedAt
+    const isFreshRegeneration = isLiveUpdate && !!this.narrativeGeneratedAt && !!newGeneratedAt
       && newGeneratedAt !== this.narrativeGeneratedAt;
 
     this.narrativeText = narrative?.narrative ?? null;
@@ -233,11 +243,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.customStartDate = this.filterStartDate ?? '';
     this.customEndDate = this.filterEndDate ?? '';
     this.refreshAll();
+    this.loadNarrative(presetId);
 
     if (LIVE_PRESET_IDS.includes(presetId)) {
       this.dashboardSocketService.subscribeToPreset(presetId, snapshot => this.onDashboardSnapshot(snapshot));
+      this.dashboardSocketService.subscribeToNarrative(presetId, narrative => this.onNarrativeUpdate(narrative, true));
     } else {
       this.dashboardSocketService.unsubscribeFromPreset();
+      this.dashboardSocketService.unsubscribeFromNarrative();
     }
   }
 
@@ -246,6 +259,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.filterStartDate = this.customStartDate || null;
     this.filterEndDate = this.customEndDate || null;
     this.refreshAll();
+    // No dedicated narrative for a custom range (infinite possible date
+    // combinations, same reasoning as the live stats broadcast below) - show
+    // a clear "pick a preset" message instead of stale or mismatched insights.
+    this.narrativeText = null;
+    this.narrativeGeneratedAt = null;
+    this.narrativeUnavailableForCustomRange = true;
+    this.dashboardSocketService.unsubscribeFromNarrative();
     // A custom range is one of infinitely many possible date combinations -
     // there's no topic the backend could be broadcasting it on, so this view
     // stays REST-only, same as before this feature existed.
