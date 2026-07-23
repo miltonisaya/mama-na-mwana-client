@@ -149,48 +149,134 @@
   mat-icon { font-size: 14px; width: 14px; height: 14px; }
 }
 
+// "Recent Insights" earns the dashboard's one committed accent surface —
+// it's AI-written analysis of what the surveys actually say (satisfaction,
+// complaints), the highest-value read on the page, sitting next to plain
+// white stat/filter cards it needs to visually out-rank at a glance.
 .narrative-card {
-  border-radius: 14px !important;
-  border: 1px solid #e5e7eb;
-  padding: 16px 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  border-radius: 16px !important;
+  border: 1px solid rgba(25, 118, 210, 0.22);
+  background: linear-gradient(135deg, #f2f8ff 0%, #ffffff 65%);
+  padding: 20px 24px;
   margin-bottom: 24px;
-  box-shadow: none !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 10px 24px -12px rgba(25, 118, 210, 0.35) !important;
+
+  .narrative-icon {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(25, 118, 210, 0.12);
+
+    mat-icon { color: #1976d2; font-size: 24px; width: 24px; height: 24px; }
+  }
+
+  .narrative-body {
+    min-width: 0;
+    flex: 1;
+  }
 
   .narrative-header {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 8px;
-
-    mat-icon { color: #1976d2; font-size: 20px; width: 20px; height: 20px; }
+    flex-wrap: wrap;
+    row-gap: 4px;
+    column-gap: 10px;
+    margin-bottom: 10px;
 
     h3 {
       margin: 0;
-      font-size: 15px;
-      font-weight: 600;
-      color: #1f2937;
+      font-size: 16.5px;
+      font-weight: 700;
+      color: #111827;
     }
+  }
 
-    .narrative-timestamp {
-      margin-left: auto;
-      font-size: 11px;
-      color: #9ca3af;
-    }
+  .narrative-badge {
+    font-size: 10.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #1976d2;
+    background: rgba(25, 118, 210, 0.1);
+    border: 1px solid rgba(25, 118, 210, 0.3);
+    border-radius: 20px;
+    padding: 2px 9px;
+  }
+
+  .narrative-timestamp {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    margin-left: auto;
+    font-size: 11.5px;
+    font-weight: 500;
+    color: #6b7280;
+    white-space: nowrap;
+
+    mat-icon { font-size: 13px; width: 13px; height: 13px; }
   }
 
   .narrative-text {
     margin: 0;
-    font-size: 13.5px;
-    line-height: 1.6;
-    color: #374151;
+    max-width: 72ch;
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: #1f2937;
+    text-wrap: pretty;
   }
 
   .narrative-empty {
     margin: 0;
-    font-size: 13px;
+    font-size: 13.5px;
     font-style: italic;
     color: #9ca3af;
   }
+
+  // Fresh regeneration lands live via WebSocket — a brief ring signals
+  // "this just changed" without requiring a page refresh to notice.
+  &.narrative-card--updated {
+    animation: narrative-pulse 2.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+@keyframes narrative-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(25, 118, 210, 0.4),
+      0 1px 2px rgba(15, 23, 42, 0.04), 0 10px 24px -12px rgba(25, 118, 210, 0.35);
+  }
+  45% {
+    box-shadow: 0 0 0 5px rgba(25, 118, 210, 0),
+      0 1px 2px rgba(15, 23, 42, 0.04), 0 10px 24px -12px rgba(25, 118, 210, 0.35);
+  }
+  100% {
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 10px 24px -12px rgba(25, 118, 210, 0.35);
+  }
+}
+
+@media (max-width: 600px) {
+  .narrative-card {
+    gap: 12px;
+    padding: 16px 18px;
+
+    .narrative-icon {
+      width: 36px;
+      height: 36px;
+      mat-icon { font-size: 20px; width: 20px; height: 20px; }
+    }
+
+    .narrative-timestamp { margin-left: 0; }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .narrative-card.narrative-card--updated { animation: none; }
 }
 
 // All-time note on abandoned card
