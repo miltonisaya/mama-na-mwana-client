@@ -56,7 +56,12 @@
           <!-- Age Column -->
           <ng-container matColumnDef="age">
             <th *matHeaderCellDef mat-header-cell>Age</th>
-            <td *matCellDef="let contacts" mat-cell>{{contacts.age}}</td>
+            <td *matCellDef="let contacts" mat-cell>{{ contacts.age && contacts.age !== 'null' ? contacts.age : '—' }}</td>
+          </ng-container>
+          <!-- Created On Column -->
+          <ng-container matColumnDef="registrationDate">
+            <th *matHeaderCellDef mat-header-cell>Created On</th>
+            <td *matCellDef="let contacts" mat-cell>{{contacts.registrationDate | date: 'dd MMM yyyy, HH:mm'}}</td>
           </ng-container>
           <!-- Actions Column -->
           <ng-container matColumnDef="actions">
