@@ -67,6 +67,15 @@ export class PasswordResetComponent implements OnInit {
     return roles.length ? roles.map((r: { name: string }) => r.name).join(', ') : 'System User';
   }
 
+  get initials(): string {
+    const name: string = this.profileForm.get('name')?.value ?? '';
+    const words = name.trim().split(/\s+/).filter(Boolean);
+    if (!words.length) return '?';
+    return words.length === 1
+      ? words[0].charAt(0).toUpperCase()
+      : (words[0].charAt(0) + words[words.length - 1].charAt(0)).toUpperCase();
+  }
+
   findUserDetailsById() {
     const raw = localStorage.getItem("MNM_USER");
     const user = raw ? JSON.parse(raw) : null;
