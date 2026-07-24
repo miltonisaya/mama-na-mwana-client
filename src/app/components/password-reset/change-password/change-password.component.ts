@@ -51,6 +51,39 @@ export class ChangePasswordComponent {
     };
   }
 
+  // Advisory only - the backend (UserDetailsServiceImpl.changePassword) has
+  // no password-complexity requirement of its own, so this nudges toward a
+  // stronger password without blocking submission of a password that fails
+  // these checks.
+  get newPasswordValue(): string {
+    return this.passwordForm.get('password')?.value ?? '';
+  }
+
+  get hasMinLength(): boolean {
+    return this.newPasswordValue.length >= 8;
+  }
+
+  get hasUpperAndLowerCase(): boolean {
+    return /[a-z]/.test(this.newPasswordValue) && /[A-Z]/.test(this.newPasswordValue);
+  }
+
+  get hasNumber(): boolean {
+    return /\d/.test(this.newPasswordValue);
+  }
+
+  get hasSpecialChar(): boolean {
+    return /[^A-Za-z0-9]/.test(this.newPasswordValue);
+  }
+
+  get strengthScore(): number {
+    return [this.hasMinLength, this.hasUpperAndLowerCase, this.hasNumber, this.hasSpecialChar]
+      .filter(Boolean).length;
+  }
+
+  get strengthLabel(): 'Weak' | 'Fair' | 'Good' | 'Strong' {
+    return (['Weak', 'Weak', 'Fair', 'Good', 'Strong'] as const)[this.strengthScore];
+  }
+
   submitForm(passwordForm: UntypedFormGroup) {
     if (passwordForm.invalid) {
       passwordForm.markAllAsTouched();
