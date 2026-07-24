@@ -1,0 +1,44 @@
+<mat-card class="profile-info-card">
+  <div class="identity-panel">
+    <div class="avatar">
+      <span class="avatar-initials">{{initials}}</span>
+    </div>
+    <h3 class="user-name">{{user?.name || 'User'}}</h3>
+    <span class="user-role">{{roleNames}}</span>
+  </div>
+
+  <div class="info-divider"></div>
+
+  <div class="info-panel">
+    <div class="info-grid">
+      <div class="info-item">
+        <mat-icon>person_outline</mat-icon>
+        <div>
+          <span class="info-label">Full Name</span>
+          <span class="info-value">{{user?.name || '—'}}</span>
+        </div>
+      </div>
+      <div class="info-item">
+        <mat-icon>alternate_email</mat-icon>
+        <div>
+          <span class="info-label">Username</span>
+          <span class="info-value">{{user?.username || '—'}}</span>
+        </div>
+      </div>
+      <div class="info-item">
+        <mat-icon>email</mat-icon>
+        <div>
+          <span class="info-label">Email</span>
+          <span class="info-value">{{user?.email || '—'}}</span>
+        </div>
+      </div>
+      <div class="info-item">
+        <mat-icon>phone</mat-icon>
+        <div>
+          <span class="info-label">Phone</span>
+          <span class="info-value">{{user?.phone || '—'}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-card>
