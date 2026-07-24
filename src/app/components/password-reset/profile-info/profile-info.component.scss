@@ -1,0 +1,135 @@
+// Now a standalone tab (not squeezed beside the password card), so this
+// uses the freed-up width for a side-by-side layout instead of a narrow
+// vertical stack: identity on the left, contact details on the right.
+.profile-info-card {
+  display: flex;
+  align-items: stretch;
+  border-radius: 16px !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 20px -10px rgba(15, 23, 42, 0.12) !important;
+  padding: 32px;
+
+  @media (max-width: 767px) {
+    flex-direction: column;
+    padding: 24px;
+  }
+}
+
+.identity-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  flex: 0 0 220px;
+  padding-right: 32px;
+
+  @media (max-width: 767px) {
+    flex: 1 1 auto;
+    padding-right: 0;
+    padding-bottom: 24px;
+  }
+
+  .avatar {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1976d2 0%, #0d47a1 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 14px rgba(25, 118, 210, 0.32);
+
+    .avatar-initials {
+      font-size: 30px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: white;
+    }
+  }
+
+  .user-name {
+    margin: 4px 0 0;
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--text-primary, #1f2937);
+  }
+
+  .user-role {
+    font-size: 12px;
+    color: var(--primary-color, #1976d2);
+    background: rgba(25, 118, 210, 0.1);
+    padding: 3px 12px;
+    border-radius: 12px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+  }
+}
+
+.info-divider {
+  width: 1px;
+  align-self: stretch;
+  background: var(--border-color, #e5e7eb);
+
+  @media (max-width: 767px) {
+    width: 100%;
+    height: 1px;
+  }
+}
+
+.info-panel {
+  flex: 1;
+  padding-left: 32px;
+  display: flex;
+  align-items: center;
+
+  @media (max-width: 767px) {
+    padding-left: 0;
+    padding-top: 24px;
+  }
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px 32px;
+  width: 100%;
+}
+
+.info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  > mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    color: var(--text-secondary, #9ca3af);
+    margin-top: 3px;
+    flex-shrink: 0;
+  }
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .info-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--text-secondary, #6b7280);
+  }
+
+  .info-value {
+    font-size: 14.5px;
+    font-weight: 500;
+    color: var(--text-primary, #1f2937);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
