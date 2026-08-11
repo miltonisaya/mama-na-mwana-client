@@ -48,3 +48,6 @@ Thumbs.db
 .tool-versions
 nyati.yaml
 .clauderc.md
+
+# Impeccable design-hook local cache (per-machine dedup state, not shared config)
+.impeccable/hook.cache.json
