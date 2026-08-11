@@ -1,0 +1,44 @@
+<div class="mnm-dialog responses-dialog">
+  <div class="mnm-dialog-head">
+    <mat-icon class="mnm-dialog-icon">forum</mat-icon>
+    <div>
+      <h2 mat-dialog-title>Survey Responses</h2>
+      <p class="mnm-dialog-subtitle">{{ data.run?.flow?.name }} &middot; {{ data.run?.contact?.urn ?? 'Unknown contact' }}</p>
+    </div>
+  </div>
+
+  <mat-dialog-content class="mnm-dialog-body">
+    @if (responses.length === 0) {
+      <div class="responses-empty">
+        <mat-icon>info_outline</mat-icon>
+        <p>No responses recorded yet for this run.</p>
+      </div>
+    }
+    @if (responses.length > 0) {
+      <div class="responses-table-container">
+        <table class="responses-table">
+          <thead>
+            <tr>
+              <th>Key</th>
+              <th>Response</th>
+              <th>Category</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (response of responses; track response.key) {
+              <tr>
+                <td class="response-key">{{ response.key }}</td>
+                <td class="response-answer">{{ response.value || '—' }}</td>
+                <td class="response-category">{{ response.category || '—' }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="mnm-dialog-foot">
+    <button mat-raised-button color="primary" mat-dialog-close type="button">Close</button>
+  </mat-dialog-actions>
+</div>
