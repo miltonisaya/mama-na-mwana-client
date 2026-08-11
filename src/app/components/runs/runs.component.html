@@ -1,0 +1,178 @@
+<div class="page-header">
+  <div>
+    <h2 class="page-title">
+      <mat-icon>forum</mat-icon>
+      RapidPro Runs
+    </h2>
+    <p class="page-subtitle">Survey responses received from RapidPro, including runs still in progress</p>
+  </div>
+  <div>
+    @if (userCan('RUN_SYNC_RAPID_PRO_RUNS')) {
+      <button (click)="!syncing && syncRuns()" mat-raised-button color="primary" class="sync-btn"
+        [class.btn--loading]="syncing">
+        <mat-icon>sync</mat-icon>
+        {{ syncing ? 'Syncing...' : 'Sync Runs' }}
+      </button>
+    }
+  </div>
+</div>
+
+<mat-card class="table-card">
+  <mat-card-content>
+
+    <!-- Filters: flow, status and date range — all outlined mat-form-fields sharing
+         one control vocabulary/height so the row sits on a single visual baseline.
+         Wraps to a second line on narrow viewports via .toolbar-row's flex-wrap. -->
+    <div class="toolbar-row">
+      <mat-form-field appearance="outline" class="flow-select-field">
+        <mat-label>Filter by flow</mat-label>
+        <mat-icon matPrefix>account_tree</mat-icon>
+        <input matInput type="text" autocomplete="off" placeholder="All flows"
+          [formControl]="flowControl" [matAutocomplete]="flowAuto">
+        @if (flowControl.value) {
+          <button mat-icon-button matSuffix type="button"
+            aria-label="Clear selected flow" (click)="clearFlowSelection()">
+            <mat-icon>close</mat-icon>
+          </button>
+        }
+        <mat-autocomplete #flowAuto="matAutocomplete" [displayWith]="displayFlow"
+          (optionSelected)="onFlowSelected($event)">
+          @for (flow of filteredFlows | async; track flow) {
+            <mat-option [value]="flow">{{ flow.name }}</mat-option>
+          }
+          @if ((filteredFlows | async)?.length === 0) {
+            <mat-option disabled>No flows match</mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="status-select-field">
+        <mat-label>Filter by status</mat-label>
+        <mat-icon matPrefix>flag</mat-icon>
+        <mat-select [(ngModel)]="selectedStatus" (selectionChange)="onStatusFilterChange()">
+          <mat-option value="">All statuses</mat-option>
+          @for (opt of statusOptions; track opt.value) {
+            <mat-option [value]="opt.value">
+              <span class="status-dot" [ngClass]="opt.dotClass"></span>
+              {{ opt.label }}
+            </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <div class="date-filter-group">
+        <mat-form-field appearance="outline" class="date-field">
+          <mat-label>Started from</mat-label>
+          <mat-icon matPrefix>event</mat-icon>
+          <input matInput type="date" [(ngModel)]="startDate" (change)="onDateFilterChange()">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="date-field">
+          <mat-label>Started to</mat-label>
+          <mat-icon matPrefix>event</mat-icon>
+          <input matInput type="date" [(ngModel)]="endDate" (change)="onDateFilterChange()">
+        </mat-form-field>
+        @if (startDate || endDate) {
+          <button mat-icon-button type="button" matTooltip="Clear date filter" (click)="clearDateFilters()">
+            <mat-icon>close</mat-icon>
+          </button>
+        }
+      </div>
+    </div>
+
+    @if (dataSource) {
+      <div class="table-container">
+        <table [dataSource]="dataSource" mat-table>
+          <!-- SNo Column -->
+          <ng-container matColumnDef="sno">
+            <th *matHeaderCellDef mat-header-cell>No</th>
+            <td *matCellDef="let run; let i = index" mat-cell>{{ i + 1 }}</td>
+          </ng-container>
+          <!-- Flow Column -->
+          <ng-container matColumnDef="flow">
+            <th *matHeaderCellDef mat-header-cell>Flow</th>
+            <td *matCellDef="let run" mat-cell>{{ run.flow?.name ?? '—' }}</td>
+          </ng-container>
+          <!-- Contact Column -->
+          <ng-container matColumnDef="contact">
+            <th *matHeaderCellDef mat-header-cell>Contact</th>
+            <td *matCellDef="let run" mat-cell>{{ run.contact?.urn ?? '—' }}</td>
+          </ng-container>
+          <!-- Status Column -->
+          <ng-container matColumnDef="status">
+            <th *matHeaderCellDef mat-header-cell>Status</th>
+            <td *matCellDef="let run" mat-cell>
+              <span [class]="statusClass(run.status)">{{ run.status }}</span>
+            </td>
+          </ng-container>
+          <!-- Started On Column -->
+          <ng-container matColumnDef="startedOn">
+            <th *matHeaderCellDef mat-header-cell>Started On</th>
+            <td *matCellDef="let run" mat-cell>{{ run.startedOn | date: 'dd MMM yyyy, HH:mm' }}</td>
+          </ng-container>
+          <!-- Exited On Column -->
+          <ng-container matColumnDef="exitedOn">
+            <th *matHeaderCellDef mat-header-cell>Exited On</th>
+            <td *matCellDef="let run" mat-cell>
+              {{ run.exitedOn ? (run.exitedOn | date: 'dd MMM yyyy, HH:mm') : 'In progress' }}
+            </td>
+          </ng-container>
+          <!-- Actions Column -->
+          <ng-container matColumnDef="actions">
+            <th *matHeaderCellDef mat-header-cell>Actions</th>
+            <td *matCellDef="let run" mat-cell>
+              <button mat-icon-button matTooltip="View responses" matTooltipPosition="left"
+                (click)="viewResponses(run)" aria-label="View responses">
+                <mat-icon>visibility</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+          <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+          <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+          <!-- Row shown when there is no matching data. -->
+          <tr *matNoDataRow class="mat-row">
+            <td class="mat-cell no-data" colspan="7">
+              <mat-icon>search_off</mat-icon>
+              No runs match the selected filters
+            </td>
+          </tr>
+        </table>
+      </div>
+    }
+
+    <div class="pagination-bar">
+      <div class="pagination-size">
+        <span class="pagination-label">Rows per page:</span>
+        <select class="pagination-select" (change)="pageSizeChanged($event)">
+          @for (s of pageSizeOptions; track s) {
+            <option [value]="s" [selected]="s === pageSize">{{ s }}</option>
+          }
+        </select>
+      </div>
+      <span class="pagination-range">
+        {{ totalElements === 0 ? '0' : pageNo * pageSize + 1 }}–{{ pageRangeEnd() }} of {{ totalElements | number }}
+      </span>
+      <div class="pagination-nav">
+        <button type="button" class="pag-nav-btn" title="First page" aria-label="First page"
+          [class.pag-nav-btn--disabled]="pageNo === 0"
+          (click)="pageNo > 0 && firstPage()">
+          <mat-icon aria-hidden="true">first_page</mat-icon>
+        </button>
+        <button type="button" class="pag-nav-btn" title="Previous page" aria-label="Previous page"
+          [class.pag-nav-btn--disabled]="pageNo === 0"
+          (click)="pageNo > 0 && prevPage()">
+          <mat-icon aria-hidden="true">chevron_left</mat-icon>
+        </button>
+        <button type="button" class="pag-nav-btn" title="Next page" aria-label="Next page"
+          [class.pag-nav-btn--disabled]="pageRangeEnd() >= totalElements"
+          (click)="pageRangeEnd() < totalElements && nextPage()">
+          <mat-icon aria-hidden="true">chevron_right</mat-icon>
+        </button>
+        <button type="button" class="pag-nav-btn" title="Last page" aria-label="Last page"
+          [class.pag-nav-btn--disabled]="pageRangeEnd() >= totalElements"
+          (click)="pageRangeEnd() < totalElements && lastPage()">
+          <mat-icon aria-hidden="true">last_page</mat-icon>
+        </button>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
