@@ -21,6 +21,7 @@ import {FlowService} from './components/flows/flow.service';
 import {DataElementService} from './components/data-elements/dataElement.service';
 import {FlowKeyService} from './components/flows/flowkey.service';
 import {ContactsService} from './components/contacts/contacts.service';
+import {RunsService} from './components/runs/runs.service';
 import {TransactionsService} from './components/transactions/transactions.service';
 import {OrganisationUnitService} from './components/organisation-units/organisation-unit.service';
 import {ProgramService} from './components/programs/program.service';
@@ -55,6 +56,7 @@ import {ReportService} from "./components/reports/report.service";
         DataElementService,
         FlowKeyService,
         ContactsService,
+        RunsService,
         TransactionsService,
         OrganisationUnitService,
         ProgramService,
